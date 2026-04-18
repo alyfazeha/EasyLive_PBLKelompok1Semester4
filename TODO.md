@@ -1,0 +1,5 @@
+- [x] Step 1: Update main.dart to temporarily set home: RegisterScreen() for direct test
+- [x] Step 2: Rewrite login.dart to pure Stateless login screen with navigation to RegisterScreen
+- [x] Step 3: Update register.dart footer to navigate to LoginScreen
+- [x] Step 4: Test flow - Run flutter run. App starts on register, tap Login -> login page, tap Create account -> back to register.
+- [ ] Step 5: Revert main.dart to SplashScreen
