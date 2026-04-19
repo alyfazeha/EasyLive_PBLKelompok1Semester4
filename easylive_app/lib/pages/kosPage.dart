@@ -128,9 +128,13 @@ class _KostPageState extends State<KostPage> {
               ),
 
               // --- 2. SEARCH & FILTER SECTION (GANTI SEARCH BAR LAMA) ---
+              const SizedBox(height: 10),
+
               SearchFilterWidget(
                 onFilterChanged: (q, loc, price) => _applyFilter(q, loc, price),
               ),
+
+              const SizedBox(height: 10),
 
               const Padding(
                 padding: EdgeInsets.fromLTRB(20, 25, 20, 10),

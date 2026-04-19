@@ -13,6 +13,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final confirmPassController = TextEditingController();
+  String selectedRole = "User";
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +32,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF3E2723))),
                 const SizedBox(height: 20),
                 _buildToggleSlider(),
+               Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 8),
+                  child: DropdownMenu<String>(
+                    initialSelection: selectedRole,
+                    onSelected: (value) {
+                      setState(() {
+                        selectedRole = value!;
+                      });
+                    },
+
+                    expandedInsets: EdgeInsets.zero,
+
+                    menuHeight: 200,
+                    width: 300,
+
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry(value: "User", label: "User"),
+                      DropdownMenuEntry(value: "Pemilik Kos", label: "Pemilik Kos"),
+                      DropdownMenuEntry(value: "Pemilik Jasa", label: "Pemilik Jasa Ekspedisi"),
+                    ],
+
+                    inputDecorationTheme: InputDecorationTheme(
+                      filled: true,
+                      fillColor: const Color(0xFFD4B08C).withOpacity(0.4),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(color: Color(0xFF801010)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(color: Color(0xFF801010)),
+                      ),
+                    ),
+
+                    menuStyle: const MenuStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color(0xFFD4B08C)),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
-                CustomTextField(label: "Nama", hint: "Nama Lengkap", controller: nameController),
-                CustomTextField(label: "No HP", hint: "0812...", controller: phoneController),
-                CustomTextField(label: "Email", hint: "email@mail.com", controller: emailController),
-                CustomTextField(label: "Password", hint: "min 6 karakter", isPassword: true, controller: passController),
-                CustomTextField(label: "Ulangi Password", hint: "konfirmasi", isPassword: true, controller: confirmPassController),
+                CustomTextField(label: "Name", hint: "Enter your name", controller: nameController),
+                CustomTextField(label: "Phone Number", hint: "Enter your phone number", controller: phoneController),
+                CustomTextField(label: "Email", hint: "Enter your email address", controller: emailController),
+                CustomTextField(label: "Password", hint: "Enter your password", isPassword: true, controller: passController),
+                CustomTextField(label: "re-enter Password", hint: "Re-enter password", isPassword: true, controller: confirmPassController),
                 const SizedBox(height: 25),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD53E0F), foregroundColor: Colors.white, shape: StadiumBorder()),
