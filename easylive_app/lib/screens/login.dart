@@ -131,20 +131,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 25),
 
                 // Button
+                // Cari bagian ElevatedButton di dalam file login.dart kamu:
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFD53E0F),
                       foregroundColor: const Color(0xFFEED9B9),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 12,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // PINDAH KE HOME
+                      Navigator.pushReplacementNamed(context, '/home');
+                    },
                     child: Text(isLogin ? "Login" : "Register"),
                   ),
                 ),

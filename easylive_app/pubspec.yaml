@@ -56,6 +56,9 @@ flutter:
 
   assets:
     - images/logo-easylive.png
+    - images/kos1.jpg
+    - images/kos2.jpg
+    - images/kos3.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

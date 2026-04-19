@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -10,12 +12,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+    // Beri jeda 3-5 detik lalu pindah ke rute /login
+    Timer(const Duration(seconds: 8), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
     });
   }
 
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: BoxDecoration(
             color: const Color(0xFFEAC793),
             borderRadius: BorderRadius.circular(25),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 10,
@@ -40,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Logo
+              // Pastikan file gambar ini sudah terdaftar di pubspec.yaml
               Image.asset('images/logo-easylive.png', width: 250),
               const SizedBox(height: 10),
             ],
