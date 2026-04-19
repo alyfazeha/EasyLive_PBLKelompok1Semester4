@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'screens/splash.dart';
 import 'screens/login.dart';
-import 'screens/homePage.dart';
+import 'screens/register.dart';
+import 'screens/homePage.dart'; 
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,12 +13,36 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // MULAI DARI SPLASH
-      initialRoute: '/splash',
-      routes: {
-        '/splash': (context) => const SplashScreen(),
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => const HomePage(),
+      title: 'EasyLive',
+      // MENGUBAH initialRoute menjadi rute splash
+      initialRoute: '/', 
+      onGenerateRoute: (settings) {
+        Widget builder;
+        switch (settings.name) {
+          case '/':
+            
+            builder = const SplashScreen(); 
+            break;
+          case '/login':
+            builder = LoginScreen();
+            break;
+          case '/register':
+            builder = RegisterScreen();
+            break;
+          case '/home': 
+            builder = const HomePage(); 
+            break;
+          default:
+            return null;
+        }
+
+        
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) => builder,
+          settings: settings, 
+          transitionDuration: Duration.zero, 
+          reverseTransitionDuration: Duration.zero,
+        );
       },
     );
   }

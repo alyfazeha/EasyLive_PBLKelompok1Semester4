@@ -51,11 +51,11 @@ class BottomNav extends StatelessWidget {
       onTap: () {
         print(
           "Tombol index $index diklik!",
-        ); // Debugging: Cek di terminal muncul tidak?
+        ); 
         _navigate(context, index);
       },
       behavior: HitTestBehavior
-          .opaque, // Ini penting agar seluruh area sensitif terhadap sentuhan
+          .opaque, 
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Icon(

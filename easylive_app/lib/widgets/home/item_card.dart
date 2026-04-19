@@ -18,12 +18,12 @@ class ItemCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: const Color(0xFF801010), // Warna merah gelap sesuai desain
+          color: const Color(0xFF801010), 
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Teks rata kiri
+          crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
-            // --- BAGIAN GAMBAR ---
+            //  BAGIAN GAMBAR 
             Expanded(
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
@@ -35,7 +35,7 @@ class ItemCard extends StatelessWidget {
               ),
             ),
 
-            // --- BAGIAN DETAIL TEKS ---
+            // BAGIAN DETAIL TEKS 
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

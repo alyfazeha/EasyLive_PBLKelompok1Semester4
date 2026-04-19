@@ -23,7 +23,6 @@ class _HeaderSliderState extends State<HeaderSlider> {
   void initState() {
     super.initState();
     
-    // --- LOGIKA JALAN OTOMATIS ---
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
       if (_currentPage < images.length - 1) {
         _currentPage++;

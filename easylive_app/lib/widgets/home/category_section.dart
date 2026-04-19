@@ -22,7 +22,7 @@ class CategorySection extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              // --- TOMBOL KOST (Bisa di-tap) ---
+              // kos
               Expanded(
                 child: GestureDetector(
                   onTap: () {
@@ -56,12 +56,10 @@ class CategorySection extends StatelessWidget {
               
               const SizedBox(width: 16),
 
-              // --- TOMBOL JASA (Bisa di-tap) ---
+              // jasa
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    // Sementara kita arahkan ke halaman yang sama
-                    // atau kamu bisa ganti ke JasaPage() jika sudah ada
                     Navigator.push(
                       context,
                       MaterialPageRoute(

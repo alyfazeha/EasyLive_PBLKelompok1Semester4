@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import '../../widgets/loginRegister/customInput.dart';
+import '../../data/mockDatabase.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+  final confirmPassController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: const Color(0xFFEED9B9),
       body: Center(
@@ -13,86 +24,38 @@ class RegisterScreen extends StatelessWidget {
           child: Container(
             width: screenWidth > 400 ? 350 : screenWidth * 0.85,
             padding: const EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAC793),
-              borderRadius: BorderRadius.circular(20),
-            ),
-
+            decoration: BoxDecoration(color: const Color(0xFFEAC793), borderRadius: BorderRadius.circular(20)),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // TITLE
-                Center(
-                  child: Text(
-                    "Register\nEasyLive",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.08,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.brown[900],
-                    ),
-                  ),
-                ),
-
+                const Text("Register\nEasyLive", textAlign: TextAlign.center, 
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF3E2723))),
                 const SizedBox(height: 20),
-
-                _buildField("Nama Lengkap", "Masukkan nama lengkap"),
-                const SizedBox(height: 12),
-
-                _buildField("Email", "Masukkan email"),
-                const SizedBox(height: 12),
-
-                _buildField("No Handphone", "Masukkan nomor HP"),
-                const SizedBox(height: 12),
-
-                _buildField("Password", "Masukkan password", isPassword: true),
-                const SizedBox(height: 12),
-
-                _buildField(
-                  "Konfirmasi Password",
-                  "Ulangi password",
-                  isPassword: true,
-                ),
-
+                _buildToggleSlider(),
+                const SizedBox(height: 20),
+                CustomTextField(label: "Nama", hint: "Nama Lengkap", controller: nameController),
+                CustomTextField(label: "No HP", hint: "0812...", controller: phoneController),
+                CustomTextField(label: "Email", hint: "email@mail.com", controller: emailController),
+                CustomTextField(label: "Password", hint: "min 6 karakter", isPassword: true, controller: passController),
+                CustomTextField(label: "Ulangi Password", hint: "konfirmasi", isPassword: true, controller: confirmPassController),
                 const SizedBox(height: 25),
-
-                Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD53E0F),
-                      foregroundColor: const Color(0xFFEED9B9),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: const Text("Register"),
-                  ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD53E0F), foregroundColor: Colors.white, shape: StadiumBorder()),
+                  onPressed: () {
+                    if (passController.text == confirmPassController.text && emailController.text.isNotEmpty) {
+                      MockDatabase.addUser(emailController.text, passController.text, nameController.text, phoneController.text);
+                      if (!mounted) return;
+                      Navigator.pushReplacementNamed(context, '/login');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data tidak valid!")));
+                    }
+                  },
+                  child: const Text("Register"),
                 ),
-
-                const SizedBox(height: 15),
-
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    },
-                    child: const Text(
-                      "Sudah punya akun? Login",
-                      style: TextStyle(
-                        color: Color(0xFFD53E0F),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+                  child: const Text("Already have an account? Login", style: TextStyle(color: Color(0xFF3E2723), fontWeight: FontWeight.w500)),
+                )
               ],
             ),
           ),
@@ -101,44 +64,26 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildField(String label, String hint, {bool isPassword = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildLabel(label),
-        const SizedBox(height: 5),
-        _buildInput(hint, isPassword: isPassword),
-      ],
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.brown,
-        fontSize: 16,
-      ),
-    );
-  }
-
-  Widget _buildInput(String hint, {bool isPassword = false}) {
-    return TextField(
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        hintText: hint,
-        filled: true,
-        fillColor: const Color(0xFFEED9B9),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 12,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide.none,
-        ),
-      ),
+  Widget _buildToggleSlider() {
+    return Container(
+      height: 45, decoration: BoxDecoration(color: const Color(0xFFA1887F), borderRadius: BorderRadius.circular(30)),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Stack(children: [
+          AnimatedPositioned(duration: const Duration(milliseconds: 250), left: constraints.maxWidth / 2,
+            child: Container(width: constraints.maxWidth / 2, height: 45, decoration: BoxDecoration(color: const Color(0xFFD53E0F), borderRadius: BorderRadius.circular(30)))),
+          Row(children: [
+            Expanded(child: GestureDetector(
+              onTap: () async {
+                await Future.delayed(const Duration(milliseconds: 50));
+                if (!mounted) return;
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+              child: const Center(child: Text("Login", style: TextStyle(color: Colors.white70)))),
+            ),
+            const Expanded(child: Center(child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))),
+          ]),
+        ]);
+      }),
     );
   }
 }
