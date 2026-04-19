@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Beri jeda 3-5 detik lalu pindah ke rute /login
-    Timer(const Duration(seconds: 8), () {
+    Timer(const Duration(seconds: 5), () {
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/login');
       }
@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Pastikan file gambar ini sudah terdaftar di pubspec.yaml
-              Image.asset('images/logo-easylive.png', width: 250),
+              Image.asset('images/easylive.png', width: 250),
               const SizedBox(height: 10),
             ],
           ),
