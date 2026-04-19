@@ -30,8 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
                 _buildToggleSlider(),
                 const SizedBox(height: 20),
-                CustomTextField(label: "Email", hint: "email@mail.com", controller: emailController),
-                CustomTextField(label: "Password", hint: "password", isPassword: true, controller: passController),
+                CustomTextField(label: "Email", hint: "Enter your email address", controller: emailController),
+                CustomTextField(label: "Password", hint: "Enter your password", isPassword: true, controller: passController),
                 const SizedBox(height: 25),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFD53E0F), foregroundColor: Colors.white, shape: StadiumBorder()),
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushReplacementNamed(context, '/home');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Email atau Password Salah!"), backgroundColor: Colors.red),
+                        const SnackBar(content: Text("Email atau Password It Wrong!"), backgroundColor: Colors.red),
                       );
                     }
                   },

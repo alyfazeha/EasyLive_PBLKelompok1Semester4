@@ -3,6 +3,9 @@ import '../widgets/home/header_slider.dart';
 import '../widgets/home/category_section.dart';
 import '../widgets/home/item_card.dart';
 import '../widgets/home/botton_navbar.dart'; 
+import '../screens/bookingPage.dart';
+import '../screens/bookingPage.dart';
+import '../screens/profilePage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -58,13 +61,13 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
 
-                // --- SECTION SLIDER ---
+                // SECTION SLIDER
                 const HeaderSlider(),
 
-                // --- SECTION CATEGORY ---
+                // SECTION CATEGORY 
                 const CategorySection(),
 
-                // --- SECTION GRID VIEW ---
+                // SECTION GRID VIEW 
                 GridView.builder(
                   shrinkWrap: true, 
                   physics: const NeverScrollableScrollPhysics(), 

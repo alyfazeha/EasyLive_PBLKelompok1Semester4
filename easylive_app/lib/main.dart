@@ -3,6 +3,9 @@ import 'screens/splash.dart';
 import 'screens/login.dart';
 import 'screens/register.dart';
 import 'screens/homePage.dart'; 
+import 'screens/bookingPage.dart';
+import 'screens/historyPage.dart';
+import 'screens/profilePage.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,8 +35,21 @@ class MyApp extends StatelessWidget {
           case '/home': 
             builder = const HomePage(); 
             break;
-          default:
-            return null;
+
+          // case '/booking':
+          //   builder = const BookingScreen();
+          //   break;
+
+          // case '/wallet':
+          //   builder = const historyScreen();
+          //   break;
+
+          // case '/profile':
+          //   builder = const ProfileScreen();
+          //   break;
+
+        default:
+          return null;
         }
 
         

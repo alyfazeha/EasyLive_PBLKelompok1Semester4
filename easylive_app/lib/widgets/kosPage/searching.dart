@@ -58,32 +58,43 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
 
           // Dropdown Lokasi
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              color: const Color(0xFFD4B08C).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: const Color(0xFF801010)),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: selectedLocation,
-                isExpanded: true,
-                dropdownColor: const Color(0xFFD4B08C),
-                items: locations
-                    .map(
-                      (loc) => DropdownMenuItem(
-                        value: loc,
-                        child: Text(
-                          loc,
-                          style: const TextStyle(color: Color(0xFF5E0006)),
-                        ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (val) {
-                  setState(() => selectedLocation = val!);
-                  _update();
-                },
+            margin: const EdgeInsets.only(top: 5),
+            child: DropdownMenu<String>(
+              initialSelection: selectedLocation,
+              onSelected: (val) {
+                setState(() => selectedLocation = val!);
+                _update();
+              },
+
+              expandedInsets: EdgeInsets.zero,
+
+              width: 350,
+              menuHeight: 200,
+
+              dropdownMenuEntries: locations
+                  .map(
+                    (loc) => DropdownMenuEntry(
+                      value: loc,
+                      label: loc,
+                    ),
+                  )
+                  .toList(),
+
+              inputDecorationTheme: InputDecorationTheme(
+                filled: true,
+                fillColor: const Color(0xFFD4B08C).withOpacity(0.3),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(color: Color(0xFF801010)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(color: Color(0xFF801010)),
+                ),
+              ),
+
+              menuStyle: const MenuStyle(
+                backgroundColor: MaterialStatePropertyAll(Color(0xFFD4B08C)),
               ),
             ),
           ),
