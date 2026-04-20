@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../pages/kosPage.dart';
+import '../../views/kos/kos_view.dart';
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
@@ -30,7 +30,7 @@ class CategorySection extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const KostPage(),
+                        builder: (context) => const KostView(),
                       ),
                     );
                   },
@@ -63,7 +63,7 @@ class CategorySection extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const KostPage(),
+                        builder: (context) => const KostView(),
                       ),
                     );
                   },

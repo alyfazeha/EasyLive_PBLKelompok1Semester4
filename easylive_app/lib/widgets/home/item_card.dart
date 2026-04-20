@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
-import '../../pages/kosPage.dart';
 
 class ItemCard extends StatelessWidget {
+  final String name;
+  final String address;
   final String image;
 
-  const ItemCard({super.key, required this.image});
+  const ItemCard({
+    super.key,
+    required this.name,
+    required this.address,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Logika pindah ke detail nanti di sini
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Klik item")),
+          SnackBar(content: Text("Klik $name")),
         );
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: const Color(0xFF801010), 
+          color: const Color(0xFF801010),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //  BAGIAN GAMBAR 
+            
+            /// 🔥 IMAGE
             Expanded(
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
@@ -35,24 +41,24 @@ class ItemCard extends StatelessWidget {
               ),
             ),
 
-            // BAGIAN DETAIL TEKS 
+            /// 🔥 TEXT
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    "Kost Melati",
-                    style: TextStyle(
+                    name,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
-                    "Jl. Cengger Ayam",
-                    style: TextStyle(
+                    address,
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 10,
                     ),
