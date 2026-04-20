@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFEED9B9),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
