@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/color.dart';
 
 class BottomNav extends StatelessWidget {
   final int currentIndex;
@@ -16,7 +17,7 @@ class BottomNav extends StatelessWidget {
         Navigator.pushReplacementNamed(context, '/booking');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/wallet');
+        Navigator.pushReplacementNamed(context, '/history');
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/profile');
@@ -27,7 +28,7 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: const BoxDecoration(
         color: Color(0xFFDDB892),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -35,10 +36,10 @@ class BottomNav extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _navItem(context, Icons.home, 0),
-          _navItem(context, Icons.book, 1),
-          _navItem(context, Icons.account_balance_wallet, 2),
-          _navItem(context, Icons.person, 3),
+          _navItem(context, Icons.home_rounded, 0),
+          _navItem(context, Icons.book_rounded, 1),
+          _navItem(context, Icons.receipt_long_rounded, 2),
+          _navItem(context, Icons.person_rounded, 3),
         ],
       ),
     );
@@ -48,20 +49,14 @@ class BottomNav extends StatelessWidget {
     bool isActive = index == currentIndex;
 
     return GestureDetector(
-      onTap: () {
-        print(
-          "Tombol index $index diklik!",
-        ); 
-        _navigate(context, index);
-      },
-      behavior: HitTestBehavior
-          .opaque, 
+      onTap: () => _navigate(context, index),
+      behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Icon(
           icon,
           size: isActive ? 28 : 24,
-          color: isActive ? const Color(0xFF5E0006) : Colors.black,
+          color: isActive ? AppColors.titleName : Colors.black,
         ),
       ),
     );

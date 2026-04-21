@@ -7,37 +7,37 @@ class KostController {
       KostModel(
         name: "Kost Melati",
         price: 650000,
-        image: "images/kos1.jpg",
+        image: "assets/images/kos1.jpg",
         address: "Cengger Ayam",
       ),
       KostModel(
         name: "Kost Mawar",
         price: 1200000,
-        image: "images/kos2.jpg",
+        image: "assets/images/kos2.jpg",
         address: "Suhat",
       ),
       KostModel(
         name: "Kost Elite",
         price: 2500000,
-        image: "images/kos1.jpg",
+        image: "assets/images/kos1.jpg",
         address: "Lowokwaru",
       ),
       KostModel(
         name: "Kost Lavender",
         price: 800000,
-        image: "images/kos2.jpg",
+        image: "assets/images/kos2.jpg",
         address: "Sigura-gura",
       ),
       KostModel(
         name: "Kost Melati 2",
         price: 700000,
-        image: "images/kos1.jpg",
+        image: "assets/images/kos1.jpg",
         address: "Cengger Ayam",
       ),
       KostModel(
         name: "Kost Bangunan Baru",
         price: 1500000,
-        image: "images/kos2.jpg",
+        image: "assets/images/kos2.jpg",
         address: "Lowokwaru",
       ),
     ];

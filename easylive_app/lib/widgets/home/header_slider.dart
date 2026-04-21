@@ -14,9 +14,9 @@ class _HeaderSliderState extends State<HeaderSlider> {
   Timer? _timer;
 
   final List<String> images = [
-    "images/kos1.jpg",
-    "images/kos2.jpg",
-    "images/kos3.jpg",
+    "assets/images/kos1.jpg",
+    "assets/images/kos2.jpg",
+    "assets/images/kos3.jpg",
   ];
 
   @override

@@ -16,12 +16,24 @@ class ProfileController {
   static List<Map<String, dynamic>> getProfileMenus() {
     return const [
       {
-        'title': 'Edit Profile',
+        'title': 'User Details',
         'icon': Icons.person_outline,
       },
       {
-        'title': 'Total Transaksi',
+        'title': 'Certificate',
+        'icon': Icons.school_outlined,
+      },
+      {
+        'title': 'Payment',
         'icon': Icons.credit_card_outlined,
+      },
+      {
+        'title': 'Document',
+        'icon': Icons.description_outlined,
+      },
+      {
+        'title': 'Logout',
+        'icon': Icons.logout_rounded,
       },
     ];
   }

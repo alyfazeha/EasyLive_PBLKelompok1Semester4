@@ -34,12 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: 400,
-              child: Image.asset(
-                'assets/images/logo-easylive.png',
-                fit: BoxFit.contain,
-              ),
+            Image.asset(
+              'assets/images/logo-easylive.png',
+              width: 200,
+              fit: BoxFit.contain,
             ),
           ],
         ),

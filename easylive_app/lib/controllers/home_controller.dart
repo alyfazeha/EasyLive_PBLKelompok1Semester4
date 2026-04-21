@@ -7,22 +7,22 @@ class HomeController {
       KostModel(
         name: "Kost Melati",
         address: "Jl. Cengger Ayam",
-        image: "images/kos1.jpg",
+        image: "assets/images/kos1.jpg",
       ),
       KostModel(
         name: "Kost Mawar",
         address: "Jl. Soekarno",
-        image: "images/kos2.jpg",
+        image: "assets/images/kos2.jpg",
       ),
       KostModel(
         name: "Kost Anggrek",
         address: "Jl. Ijen",
-        image: "images/kos3.jpg",
+        image: "assets/images/kos3.jpg",
       ),
       KostModel(
         name: "Kost Dahlia",
         address: "Jl. Veteran",
-        image: "images/kos1.jpg",
+        image: "assets/images/kos1.jpg",
       ),
     ];
   }

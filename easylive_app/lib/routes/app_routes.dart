@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import '../views/auth/login_view.dart';
-import '../views/auth/register_view.dart';
-import '../views/home/home_view.dart';
-import '../views/splash/splash_view.dart';
+
+import '../models/history_model.dart';
 import '../views/auth/auth_view.dart';
+import '../views/auth/register_view.dart';
+import '../views/booking/booking_view.dart';
+import '../views/history/history_detail_view.dart';
+import '../views/history/history_view.dart';
+import '../views/home/home_view.dart';
 import '../views/kos/kos_view.dart';
 import '../views/profile/profile_view.dart';
+import '../views/splash/splash_view.dart';
 
 class AppRoutes {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-     case '/':
-        return _noAnimation(LoginView(), settings);
+      case '/':
+        return _noAnimation(SplashScreen(), settings);
 
       case '/login':
         return _noAnimation(AuthView(), settings);
@@ -24,6 +28,16 @@ class AppRoutes {
 
       case '/kost':
         return _noAnimation(const KostView(), settings);
+
+      case '/booking':
+        return _noAnimation(const BookingView(), settings);
+
+      case '/history':
+        return _noAnimation(const HistoryView(), settings);
+
+      case '/history/detail':
+        final item = settings.arguments as HistoryItem;
+        return _noAnimation(HistoryDetailView(item: item), settings);
 
       case '/profile':
         return _noAnimation(const ProfileView(), settings);
