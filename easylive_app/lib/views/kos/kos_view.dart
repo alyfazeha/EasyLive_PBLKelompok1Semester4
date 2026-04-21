@@ -51,34 +51,49 @@ class _KostViewState extends State<KostView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Hi Rafi,",
                         style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontFamily: 'Montserrat',
+                          color: AppColors.titleName,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
                         ),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        "Welcome to EasyKost!",
-                        style: TextStyle(
-                          color: AppColors.secondary,
-                          fontSize: 13,
+                      const SizedBox(height: 4),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Welcome to ",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: AppColors.title1,
+                              ),
+                            ),
+                            const TextSpan(
+                              text: "EasyKost !",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.title1,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  ),
-                  const Icon(
-                    Icons.chat_bubble_outline,
-                    color: AppColors.primary,
-                  ),
-                ],
-              ),
-            ),
+                  ), // Tutup Column
+                  // Jika ingin menambahkan ikon profil di kanan Row, bisa di sini
+                ], // Tutup Children Row
+              ), // Tutup Row
+            ), // Tutup Padding Header
 
             /// ================= SEARCH =================
             SearchFilterWidget(onFilterChanged: _applyFilter),
@@ -95,7 +110,7 @@ class _KostViewState extends State<KostView> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    color: AppColors.title1,
                   ),
                 ),
               ),
@@ -131,8 +146,8 @@ class _KostViewState extends State<KostView> {
           ],
         ),
       ),
-
-      bottomNavigationBar: const BottomNav(currentIndex: 0),
+      // Sekarang bottomNavigationBar sudah berada di luar body
+      bottomNavigationBar: const BottomNav(currentIndex: -1),
     );
   }
 }

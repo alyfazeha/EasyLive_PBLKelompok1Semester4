@@ -24,8 +24,7 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              /// GREETING
+              /// GREETING SECTION
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                 child: Column(
@@ -34,25 +33,42 @@ class HomeView extends StatelessWidget {
                     Text(
                       "Hi $userName,",
                       style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.cardPrimaryBackground,
+                        fontFamily: 'Montserrat',
+                        fontSize: 14,
+                        fontWeight:  FontWeight.normal,
+                        color: AppColors.titleName,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      "Welcome to EasyKost !",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF9B0F06),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Welcome to ",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal, 
+                              color: AppColors.title1,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "EasyKost !",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold, // Bold
+                              color: AppColors.title1,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
 
-              ///  SLIDER
+              /// SLIDER
               const HeaderSlider(),
 
               /// CATEGORY
@@ -85,7 +101,7 @@ class HomeView extends StatelessWidget {
         ),
       ),
 
-      /// NAVBAR
+      /// NAVBAR (Posisinya harus di sini, di bawah body)
       bottomNavigationBar: const BottomNav(currentIndex: 0),
     );
   }

@@ -51,14 +51,21 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   uses-material-design: true
 
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat.ttf
+        - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/MontserratBold.ttf
+          weight: 700
+
   assets:
-    - images/easylive.png
-    - images/kos1.jpg
-    - images/kos2.jpg
-    - images/kos3.jpg
+    - assets/images/easylive.png
+    - assets/images/kos1.jpg
+    - assets/images/kos2.jpg
+    - assets/images/kos3.jpg
 
 
   # To add assets to your application, add an assets section, like this:

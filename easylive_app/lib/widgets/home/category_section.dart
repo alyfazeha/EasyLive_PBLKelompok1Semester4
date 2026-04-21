@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../views/kos/kos_view.dart';
+import '../../core/color.dart';
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
@@ -14,9 +15,10 @@ class CategorySection extends StatelessWidget {
           const Text(
             "Categories",
             style: TextStyle(
+              fontFamily: 'Montserrat',
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF5E0006),
+              color: AppColors.cardPrimaryBackground,
             ),
           ),
           const SizedBox(height: 12),
@@ -90,8 +92,9 @@ class CategorySection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Text(
-            " Recommendation For you",
+            " Recommendation",
             style: TextStyle(
+              fontFamily: 'Montserrat',
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Color(0xFF5E0006),
