@@ -26,8 +26,12 @@ class _KostViewState extends State<KostView> {
 
   void _applyFilter(String query, String location, double maxPrice) {
     setState(() {
-      displayedKost =
-          KostController.filterKost(allKost, query, location, maxPrice);
+      displayedKost = KostController.filterKost(
+        allKost,
+        query,
+        location,
+        maxPrice,
+      );
     });
   }
 
@@ -68,16 +72,16 @@ class _KostViewState extends State<KostView> {
                       ),
                     ],
                   ),
-                  const Icon(Icons.chat_bubble_outline,
-                      color: AppColors.primary),
+                  const Icon(
+                    Icons.chat_bubble_outline,
+                    color: AppColors.primary,
+                  ),
                 ],
               ),
             ),
 
             /// ================= SEARCH =================
-            SearchFilterWidget(
-              onFilterChanged: _applyFilter,
-            ),
+            SearchFilterWidget(onFilterChanged: _applyFilter),
 
             const SizedBox(height: 10),
 
@@ -112,8 +116,7 @@ class _KostViewState extends State<KostView> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: GridView.builder(
                         itemCount: displayedKost.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
@@ -129,7 +132,7 @@ class _KostViewState extends State<KostView> {
         ),
       ),
 
-      bottomNavigationBar: const BottomNav(currentIndex: -1),
+      bottomNavigationBar: const BottomNav(currentIndex: 0),
     );
   }
 }

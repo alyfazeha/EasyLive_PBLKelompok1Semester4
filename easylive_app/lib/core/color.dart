@@ -9,4 +9,7 @@ class AppColors {
   static const cardPrimaryBackground = Color(0xFF5E0006);
   static const title1 = Color(0xFF9B0F06);
   static const titleName = Color(0xFF5E0006);
+  static const Color statusActive = Color(0xFF4CAF50);
+  static const Color statusPending = Color(0xFFFF9800);
+  static const Color statusCanceled = Color(0xFF9E9E9E);
 }

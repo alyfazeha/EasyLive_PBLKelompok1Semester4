@@ -29,11 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEED9B9),
+      backgroundColor: AppColors.background,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Logo Container
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -55,17 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             const SizedBox(height: 20),
 
-            const Text(
-              "EasyKost",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.titleName,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
+            // Loading Indicator
             const CircularProgressIndicator(
               color: AppColors.titleName,
             ),

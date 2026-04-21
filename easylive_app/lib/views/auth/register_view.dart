@@ -10,14 +10,14 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
 
-  // 🔥 CONTROLLER
+  // CONTROLLER
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final confirmPassController = TextEditingController();
 
-  // 🔥 ROLE
+  // ROLE
   String selectedRole = "User";
 
   @override
@@ -59,7 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                 const SizedBox(height: 20),
 
-                /// 🔥 DROPDOWN ROLE
+                /// DROPDOWN ROLE
                 DropdownButtonFormField<String>(
                   value: selectedRole,
                   decoration: InputDecoration(
@@ -128,7 +128,7 @@ class _RegisterViewState extends State<RegisterView> {
                       confirmPassword: confirmPassController.text,
                       name: nameController.text,
                       phone: phoneController.text,
-                      role: selectedRole, // 🔥 FIX
+                      role: selectedRole, 
                     );
 
                     if (success) {

@@ -10,7 +10,6 @@ import 'routes/app_routes.dart';
     Widget build(BuildContext context) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'EasyLive',
         initialRoute: '/',
         onGenerateRoute: AppRoutes.generateRoute,
       );
