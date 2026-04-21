@@ -62,7 +62,7 @@ flutter:
           weight: 700
 
   assets:
-    - assets/images/easylive.png
+    - assets/images/logo-easylive.png
     - assets/images/kos1.jpg
     - assets/images/kos2.jpg
     - assets/images/kos3.jpg

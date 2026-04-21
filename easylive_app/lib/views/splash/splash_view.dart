@@ -34,31 +34,12 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Logo Container
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.card,
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
+            SizedBox(
+              width: 400,
               child: Image.asset(
-                'images/easylive.png',
-                width: 200,
+                'assets/images/logo-easylive.png',
+                fit: BoxFit.contain,
               ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Loading Indicator
-            const CircularProgressIndicator(
-              color: AppColors.titleName,
             ),
           ],
         ),
