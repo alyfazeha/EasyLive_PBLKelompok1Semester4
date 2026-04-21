@@ -144,18 +144,6 @@ class _RegisterViewState extends State<RegisterView> {
                   child: const Text("Register"),
                 ),
 
-                const SizedBox(height: 20),
-
-                GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    Navigator.pushReplacementNamed(context, '/login');
-                  },
-                  child: const Text(
-                    "Already have an account? Login",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
               ],
             ),
           ),

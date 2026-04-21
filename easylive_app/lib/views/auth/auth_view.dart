@@ -264,20 +264,6 @@ class _AuthViewState extends State<AuthView> {
           },
           child: const Text("Register"),
         ),
-
-        const SizedBox(height: 20),
-
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isLogin = true;
-            });
-          },
-          child: const Text(
-            "Already have an account? Login",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-        ),
       ],
     );
   }
