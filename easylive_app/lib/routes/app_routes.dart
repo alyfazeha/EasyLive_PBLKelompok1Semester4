@@ -5,6 +5,7 @@ import '../views/home/home_view.dart';
 import '../views/splash/splash_view.dart';
 import '../views/auth/auth_view.dart';
 import '../views/kos/kos_view.dart';
+import '../views/profile/profile_view.dart';
 
 class AppRoutes {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
@@ -23,6 +24,9 @@ class AppRoutes {
 
       case '/kost':
         return _noAnimation(const KostView(), settings);
+
+      case '/profile':
+        return _noAnimation(const ProfileView(), settings);
 
       default:
         return null;
