@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset(
               'assets/images/logo-easylive.png',
-              width: 200,
+              width: 450,
               fit: BoxFit.contain,
             ),
           ],
