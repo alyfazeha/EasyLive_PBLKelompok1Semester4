@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
       backgroundColor: AppColors.background,
       body: Center(
         child: Column(
@@ -40,6 +41,37 @@ class _SplashScreenState extends State<SplashScreen> {
               fit: BoxFit.contain,
             ),
           ],
+=======
+      backgroundColor: AppColors.primary,
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/easylive-baru.png',
+                width: 180,
+                fit: BoxFit.contain,
+              ),
+
+              const SizedBox(height: 10),
+
+              const Text(
+                'Easy to stay and move',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+>>>>>>> Stashed changes
         ),
       ),
     );

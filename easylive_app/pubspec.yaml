@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -31,11 +32,25 @@ flutter:
           weight: 700
 
   assets:
+<<<<<<< Updated upstream
     - assets/images/logo-easylive.png
+<<<<<<< HEAD
     - assets/images/easylive.png
+=======
+=======
+    - assets/images/easylive-baru.png
+>>>>>>> Stashed changes
+>>>>>>> ailsa
     - assets/images/kos1.jpg
     - assets/images/kos2.jpg
     - assets/images/kos3.jpg
+    - assets/images/login.jpeg
+    - assets/images/register.jpeg
+    - assets/images/mobilBox-BackgroundRemover.jpg
+    - assets/images/pickup-removed.png
+
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

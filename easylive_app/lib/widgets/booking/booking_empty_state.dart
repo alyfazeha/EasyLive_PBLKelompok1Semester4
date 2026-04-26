@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> ailsa
 import '../../core/color.dart';
 
 class BookingEmptyState extends StatelessWidget {
@@ -15,26 +18,58 @@ class BookingEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+<<<<<<< HEAD
       padding: EdgeInsets.fromLTRB(28, compactTopSpacing ? 20 : 32, 28, 40),
       child: Column(
         children: [
           if (!compactTopSpacing) const Spacer(),
           const _EmptyPaperIllustration(),
           const SizedBox(height: 34),
+=======
+      padding: EdgeInsets.fromLTRB(
+        28,
+        compactTopSpacing ? 20 : 32,
+        28,
+        40,
+      ),
+      child: Column(
+        children: [
+          if (!compactTopSpacing) const Spacer(),
+
+          const Icon(
+            Icons.description_outlined,
+            size: 80,
+            color: AppColors.yellow,
+          ),
+
+          const SizedBox(height: 24),
+
+>>>>>>> ailsa
           Text(
             message,
             textAlign: TextAlign.center,
             style: const TextStyle(
+<<<<<<< HEAD
               color: AppColors.title1,
               fontWeight: FontWeight.w800,
               fontSize: 16,
             ),
           ),
+=======
+              fontFamily: 'Montserrat',
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+            ),
+          ),
+
+>>>>>>> ailsa
           const Spacer(),
         ],
       ),
     );
   }
+<<<<<<< HEAD
 }
 
 class _EmptyPaperIllustration extends StatelessWidget {
@@ -117,3 +152,6 @@ class _EmptyPaperIllustration extends StatelessWidget {
     );
   }
 }
+=======
+}
+>>>>>>> ailsa

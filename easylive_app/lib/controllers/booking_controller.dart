@@ -1,6 +1,13 @@
 import '../models/booking_model.dart';
 
 class BookingController {
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+  List<Booking> allBookings = [
+    Booking(title: "Kost Melati", location: "Cengger Ayam", price: "Rp 650.000", status: "Active"),
+=======
+>>>>>>> ailsa
   static const List<String> bookingStatuses = ['Active', 'Completed', 'Canceled'];
 
   final List<Booking> allBookings = [
@@ -11,6 +18,7 @@ class BookingController {
       type: 'Kost',
       status: 'Active',
     ),
+<<<<<<< HEAD
     Booking(
       title: 'Laundry Express',
       location: 'Lowokwaru',
@@ -18,6 +26,10 @@ class BookingController {
       type: 'Jasa',
       status: 'Completed',
     ),
+=======
+
+>>>>>>> Stashed changes
+>>>>>>> ailsa
   ];
 
   List<Booking> getFilteredBookings(String status) {

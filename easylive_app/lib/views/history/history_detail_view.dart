@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../controllers/history_controller.dart';
 import '../../core/color.dart';
 import '../../models/history_model.dart';
+<<<<<<< HEAD
 import '../../widgets/home/botton_navbar.dart';
+=======
+import '../../widgets/home/bottom_navbar.dart';
+>>>>>>> ailsa
 import '../../widgets/history/history_detail_row.dart';
 import '../../widgets/history/history_filter_chip.dart';
 
@@ -27,7 +31,11 @@ class HistoryDetailView extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.crop_free_rounded,
+<<<<<<< HEAD
                         color: AppColors.title1,
+=======
+                        color: AppColors.yellow,
+>>>>>>> ailsa
                         size: 28,
                       ),
                       const SizedBox(width: 10),
@@ -35,7 +43,11 @@ class HistoryDetailView extends StatelessWidget {
                         child: Text(
                           'Detail History',
                           style: TextStyle(
+<<<<<<< HEAD
                             color: AppColors.titleName,
+=======
+                            color: AppColors.yellow,
+>>>>>>> ailsa
                             fontWeight: FontWeight.w800,
                             fontSize: 20,
                           ),
@@ -43,7 +55,11 @@ class HistoryDetailView extends StatelessWidget {
                       ),
                       Icon(
                         Icons.search_rounded,
+<<<<<<< HEAD
                         color: AppColors.title1,
+=======
+                        color: AppColors.yellow,
+>>>>>>> ailsa
                         size: 30,
                       ),
                     ],
@@ -80,7 +96,11 @@ class HistoryDetailView extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFFF3DEC1),
                       borderRadius: BorderRadius.circular(8),
+<<<<<<< HEAD
                       border: Border.all(color: AppColors.title1, width: 0.8),
+=======
+                      border: Border.all(color: AppColors.yellow, width: 0.8),
+>>>>>>> ailsa
                     ),
                     child: Row(
                       children: [
@@ -101,7 +121,11 @@ class HistoryDetailView extends StatelessWidget {
                                 const Text(
                                   'Status',
                                   style: TextStyle(
+<<<<<<< HEAD
                                     color: AppColors.titleName,
+=======
+                                    color: AppColors.yellow,
+>>>>>>> ailsa
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -135,7 +159,11 @@ class HistoryDetailView extends StatelessWidget {
                         Container(
                           width: 12,
                           decoration: const BoxDecoration(
+<<<<<<< HEAD
                             color: AppColors.title1,
+=======
+                            color: AppColors.yellow,
+>>>>>>> ailsa
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(7),
                               bottomRight: Radius.circular(7),
@@ -151,7 +179,11 @@ class HistoryDetailView extends StatelessWidget {
           ],
         ),
       ),
+<<<<<<< HEAD
       bottomNavigationBar: const BottomNav(currentIndex: 2),
+=======
+      bottomNavigationBar: const BottomNav(currentIndex: 0),
+>>>>>>> ailsa
     );
   }
 }

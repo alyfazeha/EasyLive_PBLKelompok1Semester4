@@ -19,18 +19,26 @@ class ProfileController {
         'title': 'User Details',
         'icon': Icons.person_outline,
       },
+<<<<<<< HEAD
       {
         'title': 'Certificate',
         'icon': Icons.school_outlined,
       },
+=======
+
+>>>>>>> ailsa
       {
         'title': 'Payment',
         'icon': Icons.credit_card_outlined,
       },
+<<<<<<< HEAD
       {
         'title': 'Document',
         'icon': Icons.description_outlined,
       },
+=======
+
+>>>>>>> ailsa
       {
         'title': 'Logout',
         'icon': Icons.logout_rounded,

@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../controllers/profile_controller.dart';
 import '../../core/color.dart';
 import '../../models/user_model.dart';
+<<<<<<< HEAD
 import '../../widgets/home/botton_navbar.dart';
+=======
+import '../../widgets/home/bottom_navbar.dart';
+>>>>>>> ailsa
 import '../../widgets/profile/profile_menu_tile.dart';
 
 class ProfileView extends StatelessWidget {
@@ -64,7 +68,11 @@ class ProfileView extends StatelessWidget {
                             },
                             icon: const Icon(
                               Icons.arrow_back_rounded,
+<<<<<<< HEAD
                               color: AppColors.title1,
+=======
+                              color: AppColors.yellow,
+>>>>>>> ailsa
                               size: 30,
                             ),
                           ),
@@ -75,7 +83,11 @@ class ProfileView extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w800,
+<<<<<<< HEAD
                                 color: AppColors.title1,
+=======
+                                color: AppColors.yellow,
+>>>>>>> ailsa
                               ),
                             ),
                           ),
@@ -96,10 +108,14 @@ class ProfileView extends StatelessWidget {
                               gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
+<<<<<<< HEAD
                                 colors: [
                                   Color(0xFF6D7782),
                                   Color(0xFF2B3037),
                                 ],
+=======
+                                colors: [Color(0xFF6D7782), Color(0xFF2B3037)],
+>>>>>>> ailsa
                               ),
                             ),
                             child: const Icon(
@@ -133,7 +149,11 @@ class ProfileView extends StatelessWidget {
                                 child: const Icon(
                                   Icons.edit_outlined,
                                   size: 22,
+<<<<<<< HEAD
                                   color: AppColors.title1,
+=======
+                                  color: AppColors.yellow,
+>>>>>>> ailsa
                                 ),
                               ),
                             ),
@@ -147,7 +167,11 @@ class ProfileView extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
+<<<<<<< HEAD
                           color: AppColors.title1,
+=======
+                          color: AppColors.yellow,
+>>>>>>> ailsa
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -164,7 +188,12 @@ class ProfileView extends StatelessWidget {
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: menus.length,
+<<<<<<< HEAD
                           separatorBuilder: (_, __) => const SizedBox(height: 18),
+=======
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 18),
+>>>>>>> ailsa
                           itemBuilder: (context, index) {
                             final menu = menus[index];
                             final title = menu['title'] as String;
@@ -184,7 +213,11 @@ class ProfileView extends StatelessWidget {
           ),
         ),
       ),
+<<<<<<< HEAD
       bottomNavigationBar: const BottomNav(currentIndex: 3),
+=======
+      bottomNavigationBar: const BottomNav(currentIndex: -1),
+>>>>>>> ailsa
     );
   }
 
@@ -197,8 +230,14 @@ class ProfileView extends StatelessWidget {
   }
 
   void _showInfoMessage(BuildContext context, String message) {
+<<<<<<< HEAD
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
+=======
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+>>>>>>> ailsa
   }
 }

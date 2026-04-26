@@ -1,5 +1,5 @@
 class SplashModel {
   final int duration;
 
-  SplashModel({this.duration = 5});
+  SplashModel({this.duration = 8});
 }

@@ -22,7 +22,11 @@ class HistoryDetailRow extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
+<<<<<<< HEAD
               color: AppColors.titleName,
+=======
+              color: AppColors.yellow,
+>>>>>>> ailsa
               fontSize: 14,
               fontWeight: FontWeight.w700,
             ),
@@ -34,7 +38,11 @@ class HistoryDetailRow extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
+<<<<<<< HEAD
                   color: AppColors.title1.withValues(alpha: 0.35),
+=======
+                  color: AppColors.yellow.withValues(alpha: 0.35),
+>>>>>>> ailsa
                 ),
               ),
             ),

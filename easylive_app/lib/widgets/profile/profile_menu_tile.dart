@@ -43,7 +43,11 @@ class ProfileMenuTile extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
+<<<<<<< HEAD
                   color: AppColors.title1,
+=======
+                  color: AppColors.yellow,
+>>>>>>> ailsa
                 ),
               ),
             ),

@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import '../../controllers/booking_controller.dart';
 import '../../core/color.dart';
 import '../../widgets/booking/booking_card.dart';
+<<<<<<< HEAD
 import '../../widgets/booking/booking_empty_state.dart';
+=======
+<<<<<<< Updated upstream
+>>>>>>> ailsa
 import '../../widgets/home/botton_navbar.dart';
+=======
+import '../../widgets/booking/booking_empty_state.dart';
+import '../../widgets/booking/booking_filter_chip.dart';
+import '../../widgets/home/bottom_navbar.dart';
+>>>>>>> Stashed changes
 
 class BookingView extends StatefulWidget {
   const BookingView({super.key});
@@ -34,30 +43,82 @@ class _BookingViewState extends State<BookingView>
   String get _currentStatus =>
       BookingController.bookingStatuses[_tabController.index];
 
+<<<<<<< HEAD
   Widget _buildTabContent() {
     final bookings = _controller.getFilteredBookings(_currentStatus);
     final emptyMessage = _controller.getEmptyMessage(_currentStatus);
 
     if (bookings.isEmpty) {
       return BookingEmptyState(message: emptyMessage);
+=======
+<<<<<<< Updated upstream
+    if (list.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(28, 24, 28, 40),
+        child: Column(
+          children: [
+            const Spacer(flex: 2),
+            const _EmptyPaperIllustration(),
+            const SizedBox(height: 44),
+            Text(
+              "You have no ${status.toLowerCase()} booking",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: AppColors.title1,
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+              ),
+            ),
+            const Spacer(flex: 3),
+          ],
+        ),
+      );
+>>>>>>> ailsa
     }
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(28, 18, 28, 24),
+<<<<<<< HEAD
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: bookings.map((booking) => BookingCard(booking: booking)).toList(),
       ),
+=======
+      itemCount: list.length,
+      itemBuilder: (context, index) => BookingCard(booking: list[index]),
+=======
+  Widget _buildTabContent() {
+    final bookings = _controller.getFilteredBookings(_currentStatus);
+    final emptyMessage = _controller.getEmptyMessage(_currentStatus);
+
+    if (bookings.isEmpty) {
+      return BookingEmptyState(
+        message: emptyMessage,
+        compactTopSpacing: true,
+      );
+    }
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: bookings
+            .map((booking) => BookingCard(booking: booking))
+            .toList(),
+      ),
+>>>>>>> Stashed changes
+>>>>>>> ailsa
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
+<<<<<<< Updated upstream
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 20, 28, 0),
               child: Column(
@@ -137,6 +198,40 @@ class _BookingViewState extends State<BookingView>
                         );
                       }).toList(),
                     ),
+=======
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(18),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.crop_free_rounded,
+                    color: AppColors.yellow,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(
+                      'History',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: AppColors.yellow,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  const Icon(
+                    Icons.search_rounded,
+                    color: AppColors.yellow,
+                    size: 26,
+>>>>>>> Stashed changes
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 4),
@@ -146,11 +241,50 @@ class _BookingViewState extends State<BookingView>
                 ],
               ),
             ),
+<<<<<<< HEAD
             Expanded(child: _buildTabContent()),
+=======
+<<<<<<< Updated upstream
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTabContent("Active"),
+                  _buildTabContent("Completed"),
+                  _buildTabContent("Canceled"),
+                ],
+              ),
+            ),
+=======
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+              child: Row(
+                children: [
+                  BookingFilterChip(
+                    label: 'Kost',
+                    isSelected: true,
+                    onTap: () {},
+                  ),
+                  const SizedBox(width: 10),
+                  BookingFilterChip(
+                    label: 'Jasa',
+                    isSelected: false,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: _buildTabContent(),
+            ),
+>>>>>>> Stashed changes
+>>>>>>> ailsa
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 1),
+      bottomNavigationBar: const BottomNav(currentIndex: 2),
     );
   }
 

@@ -22,10 +22,17 @@ class HistoryCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 14),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
+<<<<<<< HEAD
           color: const Color(0xFFF3DEC1),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: AppColors.title1.withValues(alpha: 0.2),
+=======
+          color: AppColors.secondary,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: AppColors.yellow.withValues(alpha: 0.2),
+>>>>>>> ailsa
           ),
         ),
         child: Row(
@@ -39,7 +46,11 @@ class HistoryCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
+<<<<<<< HEAD
                       color: AppColors.titleName,
+=======
+                      color: AppColors.yellow,
+>>>>>>> ailsa
                     ),
                   ),
                   const SizedBox(height: 4),
