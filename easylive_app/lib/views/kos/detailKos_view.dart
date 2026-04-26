@@ -139,6 +139,7 @@ class _DetailKosViewState extends State<DetailKosView> {
             ),
           ),
           // Select Room button fixed at bottom
+          // Select Room button fixed at bottom
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -160,15 +161,23 @@ class _DetailKosViewState extends State<DetailKosView> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context, 
+                    '/personal_info', 
+                    arguments: widget.kost,
+                  );
+                },
+                // --- TAMBAHKAN BARIS CHILD DI BAWAH INI ---
                 child: const Text(
                   "Select Room",
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: Color(0xFF2D3E50), // Biru tua sesuai mockup EasyLive
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
+                // ------------------------------------------
               ),
             ),
           ),
