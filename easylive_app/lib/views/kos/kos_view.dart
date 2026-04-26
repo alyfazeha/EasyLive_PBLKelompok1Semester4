@@ -143,6 +143,19 @@ class _KosViewState extends State<KosView> {
                         Icons.search_rounded,
                         color: Color(0xFF2D3E50),
                       ),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: IconButton(
+                          onPressed: () {
+                            print("Membuka Filter");
+                          },
+                          icon: const Icon(
+                            Icons.filter_alt_rounded,
+                            color: Color(0xFF2D3E50),
+                            size: 30,
+                          ),
+                        ),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 18,
