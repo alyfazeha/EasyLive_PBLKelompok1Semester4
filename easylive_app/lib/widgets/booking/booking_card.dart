@@ -9,6 +9,7 @@ class BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+<<<<<<< Updated upstream
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
       color: Colors.transparent,
@@ -26,6 +27,29 @@ class BookingCard extends StatelessWidget {
                   color: Color(0x14000000),
                   offset: Offset(0, 2),
                   blurRadius: 4,
+=======
+      margin: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.secondary,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primary.withOpacity(0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  booking.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: AppColors.primary,
+                    fontFamily: 'Montserrat',
+                  ),
+>>>>>>> Stashed changes
                 ),
               ],
             ),
@@ -43,6 +67,7 @@ class BookingCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
+<<<<<<< Updated upstream
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -86,10 +111,37 @@ class BookingCard extends StatelessWidget {
                       ),
                     ),
                   ],
+=======
+                child: Container(
+                  height: 1,
+                  color: AppColors.primary.withOpacity(0.35),
+>>>>>>> Stashed changes
                 ),
               ),
             ],
           ),
+<<<<<<< Updated upstream
+=======
+          const SizedBox(height: 6),
+          Text(
+            booking.location,
+            style: TextStyle(
+              color: AppColors.primary.withOpacity(0.75),
+              fontSize: 13,
+              fontFamily: 'Montserrat',
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '${booking.price}/month',
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+              color: AppColors.primary,
+              fontFamily: 'Montserrat',
+            ),
+          ),
+>>>>>>> Stashed changes
         ],
       ),
     );

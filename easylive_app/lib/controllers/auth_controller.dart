@@ -1,5 +1,3 @@
-import '../models/user_model.dart';
-
 class AuthController {
   static bool login(String email, String password) {
     return true;
@@ -14,9 +12,6 @@ class AuthController {
     required String role,
   }) {
     if (password != confirmPassword) return false;
-
-    print("Role: $role"); 
-
     return true;
   }
 }

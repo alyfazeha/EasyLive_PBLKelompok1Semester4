@@ -4,22 +4,20 @@ class ItemCard extends StatelessWidget {
   final String name;
   final String address;
   final String image;
+  final VoidCallback onTap;
 
   const ItemCard({
     super.key,
     required this.name,
     required this.address,
     required this.image,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Klik $name")),
-        );
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../views/kos/kos_view.dart';
 import '../../core/color.dart';
 
 class CategorySection extends StatelessWidget {
-  const CategorySection({super.key});
+  final VoidCallback onTapKost;
+  final VoidCallback onTapJasa;
+
+  const CategorySection({
+    super.key,
+    required this.onTapKost,
+    required this.onTapJasa,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class CategorySection extends StatelessWidget {
               fontFamily: 'Montserrat',
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppColors.cardPrimaryBackground,
+              color: AppColors.secondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -27,15 +33,7 @@ class CategorySection extends StatelessWidget {
               // kos
               Expanded(
                 child: GestureDetector(
-                  onTap: () {
-                    print("Tombol Kost diklik!");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const KostView(),
-                      ),
-                    );
-                  },
+                  onTap: onTapKost,
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
@@ -61,14 +59,7 @@ class CategorySection extends StatelessWidget {
               // jasa
               Expanded(
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const KostView(),
-                      ),
-                    );
-                  },
+                  onTap: onTapJasa,
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
