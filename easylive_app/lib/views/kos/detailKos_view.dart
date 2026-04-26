@@ -15,104 +15,160 @@ class DetailKosView extends StatefulWidget {
 class _DetailKosViewState extends State<DetailKosView> {
   final controller = KostController();
 
+  String _formatPrice(int price) {
+    String priceStr = price.toString();
+    String result = '';
+    int count = 0;
+    for (int i = priceStr.length - 1; i >= 0; i--) {
+      if (count > 0 && count % 3 == 0) {
+        result = '.' + result;
+      }
+      result = priceStr[i] + result;
+      count++;
+    }
+    return 'Rp $result,-';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          DetailHeader(
-            imagePath: 'assets/images/kamarKos.jpg',
-            isFavorite: controller.isFavorite,
-            heroTag:
-                'kos_image_${widget.kost.name}', // <--- Tambahkan baris ini
-            onBack: () => Navigator.pop(context),
-            onFavorite: () => setState(() => controller.toggleFavorite()),
+          Expanded(
+            child: Stack(
+              children: [
+                DetailHeader(
+                  imagePath: 'assets/images/kamarKos.jpg',
+                  isFavorite: controller.isFavorite,
+                  heroTag: 'kos_image_${widget.kost.name}',
+                  onBack: () => Navigator.pop(context),
+                  onFavorite: () => setState(() => controller.toggleFavorite()),
+                ),
+                DraggableScrollableSheet(
+                  initialChildSize: 0.65,
+                  minChildSize: 0.65,
+                  maxChildSize: 0.95,
+                  builder: (_, scrollController) => Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(40),
+                      ),
+                    ),
+                    child: ListView(
+                      controller: scrollController,
+                      padding: const EdgeInsets.all(25),
+                      children: [
+                        Text(
+                          widget.kost.name,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          widget.kost.description ?? "No description",
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 15),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            _formatPrice(widget.kost.price ?? 0),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Specifications",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: (widget.kost.specifications ?? [])
+                                  .map((e) => Text(e))
+                                  .toList(),
+                            ),
+                            Text("Rooms: ${widget.kost.availableRooms ?? 0}"),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Facilities",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height: 60,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget.kost.facilities?.length ?? 0,
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(width: 12),
+                            itemBuilder: (context, index) {
+                              return FacilityChip(
+                                label: widget.kost.facilities![index],
+                              );
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.65,
-            minChildSize: 0.65,
-            maxChildSize: 0.95,
-            builder: (_, scrollController) => Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-              ),
-              child: ListView(
-                controller: scrollController,
-                padding: const EdgeInsets.all(25),
-                children: [
-                  Text(
-                    widget.kost.name,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+          // Select Room button fixed at bottom
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, -5),
+                ),
+              ],
+            ),
+            child: SafeArea(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.yellow,
+                  minimumSize: const Size(double.infinity, 55),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    widget.kost.description ?? "No description",
-                    style: const TextStyle(color: Colors.grey),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  "Select Room",
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
-                  const SizedBox(height: 15),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Rp.${widget.kost.price}",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Specifications",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: (widget.kost.specifications ?? [])
-                            .map((e) => Text(e))
-                            .toList(),
-                      ),
-                      Text("Rooms: ${widget.kost.availableRooms ?? 0}"),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Facilities",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: (widget.kost.facilities ?? [])
-                        .map((e) => FacilityChip(label: e))
-                        .toList(),
-                  ),
-
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.yellow,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Select Room",
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

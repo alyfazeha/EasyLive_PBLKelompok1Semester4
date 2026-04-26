@@ -9,10 +9,10 @@ class DetailHeader extends StatelessWidget {
   final String heroTag; // Tambahkan heroTag agar sinkron dengan Card
 
   const DetailHeader({
-    super.key, 
-    required this.imagePath, 
-    required this.onBack, 
-    required this.onFavorite, 
+    super.key,
+    required this.imagePath,
+    required this.onBack,
+    required this.onFavorite,
     required this.isFavorite,
     required this.heroTag, // Pastikan ini dikirim dari View
   });
@@ -23,12 +23,12 @@ class DetailHeader extends StatelessWidget {
       children: [
         // Tambahkan Hero di sini
         Hero(
-          tag: heroTag, 
+          tag: heroTag,
           child: Image.asset(
-            imagePath, 
-            height: 350, 
-            width: double.infinity, 
-            fit: BoxFit.cover
+            imagePath,
+            height: 350,
+            width: double.infinity,
+            fit: BoxFit.cover,
           ),
         ),
         SafeArea(
@@ -39,9 +39,9 @@ class DetailHeader extends StatelessWidget {
               children: [
                 _buildBtn(Icons.arrow_back, onBack),
                 _buildBtn(
-                  isFavorite ? Icons.favorite : Icons.favorite_border, 
-                  onFavorite, 
-                  color: isFavorite ? Colors.red : null
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  onFavorite,
+                  color: isFavorite ? Colors.red : null,
                 ),
               ],
             ),
@@ -57,7 +57,7 @@ class DetailHeader extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.yellow, 
+          color: AppColors.yellow,
           borderRadius: BorderRadius.circular(12),
           // Tambahkan sedikit shadow agar tombol lebih 'pop out' di atas gambar
           boxShadow: [
@@ -65,7 +65,7 @@ class DetailHeader extends StatelessWidget {
               color: Colors.black.withOpacity(0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
-            )
+            ),
           ],
         ),
         child: Icon(icon, color: color ?? AppColors.primary),
@@ -90,12 +90,12 @@ class FacilityChip extends StatelessWidget {
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)],
       ),
       child: Text(
-        label, 
+        label,
         style: const TextStyle(
-          fontWeight: FontWeight.bold, 
-          fontSize: 12,
-          color: AppColors.primary, // Gunakan primary color agar teks kontras
-        )
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColors.primary,
+        ),
       ),
     );
   }
