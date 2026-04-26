@@ -10,123 +10,138 @@ class KostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Logika penamaan sesuai gambar contohmu
+    // Tetap menggunakan logika penamaanmu untuk testing
     final title = index % 2 == 1 ? 'Triple "A" Kos' : 'Daniska Kos';
     final price = index % 2 == 1 ? '900.000' : '1.500.000';
     final viewers = index % 2 == 1 ? '15 K' : '1,3 K';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image Section
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.asset(
-                kost.image,
-                height: 105,
-                width: double.infinity,
-                fit: BoxFit.cover,
+    return InkWell(
+      // 1. Tambahkan navigasi ke route yang sudah didaftarkan di main.dart
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/detail_kos',
+          arguments: kost, // Mengirim data model ke halaman detail
+        );
+      },
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFF2F2F2),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Section
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Hero(
+                  // 2. Gunakan Hero tag yang unik agar animasi gambar berjalan
+                  tag: 'kos_image_${kost.name}_$index', 
+                  child: Image.asset(
+                    kost.image,
+                    height: 105,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title & Favorite
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                          color: Color(0xFF2D3E50),
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const Icon(Icons.favorite, color: Color(0xFF2D3E50), size: 20),
-                  ],
-                ),
-                
-                // Address
-                const Text(
-                  'Jalan Cengger Ayam Dalam\nIII, No 24 Lowokwaru Malang',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 8.5,
-                    color: Colors.black54,
-                    height: 1.2,
-                  ),
-                  maxLines: 2,
-                ),
-                
-                const SizedBox(height: 8),
-                
-                // Stats (Viewers | Verified)
-                Row(
-                  children: [
-                    const SizedBox(width: 5),
-                    Text(
-                      viewers,
-                      style: const TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w800,
-                        fontSize: 11,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("|", style: TextStyle(color: Colors.grey)),
-                    ),
-                    const Icon(Icons.verified_user_outlined, size: 18, color: Colors.black87),
-                  ],
-                ),
-                
-                const SizedBox(height: 10),
-                
-                // Price & More Button
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFD141),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title & Favorite
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          "Rp $price,-",
-                          textAlign: TextAlign.center,
+                          title,
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w900,
-                            fontSize: 10,
+                            fontSize: 14,
+                            color: Color(0xFF2D3E50),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Icon(Icons.favorite, color: Color(0xFF2D3E50), size: 20),
+                    ],
+                  ),
+                  
+                  // Address (Nanti bisa diganti kost.address agar dinamis)
+                  const Text(
+                    'Jalan Cengger Ayam Dalam\nIII, No 24 Lowokwaru Malang',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 8.5,
+                      color: Colors.black54,
+                      height: 1.2,
+                    ),
+                    maxLines: 2,
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Stats (Viewers | Verified)
+                  Row(
+                    children: [
+                      const SizedBox(width: 5),
+                      Text(
+                        viewers,
+                        style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("|", style: TextStyle(color: Colors.grey)),
+                      ),
+                      const Icon(Icons.verified_user_outlined, size: 18, color: Colors.black87),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: 10),
+                  
+                  // Price & More Button
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFD141),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            "Rp $price,-",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.more_horiz, color: Colors.grey, size: 24),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 8),
+                      const Icon(Icons.more_horiz, color: Colors.grey, size: 24),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

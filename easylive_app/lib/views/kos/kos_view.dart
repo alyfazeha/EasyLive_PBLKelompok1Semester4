@@ -5,6 +5,8 @@ import '../../widgets/home/bottom_navbar.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/kosPage/kos_card.dart';
 import '../home/home_view.dart';
+import '../kos/detailKos_view.dart';
+import '../../widgets/kosPage/detail_kos_widgets.dart';
 
 class KosView extends StatefulWidget {
   const KosView({super.key});
@@ -54,7 +56,9 @@ class _KosViewState extends State<KosView> {
                       children: [
                         const CircleAvatar(
                           radius: 26,
-                          backgroundImage: AssetImage('assets/images/alyfa.jpeg'),
+                          backgroundImage: AssetImage(
+                            'assets/images/alyfa.jpeg',
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -88,7 +92,11 @@ class _KosViewState extends State<KosView> {
                             // Navigasi ke halaman Chat/Pesan
                             print("Buka Chat");
                           },
-                          icon: const Icon(Icons.chat_bubble_outline, color: Colors.white, size: 28),
+                          icon: const Icon(
+                            Icons.chat_bubble_outline,
+                            color: Colors.white,
+                            size: 28,
+                          ),
                         ),
                       ],
                     ),
@@ -107,7 +115,7 @@ class _KosViewState extends State<KosView> {
                         color: Colors.black.withOpacity(0.1),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
-                      )
+                      ),
                     ],
                   ),
                   child: TextField(
@@ -126,13 +134,16 @@ class _KosViewState extends State<KosView> {
                             print("Membuka Filter");
                           },
                           icon: const Icon(
-                            Icons.filter_alt_rounded, 
-                            color: Color(0xFF2D3E50), 
-                            size: 30
+                            Icons.filter_alt_rounded,
+                            color: Color(0xFF2D3E50),
+                            size: 30,
                           ),
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 18,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: BorderSide.none,
@@ -172,20 +183,26 @@ class _KosViewState extends State<KosView> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 20,
-                  childAspectRatio: 0.63, 
+                  childAspectRatio: 0.63,
                 ),
                 itemBuilder: (context, index) {
                   // Membungkus KostCard dengan InkWell untuk interaksi navigasi detail
                   return InkWell(
                     onTap: () {
-                      print("Navigasi ke detail kos: ${kostList[index].name}");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailKosView(kost: kostList[index]),
+                        ),
+                      );
                     },
                     child: KostCard(kost: kostList[index], index: index),
                   );
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
       // Navigasi bawah menggunakan BottomNav custom
@@ -200,17 +217,15 @@ class _KosViewState extends State<KosView> {
               MaterialPageRoute(builder: (context) => const HomeView()),
               (route) => false,
             );
-          } 
-          else if (index == 1) {
-            // 2. TOMBOL TENGAH (Logo/EasyLive): 
+          } else if (index == 1) {
+            // 2. TOMBOL TENGAH (Logo/EasyLive):
             // Biasanya ini balik ke Home utama atau fungsi utama aplikasi
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeView()),
               (route) => false,
             );
-          } 
-          else if (index == 2) {
+          } else if (index == 2) {
             // 3. TOMBOL HISTORY/BOOKING:
             // Karena kita sudah di KosView, tidak perlu pindah (diam saja)
             print("Sudah di halaman Booking/History");

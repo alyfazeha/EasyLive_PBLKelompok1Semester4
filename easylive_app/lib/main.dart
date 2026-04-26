@@ -10,6 +10,8 @@ import 'views/home/home_view.dart';
 import 'views/kos/kos_view.dart';
 import 'views/profile/profile_view.dart';
 import 'views/splash/splash_view.dart';
+import 'views/kos/detailKos_view.dart';
+import 'models/kos_model.dart';
 
 void main() => runApp(const MyApp());
 
@@ -41,6 +43,10 @@ class MyApp extends StatelessWidget {
 
       case '/kost':
         return _noAnimation(const KosView(), settings);
+
+      case '/detail_kos':
+        final kost = settings.arguments as KostModel;
+        return _noAnimation(DetailKosView(kost: kost), settings);
 
       case '/booking':
         return _noAnimation(const BookingView(), settings);
