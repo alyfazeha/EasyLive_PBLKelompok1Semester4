@@ -4,6 +4,7 @@ import '../../controllers/home_controller.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/home/bottom_navbar.dart';
 import '../../views/kos/kos_view.dart';
+import '../../views/jasa/jasa_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -188,8 +189,9 @@ class _HomeViewState extends State<HomeView> {
         Expanded(
           child: InkWell(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Fitur Jasa Pindah segera hadir!")),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const JasaView()),
               );
             },
             borderRadius: BorderRadius.circular(25),
