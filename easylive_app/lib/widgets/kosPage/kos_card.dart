@@ -8,21 +8,29 @@ class KostCard extends StatelessWidget {
 
   const KostCard({super.key, required this.kost, required this.index});
 
+  String _formatPrice(int price) {
+    String priceStr = price.toString();
+    String result = '';
+    int count = 0;
+    for (int i = priceStr.length - 1; i >= 0; i--) {
+      if (count > 0 && count % 3 == 0) {
+        result = '.' + result;
+      }
+      result = priceStr[i] + result;
+      count++;
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Tetap menggunakan logika penamaanmu untuk testing
-    final title = index % 2 == 1 ? 'Triple "A" Kos' : 'Daniska Kos';
-    final price = index % 2 == 1 ? '900.000' : '1.500.000';
-    final viewers = index % 2 == 1 ? '15 K' : '1,3 K';
+    final viewers = kost.price != null && kost.price! > 1000000
+        ? '1,3 K'
+        : '15 K';
 
     return InkWell(
-      // 1. Tambahkan navigasi ke route yang sudah didaftarkan di main.dart
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/detail_kos',
-          arguments: kost, // Mengirim data model ke halaman detail
-        );
+        Navigator.pushNamed(context, '/detail_kos', arguments: kost);
       },
       borderRadius: BorderRadius.circular(30),
       child: Container(
@@ -39,8 +47,7 @@ class KostCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
                 child: Hero(
-                  // 2. Gunakan Hero tag yang unik agar animasi gambar berjalan
-                  tag: 'kos_image_${kost.name}_$index', 
+                  tag: 'kos_image_${kost.name}_$index',
                   child: Image.asset(
                     kost.image,
                     height: 105,
@@ -50,7 +57,7 @@ class KostCard extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Column(
@@ -62,7 +69,7 @@ class KostCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          title,
+                          kost.name,
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w900,
@@ -72,14 +79,18 @@ class KostCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const Icon(Icons.favorite, color: Color(0xFF2D3E50), size: 20),
+                      const Icon(
+                        Icons.favorite,
+                        color: Color(0xFF2D3E50),
+                        size: 20,
+                      ),
                     ],
                   ),
-                  
-                  // Address (Nanti bisa diganti kost.address agar dinamis)
-                  const Text(
-                    'Jalan Cengger Ayam Dalam\nIII, No 24 Lowokwaru Malang',
-                    style: TextStyle(
+
+                  // Address
+                  Text(
+                    kost.address,
+                    style: const TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 8.5,
                       color: Colors.black54,
@@ -87,9 +98,9 @@ class KostCard extends StatelessWidget {
                     ),
                     maxLines: 2,
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   // Stats (Viewers | Verified)
                   Row(
                     children: [
@@ -106,12 +117,16 @@ class KostCard extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text("|", style: TextStyle(color: Colors.grey)),
                       ),
-                      const Icon(Icons.verified_user_outlined, size: 18, color: Colors.black87),
+                      const Icon(
+                        Icons.verified_user_outlined,
+                        size: 18,
+                        color: Colors.black87,
+                      ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 10),
-                  
+
                   // Price & More Button
                   Row(
                     children: [
@@ -123,7 +138,7 @@ class KostCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Text(
-                            "Rp $price,-",
+                            "Rp ${_formatPrice(kost.price ?? 0)},-",
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontFamily: 'Montserrat',
@@ -134,7 +149,11 @@ class KostCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Icon(Icons.more_horiz, color: Colors.grey, size: 24),
+                      const Icon(
+                        Icons.more_horiz,
+                        color: Colors.grey,
+                        size: 24,
+                      ),
                     ],
                   ),
                 ],
