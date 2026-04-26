@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/kos_model.dart';
 import '../../core/color.dart';
 import '../../widgets/payment/invoice_widgets.dart';
+import 'qrisPayment_view.dart';
 
 class InvoiceView extends StatefulWidget {
   final KostModel kost;
@@ -247,7 +248,13 @@ class _InvoiceViewState extends State<InvoiceView> {
             ElevatedButton(
               onPressed: _isPaymentMethodSelected
                   ? () {
-                      // Navigate to success/payment page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              QrisPaymentView(kost: widget.kost),
+                        ),
+                      );
                     }
                   : null,
               style: ElevatedButton.styleFrom(

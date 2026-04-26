@@ -14,6 +14,7 @@ import 'views/kos/detailKos_view.dart';
 import 'models/kos_model.dart';
 import 'views/payment/personalInfo_view.dart';
 import 'views/payment/invoice_view.dart';
+import 'views/payment/qrisPayment_view.dart';
 
 
 void main() => runApp(const MyApp());
@@ -58,6 +59,10 @@ class MyApp extends StatelessWidget {
       case '/invoice':
         final kost = settings.arguments as KostModel;
         return _noAnimation(InvoiceView(kost: kost), settings);
+      
+      case '/payment':
+        final kost = settings.arguments as KostModel;
+        return _noAnimation(QrisPaymentView(kost: kost), settings);
 
       case '/booking':
         return _noAnimation(const BookingView(), settings);
