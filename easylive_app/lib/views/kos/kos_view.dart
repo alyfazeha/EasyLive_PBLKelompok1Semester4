@@ -5,6 +5,7 @@ import '../../widgets/home/bottom_navbar.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/kosPage/kos_card.dart';
 import '../home/home_view.dart';
+import '../../widgets/kosPage/detail_kos_widgets.dart';
 
 class KosView extends StatefulWidget {
   const KosView({super.key});
