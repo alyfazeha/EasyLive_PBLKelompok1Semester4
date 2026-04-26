@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/color.dart';
 import '../../controllers/home_controller.dart';
+import '../../controllers/kos_controller.dart';
 import '../../widgets/home/bottom_navbar.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/kosPage/kos_card.dart';
@@ -16,8 +17,18 @@ class KosView extends StatefulWidget {
 }
 
 class _KosViewState extends State<KosView> {
-  // Controller untuk menangkap input pencarian
   final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  String _filterType = 'none'; // 'none', 'location', 'price'
+  List<KostModel> _allKostList = [];
+  List<KostModel> _filteredKostList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _allKostList = HomeController.getKostList() ?? [];
+    _filteredKostList = List.from(_allKostList);
+  }
 
   @override
   void dispose() {
@@ -25,11 +36,57 @@ class _KosViewState extends State<KosView> {
     super.dispose();
   }
 
+  void _applyFilter() {
+    setState(() {
+      _filteredKostList = _allKostList.where((kost) {
+        // Search filter
+        final matchesSearch =
+            _searchQuery.isEmpty ||
+            kost.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            kost.address.toLowerCase().contains(_searchQuery.toLowerCase());
+
+        if (!matchesSearch) return false;
+
+        // Type filter
+        if (_filterType == 'location') {
+          // Sort by location name
+          return true;
+        } else if (_filterType == 'price') {
+          // Sort by price
+          return true;
+        }
+
+        return true;
+      }).toList();
+
+      // Apply sorting based on filter type
+      if (_filterType == 'location') {
+        _filteredKostList.sort((a, b) => a.address.compareTo(b.address));
+      } else if (_filterType == 'price') {
+        _filteredKostList.sort(
+          (a, b) => (a.price ?? 0).compareTo(b.price ?? 0),
+        );
+      }
+    });
+  }
+
+  void _onSearchChanged(String value) {
+    setState(() {
+      _searchQuery = value;
+      _applyFilter();
+    });
+  }
+
+  void _setFilterType(String type) {
+    setState(() {
+      _filterType = _filterType == type ? 'none' : type;
+      _applyFilter();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Mengambil data user dan daftar kos dari controller
     final userName = HomeController.getUserName() ?? "Alyfa";
-    final List<KostModel> kostList = HomeController.getKostList() ?? [];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -47,7 +104,7 @@ class _KosViewState extends State<KosView> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(25, 60, 25, 70),
                     decoration: const BoxDecoration(
-                      color: Color(0xFF2D3E50), // Warna Primer
+                      color: Color(0xFF2D3E50),
                       borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(35),
                       ),
@@ -86,10 +143,8 @@ class _KosViewState extends State<KosView> {
                             ],
                           ),
                         ),
-                        // Tombol Chat fungsional
                         IconButton(
                           onPressed: () {
-                            // Navigasi ke halaman Chat/Pesan
                             print("Buka Chat");
                           },
                           icon: const Icon(
@@ -103,7 +158,7 @@ class _KosViewState extends State<KosView> {
                   ),
                 ),
               ),
-              // --- SEARCH BAR DENGAN FILTER ---
+              // --- SEARCH BAR ---
               Positioned(
                 left: 25,
                 right: 25,
@@ -120,25 +175,13 @@ class _KosViewState extends State<KosView> {
                   ),
                   child: TextField(
                     controller: _searchController,
-                    onSubmitted: (value) {
-                      print("Mencari kos: $value");
-                    },
+                    onChanged: _onSearchChanged,
                     decoration: InputDecoration(
-                      hintText: "Search....",
+                      hintText: "Search kos...",
                       hintStyle: const TextStyle(color: Colors.grey),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: IconButton(
-                          onPressed: () {
-                            // Fungsi Filter
-                            print("Membuka Filter");
-                          },
-                          icon: const Icon(
-                            Icons.filter_alt_rounded,
-                            color: Color(0xFF2D3E50),
-                            size: 30,
-                          ),
-                        ),
+                      prefixIcon: const Icon(
+                        Icons.search_rounded,
+                        color: Color(0xFF2D3E50),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
@@ -159,6 +202,38 @@ class _KosViewState extends State<KosView> {
 
           const SizedBox(height: 50),
 
+          // --- FILTER CHIPS ---
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text(
+                  'Filter by:',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2D3E50),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                _buildFilterChip(
+                  label: 'Location',
+                  isSelected: _filterType == 'location',
+                  onTap: () => _setFilterType('location'),
+                ),
+                const SizedBox(width: 10),
+                _buildFilterChip(
+                  label: 'Price',
+                  isSelected: _filterType == 'price',
+                  onTap: () => _setFilterType('price'),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
           // --- TITLE SECTION ---
           const Text(
             'See All Kost',
@@ -176,61 +251,99 @@ class _KosViewState extends State<KosView> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GridView.builder(
-                padding: const EdgeInsets.only(bottom: 100, top: 10),
-                itemCount: kostList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 0.63,
-                ),
-                itemBuilder: (context, index) {
-                  // Membungkus KostCard dengan InkWell untuk interaksi navigasi detail
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailKosView(kost: kostList[index]),
+              child: _filteredKostList.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No kos found',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
+                          color: Colors.grey,
                         ),
-                      );
-                    },
-                    child: KostCard(kost: kostList[index], index: index),
-                  );
-                },
-              ),
+                      ),
+                    )
+                  : GridView.builder(
+                      padding: const EdgeInsets.only(bottom: 100, top: 10),
+                      itemCount: _filteredKostList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 0.63,
+                          ),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailKosView(
+                                  kost: _filteredKostList[index],
+                                ),
+                              ),
+                            );
+                          },
+                          child: KostCard(
+                            kost: _filteredKostList[index],
+                            index: index,
+                          ),
+                        );
+                      },
+                    ),
             ),
           ),
         ],
       ),
-      // Navigasi bawah menggunakan BottomNav custom
-      // Ganti bagian bottomNavigationBar di KosView dengan ini:
       bottomNavigationBar: BottomNav(
-        currentIndex: 2, // Menandakan kita sedang di menu Kos/History
+        currentIndex: 2,
         onTap: (index) {
           if (index == 0) {
-            // 1. TOMBOL RUMAH: Balik ke Home
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeView()),
               (route) => false,
             );
           } else if (index == 1) {
-            // 2. TOMBOL TENGAH (Logo/EasyLive):
-            // Biasanya ini balik ke Home utama atau fungsi utama aplikasi
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeView()),
               (route) => false,
             );
           } else if (index == 2) {
-            // 3. TOMBOL HISTORY/BOOKING:
-            // Karena kita sudah di KosView, tidak perlu pindah (diam saja)
             print("Sudah di halaman Booking/History");
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildFilterChip({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFFFD141) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? const Color(0xFFFFD141) : Colors.grey.shade300,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? const Color(0xFF2D3E50) : Colors.grey.shade600,
+          ),
+        ),
       ),
     );
   }
