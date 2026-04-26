@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/color.dart';
 import '../../controllers/home_controller.dart';
-import '../../controllers/kos_controller.dart';
 import '../../widgets/home/bottom_navbar.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/kosPage/kos_card.dart';
@@ -19,15 +18,12 @@ class KosView extends StatefulWidget {
 class _KosViewState extends State<KosView> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  String _filterType = 'none'; // 'none', 'location', 'price'
   List<KostModel> _allKostList = [];
-  List<KostModel> _filteredKostList = [];
 
   @override
   void initState() {
     super.initState();
     _allKostList = HomeController.getKostList() ?? [];
-    _filteredKostList = List.from(_allKostList);
   }
 
   @override
@@ -36,52 +32,12 @@ class _KosViewState extends State<KosView> {
     super.dispose();
   }
 
-  void _applyFilter() {
-    setState(() {
-      _filteredKostList = _allKostList.where((kost) {
-        // Search filter
-        final matchesSearch =
-            _searchQuery.isEmpty ||
-            kost.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            kost.address.toLowerCase().contains(_searchQuery.toLowerCase());
-
-        if (!matchesSearch) return false;
-
-        // Type filter
-        if (_filterType == 'location') {
-          // Sort by location name
-          return true;
-        } else if (_filterType == 'price') {
-          // Sort by price
-          return true;
-        }
-
-        return true;
-      }).toList();
-
-      // Apply sorting based on filter type
-      if (_filterType == 'location') {
-        _filteredKostList.sort((a, b) => a.address.compareTo(b.address));
-      } else if (_filterType == 'price') {
-        _filteredKostList.sort(
-          (a, b) => (a.price ?? 0).compareTo(b.price ?? 0),
-        );
-      }
-    });
-  }
-
-  void _onSearchChanged(String value) {
-    setState(() {
-      _searchQuery = value;
-      _applyFilter();
-    });
-  }
-
-  void _setFilterType(String type) {
-    setState(() {
-      _filterType = _filterType == type ? 'none' : type;
-      _applyFilter();
-    });
+  List<KostModel> get _filteredKostList {
+    if (_searchQuery.isEmpty) return _allKostList;
+    return _allKostList.where((kost) {
+      return kost.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          kost.address.toLowerCase().contains(_searchQuery.toLowerCase());
+    }).toList();
   }
 
   @override
@@ -175,7 +131,11 @@ class _KosViewState extends State<KosView> {
                   ),
                   child: TextField(
                     controller: _searchController,
-                    onChanged: _onSearchChanged,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
                     decoration: InputDecoration(
                       hintText: "Search kos...",
                       hintStyle: const TextStyle(color: Colors.grey),
@@ -201,38 +161,6 @@ class _KosViewState extends State<KosView> {
           ),
 
           const SizedBox(height: 50),
-
-          // --- FILTER CHIPS ---
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                const Text(
-                  'Filter by:',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF2D3E50),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                _buildFilterChip(
-                  label: 'Location',
-                  isSelected: _filterType == 'location',
-                  onTap: () => _setFilterType('location'),
-                ),
-                const SizedBox(width: 10),
-                _buildFilterChip(
-                  label: 'Price',
-                  isSelected: _filterType == 'price',
-                  onTap: () => _setFilterType('price'),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 15),
 
           // --- TITLE SECTION ---
           const Text(
@@ -314,36 +242,6 @@ class _KosViewState extends State<KosView> {
             print("Sudah di halaman Booking/History");
           }
         },
-      ),
-    );
-  }
-
-  Widget _buildFilterChip({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFFFD141) : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? const Color(0xFFFFD141) : Colors.grey.shade300,
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: isSelected ? const Color(0xFF2D3E50) : Colors.grey.shade600,
-          ),
-        ),
       ),
     );
   }
