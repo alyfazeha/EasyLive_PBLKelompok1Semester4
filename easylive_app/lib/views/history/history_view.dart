@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../controllers/history_controller.dart';
 import '../../core/color.dart';
-<<<<<<< HEAD
-import '../../widgets/home/botton_navbar.dart';
-=======
 import '../../widgets/home/bottom_navbar.dart';
->>>>>>> ailsa
 import '../../widgets/history/history_card.dart';
 import '../../widgets/history/history_empty_state.dart';
 import '../../widgets/history/history_filter_chip.dart';
@@ -38,11 +34,7 @@ class _HistoryViewState extends State<HistoryView> {
                     children: [
                       const Icon(
                         Icons.crop_free_rounded,
-<<<<<<< HEAD
-                        color: AppColors.title1,
-=======
                         color: AppColors.yellow,
->>>>>>> ailsa
                         size: 28,
                       ),
                       const SizedBox(width: 10),
@@ -50,11 +42,7 @@ class _HistoryViewState extends State<HistoryView> {
                         child: Text(
                           'History',
                           style: TextStyle(
-<<<<<<< HEAD
-                            color: AppColors.titleName,
-=======
                             color: AppColors.yellow,
->>>>>>> ailsa
                             fontWeight: FontWeight.w800,
                             fontSize: 20,
                           ),
@@ -62,11 +50,7 @@ class _HistoryViewState extends State<HistoryView> {
                       ),
                       Icon(
                         Icons.search_rounded,
-<<<<<<< HEAD
-                        color: AppColors.title1,
-=======
                         color: AppColors.yellow,
->>>>>>> ailsa
                         size: 30,
                       ),
                     ],
@@ -74,12 +58,18 @@ class _HistoryViewState extends State<HistoryView> {
                   const SizedBox(height: 18),
                   Row(
                     children: [
-                      ...HistoryController.historyTypes.asMap().entries.map((entry) {
+                      ...HistoryController.historyTypes.asMap().entries.map((
+                        entry,
+                      ) {
                         final index = entry.key;
                         final type = entry.value;
                         return Padding(
                           padding: EdgeInsets.only(
-                            right: index == HistoryController.historyTypes.length - 1 ? 0 : 12,
+                            right:
+                                index ==
+                                    HistoryController.historyTypes.length - 1
+                                ? 0
+                                : 12,
                           ),
                           child: HistoryFilterChip(
                             label: type,
@@ -115,11 +105,7 @@ class _HistoryViewState extends State<HistoryView> {
           ],
         ),
       ),
-<<<<<<< HEAD
-      bottomNavigationBar: const BottomNav(currentIndex: 2),
-=======
       bottomNavigationBar: const BottomNav(currentIndex: 0),
->>>>>>> ailsa
     );
   }
 }

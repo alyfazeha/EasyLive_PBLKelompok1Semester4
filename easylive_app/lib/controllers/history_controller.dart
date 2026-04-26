@@ -6,11 +6,7 @@ class HistoryController {
 
   static final List<HistoryItem> _items = [
     HistoryItem(
-<<<<<<< HEAD
       id: 'history-1',
-=======
-      id: 'history 1',
->>>>>>> ailsa
       type: 'Kost',
       title: 'Kost Melati',
       location: 'Cengger Ayam',
@@ -20,7 +16,6 @@ class HistoryController {
       dateTime: DateTime(2026, 4, 21, 9, 0),
       status: 'Success',
     ),
-<<<<<<< HEAD
     HistoryItem(
       id: 'history-2',
       type: 'Jasa',
@@ -32,8 +27,6 @@ class HistoryController {
       dateTime: DateTime(2026, 4, 18, 14, 30),
       status: 'Success',
     ),
-=======
->>>>>>> ailsa
   ];
 
   static List<HistoryItem> getHistoriesByType(String type) {

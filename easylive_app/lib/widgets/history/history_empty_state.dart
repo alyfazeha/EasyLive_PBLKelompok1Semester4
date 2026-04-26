@@ -8,17 +8,6 @@ class HistoryEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-<<<<<<< HEAD
-      padding: EdgeInsets.fromLTRB(28, 24, 28, 40),
-      child: Column(
-        children: [
-          Spacer(flex: 3),
-          Text(
-            'You have no active set booking',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppColors.title1,
-=======
       padding: EdgeInsets.fromLTRB(28, 32, 28, 40),
       child: Column(
         children: [
@@ -30,14 +19,10 @@ class HistoryEmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColors.yellow,
->>>>>>> ailsa
               fontWeight: FontWeight.w800,
               fontSize: 16,
             ),
           ),
-<<<<<<< HEAD
-          Spacer(flex: 2),
-=======
           Spacer(),
         ],
       ),
@@ -97,7 +82,7 @@ class _EmptyPaperIllustration extends StatelessWidget {
             width: 132,
             height: 170,
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(4),
               boxShadow: const [
                 BoxShadow(
@@ -120,7 +105,6 @@ class _EmptyPaperIllustration extends StatelessWidget {
               ),
             ),
           ),
->>>>>>> ailsa
         ],
       ),
     );

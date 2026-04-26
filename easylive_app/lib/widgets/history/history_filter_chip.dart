@@ -24,11 +24,7 @@ class HistoryFilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFF9EFE3) : Colors.white,
           borderRadius: BorderRadius.circular(18),
-<<<<<<< HEAD
-          border: Border.all(color: AppColors.title1, width: 1),
-=======
           border: Border.all(color: AppColors.yellow, width: 1),
->>>>>>> ailsa
           boxShadow: isSelected
               ? const [
                   BoxShadow(
@@ -42,11 +38,7 @@ class HistoryFilterChip extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-<<<<<<< HEAD
-            color: AppColors.title1,
-=======
             color: AppColors.yellow,
->>>>>>> ailsa
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           ),

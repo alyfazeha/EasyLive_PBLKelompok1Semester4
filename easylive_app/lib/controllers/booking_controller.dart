@@ -1,16 +1,10 @@
 import '../models/booking_model.dart';
 
 class BookingController {
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-  List<Booking> allBookings = [
-    Booking(title: "Kost Melati", location: "Cengger Ayam", price: "Rp 650.000", status: "Active"),
-=======
->>>>>>> ailsa
+
   static const List<String> bookingStatuses = ['Active', 'Completed', 'Canceled'];
 
-  final List<Booking> allBookings = [
+  static final List<Booking> allBookings = [
     Booking(
       title: 'Kost Melati',
       location: 'Cengger Ayam',
@@ -18,7 +12,6 @@ class BookingController {
       type: 'Kost',
       status: 'Active',
     ),
-<<<<<<< HEAD
     Booking(
       title: 'Laundry Express',
       location: 'Lowokwaru',
@@ -26,17 +19,13 @@ class BookingController {
       type: 'Jasa',
       status: 'Completed',
     ),
-=======
-
->>>>>>> Stashed changes
->>>>>>> ailsa
   ];
 
-  List<Booking> getFilteredBookings(String status) {
+  static List<Booking> getFilteredBookings(String status) {
     return allBookings.where((booking) => booking.status == status).toList();
   }
 
-  String getEmptyMessage(String status) {
+  static String getEmptyMessage(String status) {
     switch (status) {
       case 'Completed':
         return 'You have no completed booking';

@@ -20,33 +20,15 @@ class BookingFilterChip extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Container(
-<<<<<<< HEAD
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.title1, width: 1.2),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x11000000),
-              blurRadius: 3,
-=======
-        padding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 5,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: AppColors.primary,
-            width: 1,
-          ),
+          border: Border.all(color: AppColors.primary, width: 1),
           boxShadow: const [
             BoxShadow(
               color: Color(0x11000000),
               blurRadius: 4,
->>>>>>> ailsa
               offset: Offset(0, 2),
             ),
           ],
@@ -54,24 +36,13 @@ class BookingFilterChip extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-<<<<<<< HEAD
-            color: AppColors.title1,
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-=======
             fontFamily: 'Montserrat',
             color: AppColors.primary,
             fontSize: 12,
-            fontWeight:
-                isSelected ? FontWeight.w700 : FontWeight.w600,
->>>>>>> ailsa
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
           ),
         ),
       ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ailsa

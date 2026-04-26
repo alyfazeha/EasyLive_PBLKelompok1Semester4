@@ -29,19 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/images/logo-easylive.png',
-              width: 450,
-              fit: BoxFit.contain,
-            ),
-          ],
-=======
       backgroundColor: AppColors.primary,
       body: SizedBox(
         width: double.infinity,
@@ -71,7 +58,6 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ],
           ),
->>>>>>> Stashed changes
         ),
       ),
     );

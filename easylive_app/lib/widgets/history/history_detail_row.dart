@@ -6,11 +6,7 @@ class HistoryDetailRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const HistoryDetailRow({
-    super.key,
-    required this.label,
-    required this.value,
-  });
+  const HistoryDetailRow({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +18,7 @@ class HistoryDetailRow extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
-<<<<<<< HEAD
-              color: AppColors.titleName,
-=======
               color: AppColors.yellow,
->>>>>>> ailsa
               fontSize: 14,
               fontWeight: FontWeight.w700,
             ),
@@ -38,20 +30,13 @@ class HistoryDetailRow extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-<<<<<<< HEAD
-                  color: AppColors.title1.withValues(alpha: 0.35),
-=======
                   color: AppColors.yellow.withValues(alpha: 0.35),
->>>>>>> ailsa
                 ),
               ),
             ),
             child: Text(
               value,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Color(0xFF6E625C),
-              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF6E625C)),
             ),
           ),
         ],

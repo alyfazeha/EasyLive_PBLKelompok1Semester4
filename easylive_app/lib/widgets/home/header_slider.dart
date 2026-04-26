@@ -14,24 +14,11 @@ class _HeaderSliderState extends State<HeaderSlider> {
   int _currentPage = 0;
   Timer? _timer;
 
-<<<<<<< Updated upstream
-  final List<String> images = [
-<<<<<<< HEAD
-    "assets/images/kos1.jpg",
-    "assets/images/kos2.jpg",
-    "assets/images/kos3.jpg",
-=======
-    "images/kos1.jpg",
-    "images/kos2.jpg",
-    "images/kos3.jpg",
-=======
   // Data dummy sederhana (bisa diganti dari model nanti)
   final List<Map<String, String>> sliderData = [
     {"image": "assets/images/kos1.jpg", "title": "Kost Putri Melati"},
     {"image": "assets/images/kos2.jpg", "title": "Kost Eksklusif Malang"},
     {"image": "assets/images/kos3.jpg", "title": "Kost Putra Dekat Polinema"},
->>>>>>> Stashed changes
->>>>>>> ailsa
   ];
 
   @override
