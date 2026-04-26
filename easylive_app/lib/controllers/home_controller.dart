@@ -1,7 +1,6 @@
 import '../models/kos_model.dart';
 
 class HomeController {
-
   static List<KostModel> getKostList() {
     return [
       KostModel(
