@@ -13,119 +13,214 @@ class BookingView extends StatefulWidget {
   State<BookingView> createState() => _BookingViewState();
 }
 
-class _BookingViewState extends State<BookingView>
-    with TickerProviderStateMixin {
-  late final TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController =
-        TabController(
-          length: BookingController.bookingStatuses.length,
-          vsync: this,
-        )..addListener(() {
-          if (_tabController.indexIsChanging) {
-            setState(() {});
-          }
-        });
-  }
-
-  String get _currentStatus =>
-      BookingController.bookingStatuses[_tabController.index];
-
-  Widget _buildTabContent() {
-    final bookings = BookingController.getFilteredBookings(_currentStatus);
-    final emptyMessage = BookingController.getEmptyMessage(_currentStatus);
-
-    if (bookings.isEmpty) {
-      return BookingEmptyState(message: emptyMessage, compactTopSpacing: true);
-    }
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: bookings
-            .map((booking) => BookingCard(booking: booking))
-            .toList(),
-      ),
-    );
-  }
+class _BookingViewState extends State<BookingView> {
+  String selectedType = 'Kost';
+  String selectedStatus = 'Active Now'; // Default tab
 
   @override
   Widget build(BuildContext context) {
+    // Memanggil controller dengan dua filter
+    final filteredBookings = BookingController.getFilteredBookings(
+      selectedType,
+      selectedStatus,
+    );
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF2D3E50), // Biru Tua Header
       body: SafeArea(
         child: Column(
           children: [
+            // Header Area (Sesuai Mockup)
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(18),
-                ),
-              ),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.crop_free_rounded,
-                    color: AppColors.yellow,
-                    size: 22,
+                  GestureDetector(
+                    onTap: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      } else {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/home',
+                          (route) => false,
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFD141), // Kuning
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Color(0xFF2D3E50),
+                        size: 20,
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 15),
                   const Expanded(
                     child: Text(
-                      'Booking',
+                      'My Bookings',
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: AppColors.yellow,
-                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFFD141),
+                        fontWeight: FontWeight.w900,
                         fontSize: 22,
+                        fontFamily: 'Montserrat',
                       ),
                     ),
                   ),
                   const Icon(
                     Icons.search_rounded,
-                    color: AppColors.yellow,
-                    size: 26,
+                    color: Color(0xFFFFD141),
+                    size: 28,
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-              child: Row(
-                children: [
-                  BookingFilterChip(
-                    label: 'Kost',
-                    isSelected: true,
-                    onTap: () {},
-                  ),
-                  const SizedBox(width: 10),
-                  BookingFilterChip(
-                    label: 'Jasa',
-                    isSelected: false,
-                    onTap: () {},
-                  ),
-                ],
+
+            // Main Content Area
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+                ),
+                child: Column(
+                  children: [
+                    // Tabs Status (Active Now, Completed, Canceled)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildStatusTab('Active Now'),
+                          _buildStatusTab('Completed'),
+                          _buildStatusTab('Canceled'),
+                        ],
+                      ),
+                    ),
+                    const Divider(indent: 20, endIndent: 20, thickness: 1),
+
+                    // Filter Kost / Jasa
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          _buildTypeChip('Kost'),
+                          const SizedBox(width: 10),
+                          _buildTypeChip('Jasa'),
+                        ],
+                      ),
+                    ),
+
+                    // List Booking
+                    Expanded(
+                      child: filteredBookings.isEmpty
+                          ? BookingEmptyState(
+                              message: BookingController.getEmptyMessage(
+                                selectedStatus,
+                              ),
+                            )
+                          : ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              itemCount: filteredBookings.length,
+                              itemBuilder: (context, index) {
+                                return BookingCard(
+                                  booking: filteredBookings[index],
+                                );
+                              },
+                            ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Expanded(child: _buildTabContent()),
-            const BottomNav(currentIndex: 2),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 2),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child: BottomNav(
+          currentIndex: 2,
+          onTap: (index) {
+            if (index == 2) return;
+
+            if (index == 1) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/home',
+                (route) => false,
+              );
+            } else if (index == 0) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/history',
+                (route) => false,
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  Widget _buildStatusTab(String label) {
+    bool isSelected = selectedStatus == label;
+    return GestureDetector(
+      onTap: () => setState(() => selectedStatus = label),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: isSelected
+                ? BoxDecoration(
+                    color: const Color(0xFFE0E0E0),
+                    borderRadius: BorderRadius.circular(10),
+                  )
+                : null,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: isSelected ? FontWeight.w900 : FontWeight.w500,
+                color: isSelected ? const Color(0xFF2D3E50) : Colors.grey,
+                fontFamily: 'Montserrat',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTypeChip(String label) {
+    bool isSelected = selectedType == label;
+    return GestureDetector(
+      onTap: () => setState(() => selectedType = label),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFF2D3E50)),
+          color: isSelected ? const Color(0xFF2D3E50) : Colors.white,
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : const Color(0xFF2D3E50),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -5,6 +5,7 @@ import '../../models/kos_model.dart';
 import '../../widgets/home/bottom_navbar.dart';
 import '../../views/kos/kos_view.dart';
 import '../../views/jasa/jasa_view.dart';
+import '../../core/color.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,21 +19,19 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    // Pastikan HomeController mengembalikan list yang benar
     final String userName = HomeController.getUserName() ?? "User";
     final List<KostModel> kostList = HomeController.getKostList() ?? [];
 
-    int displayCount = _showAll 
-        ? kostList.length 
+    int displayCount = _showAll
+        ? kostList.length
         : (kostList.length > 4 ? 4 : kostList.length);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      extendBody: true, 
+      backgroundColor: AppColors.background,
+      extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // --- SECTION 1: HEADER & SLIDER ---
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -40,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
                   width: double.infinity,
                   height: 240,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF2D3E50),
+                    color: AppColors.darkBlue,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(35),
                       bottomRight: Radius.circular(35),
@@ -61,21 +60,13 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ],
             ),
-
             const SizedBox(height: 190),
-
-            // --- SECTION 2: CATEGORY ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: _buildCategorySection(),
             ),
-
             const SizedBox(height: 30),
-
-            // --- SECTION 3: BANNER ---
             const _BookingBanner(),
-
-            // --- SECTION 4: KOST GRID ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
@@ -88,61 +79,63 @@ class _HomeViewState extends State<HomeView> {
                       fontFamily: 'Montserrat',
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF2D3E50),
+                      color: AppColors.darkBlue,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  
-                  // Proteksi jika list kosong
-                  kostList.isEmpty 
-                  ? const Center(child: Text("No Data Available"))
-                  : GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: displayCount, 
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 20,
-                      childAspectRatio: 0.65, 
-                    ),
-                    itemBuilder: (context, index) => _KostGridCard(kost: kostList[index]),
-                  ),
-                  
+                  kostList.isEmpty
+                      ? const Center(child: Text("No Data Available"))
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: displayCount,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 15,
+                                mainAxisSpacing: 20,
+                                childAspectRatio: 0.65,
+                              ),
+                          itemBuilder: (context, index) =>
+                              _KostGridCard(kost: kostList[index]),
+                        ),
                   const SizedBox(height: 30),
-
                   if (kostList.length > 4)
                     InkWell(
                       onTap: () => setState(() => _showAll = !_showAll),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                         child: Text(
                           _showAll ? "Show Less" : "See More",
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w800,
                             fontSize: 17,
-                            color: Color(0xFF2D3E50),
+                            color: AppColors.darkBlue,
                             decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
                     ),
-                  
-                  const SizedBox(height: 120), 
+                  const SizedBox(height: 120),
                 ],
               ),
             ),
           ],
         ),
       ),
-      // PERBAIKAN: Hapus 'const' dan tambahkan fungsi onTap
       bottomNavigationBar: BottomNav(
-        currentIndex: 0,
+        currentIndex: 1,
         onTap: (index) {
-          if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const KosView()));
+          if (index == 1) return;
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/history');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/booking');
           }
         },
       ),
@@ -152,24 +145,51 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildHeader(String name) {
     return Row(
       children: [
-        const CircleAvatar(
-          radius: 26,
-          backgroundImage: AssetImage('assets/images/alyfa.jpeg'),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/profile');
+          },
+          child: const CircleAvatar(
+            radius: 26,
+            backgroundImage: AssetImage('assets/images/alyfa.jpeg'),
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hi $name,', style: const TextStyle(fontFamily: 'Montserrat', fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white)),
-              const Text('Welcome to EasyLive !', style: TextStyle(fontFamily: 'Montserrat', fontSize: 14, color: Colors.white70)),
+              Text(
+                'Hi $name,',
+                style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.background,
+                ),
+              ),
+              const Text(
+                'Welcome to EasyLive !',
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 14,
+                  color: Colors.white70,
+                ),
+              ),
             ],
           ),
         ),
         Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: const Color(0xFFFFD141), borderRadius: BorderRadius.circular(15)),
-          child: const Icon(Icons.notifications, color: Color(0xFF2D3E50), size: 28),
+          decoration: BoxDecoration(
+            color: AppColors.golden,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: const Icon(
+            Icons.notifications,
+            color: AppColors.darkBlue,
+            size: 28,
+          ),
         ),
       ],
     );
@@ -180,7 +200,10 @@ class _HomeViewState extends State<HomeView> {
       children: [
         Expanded(
           child: InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const KosView())),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const KosView()),
+            ),
             borderRadius: BorderRadius.circular(25),
             child: const _CategoryBtn(icon: Icons.home_rounded, label: 'Kost'),
           ),
@@ -195,15 +218,16 @@ class _HomeViewState extends State<HomeView> {
               );
             },
             borderRadius: BorderRadius.circular(25),
-            child: const _CategoryBtn(icon: Icons.local_shipping_rounded, label: 'Jasa Pindah'),
+            child: const _CategoryBtn(
+              icon: Icons.local_shipping_rounded,
+              label: 'Jasa Pindah',
+            ),
           ),
         ),
       ],
     );
   }
 }
-
-// --- CLASS PENDUKUNG TETAP SAMA NAMUN PASTIKAN TIPE DATA SESUAI ---
 
 class _BookingBanner extends StatelessWidget {
   const _BookingBanner();
@@ -212,16 +236,36 @@ class _BookingBanner extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 135,
-      color: const Color(0xFF2D3E50),
+      color: AppColors.darkBlue,
       child: const Stack(
         children: [
           Positioned(
-            top: 25, left: 30,
-            child: Text('BOOKING', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w900, fontSize: 38, color: Colors.white, height: 0.9)),
+            top: 25,
+            left: 30,
+            child: Text(
+              'BOOKING',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w900,
+                fontSize: 38,
+                color: AppColors.background,
+                height: 0.9,
+              ),
+            ),
           ),
           Positioned(
-            bottom: 20, right: 30,
-            child: Text('NOW!', style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w900, fontSize: 62, color: Color(0xFFFFD141), height: 0.9)),
+            bottom: 20,
+            right: 30,
+            child: Text(
+              'NOW!',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w900,
+                fontSize: 62,
+                color: AppColors.golden,
+                height: 0.9,
+              ),
+            ),
           ),
         ],
       ),
@@ -242,81 +286,78 @@ class _KostGridCardState extends State<_KostGridCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Format price dengan titik sebagai pemisah ribuan
-    String formattedPrice = widget.kost.price != null 
-        ? 'Rp ${_formatPrice(widget.kost.price!)}' 
+    String formattedPrice = widget.kost.price != null
+        ? 'Rp ${_formatPrice(widget.kost.price!)}'
         : 'Rp 0';
-    
-    // Dummy viewers untuk tampilan (bisa diganti dengan data dari model)
-    final viewers = widget.kost.price != null && widget.kost.price! > 1000000 ? '1,3 K' : '15 K';
+    final viewers = widget.kost.price != null && widget.kost.price! > 1000000
+        ? '1,3 K'
+        : '15 K';
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2), 
-        borderRadius: BorderRadius.circular(30)
+        color: AppColors.lightGrey,
+        borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image Section
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image.asset(
                 widget.kost.image,
-                height: 100, width: double.infinity, fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(height: 100, color: Colors.grey[300], child: const Icon(Icons.broken_image)),
+                height: 100,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: 100,
+                  color: AppColors.lightGreyAlt,
+                  child: const Icon(Icons.broken_image),
+                ),
               ),
             ),
           ),
-          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title & Favorite
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Text(
-                        widget.kost.name, 
+                        widget.kost.name,
                         style: const TextStyle(
                           fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900, 
+                          fontWeight: FontWeight.w900,
                           fontSize: 13,
-                          color: Color(0xFF2D3E50),
-                        ), 
+                          color: AppColors.darkBlue,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     GestureDetector(
                       onTap: () => setState(() => isFavorite = !isFavorite),
                       child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border, 
-                        color: isFavorite ? Colors.red : Colors.black, 
-                        size: 20
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? AppColors.red : AppColors.black,
+                        size: 20,
                       ),
                     ),
                   ],
                 ),
-                
-                // Address
                 Text(
-                  widget.kost.address, 
+                  widget.kost.address,
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: 'Montserrat',
-                    fontSize: 8, 
-                    color: Colors.black54
+                    fontSize: 8,
+                    color: Colors.black54,
                   ),
                 ),
-                
                 const SizedBox(height: 8),
-                
-                // Stats (Viewers | Verified)
                 Row(
                   children: [
                     Text(
@@ -325,27 +366,28 @@ class _KostGridCardState extends State<_KostGridCard> {
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w800,
                         fontSize: 11,
-                        color: Color(0xFF2D3E50),
+                        color: AppColors.darkBlue,
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text("|", style: TextStyle(color: Colors.grey)),
                     ),
-                    const Icon(Icons.verified_user_outlined, size: 18, color: Colors.black87),
+                    const Icon(
+                      Icons.verified_user_outlined,
+                      size: 18,
+                      color: Colors.black87,
+                    ),
                   ],
                 ),
-                
                 const SizedBox(height: 10),
-                
-                // Price & More Button
                 Row(
                   children: [
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFD141),
+                          color: AppColors.golden,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Text(
@@ -370,15 +412,14 @@ class _KostGridCardState extends State<_KostGridCard> {
       ),
     );
   }
-  
-  // Fungsi untuk format price dengan titik
+
   String _formatPrice(int price) {
     String priceStr = price.toString();
     String result = '';
     int count = 0;
     for (int i = priceStr.length - 1; i >= 0; i--) {
       if (count > 0 && count % 3 == 0) {
-        result = '.' + result;
+        result = '.$result';
       }
       result = priceStr[i] + result;
       count++;
@@ -397,15 +438,18 @@ class _CategoryBtn extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFD141),
+        color: AppColors.golden,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: const Color(0xFF2D3E50)),
+          Icon(icon, color: AppColors.darkBlue),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+          ),
         ],
       ),
     );

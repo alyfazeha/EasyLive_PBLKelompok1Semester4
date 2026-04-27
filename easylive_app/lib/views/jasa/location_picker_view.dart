@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../models/kos_model.dart';
 
 class LocationPickerView extends StatelessWidget {
-  const LocationPickerView({super.key});
+  final KostModel kost;
+  const LocationPickerView({super.key, required this.kost});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,8 @@ class LocationPickerView extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (c, e, s) => Container(color: Colors.grey[200]),
+                    errorBuilder: (c, e, s) =>
+                        Container(color: Colors.grey[200]),
                   ),
                 ),
 
@@ -34,11 +37,25 @@ class LocationPickerView extends StatelessWidget {
                 Positioned(
                   top: 25,
                   left: 20,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Color(0xFF2D3E50)),
-                      onPressed: () => Navigator.pop(context),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Color(0xFF2D3E50),
+                      ),
                     ),
                   ),
                 ),
@@ -78,13 +95,24 @@ class LocationPickerView extends StatelessWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
-                // Tampilkan snackbar sebagai tanda berhasil
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Location Selected!')),
+                Navigator.pushNamed(
+                  context,
+                  '/personal_info',
+                  arguments: {
+                    'kost': kost,
+                    'isJasa': true,
+                    'fromLocation': 'Jl. Soekarno Hatta No. 100, Malang',
+                    'toLocation': 'Jl. Soekarno Hatta No. 100, Malang',
+                  },
                 );
               },
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFBC02D)),
-              child: const Text('Select Location', style: TextStyle(color: Color(0xFF2D3E50))),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFBC02D),
+              ),
+              child: const Text(
+                'Select Location',
+                style: TextStyle(color: Color(0xFF2D3E50)),
+              ),
             ),
           ),
         ],

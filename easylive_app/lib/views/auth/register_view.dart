@@ -15,6 +15,9 @@ class _RegisterViewState extends State<RegisterView> {
   final usernameController = TextEditingController();
   final passController = TextEditingController();
   bool saveAccount = true;
+  String selectedRole = 'User';
+
+  final List<String> roles = ['User', 'Pemilik Kos', 'Pemilik Jasa', 'Admin'];
 
   @override
   void dispose() {
@@ -32,7 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
       confirmPassword: passController.text,
       name: usernameController.text,
       phone: '-',
-      role: 'User',
+      role: selectedRole,
     );
 
     if (success) {
@@ -82,7 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                   // Gambar Ilustrasi
                   Center(
                     child: Image.asset(
-                      'assets/images/login.jpeg',
+                      'assets/images/register.png',
                       height: 180,
                       fit: BoxFit.contain,
                     ),
@@ -106,6 +109,44 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   const SizedBox(height: 25),
+                  // Role Dropdown
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary,
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedRole,
+                        isExpanded: true,
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: AppColors.primary,
+                        ),
+                        dropdownColor: Colors.white,
+                        style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 14,
+                          color: AppColors.primary,
+                        ),
+                        items: roles.map((String role) {
+                          return DropdownMenuItem<String>(
+                            value: role,
+                            child: Text(role),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              selectedRole = newValue;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   // Menggunakan AuthInputField yang sudah dipisah
                   AuthInputField(
                     controller: emailController,
@@ -118,7 +159,6 @@ class _RegisterViewState extends State<RegisterView> {
                     controller: usernameController,
                     hintText: 'alyfazahra',
                     icon: Icons.person_outline_rounded,
-                    isOutlined: true, // Field ini punya border
                   ),
                   const SizedBox(height: 12),
                   AuthInputField(

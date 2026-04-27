@@ -4,8 +4,11 @@ import '../../models/kos_model.dart'; // Jangan lupa import modelnya
 
 class QrisPaymentView extends StatelessWidget {
   final KostModel kost; // Menambahkan variabel kost
-  
-  const QrisPaymentView({super.key, required this.kost}); // Constructor menerima kost
+
+  const QrisPaymentView({
+    super.key,
+    required this.kost,
+  }); // Constructor menerima kost
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +72,22 @@ class QrisPaymentView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundColor: AppColors.yellow,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.primary),
-              onPressed: () => Navigator.pop(context),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.yellow,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.arrow_back, color: AppColors.primary),
             ),
           ),
           const SizedBox(width: 15),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'location_picker_view.dart';
+import '../../models/kos_model.dart';
+import '../../widgets/home/bottom_navbar.dart';
 
 class JasaView extends StatefulWidget {
   const JasaView({super.key});
@@ -11,7 +13,8 @@ class JasaView extends StatefulWidget {
 class _JasaViewState extends State<JasaView> {
   String? selectedFromLocation;
   String? selectedToLocation;
-  DateTime selectedDate = DateTime(2026, 4, 26);
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
   String selectedVehicle = 'Mobil Pick Up';
 
   final List<String> availableLocations = [
@@ -50,7 +53,10 @@ class _JasaViewState extends State<JasaView> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 isFrom ? 'Pilih Lokasi Jemput' : 'Pilih Lokasi Tujuan',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
             Expanded(
@@ -83,6 +89,19 @@ class _JasaViewState extends State<JasaView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      extendBody: true,
+      bottomNavigationBar: BottomNav(
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 1) return;
+
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/history');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/booking');
+          }
+        },
+      ),
       body: Stack(
         children: [
           Container(
@@ -105,9 +124,13 @@ class _JasaViewState extends State<JasaView> {
                     fromLocation: selectedFromLocation,
                     toLocation: selectedToLocation,
                     selectedDate: selectedDate,
+                    selectedTime: selectedTime,
                     onFromTap: () => _showLocationPicker(true),
                     onToTap: () => _showLocationPicker(false),
-                    onDateChanged: (date) => setState(() => selectedDate = date),
+                    onDateChanged: (date) =>
+                        setState(() => selectedDate = date),
+                    onTimeChanged: (time) =>
+                        setState(() => selectedTime = time),
                   ),
                 ),
                 Expanded(
@@ -124,10 +147,19 @@ class _JasaViewState extends State<JasaView> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        _buildVehicleCard('Mobil Pick Up', 'max 100kg', Icons.local_shipping),
-                        _buildVehicleCard('Truck', 'max 500kg', Icons.delivery_dining),
+                        _buildVehicleCard(
+                          'Mobil Pick Up',
+                          'max 100kg',
+                          Icons.local_shipping,
+                        ),
+                        _buildVehicleCard(
+                          'Truck',
+                          'max 500kg',
+                          Icons.delivery_dining,
+                        ),
                         const SizedBox(height: 20),
                         _buildNextButton(),
+                        const SizedBox(height: 100),
                       ],
                     ),
                   ),
@@ -141,17 +173,22 @@ class _JasaViewState extends State<JasaView> {
   }
 
   Widget _buildHeader() {
-    return const Padding(
-      padding: EdgeInsets.all(25),
+    return Padding(
+      padding: const EdgeInsets.all(25),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundColor: Color(0xFFE0BBE4),
-            radius: 25,
-            child: Icon(Icons.person, color: Colors.white),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+            child: const CircleAvatar(
+              backgroundColor: Color(0xFFE0BBE4),
+              radius: 25,
+              child: Icon(Icons.person, color: Colors.white),
+            ),
           ),
-          SizedBox(width: 15),
-          Column(
+          const SizedBox(width: 15),
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -162,7 +199,10 @@ class _JasaViewState extends State<JasaView> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('Welcome to EasyLive!', style: TextStyle(color: Colors.white70)),
+              Text(
+                'Welcome to EasyLive!',
+                style: TextStyle(color: Colors.white70),
+              ),
             ],
           ),
         ],
@@ -191,7 +231,13 @@ class _JasaViewState extends State<JasaView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
                 Text(cap, style: const TextStyle(color: Colors.grey)),
               ],
             ),
@@ -214,19 +260,33 @@ class _JasaViewState extends State<JasaView> {
         height: 55,
         child: ElevatedButton(
           onPressed: () {
+            final price = selectedVehicle == 'Truck' ? 300000 : 150000;
+            final kost = KostModel(
+              name: selectedVehicle,
+              address: 'Jasa Pindahan',
+              image: '',
+              price: price,
+            );
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const LocationPickerView()),
+              MaterialPageRoute(
+                builder: (context) => LocationPickerView(kost: kost),
+              ),
             );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFFBC02D),
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
           ),
           child: const Text(
             'Next',
-            style: TextStyle(color: Color(0xFF2D3E50), fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Color(0xFF2D3E50),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -238,18 +298,22 @@ class RouteCard extends StatelessWidget {
   final String? fromLocation;
   final String? toLocation;
   final DateTime selectedDate;
+  final TimeOfDay selectedTime;
   final VoidCallback onFromTap;
   final VoidCallback onToTap;
   final ValueChanged<DateTime> onDateChanged;
+  final ValueChanged<TimeOfDay> onTimeChanged;
 
   const RouteCard({
     super.key,
     required this.fromLocation,
     required this.toLocation,
     required this.selectedDate,
+    required this.selectedTime,
     required this.onFromTap,
     required this.onToTap,
     required this.onDateChanged,
+    required this.onTimeChanged,
   });
 
   @override
@@ -276,29 +340,115 @@ class RouteCard extends StatelessWidget {
           const SizedBox(height: 15),
           Row(
             children: [
-              const Icon(Icons.calendar_today_outlined, color: Colors.grey),
-              const SizedBox(width: 12),
               Expanded(
-                child: TextButton(
-                  onPressed: () async {
+                child: GestureDetector(
+                  onTap: () async {
                     final picked = await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(DateTime.now().year + 2),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
                     );
                     if (picked != null) {
                       onDateChanged(picked);
                     }
                   },
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF2D3E50),
-                      ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F7FA),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          color: Color(0xFF2D3E50),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Tanggal',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF2D3E50),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    final picked = await showTimePicker(
+                      context: context,
+                      initialTime: selectedTime,
+                    );
+                    if (picked != null) {
+                      onTimeChanged(picked);
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F7FA),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time_outlined,
+                          color: Color(0xFF2D3E50),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Jam',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                selectedTime.format(context),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF2D3E50),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -327,7 +477,9 @@ class RouteCard extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              location == null ? Icons.add_location_outlined : Icons.location_on_outlined,
+              location == null
+                  ? Icons.add_location_outlined
+                  : Icons.location_on_outlined,
               color: const Color(0xFF2D3E50),
             ),
             const SizedBox(width: 12),

@@ -16,30 +16,24 @@ class BookingFilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(18),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.primary, width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x11000000),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
+          color: isSelected ? const Color(0xFFE0E0E0) : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          border: isSelected
+              ? Border.all(color: const Color(0xFFBDBDBD), width: 1)
+              : null,
         ),
         child: Text(
           label,
           style: TextStyle(
+            color: isSelected ? const Color(0xFF1976D2) : Colors.white,
+            fontWeight: FontWeight.bold,
             fontFamily: 'Montserrat',
-            color: AppColors.primary,
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+            fontSize: 13,
           ),
         ),
       ),

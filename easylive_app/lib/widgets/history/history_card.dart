@@ -33,7 +33,7 @@ class HistoryCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.yellow,
+                      color: AppColors.primary,
                     ),
                   ),
                   const SizedBox(height: 4),

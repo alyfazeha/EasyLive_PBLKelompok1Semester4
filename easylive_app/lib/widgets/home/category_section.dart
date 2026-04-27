@@ -72,7 +72,7 @@ class CategorySection extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF5E0006),
-                          fontSize: 16,
+                          fontSize: 25,
                         ),
                       ),
                     ),

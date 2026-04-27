@@ -14,21 +14,40 @@ class CustomHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundColor: AppColors.yellow,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.primary),
-              onPressed: () => Navigator.pop(context),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.yellow,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.arrow_back, color: AppColors.primary),
             ),
           ),
           const SizedBox(width: 15),
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Personal Information", 
-                style: TextStyle(fontSize: 18, color: AppColors.yellow, fontWeight: FontWeight.bold)),
-              Text("Complete the steps to get started", 
-                style: TextStyle(fontSize: 11, color: Colors.white70)),
+              Text(
+                "Personal Information",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.yellow,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Complete the steps to get started",
+                style: TextStyle(fontSize: 11, color: Colors.white70),
+              ),
             ],
           ),
         ],
@@ -49,7 +68,11 @@ class PersonalStepper extends StatelessWidget {
         color: AppColors.yellow,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
-          BoxShadow(color: AppColors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 3)),
+          BoxShadow(
+            color: AppColors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
         ],
       ),
       child: Row(
@@ -69,13 +92,23 @@ class PersonalStepper extends StatelessWidget {
     return Column(
       children: [
         Icon(icon, color: isActive ? AppColors.primary : Colors.black38),
-        Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, 
-          color: isActive ? AppColors.primary : Colors.black38)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+            color: isActive ? AppColors.primary : Colors.black38,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildLine() {
-    return Container(height: 2, width: 50, color: AppColors.primary.withOpacity(0.2));
+    return Container(
+      height: 2,
+      width: 50,
+      color: AppColors.primary.withOpacity(0.2),
+    );
   }
 }

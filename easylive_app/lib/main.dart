@@ -9,13 +9,15 @@ import 'views/history/history_view.dart';
 import 'views/home/home_view.dart';
 import 'views/kos/kos_view.dart';
 import 'views/profile/profile_view.dart';
+import 'views/profile/edit_profile_view.dart';
+import 'views/profile/favorite_view.dart';
+import 'views/profile/security_view.dart';
 import 'views/splash/splash_view.dart';
 import 'views/kos/detailKos_view.dart';
 import 'models/kos_model.dart';
 import 'views/payment/personalInfo_view.dart';
 import 'views/payment/invoice_view.dart';
 import 'views/payment/qrisPayment_view.dart';
-
 
 void main() => runApp(const MyApp());
 
@@ -53,13 +55,26 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKosView(kost: kost), settings);
 
       case '/personal_info':
-        final kost = settings.arguments as KostModel;
-        return _noAnimation(PersonalInfoView(kost: kost), settings);
+        final args = settings.arguments;
+        if (args is KostModel) {
+          return _noAnimation(PersonalInfoView(kost: args), settings);
+        } else {
+          final map = args as Map<String, dynamic>;
+          return _noAnimation(
+            PersonalInfoView(
+              kost: map['kost'] as KostModel,
+              isJasa: map['isJasa'] as bool? ?? false,
+              fromLocation: map['fromLocation'] as String?,
+              toLocation: map['toLocation'] as String?,
+            ),
+            settings,
+          );
+        }
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
         return _noAnimation(InvoiceView(kost: kost), settings);
-      
+
       case '/payment':
         final kost = settings.arguments as KostModel;
         return _noAnimation(QrisPaymentView(kost: kost), settings);
@@ -76,6 +91,15 @@ class MyApp extends StatelessWidget {
 
       case '/profile':
         return _noAnimation(const ProfileView(), settings);
+
+      case '/edit_profile':
+        return _noAnimation(const EditProfileView(), settings);
+
+      case '/favorite':
+        return _noAnimation(const FavoriteView(), settings);
+
+      case '/security':
+        return _noAnimation(const SecurityView(), settings);
 
       default:
         return null;

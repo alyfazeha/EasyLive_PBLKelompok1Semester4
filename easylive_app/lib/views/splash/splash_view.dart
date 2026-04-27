@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset(
                 'assets/images/easylive-baru.png',
-                width: 180,
+                width: 200,
                 fit: BoxFit.contain,
               ),
 

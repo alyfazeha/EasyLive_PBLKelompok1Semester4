@@ -1,7 +1,6 @@
 import '../models/booking_model.dart';
 
 class BookingController {
-
   static const List<String> bookingStatuses = ['Active', 'Completed', 'Canceled'];
 
   static final List<Booking> allBookings = [
@@ -21,8 +20,12 @@ class BookingController {
     ),
   ];
 
-  static List<Booking> getFilteredBookings(String status) {
-    return allBookings.where((booking) => booking.status == status).toList();
+  static List<Booking> getFilteredBookings(String type, String status) {
+    return allBookings.where((booking) {
+      // Menyesuaikan 'Active Now' dari UI dengan 'Active' di model
+      String checkStatus = status == 'Active Now' ? 'Active' : status;
+      return booking.type == type && booking.status == checkStatus;
+    }).toList();
   }
 
   static String getEmptyMessage(String status) {
@@ -32,7 +35,7 @@ class BookingController {
       case 'Canceled':
         return 'You have no canceled booking';
       default:
-        return 'You have no active set booking';
+        return 'You have no active booking';
     }
   }
 }

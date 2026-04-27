@@ -22,7 +22,7 @@ class _InvoiceViewState extends State<InvoiceView> {
     int count = 0;
     for (int i = priceStr.length - 1; i >= 0; i--) {
       if (count > 0 && count % 3 == 0) {
-        result = '.' + result;
+        result = '.$result';
       }
       result = priceStr[i] + result;
       count++;
@@ -119,7 +119,7 @@ class _InvoiceViewState extends State<InvoiceView> {
                       ),
                       decoration: BoxDecoration(
                         color: _isPaymentMethodSelected
-                            ? AppColors.yellow.withOpacity(0.2)
+                            ? AppColors.yellow.withValues(alpha: 0.2)
                             : Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
@@ -205,11 +205,22 @@ class _InvoiceViewState extends State<InvoiceView> {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundColor: AppColors.yellow,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.primary),
-              onPressed: () => Navigator.pop(context),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.yellow,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.arrow_back, color: AppColors.primary),
             ),
           ),
           const SizedBox(width: 15),

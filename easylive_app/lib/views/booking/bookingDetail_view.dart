@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../models/booking_model.dart'; // Import model kamu
 
-import '../../controllers/history_controller.dart';
-import '../../models/history_model.dart';
-import '../../widgets/home/bottom_navbar.dart';
+class BookingDetailView extends StatelessWidget {
+  final Booking booking; // 1. Tambahkan variabel ini
 
-class HistoryDetailView extends StatelessWidget {
-  final HistoryItem item;
-
-  const HistoryDetailView({super.key, required this.item});
+  // 2. Buat constructor agar parameter 'booking' tidak error
+  const BookingDetailView({super.key, required this.booking});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +13,7 @@ class HistoryDetailView extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Header Biru Tua
+          // Header Biru Tua sesuai mockup
           Container(
             padding: const EdgeInsets.fromLTRB(25, 60, 25, 25),
             decoration: const BoxDecoration(
@@ -52,7 +50,7 @@ class HistoryDetailView extends StatelessWidget {
                 const SizedBox(width: 15),
                 const Expanded(
                   child: Text(
-                    'Detail History',
+                    'Detail Booking',
                     style: TextStyle(
                       color: Color(0xFFFFD141),
                       fontWeight: FontWeight.w900,
@@ -64,7 +62,7 @@ class HistoryDetailView extends StatelessWidget {
             ),
           ),
 
-          // Kartu Detail
+          // Kartu Detail (Persis Mockup Gambar 3 & 4)
           Padding(
             padding: const EdgeInsets.all(25),
             child: Container(
@@ -82,20 +80,19 @@ class HistoryDetailView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildInfo('Customer', item.customerName),
-                            _buildInfo('Order', item.ownerName),
-                            _buildInfo(item.type, item.title),
+                            _buildInfo('Customer', 'Ahmad Rafi Hamdi'),
                             _buildInfo(
-                              'Date',
-                              HistoryController.formatHistoryDate(
-                                item.dateTime,
-                              ),
-                            ),
+                              'Order',
+                              booking.title,
+                            ), // Menggunakan data booking
+                            _buildInfo('Date', '09:00, Tuesday, 21 April 2026'),
+
                             const Text(
                               'Status',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 10),
+                            // Badge Sukses Kuning sesuai mockup
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -105,11 +102,9 @@ class HistoryDetailView extends StatelessWidget {
                                 color: const Color(0xFFFFD141),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: Text(
-                                item.status,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              child: const Text(
+                                'Success',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
@@ -133,29 +128,6 @@ class HistoryDetailView extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        child: BottomNav(
-          currentIndex: 0,
-          onTap: (index) {
-            if (index == 0) return;
-
-            if (index == 1) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/home',
-                (route) => false,
-              );
-            } else if (index == 2) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/booking',
-                (route) => false,
-              );
-            }
-          },
-        ),
       ),
     );
   }

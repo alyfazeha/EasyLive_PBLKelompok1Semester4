@@ -21,7 +21,7 @@ class _DetailKosViewState extends State<DetailKosView> {
     int count = 0;
     for (int i = priceStr.length - 1; i >= 0; i--) {
       if (count > 0 && count % 3 == 0) {
-        result = '.' + result;
+        result = '.$result';
       }
       result = priceStr[i] + result;
       count++;
@@ -50,7 +50,7 @@ class _DetailKosViewState extends State<DetailKosView> {
                   maxChildSize: 0.95,
                   builder: (_, scrollController) => Container(
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.background,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(40),
                       ),
@@ -83,7 +83,6 @@ class _DetailKosViewState extends State<DetailKosView> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 20),
                         const Text(
                           "Specifications",
@@ -105,7 +104,6 @@ class _DetailKosViewState extends State<DetailKosView> {
                             Text("Rooms: ${widget.kost.availableRooms ?? 0}"),
                           ],
                         ),
-
                         const SizedBox(height: 20),
                         const Text(
                           "Facilities",
@@ -120,7 +118,7 @@ class _DetailKosViewState extends State<DetailKosView> {
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: widget.kost.facilities?.length ?? 0,
-                            separatorBuilder: (_, __) =>
+                            separatorBuilder: (_, index) =>
                                 const SizedBox(width: 12),
                             itemBuilder: (context, index) {
                               return FacilityChip(
@@ -129,7 +127,6 @@ class _DetailKosViewState extends State<DetailKosView> {
                             },
                           ),
                         ),
-
                         const SizedBox(height: 20),
                       ],
                     ),
@@ -138,15 +135,13 @@ class _DetailKosViewState extends State<DetailKosView> {
               ],
             ),
           ),
-          // Select Room button fixed at bottom
-          // Select Room button fixed at bottom
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.background,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -5),
                 ),
@@ -163,21 +158,19 @@ class _DetailKosViewState extends State<DetailKosView> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(
-                    context, 
-                    '/personal_info', 
+                    context,
+                    '/personal_info',
                     arguments: widget.kost,
                   );
                 },
-                // --- TAMBAHKAN BARIS CHILD DI BAWAH INI ---
                 child: const Text(
                   "Select Room",
                   style: TextStyle(
-                    color: Color(0xFF2D3E50), // Biru tua sesuai mockup EasyLive
+                    color: AppColors.darkBlue,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
-                // ------------------------------------------
               ),
             ),
           ),

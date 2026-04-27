@@ -4,9 +4,8 @@ import '../../controllers/home_controller.dart';
 import '../../widgets/home/bottom_navbar.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/kosPage/kos_card.dart';
-import '../home/home_view.dart';
 import '../kos/detailKos_view.dart';
-import '../../widgets/kosPage/detail_kos_widgets.dart';
+import '../../widgets/kosPage/filtering.dart';
 
 class KosView extends StatefulWidget {
   const KosView({super.key});
@@ -17,8 +16,13 @@ class KosView extends StatefulWidget {
 
 class _KosViewState extends State<KosView> {
   final TextEditingController _searchController = TextEditingController();
+
   String _searchQuery = '';
   List<KostModel> _allKostList = [];
+
+  /// 🔥 FILTER STATE
+  String? _selectedLocation;
+  RangeValues? _selectedPrice;
 
   @override
   void initState() {
@@ -32,12 +36,43 @@ class _KosViewState extends State<KosView> {
     super.dispose();
   }
 
+  /// 🔥 SEARCH + FILTER DIGABUNG
   List<KostModel> get _filteredKostList {
-    if (_searchQuery.isEmpty) return _allKostList;
     return _allKostList.where((kost) {
-      return kost.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+      final matchSearch =
+          kost.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           kost.address.toLowerCase().contains(_searchQuery.toLowerCase());
+
+      final matchLocation =
+          _selectedLocation == null ||
+          kost.address.toLowerCase().contains(_selectedLocation!.toLowerCase());
+
+      final price = kost.price ?? 0;
+      final matchPrice =
+          _selectedPrice == null ||
+          (price >= _selectedPrice!.start && price <= _selectedPrice!.end);
+
+      return matchSearch && matchLocation && matchPrice;
     }).toList();
+  }
+
+  /// 🔥 BUKA FILTER (PAKAI WIDGET)
+  void _openFilter() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      builder: (context) => FilterBottomSheet(
+        onApply: (location, priceRange) {
+          setState(() {
+            _selectedLocation = location;
+            _selectedPrice = priceRange;
+          });
+        },
+      ),
+    );
   }
 
   @override
@@ -45,10 +80,9 @@ class _KosViewState extends State<KosView> {
     final userName = HomeController.getUserName() ?? "Alyfa";
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
-          // --- HEADER SECTION ---
           Stack(
             clipBehavior: Clip.none,
             children: [
@@ -60,23 +94,27 @@ class _KosViewState extends State<KosView> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(25, 60, 25, 70),
                     decoration: const BoxDecoration(
-                      color: Color(0xFF2D3E50),
+                      color: AppColors.darkBlue,
                       borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(35),
                       ),
                     ),
                     child: Row(
                       children: [
-                        const CircleAvatar(
-                          radius: 26,
-                          backgroundImage: AssetImage(
-                            'assets/images/alyfa.jpeg',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/profile');
+                          },
+                          child: const CircleAvatar(
+                            radius: 26,
+                            backgroundImage: AssetImage(
+                              'assets/images/alyfa.jpeg',
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -85,7 +123,7 @@ class _KosViewState extends State<KosView> {
                                   fontFamily: 'Montserrat',
                                   fontSize: 22,
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  color: AppColors.background,
                                 ),
                               ),
                               const Text(
@@ -100,13 +138,10 @@ class _KosViewState extends State<KosView> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            print("Buka Chat");
-                          },
+                          onPressed: () {},
                           icon: const Icon(
                             Icons.chat_bubble_outline,
-                            color: Colors.white,
-                            size: 28,
+                            color: AppColors.background,
                           ),
                         ),
                       ],
@@ -114,59 +149,32 @@ class _KosViewState extends State<KosView> {
                   ),
                 ),
               ),
-              // --- SEARCH BAR ---
+
+              /// 🔍 SEARCH + FILTER
               Positioned(
                 left: 25,
                 right: 25,
                 bottom: -25,
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Search kos...",
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      prefixIcon: const Icon(
-                        Icons.search_rounded,
-                        color: Color(0xFF2D3E50),
-                      ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: IconButton(
-                          onPressed: () {
-                            print("Membuka Filter");
-                          },
-                          icon: const Icon(
-                            Icons.filter_alt_rounded,
-                            color: Color(0xFF2D3E50),
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 18,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFF0F0F0),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Search kos...",
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                      onPressed: _openFilter, // 🔥 DISINI
+                      icon: const Icon(Icons.filter_alt_rounded),
                     ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: AppColors.lightGreyAlt,
                   ),
                 ),
               ),
@@ -175,36 +183,25 @@ class _KosViewState extends State<KosView> {
 
           const SizedBox(height: 50),
 
-          // --- TITLE SECTION ---
           const Text(
             'See All Kost',
             style: TextStyle(
-              fontFamily: 'Montserrat',
               fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF2D3E50),
+              fontWeight: FontWeight.bold,
+              color: AppColors.darkBlue,
             ),
           ),
 
           const SizedBox(height: 15),
 
-          // --- GRID KOST ---
+          /// 🔥 LIST KOS
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: _filteredKostList.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No kos found',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    )
+                  ? const Center(child: Text('No kos found'))
                   : GridView.builder(
-                      padding: const EdgeInsets.only(bottom: 100, top: 10),
+                      padding: const EdgeInsets.only(bottom: 100),
                       itemCount: _filteredKostList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -219,7 +216,7 @@ class _KosViewState extends State<KosView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailKosView(
+                                builder: (_) => DetailKosView(
                                   kost: _filteredKostList[index],
                                 ),
                               ),
@@ -236,23 +233,16 @@ class _KosViewState extends State<KosView> {
           ),
         ],
       ),
+
       bottomNavigationBar: BottomNav(
-        currentIndex: 2,
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeView()),
-              (route) => false,
-            );
+            Navigator.pushReplacementNamed(context, '/history');
           } else if (index == 1) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeView()),
-              (route) => false,
-            );
+            Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 2) {
-            print("Sudah di halaman Booking/History");
+            Navigator.pushReplacementNamed(context, '/booking');
           }
         },
       ),
