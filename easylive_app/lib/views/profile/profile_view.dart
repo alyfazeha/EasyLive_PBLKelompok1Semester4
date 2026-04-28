@@ -7,17 +7,17 @@ import '../../widgets/profile/profile_menu_section.dart';
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
-  /// 🔥 LOGOUT + KONFIRMASI
+  ///LOGOUT + KONFIRMASI
   void _logout(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Logout"),
-        content: const Text("Yakin ingin keluar?"),
+        content: const Text("Are you sure you want to log out?"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Batal"),
+            child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () {

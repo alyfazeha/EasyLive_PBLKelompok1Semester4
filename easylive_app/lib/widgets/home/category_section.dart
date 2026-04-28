@@ -37,7 +37,7 @@ class CategorySection extends StatelessWidget {
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEAC793),
+                      color: AppColors.warmBeige,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Center(
@@ -45,15 +45,15 @@ class CategorySection extends StatelessWidget {
                         "Kost",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF5E0006),
-                          fontSize: 16,
+                          color: AppColors.maroon,
+                          fontSize: 25,
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: 16),
 
               // jasa
@@ -63,7 +63,7 @@ class CategorySection extends StatelessWidget {
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEAC793),
+                      color: AppColors.warmBeige,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Center(
@@ -71,7 +71,7 @@ class CategorySection extends StatelessWidget {
                         "Jasa",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF5E0006),
+                          color: AppColors.maroon,
                           fontSize: 25,
                         ),
                       ),
@@ -88,7 +88,7 @@ class CategorySection extends StatelessWidget {
               fontFamily: 'Montserrat',
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF5E0006),
+              color: AppColors.maroon,
             ),
           ),
         ],

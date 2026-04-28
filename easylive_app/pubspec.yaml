@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   carousel_slider: ^5.0.0
-  intl: ^0.18.1  # Sekarang sudah bergabung di sini
+  intl: ^0.18.1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -36,7 +37,7 @@ flutter:
     - assets/images/kos1.jpg
     - assets/images/kos2.jpg
     - assets/images/kos3.jpg
-    - assets/images/loginn.png
+    - assets/images/login-bg.png
     - assets/images/register.png
     - assets/images/mobilBox-BackgroundRemover.jpg
     - assets/images/pickup-removed.png

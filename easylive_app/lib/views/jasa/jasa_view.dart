@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'location_picker_view.dart';
 import '../../models/kos_model.dart';
 import '../../widgets/home/bottom_navbar.dart';
+import '../../core/color.dart';
 
 class JasaView extends StatefulWidget {
   const JasaView({super.key});
@@ -107,7 +108,7 @@ class _JasaViewState extends State<JasaView> {
           Container(
             height: 280,
             decoration: const BoxDecoration(
-              color: Color(0xFF2D3E50),
+              color: AppColors.darkBlue,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40),
@@ -143,19 +144,19 @@ class _JasaViewState extends State<JasaView> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Color(0xFF2D3E50),
+                            color: AppColors.darkBlue,
                           ),
                         ),
                         const SizedBox(height: 20),
                         _buildVehicleCard(
                           'Mobil Pick Up',
-                          'max 100kg',
-                          Icons.local_shipping,
+                          'max 200kg',
+                          'assets/images/pickup-removed.png',
                         ),
                         _buildVehicleCard(
                           'Truck',
-                          'max 500kg',
-                          Icons.delivery_dining,
+                          'max 700kg',
+                          'assets/images/mobilBox-BackgroundRemover.jpg',
                         ),
                         const SizedBox(height: 20),
                         _buildNextButton(),
@@ -182,7 +183,7 @@ class _JasaViewState extends State<JasaView> {
               Navigator.pushNamed(context, '/profile');
             },
             child: const CircleAvatar(
-              backgroundColor: Color(0xFFE0BBE4),
+              backgroundColor: AppColors.lavender,
               radius: 25,
               child: Icon(Icons.person, color: Colors.white),
             ),
@@ -210,47 +211,67 @@ class _JasaViewState extends State<JasaView> {
     );
   }
 
-  Widget _buildVehicleCard(String name, String cap, IconData icon) {
-    bool isSelected = selectedVehicle == name;
-    return GestureDetector(
-      onTap: () => setState(() => selectedVehicle = name),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF3F7FA) : Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isSelected ? const Color(0xFFFBC02D) : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildVehicleCard(String name, String cap, String imagePath) {
+  bool isSelected = selectedVehicle == name;
+
+  return GestureDetector(
+    onTap: () => setState(() => selectedVehicle = name),
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      child: Stack(
+        clipBehavior: Clip.none, // 🔥 INI PENTING BANGET
+        children: [
+          /// CARD
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.amber
+                    : Colors.transparent,
+                width: 2,
+              ),
+            ),
+            child: Row(
               children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                /// TEXT
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      cap,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ],
                 ),
-                Text(cap, style: const TextStyle(color: Colors.grey)),
               ],
             ),
-            Icon(
-              icon,
-              size: 50,
-              color: isSelected ? const Color(0xFF2D3E50) : Colors.grey,
+          ),
+
+          /// 🔥 GAMBAR (KELUAR KE ATAS + KANAN)
+          Positioned(
+            right: 10,
+            top: -30, 
+            child: Image.asset(
+              imagePath,
+              height: 110, 
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildNextButton() {
     return Padding(
@@ -275,7 +296,7 @@ class _JasaViewState extends State<JasaView> {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFBC02D),
+            backgroundColor: AppColors.amber,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -284,7 +305,7 @@ class _JasaViewState extends State<JasaView> {
           child: const Text(
             'Next',
             style: TextStyle(
-              color: Color(0xFF2D3E50),
+              color: AppColors.darkBlue,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -359,14 +380,14 @@ class RouteCard extends StatelessWidget {
                       horizontal: 16,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF3F7FA),
+                      color: AppColors.softBlue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
                       children: [
                         const Icon(
                           Icons.calendar_today_outlined,
-                          color: Color(0xFF2D3E50),
+                          color: AppColors.darkBlue,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -386,7 +407,7 @@ class RouteCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2D3E50),
+                                  color: AppColors.darkBlue,
                                 ),
                               ),
                             ],
@@ -415,14 +436,14 @@ class RouteCard extends StatelessWidget {
                       horizontal: 16,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF3F7FA),
+                      color: AppColors.softBlue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
                       children: [
                         const Icon(
                           Icons.access_time_outlined,
-                          color: Color(0xFF2D3E50),
+                          color: AppColors.darkBlue,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -442,7 +463,7 @@ class RouteCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2D3E50),
+                                  color: AppColors.darkBlue,
                                 ),
                               ),
                             ],
@@ -471,7 +492,7 @@ class RouteCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF3F7FA),
+          color: AppColors.softBlue,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -480,7 +501,7 @@ class RouteCard extends StatelessWidget {
               location == null
                   ? Icons.add_location_outlined
                   : Icons.location_on_outlined,
-              color: const Color(0xFF2D3E50),
+              color: AppColors.darkBlue,
             ),
             const SizedBox(width: 12),
             Expanded(

@@ -21,7 +21,7 @@ class _HistoryViewState extends State<HistoryView> {
     final histories = HistoryController.getHistoriesByType(selectedType);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF2D3E50), // Biru Tua Header
+      backgroundColor: AppColors.darkBlue, // Biru Tua Header
       body: SafeArea(
         child: Column(
           children: [
@@ -45,12 +45,12 @@ class _HistoryViewState extends State<HistoryView> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFD141), // Kuning
+                        color: AppColors.golden, // Kuning
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: Color(0xFF2D3E50),
+                        color: AppColors.darkBlue,
                         size: 20,
                       ),
                     ),
@@ -60,7 +60,7 @@ class _HistoryViewState extends State<HistoryView> {
                     child: Text(
                       'History',
                       style: TextStyle(
-                        color: Color(0xFFFFD141),
+                        color: AppColors.golden,
                         fontWeight: FontWeight.w900,
                         fontSize: 22,
                         fontFamily: 'Montserrat',
@@ -178,13 +178,13 @@ class _HistoryViewState extends State<HistoryView> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: const Color(0xFF2D3E50)),
-          color: isSelected ? const Color(0xFF2D3E50) : Colors.white,
+          border: Border.all(color: AppColors.darkBlue),
+          color: isSelected ? AppColors.darkBlue : Colors.white,
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : const Color(0xFF2D3E50),
+            color: isSelected ? Colors.white : AppColors.darkBlue,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -20,10 +20,14 @@ class EditProfileField extends StatelessWidget {
       controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
-        labelText: label,
+        hintText: label,
         prefixIcon: Icon(icon),
         filled: true,
         fillColor: Colors.grey.shade100,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,

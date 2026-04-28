@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/kos_model.dart';
+import '../../core/color.dart';
 
 class LocationPickerView extends StatelessWidget {
   final KostModel kost;
@@ -24,7 +25,7 @@ class LocationPickerView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/112.6213,-7.9482,14,0/600x1200?access_token=pk.xxx',
+                    'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/112.6213,-7.9482,14,0/600x1200?access_token=YOUR_MAPBOX_ACCESS_TOKEN_HERE', // TODO: Replace with your actual Mapbox token
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
@@ -54,7 +55,7 @@ class LocationPickerView extends StatelessWidget {
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: Color(0xFF2D3E50),
+                        color: AppColors.darkBlue,
                       ),
                     ),
                   ),
@@ -79,7 +80,7 @@ class LocationPickerView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(25),
       decoration: const BoxDecoration(
-        color: Color(0xFF2D3E50),
+        color: AppColors.darkBlue,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: Column(
@@ -106,12 +107,10 @@ class LocationPickerView extends StatelessWidget {
                   },
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFBC02D),
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.amber),
               child: const Text(
                 'Select Location',
-                style: TextStyle(color: Color(0xFF2D3E50)),
+                style: TextStyle(color: AppColors.darkBlue),
               ),
             ),
           ),

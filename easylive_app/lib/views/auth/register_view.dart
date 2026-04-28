@@ -14,7 +14,7 @@ class _RegisterViewState extends State<RegisterView> {
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
   final passController = TextEditingController();
-  bool saveAccount = true;
+  bool saveAccount = false;
   String selectedRole = 'User';
 
   final List<String> roles = ['User', 'Pemilik Kos', 'Pemilik Jasa', 'Admin'];
@@ -210,7 +210,7 @@ class _RegisterViewState extends State<RegisterView> {
                         'Sign Up',
                         style: TextStyle(
                           fontSize: 22,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w900,
                           fontFamily: 'Montserrat',
                         ),
                       ),
@@ -229,7 +229,9 @@ class _RegisterViewState extends State<RegisterView> {
                           'Sign in',
                           style: TextStyle(
                             color: AppColors.yellow,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 15,
+                            fontFamily: 'Montserrat',
                           ),
                         ),
                       ),

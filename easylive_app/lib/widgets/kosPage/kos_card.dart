@@ -35,7 +35,7 @@ class KostCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
+          color: AppColors.lightGrey,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Column(
@@ -74,14 +74,14 @@ class KostCard extends StatelessWidget {
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w900,
                             fontSize: 14,
-                            color: Color(0xFF2D3E50),
+                            color: AppColors.darkBlue,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const Icon(
                         Icons.favorite,
-                        color: Color(0xFF2D3E50),
+                        color: AppColors.darkBlue,
                         size: 20,
                       ),
                     ],
@@ -134,7 +134,7 @@ class KostCard extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFD141),
+                            color: AppColors.golden,
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Text(

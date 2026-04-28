@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/booking_model.dart'; // Import model kamu
+import '../../core/color.dart';
 
 class BookingDetailView extends StatelessWidget {
   final Booking booking; // 1. Tambahkan variabel ini
@@ -17,7 +18,7 @@ class BookingDetailView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.fromLTRB(25, 60, 25, 25),
             decoration: const BoxDecoration(
-              color: Color(0xFF2D3E50),
+              color: AppColors.darkBlue,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(35),
                 bottomRight: Radius.circular(35),
@@ -30,7 +31,7 @@ class BookingDetailView extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFD141),
+                      color: AppColors.golden,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -42,7 +43,7 @@ class BookingDetailView extends StatelessWidget {
                     ),
                     child: const Icon(
                       Icons.arrow_back_ios_new,
-                      color: Color(0xFF2D3E50),
+                      color: AppColors.darkBlue,
                       size: 20,
                     ),
                   ),
@@ -52,7 +53,7 @@ class BookingDetailView extends StatelessWidget {
                   child: Text(
                     'Detail Booking',
                     style: TextStyle(
-                      color: Color(0xFFFFD141),
+                      color: AppColors.golden,
                       fontWeight: FontWeight.w900,
                       fontSize: 22,
                     ),
@@ -69,7 +70,7 @@ class BookingDetailView extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFD9D9D9),
                 borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: const Color(0xFF2D3E50)),
+                border: Border.all(color: AppColors.darkBlue),
               ),
               child: IntrinsicHeight(
                 child: Row(
@@ -99,7 +100,7 @@ class BookingDetailView extends StatelessWidget {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFFFD141),
+                                color: AppColors.golden,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: const Text(
@@ -115,7 +116,7 @@ class BookingDetailView extends StatelessWidget {
                     Container(
                       width: 15,
                       decoration: const BoxDecoration(
-                        color: Color(0xFF2D3E50),
+                        color: AppColors.darkBlue,
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(14),
                           bottomRight: Radius.circular(14),
@@ -140,7 +141,7 @@ class BookingDetailView extends StatelessWidget {
           children: [
             Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(width: 10),
-            const Expanded(child: Divider(color: Color(0xFF2D3E50))),
+            const Expanded(child: Divider(color: AppColors.darkBlue)),
           ],
         ),
         Text(value, style: const TextStyle(fontSize: 16)),

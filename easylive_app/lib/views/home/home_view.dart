@@ -182,7 +182,7 @@ class _HomeViewState extends State<HomeView> {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.golden,
+            color: AppColors.yellow,
             borderRadius: BorderRadius.circular(15),
           ),
           child: const Icon(
@@ -333,7 +333,7 @@ class _KostGridCardState extends State<_KostGridCard> {
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w900,
                           fontSize: 13,
-                          color: AppColors.darkBlue,
+                          color: AppColors.primary,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -354,7 +354,7 @@ class _KostGridCardState extends State<_KostGridCard> {
                   style: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 8,
-                    color: Colors.black54,
+                    color: AppColors.black,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -366,7 +366,7 @@ class _KostGridCardState extends State<_KostGridCard> {
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w800,
                         fontSize: 11,
-                        color: AppColors.darkBlue,
+                        color: AppColors.primary,
                       ),
                     ),
                     const Padding(
@@ -438,14 +438,14 @@ class _CategoryBtn extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.golden,
+        color: AppColors.yellow,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: AppColors.darkBlue),
-          const SizedBox(width: 10),
+          const SizedBox(height: 6),
           Text(
             label,
             style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14),

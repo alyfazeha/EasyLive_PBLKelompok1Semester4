@@ -1,6 +1,6 @@
 class EditProfileController {
   String name = "Alyfa Zahra";
-  String email = "alyfa@email.com";
+  String email = "alyfa@gmail.com";
   String role = "User";
   String password = "";
 

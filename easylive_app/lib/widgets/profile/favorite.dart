@@ -7,11 +7,7 @@ class FavoriteCard extends StatelessWidget {
   final KostModel kost;
   final VoidCallback onTap;
 
-  const FavoriteCard({
-    super.key,
-    required this.kost,
-    required this.onTap,
-  });
+  const FavoriteCard({super.key, required this.kost, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +18,7 @@ class FavoriteCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-            ),
+            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
           ],
         ),
         child: Column(
@@ -33,11 +26,12 @@ class FavoriteCard extends StatelessWidget {
           children: [
             /// IMAGE
             ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               child: Image.asset(
                 kost.image,
-                height: 100,
+                height: 80,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -50,25 +44,18 @@ class FavoriteCard extends StatelessWidget {
                 children: [
                   Text(
                     kost.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
 
                   Text(
                     kost.address,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
 
                   Text(
-                    kost.price != null
-                        ? "Rp ${kost.price}"
-                        : "-",
+                    kost.price != null ? "Rp ${kost.price}" : "-",
                     style: const TextStyle(
                       color: AppColors.darkBlue,
                       fontWeight: FontWeight.bold,
@@ -93,10 +80,7 @@ class FavoriteEmpty extends StatelessWidget {
     return const Center(
       child: Text(
         "Belum ada kos favorit ❤️",
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.grey,
-        ),
+        style: TextStyle(fontSize: 16, color: Colors.grey),
       ),
     );
   }

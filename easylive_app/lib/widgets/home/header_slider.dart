@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../../core/color.dart';
 
 class HeaderSlider extends StatefulWidget {
   const HeaderSlider({super.key});
@@ -100,7 +101,7 @@ class _HeaderSliderState extends State<HeaderSlider> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
-          color: const Color(0xFFEAC793), // Warna Kuning EasyLive
+          color: AppColors.warmBeige, // Warna Kuning EasyLive
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -168,7 +169,7 @@ class DotIndicator extends StatelessWidget {
       width: active ? 20 : 8, // Dot memanjang kalau aktif
       height: 8,
       decoration: BoxDecoration(
-        color: active ? const Color(0xFF5E0006) : Colors.grey.shade400,
+        color: active ? AppColors.maroon : Colors.grey.shade400,
         borderRadius: BorderRadius.circular(5),
       ),
     );

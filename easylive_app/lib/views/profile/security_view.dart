@@ -47,57 +47,80 @@ class _SecurityViewState extends State<SecurityView> {
         title: const Text('Keamanan'),
         backgroundColor: AppColors.darkBlue,
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Ubah Password',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: AppColors.darkBlue,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: AppColors.yellow.withOpacity(0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.lock_outline_rounded,
+                        size: 48,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Ubah Password',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Pastikan password baru Anda kuat dan mudah diingat.',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    AuthInputField(
+                      controller: currentPassController,
+                      hintText: 'Password Saat Ini',
+                      icon: Icons.lock_outline_rounded,
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    AuthInputField(
+                      controller: newPassController,
+                      hintText: 'Password Baru',
+                      icon: Icons.lock_outline_rounded,
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    AuthInputField(
+                      controller: confirmPassController,
+                      hintText: 'Konfirmasi Password Baru',
+                      icon: Icons.lock_outline_rounded,
+                      obscureText: true,
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Pastikan password baru Anda kuat dan mudah diingat.',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 30),
-            AuthInputField(
-              controller: currentPassController,
-              hintText: 'Password Saat Ini',
-              icon: Icons.lock_outline_rounded,
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            AuthInputField(
-              controller: newPassController,
-              hintText: 'Password Baru',
-              icon: Icons.lock_outline_rounded,
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            AuthInputField(
-              controller: confirmPassController,
-              hintText: 'Konfirmasi Password Baru',
-              icon: Icons.lock_outline_rounded,
-              obscureText: true,
-            ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
+              height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.darkBlue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.yellow,
+                  foregroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28),
@@ -106,7 +129,7 @@ class _SecurityViewState extends State<SecurityView> {
                 ),
                 onPressed: _submitChangePassword,
                 child: const Text(
-                  'Simpan Password',
+                  'Save Changes',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 16,

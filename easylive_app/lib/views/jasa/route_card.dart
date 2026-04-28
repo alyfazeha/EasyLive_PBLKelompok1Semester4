@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../core/color.dart';
 
 class RouteCard extends StatelessWidget {
   final String? fromLocation;
@@ -54,7 +55,7 @@ class RouteCard extends StatelessWidget {
                     _buildLocationItem('From', fromLocation ?? 'Lowokwaru, Malang', onFromTap),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Divider(thickness: 1, color: Color(0xFF2D3E50)),
+                      child: Divider(thickness: 1, color: AppColors.darkBlue),
                     ),
                     _buildLocationItem('To', toLocation ?? 'Sawojajar, Malang', onToTap),
                   ],
@@ -69,7 +70,7 @@ class RouteCard extends StatelessWidget {
           // Bagian Departure & Tanggal
           const Text(
             'Departure',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF2D3E50)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.darkBlue),
           ),
           const SizedBox(height: 15),
           
@@ -96,7 +97,7 @@ class RouteCard extends StatelessWidget {
                             ),
                             child: Text(
                               '${date.day}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF2D3E50)),
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.darkBlue),
                             ),
                           ),
                           const SizedBox(height: 5),
@@ -156,7 +157,7 @@ class RouteCard extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.bold, 
                 fontSize: 14, 
-                color: Color(0xFF2D3E50),
+                color: AppColors.darkBlue,
               ),
             ),
           ],

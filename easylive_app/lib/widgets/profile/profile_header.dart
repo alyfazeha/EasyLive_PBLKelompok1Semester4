@@ -24,25 +24,10 @@ class ProfileHeader extends StatelessWidget {
               ),
             ],
           ),
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 45,
-                backgroundImage: AssetImage(ProfileController.getUserImage()),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(Icons.camera_alt, size: 18),
-                ),
-              ),
-            ],
+          CircleAvatar(
+            radius: 45,
+            backgroundColor: Colors.white24,
+            child: const Icon(Icons.person, size: 50, color: Colors.white),
           ),
 
           const SizedBox(height: 10),

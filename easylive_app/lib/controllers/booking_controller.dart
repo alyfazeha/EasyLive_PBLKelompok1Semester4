@@ -22,7 +22,6 @@ class BookingController {
 
   static List<Booking> getFilteredBookings(String type, String status) {
     return allBookings.where((booking) {
-      // Menyesuaikan 'Active Now' dari UI dengan 'Active' di model
       String checkStatus = status == 'Active Now' ? 'Active' : status;
       return booking.type == type && booking.status == checkStatus;
     }).toList();
