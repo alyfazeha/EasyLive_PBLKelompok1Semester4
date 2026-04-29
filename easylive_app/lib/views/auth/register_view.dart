@@ -27,26 +27,43 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
   }
 
-  void _submitRegister() {
+  void _submitRegister() async {
     FocusScope.of(context).unfocus();
-    final success = AuthController.register(
-      email: emailController.text,
+    final result = await AuthController.register(
+      email: emailController.text.trim(),
       password: passController.text,
       confirmPassword: passController.text,
-      name: usernameController.text,
+      fullName: usernameController.text,
+      username: usernameController.text,
       phone: '-',
-      role: selectedRole,
+      role: _mapRole(selectedRole),
     );
 
-    if (success) {
+    if (result['success'] == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacementNamed(context, '/login');
       });
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Data belum valid.')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result['message'] ?? 'Data belum valid.')),
+    );
+  }
+
+  // Mapping role dropdown ke value di database
+  String _mapRole(String role) {
+    switch (role) {
+      case 'User':
+        return 'user';
+      case 'Pemilik Kos':
+        return 'kos';
+      case 'Pemilik Jasa':
+        return 'jasa';
+      case 'Admin':
+        return 'admin';
+      default:
+        return 'user';
+    }
   }
 
   @override
