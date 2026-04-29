@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'models/history_model.dart';
 import 'views/auth/login_view.dart';
@@ -19,7 +20,17 @@ import 'views/payment/personalInfo_view.dart';
 import 'views/payment/invoice_view.dart';
 import 'views/payment/qrisPayment_view.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  // Pastikan binding Flutter sudah siap
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://tcxpimjgyutkcsdfhwbg.supabase.co',
+    anonKey: 'sb_publishable_QBW63CEkf5bh3CdBvDkdgg_wShXq-Ku',
+  );
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
