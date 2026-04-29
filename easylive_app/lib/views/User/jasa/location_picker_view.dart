@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/kos_model.dart';
-import '../../core/color.dart';
+import '../../../models/kos_model.dart';
+import '../../../core/color.dart';
 
 class LocationPickerView extends StatelessWidget {
   final KostModel kost;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/color.dart';
-import '../../controllers/security_controller.dart';
-import '../../widgets/auth/input_field.dart';
+import '../../../core/color.dart';
+import '../../../controllers/security_controller.dart';
+import '../../../widgets/auth/input_field.dart';
 
 class SecurityView extends StatefulWidget {
   const SecurityView({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/color.dart';
-import '../../models/booking_model.dart';
-import '../../views/booking/bookingDetail_view.dart';
+import '../../../core/color.dart';
+import '../../../models/booking_model.dart';
+import '../../../views/User/booking/bookingDetail_view.dart';
 
 class BookingCard extends StatelessWidget {
   final Booking booking;

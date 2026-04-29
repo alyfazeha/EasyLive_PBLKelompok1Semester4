@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/color.dart';
+import '../../../core/color.dart';
 
 class RouteCard extends StatelessWidget {
   final String? fromLocation;

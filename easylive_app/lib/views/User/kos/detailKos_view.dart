@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../controllers/kos_controller.dart';
-import '../../models/kos_model.dart';
-import '../../widgets/kosPage/detail_kos_widgets.dart';
-import '../../core/color.dart';
+import '../../../controllers/kos_controller.dart';
+import '../../../models/kos_model.dart';
+import '../../../widgets/kosPage/detail_kos_widgets.dart';
+import '../../../core/color.dart';
 
 class DetailKosView extends StatefulWidget {
   final KostModel kost;

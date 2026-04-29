@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../controllers/history_controller.dart';
-import '../../models/history_model.dart';
-import '../../widgets/home/bottom_navbar.dart';
-import '../../core/color.dart';
+import '../../../controllers/history_controller.dart';
+import '../../../models/history_model.dart';
+import '../../../widgets/home/bottom_navbar.dart';
+import '../../../core/color.dart';
 
 class HistoryDetailView extends StatelessWidget {
   final HistoryItem item;

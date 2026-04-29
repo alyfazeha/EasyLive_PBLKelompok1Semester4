@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/booking_model.dart'; // Import model kamu
-import '../../core/color.dart';
+import '../../../models/booking_model.dart'; // Import model kamu
+import '../../../core/color.dart';
 
 class BookingDetailView extends StatelessWidget {
   final Booking booking; // 1. Tambahkan variabel ini

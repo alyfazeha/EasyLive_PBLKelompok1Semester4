@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../widgets/home/header_slider.dart';
-import '../../controllers/home_controller.dart';
-import '../../models/kos_model.dart';
-import '../../widgets/home/bottom_navbar.dart';
-import '../../views/kos/kos_view.dart';
-import '../../views/jasa/jasa_view.dart';
-import '../../core/color.dart';
+import '../../../widgets/home/header_slider.dart';
+import '../../../controllers/home_controller.dart';
+import '../../../models/kos_model.dart';
+import '../../../widgets/home/bottom_navbar.dart';
+import '../../../views/User/kos/kos_view.dart';
+import '../../../views/User/jasa/jasa_view.dart';
+import '../../../core/color.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

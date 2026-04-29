@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/color.dart';
-import '../../controllers/favorite_controller.dart';
-import '../../models/kos_model.dart';
-import '../../widgets/profile/favorite.dart';
+import '../../../core/color.dart';
+import '../../../controllers/favorite_controller.dart';
+import '../../../models/kos_model.dart';
+import '../../../widgets/profile/favorite.dart';
 import '../kos/detailKos_view.dart';
 
 class FavoriteView extends StatelessWidget {

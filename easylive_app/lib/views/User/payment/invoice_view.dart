@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../models/kos_model.dart';
-import '../../core/color.dart';
-import '../../widgets/payment/invoice_widgets.dart';
+import '../../../models/kos_model.dart';
+import '../../../core/color.dart';
+import '../../../widgets/payment/invoice_widgets.dart';
 import 'qrisPayment_view.dart';
 
 class InvoiceView extends StatefulWidget {

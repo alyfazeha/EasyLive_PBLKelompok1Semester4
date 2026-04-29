@@ -1,10 +1,10 @@
 import 'package:easylive_app/core/color.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/history_controller.dart';
-import '../../widgets/home/bottom_navbar.dart';
-import '../../widgets/history/history_card.dart';
-import '../../widgets/history/history_empty_state.dart';
+import '../../../controllers/history_controller.dart';
+import '../../../widgets/home/bottom_navbar.dart';
+import '../../../widgets/history/history_card.dart';
+import '../../../widgets/history/history_empty_state.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({super.key});

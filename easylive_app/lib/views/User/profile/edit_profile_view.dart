@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/color.dart';
-import '../../widgets/profile/edit_profile_form.dart';
-import '../../controllers/edit_profile_controller.dart';
+import '../../../core/color.dart';
+import '../../../widgets/profile/edit_profile_form.dart';
+import '../../../controllers/edit_profile_controller.dart';
 
 class EditProfileView extends StatelessWidget {
   const EditProfileView({super.key});

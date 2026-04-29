@@ -63,14 +63,13 @@ class _LoginViewState extends State<LoginView> {
                   child: SingleChildScrollView(
                     child: Stack(
                       children: [
-                        /// 1. GAMBAR BACKGROUND (Dinaikkan agar Kaki Tersembunyi)
                         Positioned(
                           // --- PERUBAHAN DI SINI ---
                           // Menaikkan posisi gambar (top: -60).
                           // Kaki ilustrasi akan terpotong oleh lengkungan container putih.
                           top: -23,
                           left: -20,
-                          right: -20,
+                          right: -70,
                           child: Image.asset(
                             'assets/images/login-bg.png',
                             fit: BoxFit.fitWidth,
