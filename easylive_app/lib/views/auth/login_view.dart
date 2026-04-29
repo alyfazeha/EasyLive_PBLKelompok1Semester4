@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
+import '../../controllers/auth_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,12 +14,73 @@ class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passController = TextEditingController();
   bool saveAccount = false;
+  bool isLoading = false;
+  String? errorMessage;
 
   @override
   void dispose() {
     usernameController.dispose();
     passController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleLogin(BuildContext context) async {
+    final email = usernameController.text.trim();
+    final password = passController.text;
+
+    // Validasi input
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        errorMessage = 'Email dan password harus diisi.';
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      final result = await AuthController.login(
+        email: email,
+        password: password,
+      );
+
+      if (!mounted) return;
+
+      if (result['success'] == true) {
+        final role = result['role'] ?? 'user';
+
+        // Tampilkan pesan sukses
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login berhasil sebagai $role'),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigasi ke halaman home
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      } else {
+        setState(() {
+          errorMessage = result['message'] ?? 'Login gagal.';
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        errorMessage = 'Terjadi kesalahan. Coba lagi nanti.';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -105,10 +167,10 @@ class _LoginViewState extends State<LoginView> {
                               /// JARAK PRESISI (Menyesuaikan letak Field alyfazahra)
                               const SizedBox(height: 310),
 
-                              /// INPUT USERNAME
+                              /// INPUT USERNAME (Email)
                               AuthInputField(
                                 controller: usernameController,
-                                hintText: 'alyfazahra',
+                                hintText: 'email@example.com',
                                 icon: Icons.person_outline_rounded,
                               ),
 
@@ -121,6 +183,37 @@ class _LoginViewState extends State<LoginView> {
                                 icon: Icons.lock_outline_rounded,
                                 obscureText: true,
                               ),
+
+                              /// ERROR MESSAGE
+                              if (errorMessage != null) ...[
+                                const SizedBox(height: 12),
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade50,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.error_outline,
+                                        color: Colors.red.shade700,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          errorMessage!,
+                                          style: TextStyle(
+                                            color: Colors.red.shade700,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
 
                               const SizedBox(height: 18),
 
@@ -169,20 +262,26 @@ class _LoginViewState extends State<LoginView> {
                                       borderRadius: BorderRadius.circular(22),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      '/home',
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Sign In',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
+                                  onPressed: isLoading
+                                      ? null
+                                      : () => _handleLogin(context),
+                                  child: isLoading
+                                      ? const SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: AppColors.primary,
+                                          ),
+                                        )
+                                      : const Text(
+                                          'Sign In',
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w900,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
                                 ),
                               ),
 
