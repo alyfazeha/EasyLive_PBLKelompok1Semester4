@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../controllers/booking_controller.dart';
+import '../../../controllers/user/booking_controller.dart';
 import '../../../core/color.dart';
-import '../../../widgets/booking/booking_card.dart';
-import '../../../widgets/booking/booking_empty_state.dart';
-import '../../../widgets/booking/booking_filter_chip.dart';
-import '../../../widgets/home/bottom_navbar.dart';
+import '../../../widgets/user/booking/booking_card.dart';
+import '../../../widgets/user/booking/booking_empty_state.dart';
+import '../../../widgets/user/booking/booking_filter_chip.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
 
 class BookingView extends StatefulWidget {
   const BookingView({super.key});
@@ -50,12 +50,19 @@ class _BookingViewState extends State<BookingView> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.golden, // Kuning
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.yellow,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: AppColors.darkBlue,
+                        color: AppColors.primary,
                         size: 20,
                       ),
                     ),

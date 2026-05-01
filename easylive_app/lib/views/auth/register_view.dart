@@ -41,7 +41,10 @@ class _RegisterViewState extends State<RegisterView> {
 
     if (result['success'] == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, '/login');
+        final nextRoute = selectedRole == 'Pemilik Kos'
+            ? '/pemilik_kos'
+            : '/login';
+        Navigator.pushReplacementNamed(context, nextRoute);
       });
       return;
     }

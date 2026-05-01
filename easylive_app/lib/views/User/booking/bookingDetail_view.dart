@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/booking_model.dart'; // Import model kamu
+import '../../../models/user/booking_model.dart'; // Import model kamu
 import '../../../core/color.dart';
 
 class BookingDetailView extends StatelessWidget {

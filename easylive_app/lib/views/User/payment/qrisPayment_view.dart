@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/color.dart';
-import '../../../models/kos_model.dart'; 
+import '../../../models/user/kos_model.dart';
 
 class QrisPaymentView extends StatelessWidget {
   final KostModel kost; // Menambahkan variabel kost

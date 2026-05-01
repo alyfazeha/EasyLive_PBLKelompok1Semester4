@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/color.dart';
-import '../../../controllers/profile_controller.dart';
-import '../../../widgets/profile/profile_header.dart';
-import '../../../widgets/profile/profile_menu_section.dart';
+import '../../../controllers/user/profile_controller.dart';
+import '../../../widgets/user/profile/profile_header.dart';
+import '../../../widgets/user/profile/profile_menu_section.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

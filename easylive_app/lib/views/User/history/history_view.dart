@@ -1,10 +1,10 @@
 import 'package:easylive_app/core/color.dart';
 import 'package:flutter/material.dart';
 
-import '../../../controllers/history_controller.dart';
-import '../../../widgets/home/bottom_navbar.dart';
-import '../../../widgets/history/history_card.dart';
-import '../../../widgets/history/history_empty_state.dart';
+import '../../../controllers/user/history_controller.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
+import '../../../widgets/user/history/history_card.dart';
+import '../../../widgets/user/history/history_empty_state.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({super.key});
@@ -45,12 +45,19 @@ class _HistoryViewState extends State<HistoryView> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.golden, // Kuning
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.yellow,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: const Icon(
                         Icons.arrow_back,
-                        color: AppColors.darkBlue,
+                        color: AppColors.primary,
                         size: 20,
                       ),
                     ),

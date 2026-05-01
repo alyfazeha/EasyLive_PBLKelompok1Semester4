@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/kos_model.dart';
+import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
 
 class LocationPickerView extends StatelessWidget {

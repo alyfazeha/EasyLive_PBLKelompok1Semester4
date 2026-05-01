@@ -62,7 +62,8 @@ class _LoginViewState extends State<LoginView> {
 
         // Navigasi ke halaman home
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, '/home');
+          final nextRoute = role == 'kos' ? '/pemilik_kos' : '/home';
+          Navigator.pushReplacementNamed(context, nextRoute);
         }
       } else {
         setState(() {

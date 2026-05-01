@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../models/kos_model.dart';
+import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
-import '../../../widgets/payment/personal_info_widgets.dart';
+import '../../../widgets/user/payment/personal_info_widgets.dart';
 
 class PersonalInfoView extends StatefulWidget {
   final KostModel kost;

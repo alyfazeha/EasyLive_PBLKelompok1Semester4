@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'location_picker_view.dart';
-import '../../../models/kos_model.dart';
-import '../../../widgets/home/bottom_navbar.dart';
+import '../../../models/user/kos_model.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../core/color.dart';
 
 class JasaView extends StatefulWidget {
@@ -179,13 +179,25 @@ class _JasaViewState extends State<JasaView> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-            child: const CircleAvatar(
-              backgroundColor: AppColors.lavender,
-              radius: 25,
-              child: Icon(Icons.person, color: Colors.white),
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.yellow,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.arrow_back,
+                color: AppColors.primary,
+                size: 20,
+              ),
             ),
           ),
           const SizedBox(width: 15),
@@ -212,66 +224,58 @@ class _JasaViewState extends State<JasaView> {
   }
 
   Widget _buildVehicleCard(String name, String cap, String imagePath) {
-  bool isSelected = selectedVehicle == name;
+    bool isSelected = selectedVehicle == name;
 
-  return GestureDetector(
-    onTap: () => setState(() => selectedVehicle = name),
-    child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-      child: Stack(
-        clipBehavior: Clip.none, // 🔥 INI PENTING BANGET
-        children: [
-          /// CARD
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(
-                color: isSelected
-                    ? AppColors.amber
-                    : Colors.transparent,
-                width: 2,
+    return GestureDetector(
+      onTap: () => setState(() => selectedVehicle = name),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+        child: Stack(
+          clipBehavior: Clip.none, // 🔥 INI PENTING BANGET
+          children: [
+            /// CARD
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: isSelected ? AppColors.amber : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: Row(
+                children: [
+                  /// TEXT
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(cap, style: const TextStyle(color: Colors.grey)),
+                    ],
+                  ),
+                ],
               ),
             ),
-            child: Row(
-              children: [
-                /// TEXT
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      cap,
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
 
-          /// 🔥 GAMBAR (KELUAR KE ATAS + KANAN)
-          Positioned(
-            right: 10,
-            top: -30, 
-            child: Image.asset(
-              imagePath,
-              height: 110, 
+            /// 🔥 GAMBAR (KELUAR KE ATAS + KANAN)
+            Positioned(
+              right: 10,
+              top: -30,
+              child: Image.asset(imagePath, height: 110),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildNextButton() {
     return Padding(

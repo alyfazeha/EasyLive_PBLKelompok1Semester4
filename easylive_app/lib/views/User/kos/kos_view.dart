@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../core/color.dart';
-import '../../../controllers/home_controller.dart';
-import '../../../widgets/home/bottom_navbar.dart';
-import '../../../models/kos_model.dart';
-import '../../../widgets/kosPage/kos_card.dart';
+import '../../../controllers/user/home_controller.dart';
+import '../../../controllers/user/kos_controller.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
+import '../../../models/user/kos_model.dart';
+import '../../../widgets/user/kosPage/kos_card.dart';
 import '../kos/detailKos_view.dart';
-import '../../../widgets/kosPage/filtering.dart';
+import '../../../widgets/user/kosPage/filtering.dart';
 
 class KosView extends StatefulWidget {
   const KosView({super.key});
@@ -27,7 +28,7 @@ class _KosViewState extends State<KosView> {
   @override
   void initState() {
     super.initState();
-    _allKostList = HomeController.getKostList() ?? [];
+    _allKostList = KostController.getAllKost();
   }
 
   @override
@@ -77,7 +78,7 @@ class _KosViewState extends State<KosView> {
 
   @override
   Widget build(BuildContext context) {
-    final userName = HomeController.getUserName() ?? "Alyfa";
+    final userName = HomeController.getUserName();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -102,13 +103,24 @@ class _KosViewState extends State<KosView> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/profile');
-                          },
-                          child: const CircleAvatar(
-                            radius: 26,
-                            backgroundImage: AssetImage(
-                              'assets/images/alyfa.jpeg',
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.yellow,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: AppColors.primary,
+                              size: 20,
                             ),
                           ),
                         ),

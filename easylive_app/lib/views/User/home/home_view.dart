@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/home/header_slider.dart';
-import '../../../controllers/home_controller.dart';
-import '../../../models/kos_model.dart';
-import '../../../widgets/home/bottom_navbar.dart';
+import '../../../widgets/user/home/header_slider.dart';
+import '../../../controllers/user/home_controller.dart';
+import '../../../models/user/kos_model.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../views/User/kos/kos_view.dart';
 import '../../../views/User/jasa/jasa_view.dart';
 import '../../../core/color.dart';
