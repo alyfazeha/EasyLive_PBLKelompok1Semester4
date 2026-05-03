@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
 import 'views/auth/register_view.dart';
-import 'views/User/booking/booking_view.dart';
+import 'views/User/booking/booking_view.dart' as user_booking;
 import 'views/User/history/history_detail_view.dart';
 import 'views/User/history/history_view.dart';
 import 'views/User/home/home_view.dart';
@@ -13,7 +13,13 @@ import 'views/User/profile/profile_view.dart';
 import 'views/User/profile/edit_profile_view.dart';
 import 'views/User/profile/favorite_view.dart';
 import 'views/User/profile/security_view.dart';
-import 'views/pemilikKos/home/pemilik_kos_dashboard_view.dart';
+import 'views/pemilikKos/home/detailKamar_view.dart';
+import 'views/pemilikKos/home/home_view.dart';
+
+import 'views/pemilikKos/home/tambahData_view.dart';
+import 'views/pemilikKos/comingSoon_view.dart';
+import 'views/pemilikKos/dashboard/dashboard_view.dart';
+import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -92,7 +98,7 @@ class MyApp extends StatelessWidget {
         return _noAnimation(QrisPaymentView(kost: kost), settings);
 
       case '/booking':
-        return _noAnimation(const BookingView(), settings);
+        return _noAnimation(const user_booking.BookingView(), settings);
 
       case '/history':
         return _noAnimation(const HistoryView(), settings);
@@ -114,7 +120,22 @@ class MyApp extends StatelessWidget {
         return _noAnimation(const SecurityView(), settings);
 
       case '/pemilik_kos':
-        return _noAnimation(const PemilikKosDashboardView(), settings);
+        return _noAnimation(const PemilikKosHomeView(), settings);
+
+      case '/pemilik_kos/detail_kamar':
+        return _noAnimation(DetailKostView(), settings);
+
+      case '/pemilik_kos/tambah_data':
+        return _noAnimation(TambahDataView(), settings);
+
+      case '/pemilik_kos/history':
+        return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
+
+      case '/pemilik_kos/profile':
+        return _noAnimation(const ProfileView(), settings);
+
+      case '/pemilik_kos/dashboard':
+        return _noAnimation(DashboardView(), settings);
 
       default:
         return null;

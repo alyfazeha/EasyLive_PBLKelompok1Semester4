@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/color.dart';
+import '../../../views/pemilikKos/home/editKamar_view.dart';
 import 'bottom_navbar.dart';
 
 class OwnerDashboardFrame extends StatelessWidget {
-  const OwnerDashboardFrame({super.key});
+  final Function(int)? onNavigate;
+
+  const OwnerDashboardFrame({super.key, this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(maxWidth: 430),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: const Stack(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Stack(
         children: [
           Column(
             children: [
-              OwnerHeaderSection(),
+              const OwnerHeaderSection(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(18, 16, 18, 104),
+                  padding: const EdgeInsets.fromLTRB(18, 16, 18, 104),
                   child: OwnerDashboardContent(),
                 ),
               ),
             ],
           ),
-          Align(alignment: Alignment.bottomCenter, child: OwnerBottomNav()),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: OwnerBottomNav(onNavigate: onNavigate),
+          ),
         ],
       ),
     );
@@ -124,9 +124,12 @@ class OwnerHeaderSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 26),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.darkBlue,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(26)),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(18),
+          bottomRight: Radius.circular(18),
+        ),
       ),
       child: const Column(
         children: [
@@ -311,6 +314,7 @@ class OwnerSearchSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      transform: Matrix4.translationValues(0, -12, 0),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -355,7 +359,9 @@ class OwnerSearchSection extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/pemilik_kos/tambah_data');
+              },
               icon: const Icon(Icons.add_rounded, size: 24),
               label: const Text('Tambah Kost'),
               style: ElevatedButton.styleFrom(
@@ -527,7 +533,7 @@ class OwnerSummaryCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: 'Montserrat',
-                        fontSize: 10,
+                        fontSize: 8,
                         fontWeight: FontWeight.w900,
                         color: AppColors.darkBlue,
                       ),
@@ -574,134 +580,215 @@ class OwnerKosCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    void openDetail() {
+      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar');
+    }
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: openDetail,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              image,
-              width: 140,
-              height: 88,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 11),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.darkBlue,
-                        ),
-                      ),
-                    ),
-                    _StatusBadge(label: status, color: statusColor),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                const Row(
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      size: 10,
-                      color: Colors.black38,
-                    ),
-                    SizedBox(width: 3),
-                    Expanded(
-                      child: Text(
-                        'Jalan Cengger Ayam Dalam III, No 24 Lowokwaru Malang',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 7.5,
-                          color: Colors.black38,
-                          height: 1.2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 5,
-                  children: [
-                    const _MiniInfo(
-                      icon: Icons.bed_rounded,
-                      label: '30 Kamar',
-                      color: Colors.black54,
-                    ),
-                    _MiniInfo(
-                      icon: Icons.circle,
-                      label: emptyRoom,
-                      color: const Color(0xFF31B75D),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Pendapatan',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 7.5,
-                    color: Colors.black38,
-                  ),
-                ),
-                Text(
-                  price,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 7),
-          const Column(
-            children: [
-              _ActionButton(icon: Icons.edit_outlined, label: 'Edit'),
-              SizedBox(height: 6),
-              _ActionButton(
-                icon: Icons.delete_outline_rounded,
-                label: 'Hapus',
-                color: AppColors.red,
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.grey.shade200),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 12,
+                offset: const Offset(0, 5),
               ),
-              SizedBox(height: 6),
-              _ActionButton(icon: Icons.visibility_outlined, label: 'Detail'),
             ],
           ),
-        ],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  image,
+                  width: 140,
+                  height: 88,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
+                        ),
+                        _StatusBadge(label: status, color: statusColor),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          size: 10,
+                          color: Colors.black38,
+                        ),
+                        SizedBox(width: 3),
+                        Expanded(
+                          child: Text(
+                            'Jalan Cengger Ayam Dalam III, No 24 Lowokwaru Malang',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 7.5,
+                              color: Colors.black38,
+                              height: 1.2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 5,
+                      children: [
+                        const _MiniInfo(
+                          icon: Icons.bed_rounded,
+                          label: '30 Kamar',
+                          color: Colors.black54,
+                        ),
+                        _MiniInfo(
+                          icon: Icons.circle,
+                          label: emptyRoom,
+                          color: const Color(0xFF31B75D),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Pendapatan',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 7.5,
+                        color: Colors.black38,
+                      ),
+                    ),
+                    Text(
+                      price,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 7),
+              Column(
+                children: [
+                  _ActionButton(
+                    icon: Icons.edit_outlined,
+                    label: 'Edit',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditKamarView(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 6),
+                  _ActionButton(
+                    icon: Icons.delete_outline_rounded,
+                    label: 'Hapus',
+                    color: AppColors.red,
+                    onTap: () {
+                      // Show delete confirmation dialog
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text(
+                            "Hapus Kost?",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
+                          content: Text(
+                            "Apakah Anda yakin ingin menghapus kost ini? Data yang dihapus tidak dapat dikembalikan.",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 13,
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: Text(
+                                "Batal",
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Logika hapus kost di sini
+                                Navigator.pop(ctx);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Kost berhasil dihapus"),
+                                    backgroundColor: AppColors.darkBlue,
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Hapus",
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.red,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 6),
+                  _ActionButton(
+                    icon: Icons.visibility_outlined,
+                    label: 'Detail',
+                    onTap: openDetail,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -777,37 +864,43 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color color;
+  final VoidCallback onTap;
 
   const _ActionButton({
     required this.icon,
     required this.label,
+    required this.onTap,
     this.color = AppColors.darkBlue,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 58,
-      height: 25,
-      decoration: BoxDecoration(
-        color: AppColors.lightGrey,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: color, size: 13),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 7.5,
-              color: Colors.black54,
-              fontWeight: FontWeight.w700,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+        width: 58,
+        height: 25,
+        decoration: BoxDecoration(
+          color: AppColors.lightGrey,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 13),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 7.5,
+                color: Colors.black54,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -5,12 +5,19 @@ import '../../../core/color.dart';
 class OwnerBottomNav extends StatelessWidget {
   final int currentIndex;
   final Function(int)? onTap;
+  final Function(int)? onNavigate;
 
   const OwnerBottomNav({
     super.key,
     this.currentIndex = 2,
     this.onTap,
+    this.onNavigate,
   });
+
+  void _handleTap(int index) {
+    onTap?.call(index);
+    onNavigate?.call(index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,33 +39,21 @@ class OwnerBottomNav extends StatelessWidget {
                 icon: Icons.dashboard_customize_outlined,
                 label: 'Dashboard',
                 active: currentIndex == 0,
-                onTap: () => onTap?.call(0),
+                onTap: () => _handleTap(0),
               ),
-              _BottomNavItem(
-                icon: Icons.history_rounded,
-                label: 'History',
-                active: currentIndex == 1,
-                onTap: () => onTap?.call(1),
-              ),
-              const SizedBox(width: 74),
+              const SizedBox(width: 20),
               _BottomNavItem(
                 icon: Icons.bookmark_border_rounded,
                 label: 'Bookings',
                 active: currentIndex == 3,
-                onTap: () => onTap?.call(3),
-              ),
-              _BottomNavItem(
-                icon: Icons.person_outline_rounded,
-                label: 'Profile',
-                active: currentIndex == 4,
-                onTap: () => onTap?.call(4),
+                onTap: () => _handleTap(3),
               ),
             ],
           ),
           Positioned(
             top: -18,
             child: GestureDetector(
-              onTap: () => onTap?.call(2),
+              onTap: () => _handleTap(2),
               child: Container(
                 width: 66,
                 height: 66,

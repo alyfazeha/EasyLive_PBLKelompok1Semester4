@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
 import '../../controllers/auth_controller.dart';
+import '../../views/pemilikKos/home/home_view.dart';
+import '../../views/pemilikKos/home/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -56,14 +58,22 @@ class _LoginViewState extends State<LoginView> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login berhasil sebagai $role'),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.amber,
           ),
         );
 
         // Navigasi ke halaman home
         if (context.mounted) {
-          final nextRoute = role == 'kos' ? '/pemilik_kos' : '/home';
-          Navigator.pushReplacementNamed(context, nextRoute);
+          if (role == 'kos') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => PemilikKosHomeView()),
+            );
+          } else if (role == 'admin') {
+            Navigator.pushReplacementNamed(context, '/admin');
+          } else {
+            Navigator.pushReplacementNamed(context, '/home');
+          }
         }
       } else {
         setState(() {
@@ -161,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 16,
-                                  color: Colors.grey,
+                                  color: AppColors.grey,
                                 ),
                               ),
 
@@ -191,14 +201,14 @@ class _LoginViewState extends State<LoginView> {
                                 Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: Colors.red.shade50,
+                                    color: AppColors.red.withOpacity(0.05),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Row(
                                     children: [
                                       Icon(
                                         Icons.error_outline,
-                                        color: Colors.red.shade700,
+                                        color: AppColors.red,
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),
@@ -206,7 +216,7 @@ class _LoginViewState extends State<LoginView> {
                                         child: Text(
                                           errorMessage!,
                                           style: TextStyle(
-                                            color: Colors.red.shade700,
+                                            color: AppColors.red,
                                             fontSize: 14,
                                           ),
                                         ),
@@ -295,7 +305,7 @@ class _LoginViewState extends State<LoginView> {
                                   const Text(
                                     "Don't have account? ",
                                     style: TextStyle(
-                                      color: Colors.grey,
+                                      color: AppColors.grey,
                                       fontSize: 15,
                                     ),
                                   ),

@@ -25,7 +25,7 @@ class LocationPickerView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/112.6213,-7.9482,14,0/600x1200?access_token=YOUR_MAPBOX_ACCESS_TOKEN_HERE', // TODO: Replace with your actual Mapbox token
+                    'https://via.placeholder.com/600x1200/1e3a8a/f8fafc?text=Malang+City+Map', // Static placeholder map (no token needed)
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,

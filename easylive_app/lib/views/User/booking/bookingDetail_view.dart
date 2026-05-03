@@ -3,9 +3,7 @@ import '../../../models/user/booking_model.dart'; // Import model kamu
 import '../../../core/color.dart';
 
 class BookingDetailView extends StatelessWidget {
-  final Booking booking; // 1. Tambahkan variabel ini
-
-  // 2. Buat constructor agar parameter 'booking' tidak error
+  final Booking booking;
   const BookingDetailView({super.key, required this.booking});
 
   @override
@@ -84,7 +82,7 @@ class BookingDetailView extends StatelessWidget {
                             _buildInfo('Customer', 'Ahmad Rafi Hamdi'),
                             _buildInfo(
                               'Order',
-                              booking.title,
+                              booking.title ?? 'Default Booking',
                             ), // Menggunakan data booking
                             _buildInfo('Date', '09:00, Tuesday, 21 April 2026'),
 

@@ -16,7 +16,7 @@ class ProfileHeader extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [AppColors.darkBlue, Color(0xFF3D5A80)],
         ),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(35)),
+        borderRadius: BorderRadius.zero,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),

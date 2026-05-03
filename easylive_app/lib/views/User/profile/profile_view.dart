@@ -49,19 +49,19 @@ class ProfileView extends StatelessWidget {
                 right: 20,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: AppColors.primary.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: IconButton(
                     onPressed: () => _logout(context),
-                    icon: const Icon(Icons.logout, color: Colors.white),
+                    icon: const Icon(Icons.logout, color: AppColors.background),
                     tooltip: "Logout",
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 0),
           const Expanded(child: ProfileMenuSection()),
         ],
       ),

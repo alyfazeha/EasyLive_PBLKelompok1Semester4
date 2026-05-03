@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/color.dart';
 
 class ItemCard extends StatelessWidget {
   final String name;
@@ -21,16 +22,17 @@ class ItemCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: const Color(0xFF801010),
+          color: AppColors.maroon,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             /// 🔥 IMAGE
             Expanded(
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(15),
+                ),
                 child: Image.asset(
                   image,
                   fit: BoxFit.cover,
@@ -48,7 +50,7 @@ class ItemCard extends StatelessWidget {
                   Text(
                     name,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.background,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -57,7 +59,7 @@ class ItemCard extends StatelessWidget {
                   Text(
                     address,
                     style: const TextStyle(
-                      color: Colors.white70,
+                      color: AppColors.lightGrey,
                       fontSize: 10,
                     ),
                   ),

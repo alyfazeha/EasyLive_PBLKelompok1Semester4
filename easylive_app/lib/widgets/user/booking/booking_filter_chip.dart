@@ -21,16 +21,16 @@ class BookingFilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFE0E0E0) : Colors.transparent,
+          color: isSelected ? AppColors.lightGreyAlt : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: isSelected
-              ? Border.all(color: const Color(0xFFBDBDBD), width: 1)
+              ? Border.all(color: AppColors.grey, width: 1)
               : null,
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? const Color(0xFF1976D2) : Colors.white,
+            color: isSelected ? AppColors.blueAccent : Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: 'Montserrat',
             fontSize: 13,

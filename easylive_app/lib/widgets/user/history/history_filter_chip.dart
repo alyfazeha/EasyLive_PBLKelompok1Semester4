@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/color.dart';
 
 class HistoryFilterChip extends StatelessWidget {
@@ -22,15 +21,16 @@ class HistoryFilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF9EFE3) : Colors.white,
+          color: isSelected ? AppColors.warmCream : AppColors.background,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: AppColors.yellow, width: 1),
           boxShadow: isSelected
-              ? const [
+              ? [
                   BoxShadow(
-                    color: Color(0x11000000),
+                    color: AppColors.black.withOpacity(0.06),
+                    spreadRadius: 0,
                     blurRadius: 4,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ]
               : null,

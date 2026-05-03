@@ -3,7 +3,6 @@ import '../../../controllers/user/booking_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/booking/booking_card.dart';
 import '../../../widgets/user/booking/booking_empty_state.dart';
-import '../../../widgets/user/booking/booking_filter_chip.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 
 class BookingView extends StatefulWidget {
@@ -54,7 +53,7 @@ class _BookingViewState extends State<BookingView> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
