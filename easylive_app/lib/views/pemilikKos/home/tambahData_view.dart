@@ -113,6 +113,13 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 SizedBox(height: 12),
 
+                TambahDataWidget.inputField(
+                  "Nomor Handphone",
+                  controller.nomorHp,
+                ),
+
+                SizedBox(height: 12),
+
                 TambahDataWidget.dropdownField(
                   "Tipe Kost",
                   controller.tipeKost,

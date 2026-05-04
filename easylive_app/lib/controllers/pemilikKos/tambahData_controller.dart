@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TambahDataController {
   TextEditingController namaKost = TextEditingController();
+  TextEditingController nomorHp = TextEditingController();
   TextEditingController alamat = TextEditingController();
   TextEditingController kecamatan = TextEditingController();
   TextEditingController kota = TextEditingController();
@@ -15,6 +16,7 @@ class TambahDataController {
   void simpanData(BuildContext context) {
     // Demo: print data and show success
     print("Nama Kost: ${namaKost.text}");
+    print("Nomor HP: ${nomorHp.text}");
     print("Tipe Kost: $tipeKost");
 
     ScaffoldMessenger.of(

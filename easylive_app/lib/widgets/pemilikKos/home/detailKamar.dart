@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/pemilikKos/detailKamar_models.dart';
 import '../../../core/color.dart';
-import '../../../views/pemilikKos/home/editKamar_view.dart';
 
 class DetailKostWidget extends StatelessWidget {
   final Kost kost;
@@ -92,50 +91,8 @@ class DetailKostWidget extends StatelessWidget {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "Lihat Semua",
-                  style: TextStyle(
-                    color: AppColors.yellow,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
               ],
             ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          color: Colors.white,
-          child: Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-foregroundColor: AppColors.yellow,
-                    side: const BorderSide(color: AppColors.yellow),
-                    backgroundColor: Colors.white,
-                  ),
-                  child: const Text("Kelola Kamar"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.yellow,
-                    foregroundColor: AppColors.darkBlue,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EditKamarView()),
-                    );
-                  },
-                  child: const Text("Edit Kost"),
-                ),
-              ),
-            ],
           ),
         ),
       ],

@@ -60,19 +60,19 @@ class TambahDataWidget {
           style: TextStyle(fontSize: 13),
           decoration: InputDecoration(
             hintText: "Masukkan ${label.toLowerCase()}",
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 12),
+            hintStyle: TextStyle(color: AppColors.grey, fontSize: 12),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: AppColors.background,
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
 
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderSide: BorderSide(color: AppColors.secondary),
             ),
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderSide: BorderSide(color: AppColors.secondary),
             ),
 
             focusedBorder: OutlineInputBorder(

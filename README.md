@@ -1,7 +1,7 @@
 # EasyLive_PBLKelompok1Semester4<br>
 
 ---------------------------------------------------------------
--- Kelompok 1: EasyLive --<br>
+Kelompok 1: EasyLive<br>
 Anggota:<br>
     - Ahmad Rafi Hamdi/ 244107060159<br>
     - Ailsa Sahda Garizah/ 244107060006<br>

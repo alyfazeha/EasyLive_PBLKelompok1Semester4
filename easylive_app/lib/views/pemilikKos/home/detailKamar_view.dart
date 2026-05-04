@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../controllers/pemilikKos/detailKamar_controller.dart';
 import '../../../widgets/pemilikKos/home/detailKamar.dart';
+import '../../../widgets/pemilikKos/home/bottom_navbar.dart';
 import '../../../core/color.dart';
 
 class DetailKostView extends StatelessWidget {
@@ -62,6 +63,18 @@ class DetailKostView extends StatelessWidget {
             Expanded(child: DetailKostWidget(kost: kost)),
           ],
         ),
+      ),
+      bottomNavigationBar: OwnerBottomNav(
+        currentIndex: 2,
+        onNavigate: (index) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/pemilik_kos');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/pemilik_kos/history');
+          }
+        },
       ),
     );
   }
