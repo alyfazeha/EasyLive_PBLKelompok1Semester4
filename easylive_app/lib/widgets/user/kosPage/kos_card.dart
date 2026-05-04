@@ -6,7 +6,6 @@ import '../../../controllers/user/favorite_controller.dart';
 class KostCard extends StatefulWidget {
   final KostModel kost;
   final int index;
-
   const KostCard({super.key, required this.kost, required this.index});
 
   @override

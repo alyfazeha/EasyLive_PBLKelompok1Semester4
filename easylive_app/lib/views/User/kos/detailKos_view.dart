@@ -59,24 +59,10 @@ class _DetailKosViewState extends State<DetailKosView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 10, top: 8, bottom: 8),
-              child: Text(
-                'Booking dan penjadwalan',
-                style: TextStyle(
-                  color: Color(0xFF5F5F5F),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.fromLTRB(9, 0, 19, 8),
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
+                margin: EdgeInsets.zero,
+                decoration: const BoxDecoration(color: AppColors.background),
                 clipBehavior: Clip.antiAlias,
                 child: Column(
                   children: [
@@ -254,9 +240,7 @@ class _DetailKosViewState extends State<DetailKosView> {
         padding: const EdgeInsets.only(left: 6, right: 2, bottom: 8),
         itemCount: facilities.length,
         separatorBuilder: (_, __) => const SizedBox(width: 10),
-        itemBuilder: (context, index) => FacilityChip(
-          label: facilities[index],
-        ),
+        itemBuilder: (context, index) => FacilityChip(label: facilities[index]),
       ),
     );
   }

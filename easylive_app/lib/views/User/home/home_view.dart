@@ -3,8 +3,11 @@ import '../../../widgets/user/home/header_slider.dart';
 import '../../../controllers/user/home_controller.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
+import '../../../widgets/user/home/item_card.dart';
 import '../../../views/User/kos/kos_view.dart';
 import '../../../views/User/jasa/jasa_view.dart';
+import '../../../widgets/user/kosPage/detail_kos_widgets.dart';
+import 'package:easylive_app/views/User/kos/detailKos_view.dart';
 import '../../../core/color.dart';
 
 class HomeView extends StatefulWidget {
@@ -97,8 +100,18 @@ class _HomeViewState extends State<HomeView> {
                                 mainAxisSpacing: 20,
                                 childAspectRatio: 0.65,
                               ),
-                          itemBuilder: (context, index) =>
-                              _KostGridCard(kost: kostList[index]),
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      DetailKosView(kost: kostList[index]),
+                                ),
+                              );
+                            },
+                            child: ItemCard(kost: kostList[index]),
+                          ),
                         ),
                   const SizedBox(height: 30),
                   if (kostList.length > 4)
@@ -293,122 +306,134 @@ class _KostGridCardState extends State<_KostGridCard> {
         ? '1,3 K'
         : '15 K';
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.lightGrey,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.asset(
-                widget.kost.image,
-                height: 100,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => DetailKosView(kost: widget.kost)),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.lightGrey,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset(
+                  widget.kost.image,
                   height: 100,
-                  color: AppColors.lightGreyAlt,
-                  child: const Icon(Icons.broken_image),
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 100,
+                    color: AppColors.lightGreyAlt,
+                    child: const Icon(Icons.broken_image),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.kost.name,
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                          color: AppColors.primary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => isFavorite = !isFavorite),
-                      child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? AppColors.red : AppColors.black,
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  widget.kost.address,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 8,
-                    color: AppColors.black,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(
-                      viewers,
-                      style: const TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w800,
-                        fontSize: 11,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("|", style: TextStyle(color: Colors.grey)),
-                    ),
-                    const Icon(
-                      Icons.verified_user_outlined,
-                      size: 18,
-                      color: Colors.black87,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.golden,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          formattedPrice,
-                          textAlign: TextAlign.center,
+                          widget.kost.name,
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w900,
-                            fontSize: 10,
+                            fontSize: 13,
+                            color: AppColors.primary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => setState(() => isFavorite = !isFavorite),
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? AppColors.red : AppColors.black,
+                          size: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.kost.address,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 8,
+                      color: AppColors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                        viewers,
+                        style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text("|", style: TextStyle(color: Colors.grey)),
+                      ),
+                      const Icon(
+                        Icons.verified_user_outlined,
+                        size: 18,
+                        color: Colors.black87,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.golden,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            formattedPrice,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.more_horiz, color: Colors.grey, size: 24),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 8),
+                      const Icon(
+                        Icons.more_horiz,
+                        color: Colors.grey,
+                        size: 24,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

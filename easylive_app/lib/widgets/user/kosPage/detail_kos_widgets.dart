@@ -119,13 +119,6 @@ class FacilityChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.yellow,
         borderRadius: BorderRadius.circular(9),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.25),
-            blurRadius: 4,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Text(
         label,
