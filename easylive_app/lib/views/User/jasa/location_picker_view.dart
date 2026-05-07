@@ -9,67 +9,70 @@ class LocationPickerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1E1E1E),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.95,
-            height: MediaQuery.of(context).size.height * 0.98,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            child: Stack(
-              children: [
-                // Map Image (Statik)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.network(
-                    'https://via.placeholder.com/600x1200/1e3a8a/f8fafc?text=Malang+City+Map', // Static placeholder map (no token needed)
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (c, e, s) =>
-                        Container(color: Colors.grey[200]),
-                  ),
+          ),
+          child: Stack(
+            children: [
+              // Map Image (Statik)
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
+                child: Image.network(
+                  'https://via.placeholder.com/600x1200/1e3a8a/f8fafc?text=Malang+City+Map',
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (c, e, s) => Container(color: Colors.grey[200]),
+                ),
+              ),
 
-                // Tombol Back (WAJIB ADA)
-                Positioned(
-                  top: 25,
-                  left: 20,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: AppColors.darkBlue,
-                      ),
+              // Tombol Back
+              Positioned(
+                top: 25,
+                left: 20,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: AppColors.darkBlue,
                     ),
                   ),
                 ),
+              ),
 
-                // Panel Alamat Bawah
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: _buildAddressPanel(context),
-                ),
-              ],
-            ),
+              // Panel Alamat Bawah
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: _buildAddressPanel(context),
+              ),
+            ],
           ),
         ),
       ),
