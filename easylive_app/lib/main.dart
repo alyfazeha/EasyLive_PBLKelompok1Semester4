@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'controllers/user/favorite_controller.dart';
+
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
 import 'views/auth/register_view.dart';
@@ -17,9 +19,9 @@ import 'views/pemilikKos/home/detailKamar_view.dart';
 import 'views/pemilikKos/home/home_view.dart';
 
 import 'views/pemilikKos/home/tambahData_view.dart';
-import 'views/pemilikKos/comingSoon_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
+import 'views/pemilikJasa/home_view.dart';
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -35,6 +37,9 @@ void main() async {
     url: 'https://tcxpimjgyutkcsdfhwbg.supabase.co',
     anonKey: 'sb_publishable_QBW63CEkf5bh3CdBvDkdgg_wShXq-Ku',
   );
+
+  // Initialize FavoriteController for persistent favorites
+  await FavoriteController.init();
 
   runApp(const MyApp());
 }
@@ -136,6 +141,10 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_kos/dashboard':
         return _noAnimation(DashboardView(), settings);
+
+      case '/pemilik_jasa':
+      case '/admin':
+        return _noAnimation(PemilikJasaHomeView(), settings);
 
       default:
         return null;

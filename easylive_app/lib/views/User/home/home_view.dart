@@ -6,6 +6,7 @@ import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../widgets/user/home/item_card.dart';
 import '../../../views/User/kos/kos_view.dart';
 import '../../../views/User/jasa/jasa_view.dart';
+import '../../../views/User/notification/notification_view.dart';
 import '../../../widgets/user/kosPage/detail_kos_widgets.dart';
 import 'package:easylive_app/views/User/kos/detailKos_view.dart';
 import '../../../core/color.dart';
@@ -192,16 +193,26 @@ class _HomeViewState extends State<HomeView> {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.yellow,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Icon(
-            Icons.notifications,
-            color: AppColors.darkBlue,
-            size: 28,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationView(),
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.yellow,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Icon(
+              Icons.notifications,
+              color: AppColors.darkBlue,
+              size: 28,
+            ),
           ),
         ),
       ],

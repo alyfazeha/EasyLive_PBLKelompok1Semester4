@@ -20,10 +20,19 @@ class BookingController {
     ),
   ];
 
-  static List<Booking> getFilteredBookings(String type, String status) {
+  static List<Booking> getFilteredBookings(
+    String type,
+    String status,
+    String searchQuery,
+  ) {
     return allBookings.where((booking) {
       String checkStatus = status == 'Active Now' ? 'Active' : status;
-      return booking.type == type && booking.status == checkStatus;
+      final matchesType = booking.type == type;
+      final matchesStatus = booking.status == checkStatus;
+      final matchesSearch = searchQuery.isEmpty ||
+          booking.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          booking.location.toLowerCase().contains(searchQuery.toLowerCase());
+      return matchesType && matchesStatus && matchesSearch;
     }).toList();
   }
 

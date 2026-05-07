@@ -119,26 +119,27 @@ class _JasaViewState extends State<JasaView> {
             child: Column(
               children: [
                 _buildHeader(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: RouteCard(
-                    fromLocation: selectedFromLocation,
-                    toLocation: selectedToLocation,
-                    selectedDate: selectedDate,
-                    selectedTime: selectedTime,
-                    onFromTap: () => _showLocationPicker(true),
-                    onToTap: () => _showLocationPicker(false),
-                    onDateChanged: (date) =>
-                        setState(() => selectedDate = date),
-                    onTimeChanged: (time) =>
-                        setState(() => selectedTime = time),
-                  ),
-                ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(vertical: 30),
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: RouteCard(
+                            fromLocation: selectedFromLocation,
+                            toLocation: selectedToLocation,
+                            selectedDate: selectedDate,
+                            selectedTime: selectedTime,
+                            onFromTap: () => _showLocationPicker(true),
+                            onToTap: () => _showLocationPicker(false),
+                            onDateChanged: (date) =>
+                                setState(() => selectedDate = date),
+                            onTimeChanged: (time) =>
+                                setState(() => selectedTime = time),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         const Text(
                           'Choose the car for moving',
                           style: TextStyle(

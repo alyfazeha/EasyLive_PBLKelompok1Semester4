@@ -13,8 +13,8 @@ class FavoriteView extends StatefulWidget {
 }
 
 class _FavoriteViewState extends State<FavoriteView> {
-  void _removeFavorite(String kostName) {
-    FavoriteController.removeFavorite(kostName);
+  void _removeFavorite(String kostName) async {
+    await FavoriteController.removeFavorite(kostName);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("$kostName dihapus dari favorit"),
