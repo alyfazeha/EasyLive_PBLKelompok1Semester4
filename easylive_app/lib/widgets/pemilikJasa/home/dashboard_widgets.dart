@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../models/pemilikJasa/vehicle_model.dart';
 import '../../../views/pemilikJasa/home/tambahKendaraan_view.dart';
+import '../../../views/pemilikJasa/home/editKendaraan_view.dart';
+import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import 'bottom_navbar.dart';
 
 class PemilikJasaHomeFrame extends StatelessWidget {
@@ -86,6 +88,19 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                             context,
                             '/pemilik_jasa/detail_jasa',
                             arguments: vehicle.name,
+                          );
+                        },
+                        onEdit: () {
+                          // Langsung masuk ke halaman edit (tanpa menampilkan halaman detail)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                          builder: (context) =>
+                                  EditKendaraanView(
+                                    jasa: DetailJasaController()
+                                        .getJasaDetail(vehicle.name),
+                                  ),
+                            ),
                           );
                         },
                       ),
@@ -283,11 +298,13 @@ class PemilikJasaSearchPanel extends StatelessWidget {
 class OwnerVehicleCard extends StatelessWidget {
   final OwnerVehicle vehicle;
   final VoidCallback? onDetail;
+  final VoidCallback? onEdit;
 
   const OwnerVehicleCard({
     super.key,
     required this.vehicle,
     this.onDetail,
+    this.onEdit,
   });
 
   @override
@@ -407,7 +424,11 @@ class OwnerVehicleCard extends StatelessWidget {
           const SizedBox(width: 7),
           Column(
             children: [
-              _ActionButton(icon: Icons.edit_outlined, label: 'Edit'),
+              _ActionButton(
+                icon: Icons.edit_outlined,
+                label: 'Edit',
+                onTap: onEdit,
+              ),
               const SizedBox(height: 6),
               _ActionButton(
                 icon: Icons.delete_outline_rounded,

@@ -4,6 +4,7 @@ import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/pemilikJasa/home/detailJasa.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
+import './editKendaraan_view.dart';
 
 class DetailJasaView extends StatelessWidget {
   final String vehicleName;
@@ -60,7 +61,28 @@ class DetailJasaView extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  const Icon(Icons.more_vert, color: AppColors.background),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditKendaraanView(jasa: jasa),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.yellow.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.edit_outlined,
+                        color: AppColors.yellow,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
