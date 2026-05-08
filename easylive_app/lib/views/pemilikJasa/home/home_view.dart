@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../controllers/pemilikJasa/home_jasa_controller.dart';
-import '../../widgets/pemilikJasa/home_widgets.dart';
+import '../../../controllers/pemilikJasa/home_jasa_controller.dart';
+import '../../../widgets/pemilikJasa/home/dashboard_widgets.dart';
+import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 
 class PemilikJasaHomeView extends StatelessWidget {
   PemilikJasaHomeView({super.key});
@@ -9,7 +10,9 @@ class PemilikJasaHomeView extends StatelessWidget {
   final PemilikJasaHomeController controller = PemilikJasaHomeController();
 
   void _handleNavigation(BuildContext context, int index) {
-    if (index == 4) {
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+    } else if (index == 4) {
       Navigator.pushNamed(context, '/profile');
     }
   }

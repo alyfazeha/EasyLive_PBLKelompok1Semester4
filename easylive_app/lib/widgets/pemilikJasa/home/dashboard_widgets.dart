@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/color.dart';
-import '../../models/pemilikJasa/vehicle_model.dart';
+import '../../../core/color.dart';
+import '../../../models/pemilikJasa/vehicle_model.dart';
+import '../../../views/pemilikJasa/home/tambahKendaraan_view.dart';
+import 'bottom_navbar.dart';
 
 class PemilikJasaHomeFrame extends StatelessWidget {
   final int totalVehicles;
@@ -35,7 +37,7 @@ class PemilikJasaHomeFrame extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 104),
+                padding: const EdgeInsets.fromLTRB(18, 18, 18, 104),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,7 +79,16 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                     const _SectionTitle('List of Your Vehicle'),
                     const SizedBox(height: 12),
                     for (final vehicle in vehicles) ...[
-                      OwnerVehicleCard(vehicle: vehicle),
+                      OwnerVehicleCard(
+                        vehicle: vehicle,
+                        onDetail: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/pemilik_jasa/detail_jasa',
+                            arguments: vehicle.name,
+                          );
+                        },
+                      ),
                       const SizedBox(height: 14),
                     ],
                   ],
@@ -197,71 +208,73 @@ class PemilikJasaSearchPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: const Offset(0, -12),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.07),
-              blurRadius: 12,
-              offset: const Offset(0, 5),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.07),
+            blurRadius: 12,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 43,
+            padding: const EdgeInsets.symmetric(horizontal: 13),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.grey.shade300),
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 43,
-              padding: const EdgeInsets.symmetric(horizontal: 13),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.search_rounded, color: AppColors.darkBlue),
-                  SizedBox(width: 10),
-                  Text(
-                    'Search....',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 12,
-                      color: Colors.black45,
-                    ),
+            child: const Row(
+              children: [
+                Icon(Icons.search_rounded, color: AppColors.darkBlue),
+                SizedBox(width: 10),
+                Text(
+                  'Search....',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    color: Colors.black45,
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TambahKendaraanView()),
+              );
+            },
+            icon: const Icon(Icons.add_rounded, size: 23),
+            label: const Text('Tambah Kendaraan'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.yellow,
+              foregroundColor: AppColors.darkBlue,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 10,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              textStyle: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
               ),
             ),
-            const SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.add_rounded, size: 23),
-              label: const Text('Tambah Kendaraan'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.yellow,
-                foregroundColor: AppColors.darkBlue,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 10,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                textStyle: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -269,8 +282,13 @@ class PemilikJasaSearchPanel extends StatelessWidget {
 
 class OwnerVehicleCard extends StatelessWidget {
   final OwnerVehicle vehicle;
+  final VoidCallback? onDetail;
 
-  const OwnerVehicleCard({super.key, required this.vehicle});
+  const OwnerVehicleCard({
+    super.key,
+    required this.vehicle,
+    this.onDetail,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -397,87 +415,12 @@ class OwnerVehicleCard extends StatelessWidget {
                 color: AppColors.red,
               ),
               const SizedBox(height: 6),
-              _ActionButton(icon: Icons.visibility_outlined, label: 'Detail'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PemilikJasaBottomNav extends StatelessWidget {
-  final int currentIndex;
-  final Function(int)? onNavigate;
-
-  const PemilikJasaBottomNav({
-    super.key,
-    this.currentIndex = 2,
-    this.onNavigate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-      height: 62,
-      decoration: BoxDecoration(
-        color: AppColors.yellow,
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _BottomNavItem(
-                icon: Icons.dashboard_customize_outlined,
-                label: 'Dashboard',
-                active: currentIndex == 0,
-                onTap: () => onNavigate?.call(0),
-              ),
-              _BottomNavItem(
-                icon: Icons.home_work_outlined,
-                label: 'History',
-                active: currentIndex == 1,
-                onTap: () => onNavigate?.call(1),
-              ),
-              const SizedBox(width: 64),
-              _BottomNavItem(
-                icon: Icons.bookmark_border_rounded,
-                label: 'Bookings',
-                active: currentIndex == 3,
-                onTap: () => onNavigate?.call(3),
-              ),
-              _BottomNavItem(
-                icon: Icons.person_outline_rounded,
-                label: 'History',
-                active: currentIndex == 4,
-                onTap: () => onNavigate?.call(4),
+              _ActionButton(
+                icon: Icons.visibility_outlined,
+                label: 'Detail',
+                onTap: onDetail,
               ),
             ],
-          ),
-          Positioned(
-            top: -18,
-            child: GestureDetector(
-              onTap: () => onNavigate?.call(2),
-              child: Container(
-                width: 66,
-                height: 66,
-                decoration: BoxDecoration(
-                  color: AppColors.darkBlue,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 5),
-                ),
-                child: const Icon(
-                  Icons.home_rounded,
-                  color: Colors.white,
-                  size: 38,
-                ),
-              ),
-            ),
           ),
         ],
       ),
@@ -767,17 +710,19 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color color;
+  final VoidCallback? onTap;
 
   const _ActionButton({
     required this.icon,
     required this.label,
     this.color = AppColors.darkBlue,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       borderRadius: BorderRadius.circular(6),
       child: Container(
         width: 56,
@@ -798,53 +743,6 @@ class _ActionButton extends StatelessWidget {
                 fontSize: 7,
                 color: Colors.black54,
                 fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNavItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-
-  const _BottomNavItem({
-    required this.icon,
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = active
-        ? AppColors.darkBlue
-        : AppColors.darkBlue.withValues(alpha: 0.62);
-
-    return SizedBox(
-      width: 54,
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 23),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 8.5,
-                color: color,
-                fontWeight: active ? FontWeight.w800 : FontWeight.w600,
               ),
             ),
           ],

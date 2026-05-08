@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'location_picker_view.dart';
+
+import '../../../core/color.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
-import '../../../core/color.dart';
+import 'location_picker_view.dart';
 
 class JasaView extends StatefulWidget {
   const JasaView({super.key});

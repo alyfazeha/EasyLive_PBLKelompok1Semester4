@@ -1,1 +1,0 @@
-# TODO: Remove Black Frame from Location Picker\n\n1. ✅ Identified source: Dark Scaffold background visible around 95%/98% sized white Container.\n2. Edit location_picker_view.dart: Change Container width/height to double.infinity.\n3. Test the change.\n4. Complete task.

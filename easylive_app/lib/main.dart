@@ -21,7 +21,9 @@ import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
-import 'views/pemilikJasa/home_view.dart';
+import 'views/pemilikJasa/dashboard/dashboard_view.dart';
+import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
+import 'views/pemilikJasa/home/home_view.dart';
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -145,6 +147,16 @@ class MyApp extends StatelessWidget {
       case '/pemilik_jasa':
       case '/admin':
         return _noAnimation(PemilikJasaHomeView(), settings);
+
+      case '/pemilik_jasa/dashboard':
+        return _noAnimation(PemilikJasaDashboardView(), settings);
+
+      case '/pemilik_jasa/detail_jasa':
+        final vehicleName = settings.arguments as String? ?? 'Pickup';
+        return _noAnimation(
+          owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
+          settings,
+        );
 
       default:
         return null;
