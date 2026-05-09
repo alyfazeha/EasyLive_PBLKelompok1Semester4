@@ -77,7 +77,13 @@ class HomeController {
     ];
   }
 
+  static String _userName = '';
+
+  static void setUserData({required String username}) {
+    _userName = username;
+  }
+
   static String getUserName() {
-    return "Alyfa";
+    return _userName.isNotEmpty ? _userName : 'User';
   }
 }

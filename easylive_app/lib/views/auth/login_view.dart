@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
 import '../../controllers/auth_controller.dart';
+import '../../controllers/user/home_controller.dart';
+import '../../controllers/user/profile_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -61,12 +63,38 @@ class _LoginViewState extends State<LoginView> {
         );
 
         // Navigasi yang lebih presisi sesuai skema SQL (kos, jasa, admin)
+        final userData = result['userData'] as Map<String, dynamic>?;
+        final username = (userData?['username'] ?? '').toString();
+        final email = (userData?['email'] ?? '').toString();
+        final imagePath = (userData?['image_path'] ?? userData?['image'] ?? '')
+            .toString();
+
+        if (username.isNotEmpty) {
+          // seed data untuk Home/Profile agar tidak dummy
+          HomeController.setUserData(username: username);
+          ProfileController.setUserData(
+            username: username,
+            email: email,
+            imagePath: imagePath.isNotEmpty ? imagePath : null,
+          );
+        }
+
         if (role == 'kos') {
           Navigator.pushReplacementNamed(context, '/pemilik_kos');
         } else if (role == 'jasa' || role == 'admin') {
           Navigator.pushReplacementNamed(context, '/pemilik_jasa');
         } else {
           Navigator.pushReplacementNamed(context, '/home');
+        }
+
+        // refresh seed data (profil) agar sesuai username login
+        if (username.isNotEmpty) {
+          HomeController.setUserData(username: username);
+          ProfileController.setUserData(
+            username: username,
+            email: email,
+            imagePath: imagePath.isNotEmpty ? imagePath : null,
+          );
         }
       } else {
         setState(() {

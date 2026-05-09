@@ -53,15 +53,19 @@ class _RegisterViewState extends State<RegisterView> {
     if (emailController.text.isEmpty ||
         usernameController.text.isEmpty ||
         passController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Semua field harus diisi!')));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Semua field harus diisi!'),
+        ),
+      );
       return;
     }
 
     FocusScope.of(context).unfocus();
-    final navigator = Navigator.of(context);
+
     final messenger = ScaffoldMessenger.of(context);
+
     final result = await AuthController.register(
       email: emailController.text.trim(),
       password: passController.text,
@@ -79,14 +83,25 @@ class _RegisterViewState extends State<RegisterView> {
 
     if (!mounted) return;
 
-    if (result['success'] == true) {
-      final nextRoute = _routeByRole(selectedRole);
-      navigator.pushReplacementNamed(nextRoute);
-      return;
-    }
+    // TAMPILKAN NOTIFIKASI
     messenger.showSnackBar(
-      SnackBar(content: Text(result['message'] ?? 'Data belum valid.')),
+      SnackBar(
+        content: Text(result['message']),
+        backgroundColor:
+            result['success'] ? Colors.green : Colors.red,
+        duration: const Duration(seconds: 2),
+      ),
     );
+
+    // JIKA REGISTER BERHASIL
+    if (result['success'] == true) {
+
+      // TUNGGU SNACKBAR
+      await Future.delayed(const Duration(seconds: 2));
+
+      // SELALU KE LOGIN
+      Navigator.pushReplacementNamed(context, '/login');
+    }
   }
 
   // Mapping role dropdown ke value di database
