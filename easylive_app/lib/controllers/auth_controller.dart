@@ -41,6 +41,9 @@ class AuthController {
     required String username,
     required String phone,
     required String role,
+    required String birthdate,
+    required String gender,
+    required String address,
   }) async {
     try {
       if (password != confirmPassword) {
@@ -65,6 +68,9 @@ class AuthController {
           'password': password,
           'role': role,
           'phone': phone, // SESUAI: Menggunakan 'phone' bukan 'phone_number'
+          'birthdate': birthdate,
+          'gender': gender,
+          'address': address,
         });
 
         return {

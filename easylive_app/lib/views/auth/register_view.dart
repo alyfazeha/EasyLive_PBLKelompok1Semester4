@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/auth_controller.dart';
 import '../../core/color.dart';
 import '../../widgets/auth/input_field.dart'; // Import widget baru
+import '../../widgets/auth/register_extra_fields.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -11,10 +12,19 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  static const double _fieldSpacing = 12;
+
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
   final passController = TextEditingController();
-  bool saveAccount = false;
+
+  // Extra fields
+  final fullnameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final birthdateController = TextEditingController();
+  final genderController = TextEditingController();
+  final addressController = TextEditingController();
+
   String selectedRole = 'User';
 
   final List<String> roles = [
@@ -29,6 +39,13 @@ class _RegisterViewState extends State<RegisterView> {
     emailController.dispose();
     usernameController.dispose();
     passController.dispose();
+
+    fullnameController.dispose();
+    phoneController.dispose();
+    birthdateController.dispose();
+    genderController.dispose();
+    addressController.dispose();
+
     super.dispose();
   }
 
@@ -49,10 +66,15 @@ class _RegisterViewState extends State<RegisterView> {
       email: emailController.text.trim(),
       password: passController.text,
       confirmPassword: passController.text,
-      fullName: usernameController.text,
+      fullName: fullnameController.text.trim().isEmpty
+          ? usernameController.text
+          : fullnameController.text.trim(),
       username: usernameController.text,
-      phone: '-',
+      phone: phoneController.text.trim(),
       role: _mapRole(selectedRole),
+      birthdate: birthdateController.text.trim(),
+      gender: genderController.text.trim(),
+      address: addressController.text.trim(),
     );
 
     if (!mounted) return;
@@ -192,52 +214,44 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: _fieldSpacing),
                   // Menggunakan AuthInputField yang sudah dipisah
                   AuthInputField(
+                    controller: usernameController,
+                    hintText: 'User Name',
+                    icon: Icons.person_outline_rounded,
+                  ),
+                  const SizedBox(height: _fieldSpacing),
+                  AuthInputField(
+                    controller: fullnameController,
+                    hintText: 'Full Name',
+                    icon: Icons.account_circle_rounded,
+                    keyboardType: TextInputType.name,
+                  ),
+                  const SizedBox(height: _fieldSpacing),
+                  AuthInputField(
                     controller: emailController,
-                    hintText: 'alyfazeha@gmail.com',
+                    hintText: 'Email',
                     icon: Icons.mail_outline_rounded,
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 12),
-                  AuthInputField(
-                    controller: usernameController,
-                    hintText: 'alyfazahra',
-                    icon: Icons.person_outline_rounded,
+                  const SizedBox(height: _fieldSpacing),
+
+                  // Extra form fields
+                  RegisterExtraFields(
+                    phoneController: phoneController,
+                    birthdateController: birthdateController,
+                    genderController: genderController,
+                    addressController: addressController,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: _fieldSpacing),
                   AuthInputField(
                     controller: passController,
-                    hintText: '***********',
+                    hintText: 'Password',
                     icon: Icons.lock_outline_rounded,
                     obscureText: true,
                   ),
-                  const SizedBox(height: 16),
-                  // Switch Save Account
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Text(
-                          'Save ur account',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
-                      Switch(
-                        value: saveAccount,
-                        activeColor: Colors.white,
-                        activeTrackColor: AppColors.yellow,
-                        onChanged: (value) =>
-                            setState(() => saveAccount = value),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   // Tombol Sign Up
                   SizedBox(
                     width: double.infinity,
