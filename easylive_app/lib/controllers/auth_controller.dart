@@ -23,7 +23,7 @@ class AuthController {
 
       return {
         'success': true,
-        'message': 'Login berhasil',
+        'message': 'Login sebagai ${userData['role']} berhasil',
         'role': userData['role'] ?? 'user',
         'userData': userData,
       };
@@ -32,7 +32,6 @@ class AuthController {
     }
   }
 
-  /// REGISTER
  /// REGISTER
   static Future<Map<String, dynamic>> register({
     required String email,
@@ -89,6 +88,7 @@ class AuthController {
           'address': address,
         });
 
+        
         return {
           'success': true,
           'message': 'Akun berhasil dibuat. Silakan login.'
@@ -102,19 +102,24 @@ class AuthController {
 
     } catch (e) {
 
-      // ERROR RATE LIMIT
-      if (e.toString().contains('429')) {
+      final errorMessage = e.toString().toLowerCase();
+
+      // RATE LIMIT
+      if (errorMessage.contains('429')) {
         return {
           'success': false,
           'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.'
         };
       }
 
-      // ERROR EMAIL / USERNAME SUDAH ADA
-      if (e.toString().contains('unique_violation')) {
+      // EMAIL SUDAH TERDAFTAR
+      if (errorMessage.contains('user already registered') ||
+          errorMessage.contains('email already registered') ||
+          errorMessage.contains('unique_violation')) {
+
         return {
           'success': false,
-          'message': 'Email atau Username sudah terdaftar.'
+          'message': 'Email sudah terdaftar. Silakan login.'
         };
       }
 
