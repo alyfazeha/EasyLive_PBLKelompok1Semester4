@@ -53,7 +53,7 @@ class PemilikKosController extends ChangeNotifier {
             price: 'Rp 1.500.000 / bulan',
             status: 'Aktif',
             statusColor: '0xFF31B75D',
-            emptyRoom: '1 Kosong',
+            emptyRoom: '1 Empty',
           ),
           KostData(
             name: 'Triple A',
@@ -61,7 +61,7 @@ class PemilikKosController extends ChangeNotifier {
             price: 'Rp 900.000 / bulan',
             status: 'Penuh',
             statusColor: '0xFFE53935',
-            emptyRoom: '5 Kosong',
+            emptyRoom: '5 Empty',
           ),
         ],
       );

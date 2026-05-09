@@ -74,7 +74,7 @@ class EditKendaraanController {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text("Data berhasil diperbarui")));
+    ).showSnackBar(SnackBar(content: Text("Data has been successfully updated")));
 
     // Navigate back to dashboard after save
     Navigator.pop(context);

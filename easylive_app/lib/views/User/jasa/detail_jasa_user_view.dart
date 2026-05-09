@@ -35,16 +35,14 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => JasaRouteView(kost: selectedKost),
-      ),
+      MaterialPageRoute(builder: (_) => JasaRouteView(kost: selectedKost)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color(0xFFF5F7FA),
       body: SafeArea(
         child: Column(
           children: [
@@ -61,76 +59,135 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
                           setState(() => _isFavorite = !_isFavorite),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(22, 22, 22, 24),
+                      padding: const EdgeInsets.fromLTRB(22, 22, 22, 28),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.vehicle.name,
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.darkBlue,
-                            ),
-                          ),
-                          const SizedBox(height: 9),
-                          Text(
-                            widget.vehicle.description,
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 12,
-                              color: AppColors.primary,
-                              height: 1.22,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              widget.vehicle.price,
-                              style: const TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 17),
-                          const Text(
-                            'Vehicle Specifications',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.darkBlue,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Text(
-                                  widget.vehicle.specifications.join('\n'),
+                                  widget.vehicle.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontFamily: 'Montserrat',
-                                    color: AppColors.primary,
-                                    fontSize: 12,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.darkBlue,
                                     height: 1.15,
                                   ),
                                 ),
                               ),
-                              Text(
-                                'Available : ${widget.vehicle.availableUnits} Unit',
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: AppColors.primary,
-                                  fontSize: 12,
+                              const SizedBox(width: 12),
+                              _AvailabilityBadge(
+                                availableUnits: widget.vehicle.availableUnits,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on_outlined,
+                                color: AppColors.primary,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  widget.vehicle.address,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Color(0xFF657384),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                          const SizedBox(height: 14),
+                          Row(
+                            children: [
+                              const Text(
+                                'Price',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Color(0xFF657384),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                widget.vehicle.price,
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppColors.darkBlue,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 18),
+                          const Divider(color: Color(0xFFE0E6EC), height: 1),
+                          const SizedBox(height: 18),
+                          const Text(
+                            'Description',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 17,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.vehicle.description,
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 13,
+                              color: AppColors.primary,
+                              height: 1.45,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Vehicle Specifications',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 17,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
+                          const SizedBox(height: 9),
+                          widget.vehicle.specifications.isEmpty
+                              ? const Text(
+                                  'No specifications listed',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: AppColors.primary,
+                                    fontSize: 13,
+                                    height: 1.25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : Column(
+                                  children: widget.vehicle.specifications
+                                      .map(
+                                        (specification) => _SpecificationRow(
+                                          label: specification,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                         ],
                       ),
                     ),
@@ -139,17 +196,17 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(22, 0, 22, 18),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
               child: ElevatedButton(
                 onPressed: _selectVehicle,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.yellow,
                   foregroundColor: AppColors.darkBlue,
-                  elevation: 4,
-                  shadowColor: AppColors.black.withValues(alpha: 0.18),
-                  minimumSize: const Size(double.infinity, 52),
+                  elevation: 8,
+                  shadowColor: AppColors.black.withValues(alpha: 0.2),
+                  minimumSize: const Size(double.infinity, 54),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
                 child: const Text(
@@ -183,31 +240,85 @@ class _HeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 245,
+      height: 310,
       width: double.infinity,
       child: Stack(
-        fit: StackFit.expand,
         children: [
           Container(
-            color: const Color(0xFF1F252B),
-            child: Image.asset(vehicle.image, fit: BoxFit.contain),
-          ),
-          Positioned(
-            left: 18,
-            top: 18,
-            child: _SquareIconButton(
-              icon: Icons.arrow_back_rounded,
-              onTap: () => Navigator.pop(context),
+            height: 255,
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppColors.darkBlue, Color(0xFF3D5A80)],
+              ),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _SquareIconButton(
+                      icon: Icons.arrow_back_rounded,
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    const Spacer(),
+                    _SquareIconButton(
+                      icon: isFavorite
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      onTap: onFavorite,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 26),
+                const Text(
+                  'Moving Service',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  vehicle.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    height: 1.08,
+                  ),
+                ),
+              ],
             ),
           ),
           Positioned(
-            right: 18,
-            top: 18,
-            child: _SquareIconButton(
-              icon: isFavorite
-                  ? Icons.favorite_rounded
-                  : Icons.favorite_border_rounded,
-              onTap: onFavorite,
+            left: 22,
+            right: 22,
+            bottom: 0,
+            child: Container(
+              height: 152,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.black.withValues(alpha: 0.12),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: Image.asset(vehicle.image, fit: BoxFit.contain),
             ),
           ),
         ],
@@ -228,13 +339,100 @@ class _SquareIconButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(11),
       child: Container(
-        width: 36,
-        height: 36,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
           color: AppColors.yellow,
           borderRadius: BorderRadius.circular(11),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.12),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        child: Icon(icon, color: AppColors.darkBlue, size: 20),
+        child: Icon(
+          icon,
+          color: icon == Icons.arrow_back_rounded
+              ? AppColors.darkBlue
+              : AppColors.red,
+          size: 21,
+        ),
+      ),
+    );
+  }
+}
+
+class _AvailabilityBadge extends StatelessWidget {
+  final int availableUnits;
+
+  const _AvailabilityBadge({required this.availableUnits});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.yellow.withValues(alpha: 0.22),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        '$availableUnits Unit',
+        style: const TextStyle(
+          fontFamily: 'Montserrat',
+          color: AppColors.darkBlue,
+          fontSize: 12,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+    );
+  }
+}
+
+class _SpecificationRow extends StatelessWidget {
+  final String label;
+
+  const _SpecificationRow({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 9),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColors.softBlue,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              Icons.check_rounded,
+              color: AppColors.darkBlue,
+              size: 16,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: AppColors.primary,
+                  fontSize: 13,
+                  height: 1.25,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

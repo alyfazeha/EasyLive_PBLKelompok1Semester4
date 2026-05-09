@@ -19,19 +19,19 @@ class EditProfileController {
     required String newPassword,
   }) {
     if (newName.isEmpty) {
-      return "Nama tidak boleh kosong";
+      return "Name cannot be empty";
     }
     if (newEmail.isEmpty) {
-      return "Email tidak boleh kosong";
+      return "Email cannot be empty";
     }
     if (!isValidEmail(newEmail)) {
-      return "Format email tidak valid";
+      return "Invalid email format";
     }
     if (newRole.isEmpty) {
-      return "Role tidak boleh kosong";
+      return "Role cannot be empty";
     }
     if (newPassword.isNotEmpty && newPassword.length < 6) {
-      return "Password harus minimal 6 karakter";
+      return "Password must be at least 6 characters long";
     }
     return null;
   }

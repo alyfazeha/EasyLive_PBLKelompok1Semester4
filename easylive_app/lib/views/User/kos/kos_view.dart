@@ -21,7 +21,6 @@ class _KosViewState extends State<KosView> {
   String _searchQuery = '';
   List<KostModel> _allKostList = [];
 
-  /// 🔥 FILTER STATE
   String? _selectedLocation;
   RangeValues? _selectedPrice;
 
@@ -37,7 +36,6 @@ class _KosViewState extends State<KosView> {
     super.dispose();
   }
 
-  /// 🔥 SEARCH + FILTER DIGABUNG
   List<KostModel> get _filteredKostList {
     return _allKostList.where((kost) {
       final matchSearch =
@@ -57,7 +55,6 @@ class _KosViewState extends State<KosView> {
     }).toList();
   }
 
-  /// 🔥 BUKA FILTER (PAKAI WIDGET)
   void _openFilter() {
     showModalBottomSheet(
       context: context,
@@ -155,7 +152,6 @@ class _KosViewState extends State<KosView> {
                 ),
               ),
 
-              /// 🔍 SEARCH + FILTER
               Positioned(
                 left: 25,
                 right: 25,
@@ -168,10 +164,10 @@ class _KosViewState extends State<KosView> {
                     });
                   },
                   decoration: InputDecoration(
-                    hintText: "Search kos...",
+                    hintText: "Search",
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
-                      onPressed: _openFilter, // 🔥 DISINI
+                      onPressed: _openFilter, 
                       icon: const Icon(Icons.filter_alt_rounded),
                     ),
                     border: OutlineInputBorder(
@@ -191,15 +187,14 @@ class _KosViewState extends State<KosView> {
           const Text(
             'See All Kost',
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: AppColors.darkBlue,
+            fontFamily: 'Montserrat',
+            fontSize: 14,
+            color: AppColors.darkBlue,
             ),
           ),
 
           const SizedBox(height: 15),
 
-          /// 🔥 LIST KOS
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

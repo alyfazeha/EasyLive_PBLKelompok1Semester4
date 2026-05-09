@@ -10,25 +10,25 @@ class PemilikJasaDashboardController {
   final List<JasaDashboardStat> stats = const [
     JasaDashboardStat(
       icon: Icons.local_shipping_outlined,
-      title: 'Total Kendaraan',
+      title: 'Total Vehicle',
       value: '15 Kendaraan',
       color: AppColors.yellow,
     ),
     JasaDashboardStat(
       icon: Icons.check_circle_outline_rounded,
-      title: 'Kendaraan Tersedia',
+      title: 'Vehicle Available',
       value: '6 Kendaraan',
       color: AppColors.yellow,
     ),
     JasaDashboardStat(
       icon: Icons.calendar_month_outlined,
-      title: 'Booking Baru',
+      title: 'New Bookings',
       value: '9 Kendaraan',
       color: Color(0xFF4D82FF),
     ),
     JasaDashboardStat(
       icon: Icons.paid_outlined,
-      title: 'Total Pendapatan',
+      title: 'Total Revenue',
       value: 'Rp 5.000.000',
       color: AppColors.yellow,
     ),

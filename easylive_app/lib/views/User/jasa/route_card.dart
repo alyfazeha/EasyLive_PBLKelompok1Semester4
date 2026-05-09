@@ -359,13 +359,7 @@ class _SelectedVehicleCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 148,
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
-            ),
-          ),
+          SizedBox(width: 148, child: Image.asset(image, fit: BoxFit.contain)),
         ],
       ),
     );
@@ -392,6 +386,18 @@ class RouteCard extends StatelessWidget {
     required this.onDateChanged,
   });
 
+  Future<void> _showDatePicker(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked == null) return;
+    onDateChanged(picked);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -417,19 +423,31 @@ class RouteCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.arrow_upward, size: 18, color: Colors.grey),
                   Container(height: 35, width: 1, color: Colors.grey[300]),
-                  const Icon(Icons.arrow_downward, size: 18, color: Colors.grey),
+                  const Icon(
+                    Icons.arrow_downward,
+                    size: 18,
+                    color: Colors.grey,
+                  ),
                 ],
               ),
               const SizedBox(width: 15),
               Expanded(
                 child: Column(
                   children: [
-                    _buildLocationItem('From', fromLocation ?? 'Lowokwaru, Malang', onFromTap),
+                    _buildLocationItem(
+                      'From',
+                      fromLocation ?? 'Lowokwaru, Malang',
+                      onFromTap,
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: Divider(thickness: 1, color: AppColors.darkBlue),
                     ),
-                    _buildLocationItem('To', toLocation ?? 'Sawojajar, Malang', onToTap),
+                    _buildLocationItem(
+                      'To',
+                      toLocation ?? 'Sawojajar, Malang',
+                      onToTap,
+                    ),
                   ],
                 ),
               ),
@@ -449,14 +467,18 @@ class RouteCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 25),
-          
+
           // Bagian Departure & Tanggal
           const Text(
             'Departure',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.darkBlue),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: AppColors.darkBlue,
+            ),
           ),
           const SizedBox(height: 15),
-          
+
           Row(
             children: [
               // List Tanggal 26-30
@@ -465,7 +487,8 @@ class RouteCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(5, (index) {
                     final date = selectedDate.add(Duration(days: index - 2));
-                    final isSelected = date.year == selectedDate.year &&
+                    final isSelected =
+                        date.year == selectedDate.year &&
                         date.month == selectedDate.month &&
                         date.day == selectedDate.day;
                     return GestureDetector(
@@ -477,21 +500,28 @@ class RouteCard extends StatelessWidget {
                             height: 35,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: isSelected ? const Color(0xFFD1DDE6) : Colors.transparent,
+                              color: isSelected
+                                  ? const Color(0xFFD1DDE6)
+                                  : Colors.transparent,
                               shape: BoxShape.circle,
                             ),
                             child: Text(
                               '${date.day}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.darkBlue),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.darkBlue,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 5),
                           Text(
                             DateFormat('E').format(date).toUpperCase(),
                             style: TextStyle(
-                              fontSize: 10, 
+                              fontSize: 10,
                               color: isSelected ? Colors.black : Colors.grey,
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
                           ),
                         ],
@@ -501,25 +531,40 @@ class RouteCard extends StatelessWidget {
                 ),
               ),
               // Garis Vertikal Pemisah
-              Container(height: 40, width: 1.5, color: Colors.grey[300], margin: const EdgeInsets.symmetric(horizontal: 15)),
-              // Bulan & Tahun
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        DateFormat('MMM').format(selectedDate).toUpperCase(),
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              Container(
+                height: 40,
+                width: 1.5,
+                color: Colors.grey[300],
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+              ),
+              // Bulan & Tahun (klik untuk pilih tanggal)
+              InkWell(
+                onTap: () => _showDatePicker(context),
+                borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat('MMM').format(selectedDate).toUpperCase(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Icon(Icons.arrow_drop_down, color: Colors.amber),
+                      ],
+                    ),
+                    Text(
+                      DateFormat('yyyy').format(selectedDate),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                      const Icon(Icons.arrow_drop_down, color: Colors.amber),
-                    ],
-                  ),
-                  Text(
-                    DateFormat('yyyy').format(selectedDate),
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -536,12 +581,15 @@ class RouteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
+            ),
             Text(
               value,
               style: const TextStyle(
-                fontWeight: FontWeight.bold, 
-                fontSize: 14, 
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
                 color: AppColors.darkBlue,
               ),
             ),

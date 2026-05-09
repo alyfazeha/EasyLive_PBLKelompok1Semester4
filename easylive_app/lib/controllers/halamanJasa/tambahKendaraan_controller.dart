@@ -21,7 +21,7 @@ class TambahKendaraanController {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text("Data berhasil disimpan")));
+    ).showSnackBar(SnackBar(content: Text("Data has been successfully saved")));
 
     // Navigate back to dashboard after save
     Navigator.pop(context);

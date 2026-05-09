@@ -113,7 +113,7 @@ class _RegisterViewState extends State<RegisterView> {
         return 'kos';
       case 'Pemilik Jasa':
         return 'jasa';
-      case 'Admin Jasa':
+      case 'Admin':
         return 'admin';
       default:
         return 'user';
