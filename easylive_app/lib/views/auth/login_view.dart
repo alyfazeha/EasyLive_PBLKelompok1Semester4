@@ -50,9 +50,9 @@ class _LoginViewState extends State<LoginView> {
       if (!context.mounted) return;
 
       if (result['success'] == true) {
-        final role = result['role'] ?? 'user';
+        // Ambil role dan pastikan huruf kecil agar cocok dengan database
+        final String role = (result['role'] ?? 'user').toString().toLowerCase();
 
-        // Tampilkan pesan sukses
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login berhasil sebagai $role'),
@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
           ),
         );
 
-        // Navigasi ke halaman home
+        // Navigasi yang lebih presisi sesuai skema SQL (kos, jasa, admin)
         if (role == 'kos') {
           Navigator.pushReplacementNamed(context, '/pemilik_kos');
         } else if (role == 'jasa' || role == 'admin') {

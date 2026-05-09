@@ -33,6 +33,15 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   void _submitRegister() async {
+    if (emailController.text.isEmpty ||
+        usernameController.text.isEmpty ||
+        passController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Semua field harus diisi!')));
+      return;
+    }
+
     FocusScope.of(context).unfocus();
     final navigator = Navigator.of(context);
     final messenger = ScaffoldMessenger.of(context);

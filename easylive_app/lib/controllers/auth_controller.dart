@@ -1,10 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthController {
-  // Shortcut untuk memanggil client Supabase
   static SupabaseClient get _supabase => Supabase.instance.client;
 
-  /// LOGIN: Mengecek email dan password langsung ke tabel 'profiles'
+  /// LOGIN
   static Future<Map<String, dynamic>> login({
     required String email,
     required String password,
@@ -19,10 +18,7 @@ class AuthController {
           .maybeSingle();
 
       if (userData == null) {
-        return {
-          'success': false,
-          'message': 'Email atau password salah.',
-        };
+        return {'success': false, 'message': 'Email atau password salah.'};
       }
 
       return {
@@ -32,14 +28,11 @@ class AuthController {
         'userData': userData,
       };
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'Terjadi kesalahan: $e',
-      };
+      return {'success': false, 'message': 'Terjadi kesalahan: $e'};
     }
   }
 
-  /// REGISTER: Menyimpan data user baru ke tabel 'profiles'
+  /// REGISTER
   static Future<Map<String, dynamic>> register({
     required String email,
     required String password,
@@ -50,48 +43,52 @@ class AuthController {
     required String role,
   }) async {
     try {
-      // Validasi kecocokan password[cite: 2]
       if (password != confirmPassword) {
         return {'success': false, 'message': 'Password tidak cocok.'};
       }
 
-      // Langsung insert ke tabel profiles tanpa menggunakan auth.signUp[cite: 2]
-      // Kolom 'id' akan terisi otomatis oleh database (auto-increment)[cite: 2]
-      await _supabase.from('profiles').insert({
-        'full_name': fullName,
-        'username': username,
-        'email': email,
-        'password': password, // Disimpan sebagai teks biasa sesuai tabelmu[cite: 2]
-        'role': role,
-        'phone_number': phone,
-      });
+      // 1. Mendaftarkan akun ke Supabase Auth agar mendapatkan UUID
+      final AuthResponse res = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
 
-      return {
-        'success': true,
-        'message': 'Registrasi berhasil. Silakan login.',
-      };
-    } catch (e) {
-      // Menangani error jika email atau username sudah dipakai[cite: 2]
-      if (e.toString().contains('unique_violation')) {
+      final String? userId = res.user?.id;
+
+      if (userId != null) {
+        // 2. Memasukkan data ke tabel profiles menggunakan id_profile dari Auth
+        await _supabase.from('profiles').insert({
+          'id_profile': userId, // Menghubungkan ID Auth ke tabel kita
+          'full_name': fullName,
+          'username': username,
+          'email': email,
+          'password': password,
+          'role': role,
+          'phone': phone, // SESUAI: Menggunakan 'phone' bukan 'phone_number'
+        });
+
         return {
-          'success': false, 
-          'message': 'Email atau Username sudah terdaftar.'
+          'success': true,
+          'message': 'Registrasi berhasil. Silakan login.',
         };
       }
-      return {
-        'success': false,
-        'message': 'Terjadi kesalahan: $e',
-      };
+
+      return {'success': false, 'message': 'Gagal membuat akun autentikasi.'};
+    } catch (e) {
+      if (e.toString().contains('unique_violation')) {
+        return {
+          'success': false,
+          'message': 'Email atau Username sudah terdaftar.',
+        };
+      }
+      return {'success': false, 'message': 'Terjadi kesalahan: $e'};
     }
   }
 
-  /// LOGOUT: Karena tidak pakai session Supabase Auth, cukup arahkan ke Login[cite: 2]
   static Future<void> logout() async {
-    // Jika nanti kamu pakai Session, tambahkan pembersihan data di sini
-    await _supabase.auth.signOut(); 
+    await _supabase.auth.signOut();
   }
 
-  /// Ambil role user berdasarkan email[cite: 2]
   static Future<String?> getUserRole(String email) async {
     final userData = await _supabase
         .from('profiles')
