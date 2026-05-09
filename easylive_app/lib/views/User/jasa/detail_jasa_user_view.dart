@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../models/user/kos_model.dart';
 import 'jasa_view.dart';
+import 'route_card.dart';
 
 class DetailJasaUserView extends StatefulWidget {
   final JasaVehicle vehicle;
@@ -22,23 +23,21 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
   }
 
   void _selectVehicle() {
-    Navigator.pushNamed(
+    final selectedKost = KostModel(
+      name: widget.vehicle.name,
+      address: widget.vehicle.address,
+      image: widget.vehicle.image,
+      price: _priceNumber(widget.vehicle.price),
+      description: widget.vehicle.description,
+      specifications: widget.vehicle.specifications,
+      availableRooms: widget.vehicle.availableUnits,
+    );
+
+    Navigator.push(
       context,
-      '/personal_info',
-      arguments: {
-        'kost': KostModel(
-          name: widget.vehicle.name,
-          address: widget.vehicle.address,
-          image: widget.vehicle.image,
-          price: _priceNumber(widget.vehicle.price),
-          description: widget.vehicle.description,
-          specifications: widget.vehicle.specifications,
-          availableRooms: widget.vehicle.availableUnits,
-        ),
-        'isJasa': true,
-        'fromLocation': 'Lowokwaru, Malang',
-        'toLocation': 'Sukun, Malang',
-      },
+      MaterialPageRoute(
+        builder: (_) => JasaRouteView(kost: selectedKost),
+      ),
     );
   }
 

@@ -212,8 +212,8 @@ class _KosViewState extends State<KosView> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 15,
-                            mainAxisSpacing: 20,
-                            childAspectRatio: 0.63,
+                            mainAxisSpacing: 14,
+                            childAspectRatio: 0.82,
                           ),
                       itemBuilder: (context, index) {
                         return InkWell(

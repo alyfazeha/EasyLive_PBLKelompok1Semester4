@@ -64,25 +64,26 @@ class _KostCardState extends State<KostCard> {
       onTap: () {
         Navigator.pushNamed(context, '/detail_kos', arguments: widget.kost);
       },
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(24),
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.lightGrey,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image Section
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(9),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(20),
                 child: Hero(
                   tag: 'kos_image_${widget.kost.name}_${widget.index}',
                   child: Image.asset(
                     widget.kost.image,
-                    height: 105,
+                    height: 92,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -91,8 +92,9 @@ class _KostCardState extends State<KostCard> {
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Title & Favorite
@@ -105,7 +107,7 @@ class _KostCardState extends State<KostCard> {
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w900,
-                            fontSize: 14,
+                            fontSize: 13,
                             color: AppColors.darkBlue,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -135,14 +137,15 @@ class _KostCardState extends State<KostCard> {
                     widget.kost.address,
                     style: const TextStyle(
                       fontFamily: 'Montserrat',
-                      fontSize: 8.5,
+                      fontSize: 8,
                       color: Colors.black54,
-                      height: 1.2,
+                      height: 1.15,
                     ),
                     maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
 
                   // Stats (Viewers | Verified)
                   Row(
@@ -153,22 +156,22 @@ class _KostCardState extends State<KostCard> {
                         style: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w800,
-                          fontSize: 11,
+                          fontSize: 10,
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Text("|", style: TextStyle(color: Colors.grey)),
                       ),
                       const Icon(
                         Icons.verified_user_outlined,
-                        size: 18,
+                        size: 16,
                         color: Colors.black87,
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
 
                   // Price & More Button
                   Row(
@@ -178,7 +181,7 @@ class _KostCardState extends State<KostCard> {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
                             color: AppColors.golden,
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(14),
                           ),
                           child: Text(
                             "Rp ${_formatPrice(widget.kost.price ?? 0)},-",
@@ -186,16 +189,16 @@ class _KostCardState extends State<KostCard> {
                             style: const TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w900,
-                              fontSize: 10,
+                              fontSize: 9.5,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       const Icon(
                         Icons.more_horiz,
                         color: Colors.grey,
-                        size: 24,
+                        size: 22,
                       ),
                     ],
                   ),
