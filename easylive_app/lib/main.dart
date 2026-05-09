@@ -21,14 +21,11 @@ import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
-<<<<<<< HEAD
 import 'views/pemilikKos/booking/detail_booking_view.dart';
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
-=======
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/home/home_view.dart';
->>>>>>> 87f679e6f785b3fafb9883060bb5344e1b1da7bf
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -156,10 +153,9 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/dashboard':
         return _noAnimation(DashboardView(), settings);
 
-<<<<<<< HEAD
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
-=======
+
       case '/pemilik_jasa':
       case '/admin':
         return _noAnimation(PemilikJasaHomeView(), settings);
@@ -173,7 +169,6 @@ class MyApp extends StatelessWidget {
           owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
           settings,
         );
->>>>>>> 87f679e6f785b3fafb9883060bb5344e1b1da7bf
 
       default:
         return null;
