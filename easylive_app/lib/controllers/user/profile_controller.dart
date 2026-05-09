@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-
-import '../../models/user_model.dart';
-
 class ProfileController {
   /// 🔥 DATA USER (sementara dummy)
   static String getUserName() {

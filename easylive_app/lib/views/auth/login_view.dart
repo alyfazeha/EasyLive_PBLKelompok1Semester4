@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
 import '../../controllers/auth_controller.dart';
-import '../../views/pemilikKos/home/home_view.dart';
-import '../../views/pemilikKos/home/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -49,7 +47,7 @@ class _LoginViewState extends State<LoginView> {
         password: password,
       );
 
-      if (!mounted) return;
+      if (!context.mounted) return;
 
       if (result['success'] == true) {
         final role = result['role'] ?? 'user';
@@ -63,17 +61,12 @@ class _LoginViewState extends State<LoginView> {
         );
 
         // Navigasi ke halaman home
-        if (context.mounted) {
-          if (role == 'kos') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => PemilikKosHomeView()),
-            );
-          } else if (role == 'admin') {
-            Navigator.pushReplacementNamed(context, '/admin');
-          } else {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
+        if (role == 'kos') {
+          Navigator.pushReplacementNamed(context, '/pemilik_kos');
+        } else if (role == 'jasa' || role == 'admin') {
+          Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+        } else {
+          Navigator.pushReplacementNamed(context, '/home');
         }
       } else {
         setState(() {

@@ -1,8 +1,82 @@
 import 'package:flutter/material.dart';
-import 'location_picker_view.dart';
-import '../../../models/user/kos_model.dart';
-import '../../../widgets/user/home/bottom_navbar.dart';
+
 import '../../../core/color.dart';
+import '../../../controllers/user/home_controller.dart';
+import '../../../widgets/user/home/bottom_navbar.dart';
+import 'detail_jasa_user_view.dart';
+
+class JasaVehicle {
+  final String name;
+  final String address;
+  final String image;
+  final String price;
+  final String description;
+  final List<String> specifications;
+  final int availableUnits;
+
+  const JasaVehicle({
+    required this.name,
+    required this.address,
+    required this.image,
+    required this.price,
+    required this.description,
+    required this.specifications,
+    required this.availableUnits,
+  });
+}
+
+const List<JasaVehicle> userVehicles = [
+  JasaVehicle(
+    name: 'AUTOCAR EXPRESS',
+    address: 'Jl. Cengger Ayam, Lowokwaru',
+    image: 'assets/images/pickup-removed.png',
+    price: 'Rp 1.500.000,-',
+    description:
+        'AUTOCAR Express menyediakan layanan sewa mobil untuk pindahan, ganti kos, dan pengantaran barang dengan kendaraan yang bersih serta pengemudi berpengalaman.',
+    specifications: [
+      '4 x 6 meter',
+      'en-suite bathroom',
+      '2 seat',
+      'soft sponge',
+    ],
+    availableUnits: 5,
+  ),
+  JasaVehicle(
+    name: 'TRUCK BOX',
+    address: 'Jl. Soekarno Hatta, Malang',
+    image: 'assets/images/mobilBox-BackgroundRemover.jpg',
+    price: 'Rp 2.500.000,-',
+    description:
+        'Truck box cocok untuk pindahan besar dengan perlindungan barang lebih aman dari hujan dan panas selama perjalanan.',
+    specifications: ['6 x 8 meter', 'closed box', '2 seat', 'heavy duty'],
+    availableUnits: 3,
+  ),
+  JasaVehicle(
+    name: 'PICKUP HARIAN',
+    address: 'Jl. Ijen, Malang',
+    image: 'assets/images/pickup-removed.png',
+    price: 'Rp 900.000,-',
+    description:
+        'Pickup harian untuk kebutuhan pindahan ringan, pengiriman lemari, kasur, meja, dan barang kos area Malang.',
+    specifications: ['4 x 5 meter', 'open deck', '2 seat', 'light cargo'],
+    availableUnits: 4,
+  ),
+  JasaVehicle(
+    name: 'MOVING VAN',
+    address: 'Jl. Veteran, Malang',
+    image: 'assets/images/mobilBox-BackgroundRemover.jpg',
+    price: 'Rp 1.800.000,-',
+    description:
+        'Moving van praktis untuk pindahan apartemen atau kos dengan kapasitas sedang dan jadwal pemesanan fleksibel.',
+    specifications: [
+      '5 x 6 meter',
+      'closed cabin',
+      '2 seat',
+      'soft suspension',
+    ],
+    availableUnits: 2,
+  ),
+];
 
 class JasaView extends StatefulWidget {
   const JasaView({super.key});
@@ -12,518 +86,288 @@ class JasaView extends StatefulWidget {
 }
 
 class _JasaViewState extends State<JasaView> {
-  String? selectedFromLocation;
-  String? selectedToLocation;
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
-  String selectedVehicle = 'Mobil Pick Up';
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
-  final List<String> availableLocations = [
-    'Lowokwaru, Malang',
-    'Sawojajar, Malang',
-    'Blimbing, Malang',
-    'Klojen, Malang',
-    'Sukun, Malang',
-  ];
+  List<JasaVehicle> get _filteredVehicles {
+    final query = _searchQuery.trim().toLowerCase();
+    if (query.isEmpty) return userVehicles;
 
-  void _showLocationPicker(bool isFrom) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        minChildSize: 0.5,
-        maxChildSize: 0.9,
-        expand: false,
-        builder: (context, scrollController) => Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              height: 5,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                isFrom ? 'Pilih Lokasi Jemput' : 'Pilih Lokasi Tujuan',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                controller: scrollController,
-                itemCount: availableLocations.length,
-                itemBuilder: (context, i) => ListTile(
-                  leading: const Icon(Icons.location_on_outlined),
-                  title: Text(availableLocations[i]),
-                  onTap: () {
-                    setState(() {
-                      if (isFrom) {
-                        selectedFromLocation = availableLocations[i];
-                      } else {
-                        selectedToLocation = availableLocations[i];
-                      }
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return userVehicles.where((vehicle) {
+      return vehicle.name.toLowerCase().contains(query) ||
+          vehicle.address.toLowerCase().contains(query);
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userName = HomeController.getUserName();
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       extendBody: true,
+      body: Column(
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(22, 54, 22, 72),
+                decoration: const BoxDecoration(
+                  color: AppColors.darkBlue,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(28),
+                  ),
+                ),
+                child: _Header(userName: userName),
+              ),
+              Positioned(
+                left: 24,
+                right: 24,
+                bottom: -24,
+                child: _SearchField(
+                  controller: _searchController,
+                  onChanged: (value) => setState(() => _searchQuery = value),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 46),
+          const Text(
+            'List All Your Vehicle',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+              color: AppColors.darkBlue,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: _filteredVehicles.isEmpty
+                ? const Center(child: Text('No vehicle found'))
+                : ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 106),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _filteredVehicles.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 13),
+                    itemBuilder: (context, index) {
+                      final vehicle = _filteredVehicles[index];
+                      return _VehicleCard(
+                        vehicle: vehicle,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  DetailJasaUserView(vehicle: vehicle),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNav(
         currentIndex: 1,
         onTap: (index) {
-          if (index == 1) return;
-
-          if (index == 0) {
+          if (index == 1) {
+            Navigator.pushReplacementNamed(context, '/home');
+          } else if (index == 0) {
             Navigator.pushReplacementNamed(context, '/history');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/booking');
           }
         },
       ),
-      body: Stack(
-        children: [
-          Container(
-            height: 280,
-            decoration: const BoxDecoration(
-              color: AppColors.darkBlue,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: RouteCard(
-                    fromLocation: selectedFromLocation,
-                    toLocation: selectedToLocation,
-                    selectedDate: selectedDate,
-                    selectedTime: selectedTime,
-                    onFromTap: () => _showLocationPicker(true),
-                    onToTap: () => _showLocationPicker(false),
-                    onDateChanged: (date) =>
-                        setState(() => selectedDate = date),
-                    onTimeChanged: (time) =>
-                        setState(() => selectedTime = time),
-                  ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Choose the car for moving',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: AppColors.darkBlue,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        _buildVehicleCard(
-                          'Mobil Pick Up',
-                          'max 200kg',
-                          'assets/images/pickup-removed.png',
-                        ),
-                        _buildVehicleCard(
-                          'Truck',
-                          'max 700kg',
-                          'assets/images/mobilBox-BackgroundRemover.jpg',
-                        ),
-                        const SizedBox(height: 20),
-                        _buildNextButton(),
-                        const SizedBox(height: 100),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
+}
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.all(25),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.yellow,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.arrow_back,
-                color: AppColors.primary,
-                size: 20,
-              ),
+class _Header extends StatelessWidget {
+  final String userName;
+
+  const _Header({required this.userName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: AppColors.yellow,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.arrow_back_rounded,
+              color: AppColors.darkBlue,
+              size: 20,
             ),
           ),
-          const SizedBox(width: 15),
-          const Column(
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi, Alyfa',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                'Hi, $userName',
+                style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: AppColors.background,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
-              Text(
-                'Welcome to EasyLive!',
-                style: TextStyle(color: Colors.white70),
+              const SizedBox(height: 2),
+              const Text(
+                'Welcome to EasyLive !',
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: Colors.white70,
+                  fontSize: 10,
+                ),
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildVehicleCard(String name, String cap, String imagePath) {
-    bool isSelected = selectedVehicle == name;
-
-    return GestureDetector(
-      onTap: () => setState(() => selectedVehicle = name),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-        child: Stack(
-          clipBehavior: Clip.none, // 🔥 INI PENTING BANGET
-          children: [
-            /// CARD
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: isSelected ? AppColors.amber : Colors.transparent,
-                  width: 2,
-                ),
-              ),
-              child: Row(
-                children: [
-                  /// TEXT
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(cap, style: const TextStyle(color: Colors.grey)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            /// 🔥 GAMBAR (KELUAR KE ATAS + KANAN)
-            Positioned(
-              right: 10,
-              top: -30,
-              child: Image.asset(imagePath, height: 110),
-            ),
-          ],
         ),
-      ),
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: AppColors.yellow,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(
+            Icons.notifications_rounded,
+            color: AppColors.darkBlue,
+            size: 18,
+          ),
+        ),
+      ],
     );
   }
+}
 
-  Widget _buildNextButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: SizedBox(
-        width: double.infinity,
-        height: 55,
-        child: ElevatedButton(
-          onPressed: () {
-            final price = selectedVehicle == 'Truck' ? 300000 : 150000;
-            final kost = KostModel(
-              name: selectedVehicle,
-              address: 'Jasa Pindahan',
-              image: '',
-              price: price,
-            );
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LocationPickerView(kost: kost),
-              ),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.amber,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          child: const Text(
-            'Next',
-            style: TextStyle(
-              color: AppColors.darkBlue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+class _SearchField extends StatelessWidget {
+  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
+
+  const _SearchField({required this.controller, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onChanged: onChanged,
+      style: const TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+      decoration: InputDecoration(
+        hintText: 'Search...',
+        hintStyle: const TextStyle(fontFamily: 'Montserrat', fontSize: 11),
+        prefixIcon: const Icon(Icons.search_rounded, size: 18),
+        suffixIcon: const Icon(Icons.filter_alt_rounded, size: 18),
+        filled: true,
+        fillColor: AppColors.lightGreyAlt,
+        contentPadding: const EdgeInsets.symmetric(vertical: 0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide.none,
         ),
       ),
     );
   }
 }
 
-class RouteCard extends StatelessWidget {
-  final String? fromLocation;
-  final String? toLocation;
-  final DateTime selectedDate;
-  final TimeOfDay selectedTime;
-  final VoidCallback onFromTap;
-  final VoidCallback onToTap;
-  final ValueChanged<DateTime> onDateChanged;
-  final ValueChanged<TimeOfDay> onTimeChanged;
+class _VehicleCard extends StatelessWidget {
+  final JasaVehicle vehicle;
+  final VoidCallback onTap;
 
-  const RouteCard({
-    super.key,
-    required this.fromLocation,
-    required this.toLocation,
-    required this.selectedDate,
-    required this.selectedTime,
-    required this.onFromTap,
-    required this.onToTap,
-    required this.onDateChanged,
-    required this.onTimeChanged,
-  });
+  const _VehicleCard({required this.vehicle, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildLocationRow(context, 'From', fromLocation, onFromTap),
-          const SizedBox(height: 15),
-          _buildLocationRow(context, 'To', toLocation, onToTap),
-          const SizedBox(height: 15),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
-                    );
-                    if (picked != null) {
-                      onDateChanged(picked);
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.softBlue,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_today_outlined,
-                          color: AppColors.darkBlue,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Tanggal',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.darkBlue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    final picked = await showTimePicker(
-                      context: context,
-                      initialTime: selectedTime,
-                    );
-                    if (picked != null) {
-                      onTimeChanged(picked);
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.softBlue,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.access_time_outlined,
-                          color: AppColors.darkBlue,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Jam',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                selectedTime.format(context),
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.darkBlue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationRow(
-    BuildContext context,
-    String label,
-    String? location,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: AppColors.softBlue,
-          borderRadius: BorderRadius.circular(20),
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
         child: Row(
           children: [
-            Icon(
-              location == null
-                  ? Icons.add_location_outlined
-                  : Icons.location_on_outlined,
-              color: AppColors.darkBlue,
+            Container(
+              width: 92,
+              height: 58,
+              decoration: BoxDecoration(
+                color: AppColors.lightGreyAlt,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Image.asset(vehicle.image, fit: BoxFit.contain),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: const TextStyle(color: Colors.grey)),
+                  Text(
+                    vehicle.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.darkBlue,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Text(
-                    location ?? 'Pilih lokasi',
+                    vehicle.address,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat',
+                      fontSize: 9,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 9),
+                  Text(
+                    vehicle.price,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.darkBlue,
                     ),
                   ),
                 ],
               ),
             ),
+            const Icon(Icons.more_horiz_rounded, color: Colors.black38),
           ],
         ),
       ),

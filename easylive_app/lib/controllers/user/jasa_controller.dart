@@ -1,5 +1,6 @@
-import '../../models/user/jasa_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/user/jasa_model.dart';
 
 class JasaController {
   final List<Map<String, String>> dates = [
@@ -10,7 +11,15 @@ class JasaController {
   ];
 
   final List<VehicleOption> vehicles = [
-    VehicleOption(name: 'Pick Up', capacity: 'Max 1.000 kg', icon: Icons.local_shipping),
-    VehicleOption(name: 'Blind Van', capacity: 'Max 600 kg', icon: Icons.directions_car),
+    VehicleOption(
+      name: 'Pick Up',
+      capacity: 'Max 1.000 kg',
+      icon: Icons.local_shipping,
+    ),
+    VehicleOption(
+      name: 'Blind Van',
+      capacity: 'Max 600 kg',
+      icon: Icons.directions_car,
+    ),
   ];
 }

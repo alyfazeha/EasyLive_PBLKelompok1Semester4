@@ -15,13 +15,17 @@ class BookingView extends StatefulWidget {
 class _BookingViewState extends State<BookingView> {
   String selectedType = 'Kost';
   String selectedStatus = 'Active Now'; // Default tab
+  String searchQuery = '';
+  bool showSearch = false;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Memanggil controller dengan dua filter
+    // Memanggil controller dengan filter tipe, status, dan pencarian
     final filteredBookings = BookingController.getFilteredBookings(
       selectedType,
       selectedStatus,
+      searchQuery,
     );
 
     return Scaffold(
@@ -78,10 +82,21 @@ class _BookingViewState extends State<BookingView> {
                       ),
                     ),
                   ),
-                  const Icon(
-                    Icons.search_rounded,
-                    color: AppColors.golden,
-                    size: 28,
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        showSearch = !showSearch;
+                        if (!showSearch) {
+                          searchQuery = '';
+                          _searchController.clear();
+                        }
+                      });
+                    },
+                    child: Icon(
+                      showSearch ? Icons.close_rounded : Icons.search_rounded,
+                      color: AppColors.golden,
+                      size: 28,
+                    ),
                   ),
                 ],
               ),
@@ -97,6 +112,33 @@ class _BookingViewState extends State<BookingView> {
                 ),
                 child: Column(
                   children: [
+                    if (showSearch)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.softBlue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                searchQuery = value;
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'Search bookings...',
+                              border: InputBorder.none,
+                              prefixIcon: Icon(Icons.search_rounded),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 14,
+                                horizontal: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     // Tabs Status (Active Now, Completed, Canceled)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -206,6 +248,12 @@ class _BookingViewState extends State<BookingView> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Widget _buildTypeChip(String label) {

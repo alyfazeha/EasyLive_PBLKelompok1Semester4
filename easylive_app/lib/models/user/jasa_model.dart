@@ -20,8 +20,8 @@ class VehicleOption {
   final IconData icon;
 
   VehicleOption({
-    required this.name, 
-    required this.capacity, 
+    required this.name,
+    required this.capacity,
     required this.icon,
   });
 }

@@ -17,7 +17,12 @@ class _RegisterViewState extends State<RegisterView> {
   bool saveAccount = false;
   String selectedRole = 'User';
 
-  final List<String> roles = ['User', 'Pemilik Kos', 'Pemilik Jasa', 'Admin'];
+  final List<String> roles = [
+    'User',
+    'Pemilik Kos',
+    'Pemilik Jasa',
+    'Admin Jasa',
+  ];
 
   @override
   void dispose() {
@@ -29,6 +34,8 @@ class _RegisterViewState extends State<RegisterView> {
 
   void _submitRegister() async {
     FocusScope.of(context).unfocus();
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final result = await AuthController.register(
       email: emailController.text.trim(),
       password: passController.text,
@@ -39,16 +46,14 @@ class _RegisterViewState extends State<RegisterView> {
       role: _mapRole(selectedRole),
     );
 
+    if (!mounted) return;
+
     if (result['success'] == true) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final nextRoute = selectedRole == 'Pemilik Kos'
-            ? '/pemilik_kos'
-            : '/login';
-        Navigator.pushReplacementNamed(context, nextRoute);
-      });
+      final nextRoute = _routeByRole(selectedRole);
+      navigator.pushReplacementNamed(nextRoute);
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
+    messenger.showSnackBar(
       SnackBar(content: Text(result['message'] ?? 'Data belum valid.')),
     );
   }
@@ -62,10 +67,22 @@ class _RegisterViewState extends State<RegisterView> {
         return 'kos';
       case 'Pemilik Jasa':
         return 'jasa';
-      case 'Admin':
+      case 'Admin Jasa':
         return 'admin';
       default:
         return 'user';
+    }
+  }
+
+  String _routeByRole(String role) {
+    switch (role) {
+      case 'Pemilik Kos':
+        return '/pemilik_kos';
+      case 'Pemilik Jasa':
+      case 'Admin Jasa':
+        return '/pemilik_jasa';
+      default:
+        return '/login';
     }
   }
 

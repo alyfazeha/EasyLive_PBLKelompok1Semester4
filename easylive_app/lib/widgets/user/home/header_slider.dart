@@ -169,7 +169,7 @@ class DotIndicator extends StatelessWidget {
       width: active ? 20 : 8, // Dot memanjang kalau aktif
       height: 8,
       decoration: BoxDecoration(
-        color: active ? AppColors.maroon : Colors.grey.shade400,
+        color: active ? AppColors.primary : Colors.grey.shade400,
         borderRadius: BorderRadius.circular(5),
       ),
     );

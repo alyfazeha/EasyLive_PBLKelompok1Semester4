@@ -15,13 +15,8 @@ class EditKamarController {
   String tipeKost = '';
   List<int> selectedFasilitas = [];
 
-  // Current kost data (for edit mode)
-  Kost? _currentKost;
-
   // Load existing kost data
   void loadKostData(Kost kost) {
-    _currentKost = kost;
-
     // Set text field values
     namaKost.text = kost.name;
     alamat.text = kost.address;

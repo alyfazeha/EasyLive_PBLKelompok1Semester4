@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/user/home/header_slider.dart';
+import 'dart:async';
 import '../../../controllers/user/home_controller.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../widgets/user/home/item_card.dart';
 import '../../../views/User/kos/kos_view.dart';
 import '../../../views/User/jasa/jasa_view.dart';
-import '../../../widgets/user/kosPage/detail_kos_widgets.dart';
+import '../../../views/User/notification/notification_view.dart';
 import 'package:easylive_app/views/User/kos/detailKos_view.dart';
 import '../../../core/color.dart';
 
@@ -19,11 +19,43 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   bool _showAll = false;
+  final PageController _recommendedController = PageController(
+    viewportFraction: 0.88,
+  );
+  Timer? _recommendedTimer;
+  int _currentRecommended = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startRecommendedAutoPlay();
+  }
+
+  void _startRecommendedAutoPlay() {
+    _recommendedTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      final kostList = HomeController.getKostList();
+      if (!_recommendedController.hasClients || kostList.length <= 1) return;
+
+      final nextPage = (_currentRecommended + 1) % kostList.length;
+      _recommendedController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 650),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _recommendedTimer?.cancel();
+    _recommendedController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String userName = HomeController.getUserName() ?? "User";
-    final List<KostModel> kostList = HomeController.getKostList() ?? [];
+    final String userName = HomeController.getUserName();
+    final List<KostModel> kostList = HomeController.getKostList();
 
     int displayCount = _showAll
         ? kostList.length
@@ -39,8 +71,7 @@ class _HomeViewState extends State<HomeView> {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: double.infinity,
-                  height: 240,
+                  height: 252,
                   decoration: const BoxDecoration(
                     color: AppColors.darkBlue,
                     borderRadius: BorderRadius.only(
@@ -50,32 +81,37 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 Positioned(
-                  top: 60,
-                  left: 25,
-                  right: 25,
-                  child: _buildHeader(userName),
-                ),
-                const Positioned(
-                  top: 175,
                   left: 0,
                   right: 0,
-                  child: HeaderSlider(),
+                  top: 172,
+                  child: Container(height: 250, color: AppColors.background),
                 ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
+                  child: _buildHeader(userName),
+                ),
+                if (kostList.isNotEmpty)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 118,
+                    child: _buildRecommendedCarousel(kostList),
+                  ),
               ],
             ),
-            const SizedBox(height: 190),
+            const SizedBox(height: 128),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: _buildCategorySection(),
             ),
             const SizedBox(height: 30),
             const _BookingBanner(),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 30),
                   const Text(
                     'See All Kost',
                     style: TextStyle(
@@ -115,21 +151,23 @@ class _HomeViewState extends State<HomeView> {
                         ),
                   const SizedBox(height: 30),
                   if (kostList.length > 4)
-                    InkWell(
-                      onTap: () => setState(() => _showAll = !_showAll),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        child: Text(
-                          _showAll ? "Show Less" : "See More",
-                          style: const TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w800,
-                            fontSize: 17,
-                            color: AppColors.darkBlue,
-                            decoration: TextDecoration.underline,
+                    Center(
+                      child: InkWell(
+                        onTap: () => setState(() => _showAll = !_showAll),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 20,
+                          ),
+                          child: Text(
+                            _showAll ? "Show Less" : "See More",
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w800,
+                              fontSize: 17,
+                              color: AppColors.darkBlue,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ),
@@ -164,7 +202,12 @@ class _HomeViewState extends State<HomeView> {
           },
           child: const CircleAvatar(
             radius: 26,
-            backgroundImage: AssetImage('assets/images/alyfa.jpeg'),
+            backgroundColor: AppColors.yellow,
+            child: Icon(
+              Icons.person_rounded,
+              color: AppColors.darkBlue,
+              size: 28,
+            ),
           ),
         ),
         const SizedBox(width: 12),
@@ -192,16 +235,24 @@ class _HomeViewState extends State<HomeView> {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.yellow,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: const Icon(
-            Icons.notifications,
-            color: AppColors.darkBlue,
-            size: 28,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NotificationView()),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.yellow,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Icon(
+              Icons.notifications,
+              color: AppColors.darkBlue,
+              size: 28,
+            ),
           ),
         ),
       ],
@@ -238,6 +289,216 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildRecommendedCarousel(List<KostModel> kostList) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 38),
+          child: Text(
+            '#Recommended For You!',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+              color: AppColors.background,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 178,
+          child: PageView.builder(
+            controller: _recommendedController,
+            itemCount: kostList.length,
+            onPageChanged: (index) {
+              setState(() => _currentRecommended = index);
+            },
+            itemBuilder: (context, index) {
+              return _RecommendedCard(
+                kost: kostList[index],
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => DetailKosView(kost: kostList[index]),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 7),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            kostList.length,
+            (index) => _CarouselDot(active: _currentRecommended == index),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RecommendedCard extends StatefulWidget {
+  final KostModel kost;
+  final VoidCallback onTap;
+
+  const _RecommendedCard({required this.kost, required this.onTap});
+
+  @override
+  State<_RecommendedCard> createState() => _RecommendedCardState();
+}
+
+class _RecommendedCardState extends State<_RecommendedCard> {
+  bool _isFavorite = false;
+
+  String _formatPrice(int price) {
+    final value = price.toString();
+    var result = '';
+    var count = 0;
+
+    for (var i = value.length - 1; i >= 0; i--) {
+      if (count > 0 && count % 3 == 0) {
+        result = '.$result';
+      }
+      result = value[i] + result;
+      count++;
+    }
+
+    return result;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 7),
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+        decoration: BoxDecoration(
+          color: AppColors.yellow,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.12),
+              blurRadius: 14,
+              offset: const Offset(0, 7),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: Image.asset(
+                      widget.kost.image,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => _isFavorite = !_isFavorite);
+                      },
+                      child: Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: AppColors.yellow,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          _isFavorite
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          color: AppColors.darkBlue,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              widget.kost.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: AppColors.darkBlue,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(
+                  Icons.star_border_rounded,
+                  size: 18,
+                  color: AppColors.darkBlue,
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '4,5',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.darkBlue,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  'Rp. ${_formatPrice(widget.kost.price ?? 0)}',
+                  style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.darkBlue,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CarouselDot extends StatelessWidget {
+  final bool active;
+
+  const _CarouselDot({required this.active});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      width: active ? 8 : 6,
+      height: active ? 8 : 6,
+      margin: const EdgeInsets.symmetric(horizontal: 2.5),
+      decoration: BoxDecoration(
+        color: active ? AppColors.darkBlue : AppColors.grey,
+        shape: BoxShape.circle,
+      ),
     );
   }
 }

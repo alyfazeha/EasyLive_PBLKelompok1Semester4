@@ -80,10 +80,7 @@ class BookingDetailView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _buildInfo('Customer', 'Ahmad Rafi Hamdi'),
-                            _buildInfo(
-                              'Order',
-                              booking.title ?? 'Default Booking',
-                            ), // Menggunakan data booking
+                            _buildInfo('Order', booking.title),
                             _buildInfo('Date', '09:00, Tuesday, 21 April 2026'),
 
                             const Text(

@@ -21,8 +21,8 @@ class _ItemCardState extends State<ItemCard> {
     _isFavorite = FavoriteController.isFavorite(widget.kost.name);
   }
 
-  void _toggleFavorite() {
-    FavoriteController.toggleFavorite(widget.kost.name);
+  void _toggleFavorite() async {
+    await FavoriteController.toggleFavorite(widget.kost.name);
     setState(() {
       _isFavorite = !_isFavorite;
     });

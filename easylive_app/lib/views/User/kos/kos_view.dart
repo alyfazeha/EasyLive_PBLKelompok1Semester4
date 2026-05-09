@@ -149,13 +149,6 @@ class _KosViewState extends State<KosView> {
                             ],
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.chat_bubble_outline,
-                            color: AppColors.background,
-                          ),
-                        ),
                       ],
                     ),
                   ),
