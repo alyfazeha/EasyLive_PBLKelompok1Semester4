@@ -3,11 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../views/pemilikKos/home/editKamar_view.dart';
 import 'bottom_navbar.dart';
+import 'owner_search_section.dart';
 
-class OwnerDashboardFrame extends StatelessWidget {
+class OwnerDashboardFrame extends StatefulWidget {
   final Function(int)? onNavigate;
 
   const OwnerDashboardFrame({super.key, this.onNavigate});
+
+  @override
+  State<OwnerDashboardFrame> createState() => _OwnerDashboardFrameState();
+}
+
+class _OwnerDashboardFrameState extends State<OwnerDashboardFrame> {
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +30,21 @@ class OwnerDashboardFrame extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(18, 16, 18, 104),
-                  child: OwnerDashboardContent(),
+                  child: OwnerDashboardContent(
+                    searchQuery: _searchQuery,
+                    onSearchChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: OwnerBottomNav(onNavigate: onNavigate),
+            child: OwnerBottomNav(onNavigate: widget.onNavigate),
           ),
         ],
       ),
@@ -38,14 +53,47 @@ class OwnerDashboardFrame extends StatelessWidget {
 }
 
 class OwnerDashboardContent extends StatelessWidget {
-  const OwnerDashboardContent({super.key});
+  final String searchQuery;
+  final ValueChanged<String> onSearchChanged;
+
+  const OwnerDashboardContent({
+    super.key,
+    required this.searchQuery,
+    required this.onSearchChanged,
+  });
+
+  static const List<_OwnerKosItem> _kosList = [
+    _OwnerKosItem(
+      image: 'assets/images/kos1.jpg',
+      name: 'Daniska Kos',
+      price: 'Rp 1.500.000 / bulan',
+      status: 'Aktif',
+      statusColor: Color(0xFF31B75D),
+      emptyRoom: '1 Kosong',
+      location: 'Jalan Cengger Ayam Dalam III, Lowokwaru Malang',
+    ),
+    _OwnerKosItem(
+      image: 'assets/images/kos2.jpg',
+      name: 'Triple A',
+      price: 'Rp 900.000 / bulan',
+      status: 'Penuh',
+      statusColor: AppColors.red,
+      emptyRoom: '5 Kosong',
+      location: 'Jalan Cengger Ayam Dalam III, Lowokwaru Malang',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final normalizedQuery = searchQuery.trim().toLowerCase();
+    final filteredKos = normalizedQuery.isEmpty
+        ? _kosList
+        : _kosList.where((kos) => kos.matches(normalizedQuery)).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const OwnerSearchSection(),
+        OwnerSearchSection(onChanged: onSearchChanged),
         const SizedBox(height: 16),
         OwnerSectionTitle(
           title: 'Ringkasan Bulan Ini',
@@ -94,24 +142,96 @@ class OwnerDashboardContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const OwnerKosCard(
-          image: 'assets/images/kos1.jpg',
-          name: 'Daniska Kos',
-          price: 'Rp 1.500.000 / bulan',
-          status: 'Aktif',
-          statusColor: Color(0xFF31B75D),
-          emptyRoom: '1 Kosong',
-        ),
-        const SizedBox(height: 14),
-        const OwnerKosCard(
-          image: 'assets/images/kos2.jpg',
-          name: 'Triple A',
-          price: 'Rp 900.000 / bulan',
-          status: 'Penuh',
-          statusColor: AppColors.red,
-          emptyRoom: '5 Kosong',
-        ),
+        if (filteredKos.isEmpty)
+          const _EmptyKosSearchResult()
+        else
+          ...filteredKos.expand(
+            (kos) => [
+              OwnerKosCard(
+                image: kos.image,
+                name: kos.name,
+                price: kos.price,
+                status: kos.status,
+                statusColor: kos.statusColor,
+                emptyRoom: kos.emptyRoom,
+              ),
+              const SizedBox(height: 14),
+            ],
+          ),
       ],
+    );
+  }
+}
+
+class _OwnerKosItem {
+  final String image;
+  final String name;
+  final String price;
+  final String status;
+  final Color statusColor;
+  final String emptyRoom;
+  final String location;
+
+  const _OwnerKosItem({
+    required this.image,
+    required this.name,
+    required this.price,
+    required this.status,
+    required this.statusColor,
+    required this.emptyRoom,
+    required this.location,
+  });
+
+  bool matches(String query) {
+    return name.toLowerCase().contains(query) ||
+        price.toLowerCase().contains(query) ||
+        status.toLowerCase().contains(query) ||
+        emptyRoom.toLowerCase().contains(query) ||
+        location.toLowerCase().contains(query);
+  }
+}
+
+class _EmptyKosSearchResult extends StatelessWidget {
+  const _EmptyKosSearchResult();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: const Column(
+        children: [
+          Icon(
+            Icons.search_off_rounded,
+            color: Colors.black38,
+            size: 34,
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Kost tidak ditemukan',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: AppColors.darkBlue,
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Coba kata kunci lain',
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 10,
+              color: Colors.black45,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -131,12 +251,12 @@ class OwnerHeaderSection extends StatelessWidget {
           bottomRight: Radius.circular(18),
         ),
       ),
-      child: const Column(
+      child: Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 21,
                 backgroundColor: AppColors.yellow,
                 child: Icon(
@@ -145,8 +265,8 @@ class OwnerHeaderSection extends StatelessWidget {
                   size: 28,
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
+              const SizedBox(width: 10),
+              const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -179,11 +299,11 @@ class OwnerHeaderSection extends StatelessWidget {
                   ],
                 ),
               ),
-              _NotificationBell(),
+              const _NotificationBell(),
             ],
           ),
-          SizedBox(height: 18),
-          Row(
+          const SizedBox(height: 18),
+          const Row(
             children: [
               Expanded(
                 child: OwnerHeaderStat(
@@ -213,37 +333,44 @@ class _NotificationBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        const Icon(
-          Icons.notifications_none_rounded,
-          color: Colors.white,
-          size: 32,
-        ),
-        Positioned(
-          top: -2,
-          right: -2,
-          child: Container(
-            width: 16,
-            height: 16,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.yellow,
-              shape: BoxShape.circle,
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, '/pemilik_kos/notifikasi'),
+      borderRadius: BorderRadius.circular(18),
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Colors.white,
+              size: 32,
             ),
-            child: const Text(
-              '5',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 10,
-                fontWeight: FontWeight.w900,
-                color: AppColors.darkBlue,
+            Positioned(
+              top: -2,
+              right: -2,
+              child: Container(
+                width: 16,
+                height: 16,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: AppColors.yellow,
+                  shape: BoxShape.circle,
+                ),
+                child: const Text(
+                  '5',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.darkBlue,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -304,118 +431,6 @@ class OwnerHeaderStat extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class OwnerSearchSection extends StatelessWidget {
-  const OwnerSearchSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      transform: Matrix4.translationValues(0, -12, 0),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 12,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Expanded(child: _SearchBox()),
-              const SizedBox(width: 8),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.tune_rounded, size: 20),
-                label: const Text('Filter'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.darkBlue,
-                  side: BorderSide(color: Colors.grey.shade300),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 13,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(13),
-                  ),
-                  textStyle: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, '/pemilik_kos/tambah_data');
-              },
-              icon: const Icon(Icons.add_rounded, size: 24),
-              label: const Text('Tambah Kost'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.yellow,
-                foregroundColor: AppColors.darkBlue,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                textStyle: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SearchBox extends StatelessWidget {
-  const _SearchBox();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 13),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: const Row(
-        children: [
-          Icon(Icons.search_rounded, color: AppColors.darkBlue),
-          SizedBox(width: 10),
-          Text(
-            'Search....',
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 13,
-              color: Colors.black45,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

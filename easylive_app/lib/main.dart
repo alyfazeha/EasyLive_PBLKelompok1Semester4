@@ -20,6 +20,8 @@ import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/comingSoon_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
+import 'views/pemilikKos/booking/detail_booking_view.dart';
+import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -131,11 +133,21 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
 
+      case '/pemilik_kos/detail_booking':
+        final tenantName = settings.arguments as String? ?? 'Budi Santoso';
+        return _noAnimation(
+          DetailBookingView(tenantName: tenantName),
+          settings,
+        );
+
       case '/pemilik_kos/profile':
         return _noAnimation(const ProfileView(), settings);
 
       case '/pemilik_kos/dashboard':
         return _noAnimation(DashboardView(), settings);
+
+      case '/pemilik_kos/notifikasi':
+        return _noAnimation(const OwnerNotificationView(), settings);
 
       default:
         return null;
