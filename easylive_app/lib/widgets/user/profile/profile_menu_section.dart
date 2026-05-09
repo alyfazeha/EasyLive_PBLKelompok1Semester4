@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/profile/profile_menu_item.dart';
-import '../../../controllers/user/profile_controller.dart';
 
 class ProfileMenuSection extends StatelessWidget {
   const ProfileMenuSection({super.key});

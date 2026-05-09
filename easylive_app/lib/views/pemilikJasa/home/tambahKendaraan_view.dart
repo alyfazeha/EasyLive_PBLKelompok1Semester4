@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:easylive_app/controllers/halamanJasa/tambahKendaraan_controller.dart';
 import 'package:easylive_app/widgets/pemilikJasa/home/tambahKendaraan.dart';
-import 'package:easylive_app/core/color.dart';
 
 class TambahKendaraanView extends StatefulWidget {
+  const TambahKendaraanView({super.key});
+
   @override
   State<TambahKendaraanView> createState() => _TambahKendaraanViewState();
 }
@@ -93,7 +94,10 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
 
                 SizedBox(height: 12),
 
-                TambahKendaraanWidget.inputField("Nama Kendaraan", controller.namaKendaraan),
+                TambahKendaraanWidget.inputField(
+                  "Nama Kendaraan",
+                  controller.namaKendaraan,
+                ),
 
                 SizedBox(height: 12),
 

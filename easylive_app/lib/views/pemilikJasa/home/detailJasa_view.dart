@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import '../../../core/color.dart';
+import '../../../models/user/kos_model.dart';
 import '../../../widgets/pemilikJasa/home/detailJasa.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 import './editKendaraan_view.dart';
@@ -18,6 +19,11 @@ class DetailJasaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final jasa = controller.getJasaDetail(vehicleName);
+
+    int parsePrice(String priceText) {
+      final digits = priceText.replaceAll(RegExp(r'[^0-9]'), '');
+      return int.tryParse(digits) ?? 0;
+    }
 
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
@@ -90,15 +96,66 @@ class DetailJasaView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: PemilikJasaBottomNav(
-        currentIndex: 2,
-        onNavigate: (index) {
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-          }
-        },
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final harga = parsePrice(jasa.price);
+                    Navigator.pushNamed(
+                      context,
+                      '/personal_info',
+                      arguments: {
+                        'kost': KostModel(
+                          name: jasa.name,
+                          address: jasa.address,
+                          image: jasa.images.isNotEmpty ? jasa.images.first : '',
+                          price: harga,
+                        ),
+                        'isJasa': true,
+                        'fromLocation': 'Lowokwaru, Malang',
+                        'toLocation': 'Sukun, Malang',
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.yellow,
+                    foregroundColor: AppColors.darkBlue,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: const Text(
+                    'Select Vehicle',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              PemilikJasaBottomNav(
+                currentIndex: 2,
+                onNavigate: (index) {
+                  if (index == 0) {
+                    Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+                  } else if (index == 2) {
+                    Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

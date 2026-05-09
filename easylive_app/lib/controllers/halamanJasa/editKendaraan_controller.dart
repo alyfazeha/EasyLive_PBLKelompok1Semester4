@@ -16,13 +16,8 @@ class EditKendaraanController {
 
   String tipeKendaraan = '';
 
-  // Current kendaraan data (for edit mode)
-  DetailJasa? _currentJasa;
-
   // Load existing kendaraan data from DetailJasa
   void loadKendaraanDataFromJasa(DetailJasa jasa) {
-    _currentJasa = jasa;
-
     // Set text field values from DetailJasa
     namaKendaraan.text = jasa.name;
     nomorHp.text = ''; // Not in DetailJasa
@@ -30,10 +25,10 @@ class EditKendaraanController {
     kapasitas.text = jasa.totalVehicle.toString();
     harga.text = jasa.price;
     deskripsi.text = jasa.description;
-    
+
     // Determine tipe kendaraan from name
     tipeKendaraan = _determineTipeKendaraan(jasa.name);
-    
+
     // Parse address to get kecamatan and kota
     if (jasa.address.contains(',')) {
       final parts = jasa.address.split(',');

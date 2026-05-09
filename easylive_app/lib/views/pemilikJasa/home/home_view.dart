@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/pemilikJasa/home_jasa_controller.dart';
 import '../../../widgets/pemilikJasa/home/dashboard_widgets.dart';
-import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 
 class PemilikJasaHomeView extends StatelessWidget {
   PemilikJasaHomeView({super.key});

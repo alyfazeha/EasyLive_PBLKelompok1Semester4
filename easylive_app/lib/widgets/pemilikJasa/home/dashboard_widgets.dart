@@ -91,15 +91,13 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                           );
                         },
                         onEdit: () {
-                          // Langsung masuk ke halaman edit (tanpa menampilkan halaman detail)
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                          builder: (context) =>
-                                  EditKendaraanView(
-                                    jasa: DetailJasaController()
-                                        .getJasaDetail(vehicle.name),
-                                  ),
+                              builder: (context) => EditKendaraanView(
+                                jasa: DetailJasaController()
+                                    .getJasaDetail(vehicle.name),
+                              ),
                             ),
                           );
                         },
@@ -309,23 +307,25 @@ class OwnerVehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return GestureDetector(
+      onTap: onDetail,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           SizedBox(
             width: 126,
             height: 88,
@@ -439,12 +439,12 @@ class OwnerVehicleCard extends StatelessWidget {
               _ActionButton(
                 icon: Icons.visibility_outlined,
                 label: 'Detail',
-                onTap: onDetail,
               ),
             ],
           ),
         ],
       ),
+    ),
     );
   }
 }

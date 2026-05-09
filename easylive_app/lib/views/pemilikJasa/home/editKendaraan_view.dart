@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easylive_app/controllers/halamanJasa/editKendaraan_controller.dart';
 import 'package:easylive_app/widgets/pemilikJasa/home/editKendaraan.dart';
-import 'package:easylive_app/core/color.dart';
 import 'package:easylive_app/models/pemilikJasa/detail_jasa_model.dart';
 
 class EditKendaraanView extends StatefulWidget {
   final DetailJasa jasa;
 
-  const EditKendaraanView({required this.jasa});
+  const EditKendaraanView({super.key, required this.jasa});
 
   @override
   State<EditKendaraanView> createState() => _EditKendaraanViewState();
@@ -109,7 +108,10 @@ class _EditKendaraanViewState extends State<EditKendaraanView> {
 
                 SizedBox(height: 12),
 
-                EditKendaraanWidget.inputField("Nama Kendaraan", controller.namaKendaraan),
+                EditKendaraanWidget.inputField(
+                  "Nama Kendaraan",
+                  controller.namaKendaraan,
+                ),
 
                 SizedBox(height: 12),
 
