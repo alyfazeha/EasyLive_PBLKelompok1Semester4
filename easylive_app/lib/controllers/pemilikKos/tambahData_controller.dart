@@ -17,11 +17,11 @@ class TambahDataController {
     // Demo: print data and show success
     print("Nama Kost: ${namaKost.text}");
     print("Nomor HP: ${nomorHp.text}");
-    print("Tipe Kost: $tipeKost");
+    print("Kost Type: $tipeKost");
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text("Data berhasil disimpan")));
+    ).showSnackBar(SnackBar(content: Text("Data has been successfully saved")));
 
     // Navigate back to dashboard after save
     Navigator.pop(context);

@@ -145,7 +145,7 @@ class _HeaderSliderState extends State<HeaderSlider> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Montserrat',
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
               ),

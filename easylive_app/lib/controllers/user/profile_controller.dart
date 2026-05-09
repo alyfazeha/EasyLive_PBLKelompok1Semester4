@@ -1,20 +1,34 @@
 class ProfileController {
-  /// 🔥 DATA USER (sementara dummy)
+  static String _userName = '';
+  static String _userEmail = '';
+  static String _userImage = '';
+
+  static void setUserData({
+    required String username,
+    required String email,
+    String? imagePath,
+  }) {
+    _userName = username;
+    _userEmail = email;
+    _userImage = imagePath ?? '';
+  }
+
   static String getUserName() {
-    return "Alyfa Zahra";
+    return _userName.isNotEmpty ? _userName : 'User';
   }
 
   static String getUserEmail() {
-    return "alyfa@email.com";
+    return _userEmail.isNotEmpty ? _userEmail : '-';
   }
 
   static String getUserImage() {
-    return "assets/images/alyfa.jpeg";
+    return _userImage.isNotEmpty ? _userImage : 'assets/images/alyfa.jpeg';
   }
 
-  /// 🔥 ACTIONS
   static void logout() {
-    // nanti bisa hapus session / token
+    _userName = '';
+    _userEmail = '';
+    _userImage = '';
     print("User logout");
   }
 }

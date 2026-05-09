@@ -16,7 +16,7 @@ class BookingController extends ChangeNotifier {
     return bookingList.where((b) {
       final cocokSearch = b.nama.toLowerCase().contains(searchText.toLowerCase());
 
-      final cocokFilter = selectedFilter == "semua"
+      final cocokFilter = selectedFilter == "All"
           ? true
           : b.status == selectedFilter;
 
@@ -45,7 +45,7 @@ class BookingController extends ChangeNotifier {
   }
 
   void selesai(Booking b) {
-    b.status = "selesai";
+    b.status = "Done";
     notifyListeners();
   }
 }

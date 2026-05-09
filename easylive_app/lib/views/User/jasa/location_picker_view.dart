@@ -80,45 +80,24 @@ class LocationPickerView extends StatelessWidget {
   }
 
   Widget _buildAddressPanel(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(25),
-      decoration: const BoxDecoration(
-        color: AppColors.darkBlue,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'Jl. Soekarno Hatta No. 100, Malang',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+  return Container(
+    padding: const EdgeInsets.all(25),
+    decoration: const BoxDecoration(
+      color: AppColors.darkBlue,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: const [
+        Text(
+          'Jl. Soekarno Hatta No. 100, Malang',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/personal_info',
-                  arguments: {
-                    'kost': kost,
-                    'isJasa': true,
-                    'fromLocation': 'Jl. Soekarno Hatta No. 100, Malang',
-                    'toLocation': 'Jl. Soekarno Hatta No. 100, Malang',
-                  },
-                );
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.amber),
-              child: const Text(
-                'Select Location',
-                style: TextStyle(color: AppColors.darkBlue),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

@@ -34,9 +34,10 @@ class _HomeViewState extends State<HomeView> {
   void _startRecommendedAutoPlay() {
     _recommendedTimer = Timer.periodic(const Duration(seconds: 4), (_) {
       final kostList = HomeController.getKostList();
-      if (!_recommendedController.hasClients || kostList.length <= 1) return;
+      final sliderCount = kostList.length > 3 ? 3 : kostList.length;
+      if (!_recommendedController.hasClients || sliderCount <= 1) return;
 
-      final nextPage = (_currentRecommended + 1) % kostList.length;
+      final nextPage = (_currentRecommended + 1) % sliderCount;
       _recommendedController.animateToPage(
         nextPage,
         duration: const Duration(milliseconds: 650),
@@ -133,8 +134,8 @@ class _HomeViewState extends State<HomeView> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 15,
-                                mainAxisSpacing: 20,
-                                childAspectRatio: 0.65,
+                                mainAxisSpacing: 14,
+                                childAspectRatio: 0.82,
                               ),
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
@@ -293,6 +294,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildRecommendedCarousel(List<KostModel> kostList) {
+    final sliderItems = kostList.take(3).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -310,21 +313,21 @@ class _HomeViewState extends State<HomeView> {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: 178,
+          height: 192,
           child: PageView.builder(
             controller: _recommendedController,
-            itemCount: kostList.length,
+            itemCount: sliderItems.length,
             onPageChanged: (index) {
               setState(() => _currentRecommended = index);
             },
             itemBuilder: (context, index) {
               return _RecommendedCard(
-                kost: kostList[index],
+                kost: sliderItems[index],
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => DetailKosView(kost: kostList[index]),
+                      builder: (_) => DetailKosView(kost: sliderItems[index]),
                     ),
                   );
                 },
@@ -336,7 +339,7 @@ class _HomeViewState extends State<HomeView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            kostList.length,
+            sliderItems.length,
             (index) => _CarouselDot(active: _currentRecommended == index),
           ),
         ),
@@ -345,45 +348,22 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
-class _RecommendedCard extends StatefulWidget {
+class _RecommendedCard extends StatelessWidget {
   final KostModel kost;
   final VoidCallback onTap;
 
   const _RecommendedCard({required this.kost, required this.onTap});
 
   @override
-  State<_RecommendedCard> createState() => _RecommendedCardState();
-}
-
-class _RecommendedCardState extends State<_RecommendedCard> {
-  bool _isFavorite = false;
-
-  String _formatPrice(int price) {
-    final value = price.toString();
-    var result = '';
-    var count = 0;
-
-    for (var i = value.length - 1; i >= 0; i--) {
-      if (count > 0 && count % 3 == 0) {
-        result = '.$result';
-      }
-      result = value[i] + result;
-      count++;
-    }
-
-    return result;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 7),
-        padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.yellow,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: AppColors.black.withValues(alpha: 0.12),
@@ -392,91 +372,14 @@ class _RecommendedCardState extends State<_RecommendedCard> {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.asset(
-                      widget.kost.image,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 10,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() => _isFavorite = !_isFavorite);
-                      },
-                      child: Container(
-                        width: 34,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          color: AppColors.yellow,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          _isFavorite
-                              ? Icons.favorite_rounded
-                              : Icons.favorite_border_rounded,
-                          color: AppColors.darkBlue,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 7),
-            Text(
-              widget.kost.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                color: AppColors.darkBlue,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                const Icon(
-                  Icons.star_border_rounded,
-                  size: 18,
-                  color: AppColors.darkBlue,
-                ),
-                const SizedBox(width: 4),
-                const Text(
-                  '4,5',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  'Rp. ${_formatPrice(widget.kost.price ?? 0)}',
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset(
+            kost.image,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

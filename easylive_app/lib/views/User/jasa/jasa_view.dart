@@ -245,19 +245,6 @@ class _Header extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 34,
-          height: 34,
-          decoration: BoxDecoration(
-            color: AppColors.yellow,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.notifications_rounded,
-            color: AppColors.darkBlue,
-            size: 18,
-          ),
-        ),
       ],
     );
   }
@@ -276,7 +263,7 @@ class _SearchField extends StatelessWidget {
       onChanged: onChanged,
       style: const TextStyle(fontFamily: 'Montserrat', fontSize: 12),
       decoration: InputDecoration(
-        hintText: 'Search...',
+        hintText: 'Search',
         hintStyle: const TextStyle(fontFamily: 'Montserrat', fontSize: 11),
         prefixIcon: const Icon(Icons.search_rounded, size: 18),
         suffixIcon: const Icon(Icons.filter_alt_rounded, size: 18),

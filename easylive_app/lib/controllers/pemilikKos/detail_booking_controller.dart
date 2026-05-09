@@ -20,7 +20,7 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '03',
       checkInDate: '01 Mei 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
+      paymentStatus: 'Paid',
       bookingStatus: 'Aktif',
     ),
     'Andi Wijaya': DetailBookingModel(
@@ -31,7 +31,7 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '01',
       checkInDate: '03 Mei 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
+      paymentStatus: 'Paid',
       bookingStatus: 'Aktif',
     ),
     'Siti Aminah': DetailBookingModel(
@@ -42,7 +42,7 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '02',
       checkInDate: '05 Mei 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
+      paymentStatus: 'Paid',
       bookingStatus: 'Aktif',
     ),
     'Rudi Hartono': DetailBookingModel(
@@ -53,7 +53,7 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '04',
       checkInDate: '08 Mei 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
+      paymentStatus: 'Paid',
       bookingStatus: 'Aktif',
     ),
     'Dwi Lestari': DetailBookingModel(
@@ -64,7 +64,7 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '05',
       checkInDate: '10 Mei 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
+      paymentStatus: 'Paid',
       bookingStatus: 'Aktif',
     ),
     'Ahmad Fauzi': DetailBookingModel(
@@ -75,8 +75,8 @@ class DetailBookingController extends ChangeNotifier {
       roomName: '06',
       checkInDate: '14 April 2026',
       monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
-      bookingStatus: 'Selesai',
+      paymentStatus: 'Paid',
+      bookingStatus: 'Done',
     ),
   };
 }
