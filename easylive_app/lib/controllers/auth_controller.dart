@@ -33,6 +33,7 @@ class AuthController {
   }
 
   /// REGISTER
+ /// REGISTER
   static Future<Map<String, dynamic>> register({
     required String email,
     required String password,
@@ -46,11 +47,24 @@ class AuthController {
     required String address,
   }) async {
     try {
-      if (password != confirmPassword) {
-        return {'success': false, 'message': 'Password tidak cocok.'};
+
+      // VALIDASI PASSWORD MINIMAL 6 KARAKTER
+      if (password.length < 6) {
+        return {
+          'success': false,
+          'message': 'Password harus minimal 6 karakter.'
+        };
       }
 
-      // 1. Mendaftarkan akun ke Supabase Auth agar mendapatkan UUID
+      // VALIDASI KONFIRMASI PASSWORD
+      if (password != confirmPassword) {
+        return {
+          'success': false,
+          'message': 'Password tidak cocok.'
+        };
+      }
+
+      // REGISTER KE SUPABASE AUTH
       final AuthResponse res = await _supabase.auth.signUp(
         email: email,
         password: password,
@@ -58,36 +72,56 @@ class AuthController {
 
       final String? userId = res.user?.id;
 
+      // JIKA AUTH BERHASIL
       if (userId != null) {
-        // 2. Memasukkan data ke tabel profiles menggunakan id_profile dari Auth
+
+        // INSERT DATA KE TABEL PROFILES
         await _supabase.from('profiles').insert({
-          'id_profile': userId, // Menghubungkan ID Auth ke tabel kita
-          'full_name': fullName,
+          'id_profile': userId,
           'username': username,
-          'email': email,
           'password': password,
-          'role': role,
-          'phone': phone, // SESUAI: Menggunakan 'phone' bukan 'phone_number'
-          'birthdate': birthdate,
+          'full_name': fullName,
+          'phone': phone,
+          'birth_date': birthdate,
           'gender': gender,
+          'email': email,
+          'role': role,
           'address': address,
         });
 
         return {
           'success': true,
-          'message': 'Registrasi berhasil. Silakan login.',
+          'message': 'Akun berhasil dibuat. Silakan login.'
         };
       }
 
-      return {'success': false, 'message': 'Gagal membuat akun autentikasi.'};
+      return {
+        'success': false,
+        'message': 'Gagal membuat akun autentikasi.'
+      };
+
     } catch (e) {
+
+      // ERROR RATE LIMIT
+      if (e.toString().contains('429')) {
+        return {
+          'success': false,
+          'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.'
+        };
+      }
+
+      // ERROR EMAIL / USERNAME SUDAH ADA
       if (e.toString().contains('unique_violation')) {
         return {
           'success': false,
-          'message': 'Email atau Username sudah terdaftar.',
+          'message': 'Email atau Username sudah terdaftar.'
         };
       }
-      return {'success': false, 'message': 'Terjadi kesalahan: $e'};
+
+      return {
+        'success': false,
+        'message': 'Terjadi kesalahan: $e'
+      };
     }
   }
 
