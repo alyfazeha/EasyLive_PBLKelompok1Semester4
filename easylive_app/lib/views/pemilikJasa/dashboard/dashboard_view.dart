@@ -17,6 +17,8 @@ class PemilikJasaDashboardView extends StatelessWidget {
 
     if (index == 2) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
     } else if (index == 4) {
       Navigator.pushNamed(context, '/profile');
     }

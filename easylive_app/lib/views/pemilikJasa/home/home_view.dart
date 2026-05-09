@@ -11,6 +11,8 @@ class PemilikJasaHomeView extends StatelessWidget {
   void _handleNavigation(BuildContext context, int index) {
     if (index == 0) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
     } else if (index == 4) {
       Navigator.pushNamed(context, '/profile');
     }

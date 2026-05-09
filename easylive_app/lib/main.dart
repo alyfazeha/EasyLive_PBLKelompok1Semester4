@@ -21,11 +21,15 @@ import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
-import 'views/pemilikKos/booking/detail_booking_view.dart';
+import 'views/pemilikKos/booking/detail_booking_view.dart' as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
+import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
+import 'views/pemilikJasa/booking/detail_booking_view.dart' as pemilik_jasa_detail_booking;
 import 'views/pemilikJasa/home/home_view.dart';
+import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
@@ -143,7 +147,7 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/detail_booking':
         final tenantName = settings.arguments as String? ?? 'Budi Santoso';
         return _noAnimation(
-          DetailBookingView(tenantName: tenantName),
+          pemilik_kos_detail_booking.DetailBookingView(tenantName: tenantName),
           settings,
         );
 
@@ -156,12 +160,26 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
 
+      case '/pemilik_jasa/notifikasi':
+        return _noAnimation(const OwnerJasaNotificationView(), settings);
+
+
       case '/pemilik_jasa':
       case '/admin':
         return _noAnimation(PemilikJasaHomeView(), settings);
 
       case '/pemilik_jasa/dashboard':
         return _noAnimation(PemilikJasaDashboardView(), settings);
+
+      case '/pemilik_jasa/booking':
+        return _noAnimation(const pemilik_jasa_booking.PemilikJasaBookingView(), settings);
+
+      case '/pemilik_jasa/detail_booking':
+        final tenantName = settings.arguments as String? ?? 'Budi Santoso';
+        return _noAnimation(
+          pemilik_jasa_detail_booking.DetailBookingView(tenantName: tenantName),
+          settings,
+        );
 
       case '/pemilik_jasa/detail_jasa':
         final vehicleName = settings.arguments as String? ?? 'Pickup';

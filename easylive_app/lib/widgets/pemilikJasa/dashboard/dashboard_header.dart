@@ -74,7 +74,15 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              _NotificationBell(count: notificationCount),
+              InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
+                borderRadius: BorderRadius.circular(18),
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: _NotificationBell(count: notificationCount),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 18),

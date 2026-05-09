@@ -7,7 +7,7 @@ import '../../../views/pemilikJasa/home/editKendaraan_view.dart';
 import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import 'bottom_navbar.dart';
 
-class PemilikJasaHomeFrame extends StatelessWidget {
+class PemilikJasaHomeFrame extends StatefulWidget {
   final int totalVehicles;
   final int availableVehicles;
   final String totalIncome;
@@ -28,14 +28,33 @@ class PemilikJasaHomeFrame extends StatelessWidget {
   });
 
   @override
+  State<PemilikJasaHomeFrame> createState() => _PemilikJasaHomeFrameState();
+}
+
+class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
+  String _searchQuery = '';
+
+  List<OwnerVehicle> get _filteredVehicles {
+    final q = _searchQuery.trim().toLowerCase();
+    if (q.isEmpty) return widget.vehicles;
+
+    return widget.vehicles.where((v) {
+      final name = v.name.toLowerCase();
+      final address = v.address.toLowerCase();
+      final status = v.status.toLowerCase();
+      return name.contains(q) || address.contains(q) || status.contains(q);
+    }).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Column(
           children: [
             PemilikJasaHeader(
-              totalVehicles: totalVehicles,
-              availableVehicles: availableVehicles,
+              totalVehicles: widget.totalVehicles,
+              availableVehicles: widget.availableVehicles,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -43,7 +62,13 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const PemilikJasaSearchPanel(),
+                    PemilikJasaSearchPanel(
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
+                    ),
                     const SizedBox(height: 14),
                     const _SectionTitle('Ringkasan Bulan Ini'),
                     const SizedBox(height: 10),
@@ -54,25 +79,25 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                             icon: Icons.paid_outlined,
                             iconColor: AppColors.yellow,
                             title: 'Total Pendapatan',
-                            value: totalIncome,
+                            value: widget.totalIncome,
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: _SummaryCard(
                             icon: Icons.calendar_month_rounded,
-                            iconColor: Color(0xFF4D82FF),
+                            iconColor: const Color(0xFF4D82FF),
                             title: 'Booking Baru',
-                            value: '$newBookings',
+                            value: '${widget.newBookings}',
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: _SummaryCard(
                             icon: Icons.local_shipping_rounded,
-                            iconColor: Color(0xFF31B75D),
+                            iconColor: const Color(0xFF31B75D),
                             title: 'Kendaraan Available',
-                            value: availableRatio,
+                            value: widget.availableRatio,
                           ),
                         ),
                       ],
@@ -80,30 +105,44 @@ class PemilikJasaHomeFrame extends StatelessWidget {
                     const SizedBox(height: 18),
                     const _SectionTitle('List of Your Vehicle'),
                     const SizedBox(height: 12),
-                    for (final vehicle in vehicles) ...[
-                      OwnerVehicleCard(
-                        vehicle: vehicle,
-                        onDetail: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/pemilik_jasa/detail_jasa',
-                            arguments: vehicle.name,
-                          );
-                        },
-                        onEdit: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditKendaraanView(
-                                jasa: DetailJasaController()
-                                    .getJasaDetail(vehicle.name),
+                    if (_filteredVehicles.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 20),
+                        child: Text(
+                          'Tidak ada kendaraan ditemukan',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      )
+                    else
+                      for (final vehicle in _filteredVehicles) ...[
+                        OwnerVehicleCard(
+                          vehicle: vehicle,
+                          onDetail: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/pemilik_jasa/detail_jasa',
+                              arguments: vehicle.name,
+                            );
+                          },
+                          onEdit: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditKendaraanView(
+                                  jasa: DetailJasaController()
+                                      .getJasaDetail(vehicle.name),
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 14),
-                    ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 14),
+                      ],
                   ],
                 ),
               ),
@@ -112,12 +151,13 @@ class PemilikJasaHomeFrame extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: PemilikJasaBottomNav(onNavigate: onNavigate),
+          child: PemilikJasaBottomNav(onNavigate: widget.onNavigate),
         ),
       ],
     );
   }
 }
+
 
 class PemilikJasaHeader extends StatelessWidget {
   final int totalVehicles;
@@ -187,7 +227,14 @@ class PemilikJasaHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              const _NotificationBell(),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
+                borderRadius: BorderRadius.circular(18),
+                child: const Padding(
+                  padding: EdgeInsets.all(2),
+                  child: _NotificationBell(),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 18),
@@ -216,8 +263,25 @@ class PemilikJasaHeader extends StatelessWidget {
   }
 }
 
-class PemilikJasaSearchPanel extends StatelessWidget {
-  const PemilikJasaSearchPanel({super.key});
+class PemilikJasaSearchPanel extends StatefulWidget {
+  final ValueChanged<String>? onChanged;
+
+  const PemilikJasaSearchPanel({super.key, this.onChanged});
+
+
+  @override
+  State<PemilikJasaSearchPanel> createState() => _PemilikJasaSearchPanelState();
+}
+
+class _PemilikJasaSearchPanelState extends State<PemilikJasaSearchPanel> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -237,26 +301,40 @@ class PemilikJasaSearchPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 43,
-            padding: const EdgeInsets.symmetric(horizontal: 13),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.grey.shade300),
+          TextField(
+            controller: _controller,
+onChanged: (value) {
+              debugPrint('PemilikJasaHome search: $value');
+              widget.onChanged?.call(value);
+            },
+            decoration: InputDecoration(
+              hintText: 'Search....',
+              hintStyle: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 12,
+                color: Colors.black45,
+              ),
+              prefixIcon: Icon(Icons.search_rounded, color: AppColors.darkBlue),
+              filled: true,
+              fillColor: Colors.transparent,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: AppColors.darkBlue, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
             ),
-            child: const Row(
-              children: [
-                Icon(Icons.search_rounded, color: AppColors.darkBlue),
-                SizedBox(width: 10),
-                Text(
-                  'Search....',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 12,
-                    color: Colors.black45,
-                  ),
-                ),
-              ],
+            style: const TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 12,
+              color: AppColors.darkBlue,
             ),
           ),
           const SizedBox(height: 10),
