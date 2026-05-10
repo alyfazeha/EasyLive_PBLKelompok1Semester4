@@ -87,7 +87,7 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
+      backgroundColor: Colors.white,
 
       body: SafeArea(
         child: Column(
@@ -127,47 +127,57 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
 
             /// 🔻 CONTENT
             Expanded(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        /// 🔍 SEARCH
-                        SearchBarWidget(
-                          onChanged: (value) {
-                            searchText = value;
-                            applyFilter();
-                          },
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        /// 🔘 FILTER
-                        BookingFilter(
-                          selectedFilter: selectedFilter,
-                          onChanged: (value) {
-                            selectedFilter = value;
-                            applyFilter();
-                          },
-                        ),
-
-                        const SizedBox(height: 14),
-                      ],
-                    ),
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(14),
+                    topRight: Radius.circular(14),
                   ),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                      child: Column(
+                        children: [
+                          /// 🔍 SEARCH
+                          SearchBarWidget(
+                            onChanged: (value) {
+                              searchText = value;
+                              applyFilter();
+                            },
+                          ),
 
-                  /// 📋 LIST
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: filtered.length,
-                      itemBuilder: (context, index) {
-                        return BookingCard(booking: filtered[index]);
-                      },
+                          const SizedBox(height: 12),
+
+                          /// 🔘 FILTER
+                          BookingFilter(
+                            selectedFilter: selectedFilter,
+                            onChanged: (value) {
+                              selectedFilter = value;
+                              applyFilter();
+                            },
+                          ),
+
+                          const SizedBox(height: 14),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+
+                    /// 📋 LIST
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: filtered.length,
+                        itemBuilder: (context, index) {
+                          return BookingCard(booking: filtered[index]);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

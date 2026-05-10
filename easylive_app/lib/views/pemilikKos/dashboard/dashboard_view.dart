@@ -19,7 +19,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff5f5f5),
+      backgroundColor: Colors.white,
 
       body: Column(
         children: [
@@ -33,7 +33,6 @@ class _DashboardViewState extends State<DashboardView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   const SizedBox(height: 1),
 
                   /// 🔥 RIWAYAT PEMBAYARAN
@@ -79,17 +78,14 @@ class _DashboardViewState extends State<DashboardView> {
           if (index == 0) return;
 
           if (index == 3) {
-            Navigator.pushReplacementNamed(
-                context, '/pemilik_kos/history');
+            Navigator.pushReplacementNamed(context, '/pemilik_kos/history');
           } else if (index == 2) {
-            Navigator.pushReplacementNamed(
-                context, '/pemilik_kos');
+            Navigator.pushReplacementNamed(context, '/pemilik_kos');
           } else {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    ComingSoonView(title: "Halaman"),
+                builder: (context) => ComingSoonView(title: "Halaman"),
               ),
             );
           }

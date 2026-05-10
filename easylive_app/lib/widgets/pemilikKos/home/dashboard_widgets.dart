@@ -95,10 +95,14 @@ class OwnerDashboardContent extends StatelessWidget {
       children: [
         OwnerSearchSection(onChanged: onSearchChanged),
         const SizedBox(height: 16),
-        OwnerSectionTitle(
-          title: 'Ringkasan Bulan Ini',
-          actionText: 'Lihat Detail',
-          onActionTap: () {},
+        const Text(
+          'Ringkasan Bulan Ini',
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 13,
+            fontWeight: FontWeight.w900,
+            color: AppColors.darkBlue,
+          ),
         ),
         const SizedBox(height: 10),
         const Row(
@@ -496,8 +500,8 @@ class OwnerSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 76),
-      padding: const EdgeInsets.all(10),
+      constraints: const BoxConstraints(minHeight: 45),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(13),
@@ -559,16 +563,6 @@ class OwnerSummaryCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            '+12% dari bulan lalu',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 7.5,
-              color: Color(0xFF31B75D),
-            ),
-          ),
         ],
       ),
     );

@@ -30,7 +30,7 @@ class _EditKamarViewState extends State<EditKamarView> {
     final fasilitasList = controller.getFasilitasList();
 
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: Colors.white,
 
       appBar: AppBar(
         backgroundColor: Color(0xff2c3e50),

@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:easylive_app/controllers/pemilikKos/tambahData_controller.dart';
 import 'package:easylive_app/widgets/pemilikKos/home/tambahData.dart';
 import 'package:easylive_app/core/color.dart';
@@ -24,13 +28,63 @@ class _TambahDataViewState extends State<TambahDataView> {
     });
   }
 
+  Future<void> _pickPhoto({
+    required int slotIndex,
+    required ImageSource source,
+  }) async {
+    // REQUEST PERMISSION
+    if (source == ImageSource.camera) {
+      await Permission.camera.request();
+    }
+
+    if (source == ImageSource.gallery) {
+      await Permission.photos.request();
+    }
+
+    final picker = ImagePicker();
+
+    final XFile? picked = await picker.pickImage(
+      source: source,
+      maxWidth: 1600,
+      maxHeight: 1600,
+      imageQuality: 85,
+    );
+
+    if (picked == null) return;
+
+    final file = File(picked.path);
+
+    setState(() {
+      while (controller.selectedPhotos.length < slotIndex) {
+        controller.selectedPhotos.add(File(''));
+      }
+
+      if (controller.selectedPhotos.length == slotIndex) {
+        controller.selectedPhotos.add(file);
+      } else {
+        controller.selectedPhotos[slotIndex] = file;
+      }
+
+      controller.selectedPhotos.removeWhere((f) => f.path.isEmpty);
+
+      if (controller.selectedPhotos.length > 3) {
+        controller.selectedPhotos.removeRange(
+          3,
+          controller.selectedPhotos.length,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Get fasilitas list
     final fasilitasList = TambahDataWidget.getFasilitasList();
 
+    final photoCount = controller.selectedPhotos.length;
+
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: Colors.white,
 
       appBar: AppBar(
         backgroundColor: Color(0xff2c3e50),
@@ -39,7 +93,7 @@ class _TambahDataViewState extends State<TambahDataView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Tambah Kost Baru",
+              "Add New Kost",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -47,7 +101,7 @@ class _TambahDataViewState extends State<TambahDataView> {
               ),
             ),
             Text(
-              "Lengkapi informasi kost Anda",
+              "Complete your kost information",
               style: TextStyle(fontSize: 12, color: Colors.white70),
             ),
           ],
@@ -72,11 +126,11 @@ class _TambahDataViewState extends State<TambahDataView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Foto Kost",
+                      "Kost Photos",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "0/3 Foto",
+                      "$photoCount/3 Photos",
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
@@ -86,15 +140,174 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 Row(
                   children: List.generate(3, (index) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 8),
-                      width: 65,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: Color(0xfff0f0f0),
-                        borderRadius: BorderRadius.circular(12),
+                    final hasPhoto = index < controller.selectedPhotos.length;
+                    final file = hasPhoto
+                        ? controller.selectedPhotos[index]
+                        : null;
+
+                    return InkWell(
+                      onTap: () async {
+                        showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          builder: (context) {
+                            return SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Choose Photo",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 20),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        /// CAMERA
+                                        GestureDetector(
+                                          onTap: () async {
+                                            Navigator.pop(context);
+
+                                            await _pickPhoto(
+                                              slotIndex: index,
+                                              source: ImageSource.camera,
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(18),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.yellow
+                                                      .withOpacity(0.15),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  Icons.camera_alt,
+                                                  color: AppColors.yellow,
+                                                  size: 30,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text("Camera"),
+                                            ],
+                                          ),
+                                        ),
+
+                                        /// GALLERY
+                                        GestureDetector(
+                                          onTap: () async {
+                                            Navigator.pop(context);
+
+                                            await _pickPhoto(
+                                              slotIndex: index,
+                                              source: ImageSource.gallery,
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(18),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blue
+                                                      .withOpacity(0.15),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  Icons.photo,
+                                                  color: Colors.blue,
+                                                  size: 30,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text("Gallery"),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+
+                      child: Container(
+                        margin: EdgeInsets.only(right: 8),
+                        width: 65,
+                        height: 65,
+                        decoration: BoxDecoration(
+                          color: Color(0xfff0f0f0),
+                          borderRadius: BorderRadius.circular(12),
+                          border: index < photoCount
+                              ? Border.all(color: AppColors.yellow, width: 2)
+                              : null,
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 65,
+                              height: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Color(0xfff0f0f0),
+                              ),
+                              child: hasPhoto
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.file(
+                                        file!,
+                                        fit: BoxFit.cover,
+                                        width: 65,
+                                        height: 65,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.person,
+                                      size: 30,
+                                      color: Colors.grey,
+                                    ),
+                            ),
+
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: Container(
+                                padding: EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.yellow,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Icon(Icons.camera_alt, color: Colors.grey),
                     );
                   }),
                 ),
@@ -103,25 +316,22 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 /// ================= INFORMASI DASAR =================
                 Text(
-                  "Informasi Dasar",
+                  "Basic Information",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
 
                 SizedBox(height: 12),
 
-                TambahDataWidget.inputField("Nama Kost", controller.namaKost),
+                TambahDataWidget.inputField("Kost Name", controller.namaKost),
 
                 SizedBox(height: 12),
 
-                TambahDataWidget.inputField(
-                  "Nomor Handphone",
-                  controller.nomorHp,
-                ),
+                TambahDataWidget.inputField("Phone Number", controller.nomorHp),
 
                 SizedBox(height: 12),
 
                 TambahDataWidget.dropdownField(
-                  "Tipe Kost",
+                  "Kost Type",
                   controller.tipeKost,
                   (val) => setState(() {
                     controller.tipeKost = val ?? '';
@@ -131,7 +341,7 @@ class _TambahDataViewState extends State<TambahDataView> {
                 SizedBox(height: 12),
 
                 TambahDataWidget.inputField(
-                  "Alamat Lengkap",
+                  "Complete Address",
                   controller.alamat,
                   maxLines: 2,
                 ),
@@ -142,14 +352,14 @@ class _TambahDataViewState extends State<TambahDataView> {
                   children: [
                     Expanded(
                       child: TambahDataWidget.inputField(
-                        "Kecamatan",
+                        "District",
                         controller.kecamatan,
                       ),
                     ),
                     SizedBox(width: 10),
                     Expanded(
                       child: TambahDataWidget.inputField(
-                        "Kota",
+                        "City",
                         controller.kota,
                       ),
                     ),
@@ -160,7 +370,7 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 /// ================= DETAIL (3 KOLOM) =================
                 Text(
-                  "Detail Kost",
+                  "Kost Details",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
 
@@ -171,21 +381,21 @@ class _TambahDataViewState extends State<TambahDataView> {
                   children: [
                     Expanded(
                       child: TambahDataWidget.inputField(
-                        "Jumlah Kamar",
+                        "Number of Rooms",
                         controller.jumlahKamar,
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: TambahDataWidget.inputField(
-                        "Kamar Kosong",
+                        "Empty Rooms",
                         controller.kamarKosong,
                       ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
                       child: TambahDataWidget.inputField(
-                        "Harga Mulai",
+                        "Starting Price",
                         controller.harga,
                       ),
                     ),
@@ -195,7 +405,7 @@ class _TambahDataViewState extends State<TambahDataView> {
                 SizedBox(height: 12),
 
                 TambahDataWidget.inputField(
-                  "Deskripsi Kost",
+                  "Kost Description",
                   controller.deskripsi,
                   maxLines: 3,
                 ),
@@ -204,7 +414,7 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 /// ================= FASILITAS (SELECTABLE) =================
                 Text(
-                  "Fasilitas",
+                  "Facilities",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
 
