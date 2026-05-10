@@ -438,8 +438,8 @@ class _TambahDataViewState extends State<TambahDataView> {
                 SizedBox(height: 30),
 
                 /// ================= BUTTON =================
-                TambahDataWidget.buttonSimpan(() {
-                  controller.simpanData(context);
+                TambahDataWidget.buttonSimpan(() async {
+                  await controller.simpanData(context);
                 }),
               ],
             ),
