@@ -161,11 +161,11 @@ class _HomeViewState extends State<HomeView> {
                             horizontal: 20,
                           ),
                           child: Text(
-                            _showAll ? "Show Less" : "See More",
+                            _showAll ? "Show Less" : "Show More",
                             style: const TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w800,
-                              fontSize: 17,
+                              fontSize: 12,
                               color: AppColors.darkBlue,
                               decoration: TextDecoration.underline,
                             ),

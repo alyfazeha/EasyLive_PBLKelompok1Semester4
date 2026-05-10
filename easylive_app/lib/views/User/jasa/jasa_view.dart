@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../controllers/user/home_controller.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
+import '../../../widgets/user/kosPage/filtering.dart';
 import 'detail_jasa_user_view.dart';
 
 class JasaVehicle {
@@ -135,6 +136,35 @@ class _JasaViewState extends State<JasaView> {
                 child: _SearchField(
                   controller: _searchController,
                   onChanged: (value) => setState(() => _searchQuery = value),
+                  onFilterTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25),
+                        ),
+                      ),
+                      builder: (context) => FilterBottomSheet(
+                        onApply: (location, priceRange) {
+                          // Filtering untuk jasa: pakai location (address)
+                          // dan priceRange (parse dari string price jika tersedia).
+                          setState(() {
+                            // mapping priceRange ke _searchQuery tidak ideal, jadi kita
+                            // hanya pakai location untuk filter minimal sesuai style kos.
+                            if (location != null &&
+                                location.toString().trim().isNotEmpty) {
+                              _searchQuery = location.toString();
+                              _searchController.text = location.toString();
+                            } else {
+                              _searchQuery = '';
+                              _searchController.clear();
+                            }
+                          });
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -253,8 +283,13 @@ class _Header extends StatelessWidget {
 class _SearchField extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
+  final VoidCallback onFilterTap;
 
-  const _SearchField({required this.controller, required this.onChanged});
+  const _SearchField({
+    required this.controller,
+    required this.onChanged,
+    required this.onFilterTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +301,10 @@ class _SearchField extends StatelessWidget {
         hintText: 'Search',
         hintStyle: const TextStyle(fontFamily: 'Montserrat', fontSize: 11),
         prefixIcon: const Icon(Icons.search_rounded, size: 18),
-        suffixIcon: const Icon(Icons.filter_alt_rounded, size: 18),
+        suffixIcon: IconButton(
+          onPressed: onFilterTap,
+          icon: const Icon(Icons.filter_alt_rounded, size: 18),
+        ),
         filled: true,
         fillColor: AppColors.lightGreyAlt,
         contentPadding: const EdgeInsets.symmetric(vertical: 0),

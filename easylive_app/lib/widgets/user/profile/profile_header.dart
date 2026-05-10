@@ -9,7 +9,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 60, 20, 30),
+      padding: const EdgeInsets.fromLTRB(20, 38, 20, 22),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
