@@ -23,7 +23,7 @@ class TambahDataController {
 
   final supabase = Supabase.instance.client;
 
-Future<void> simpanData(BuildContext context) async {
+  Future<void> simpanData(BuildContext context) async {
     try {
       final user = supabase.auth.currentUser;
 
@@ -33,7 +33,6 @@ Future<void> simpanData(BuildContext context) async {
         return;
       }
 
-      // 1️⃣ Upload foto dulu ke Storage, kumpulkan URL-nya
       List<String> fotoUrls = [];
 
       for (int i = 0; i < selectedPhotosBytes.length; i++) {
@@ -42,37 +41,19 @@ Future<void> simpanData(BuildContext context) async {
 
         final fileName =
             '${user.id}_${i}_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final filePath = 'kost_photos/$fileName';
 
         await supabase.storage.from('kost-images').uploadBinary(
-              filePath,
+              fileName,
               bytes,
               fileOptions: const FileOptions(contentType: 'image/jpeg'),
             );
 
         final publicUrl =
-            supabase.storage.from('kost-images').getPublicUrl(filePath);
+            supabase.storage.from('kost-images').getPublicUrl(fileName);
 
         fotoUrls.add(publicUrl);
       }
 
-      // Debug: print semua nilai sebelum insert
-      print('=== DEBUG INSERT ===');
-      print('owner_id: ${user.id}');
-      print('nama_kost: ${namaKost.text}');
-      print('harga: ${harga.text} → ${double.tryParse(harga.text)}');
-      print('nomor_hp: ${nomorHp.text}');
-      print('alamat: ${alamat.text}');
-      print('kecamatan: ${kecamatan.text}');
-      print('kota: ${kota.text}');
-      print('jumlah_kamar: ${jumlahKamar.text} → ${int.tryParse(jumlahKamar.text)}');
-      print('kamar_kosong: ${kamarKosong.text} → ${int.tryParse(kamarKosong.text)}');
-      print('tipe_kost: $tipeKost');
-      print('status: pending');
-      print('gambar: $fotoUrls');
-      print('====================');
-
-      // 2️⃣ Insert kost sekaligus dengan array URL foto ke kolom gambar
       await supabase.from('kost').insert({
         'owner_id': user.id,
         'nama_kost': namaKost.text,
@@ -92,7 +73,8 @@ Future<void> simpanData(BuildContext context) async {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Kost data saved successfully")));
 
-      Navigator.pop(context);
+      // ❌ Hapus Navigator.pop di sini, biarkan view yang handle
+
     } catch (e, stackTrace) {
       print('ERROR: $e');
       print('STACKTRACE: $stackTrace');
