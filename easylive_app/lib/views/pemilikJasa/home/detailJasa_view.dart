@@ -20,53 +20,43 @@ class DetailJasaView extends StatelessWidget {
   Widget build(BuildContext context) {
     final jasa = controller.getJasaDetail(vehicleName);
 
-    int parsePrice(String priceText) {
-      final digits = priceText.replaceAll(RegExp(r'[^0-9]'), '');
-      return int.tryParse(digits) ?? 0;
-    }
-
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
         child: Column(
           children: [
+            // Header (dibuat serupa dengan halaman detail pembayaran pemilik jasa)
             Container(
-              padding: const EdgeInsets.all(16),
-              color: AppColors.darkBlue,
+              height: 66,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              color: AppColors.primary,
               child: Row(
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppColors.yellow,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.black.withValues(alpha: 0.1),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: const Icon(
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    borderRadius: BorderRadius.circular(18),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Icon(
                         Icons.arrow_back_rounded,
-                        color: AppColors.darkBlue,
-                        size: 22,
+                        color: Colors.white,
+                        size: 27,
                       ),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
-                    'Detail Jasa',
-                    style: TextStyle(
-                      color: AppColors.background,
-                      fontSize: 18,
+                  const Expanded(
+                    child: Text(
+                      'Detail Jasa',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                  const Spacer(),
+                  // tombol edit seperti sebelumnya
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -76,15 +66,16 @@ class DetailJasaView extends StatelessWidget {
                         ),
                       );
                     },
+                    borderRadius: BorderRadius.circular(12),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: AppColors.yellow.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
                         Icons.edit_outlined,
-                        color: AppColors.yellow,
+                        color: Colors.white,
                         size: 20,
                       ),
                     ),
@@ -107,7 +98,8 @@ class DetailJasaView extends StatelessWidget {
                 currentIndex: 2,
                 onNavigate: (index) {
                   if (index == 0) {
-                    Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+                    Navigator.pushReplacementNamed(
+                        context, '/pemilik_jasa/dashboard');
                   } else if (index == 2) {
                     Navigator.pushReplacementNamed(context, '/pemilik_jasa');
                   }
@@ -120,3 +112,4 @@ class DetailJasaView extends StatelessWidget {
     );
   }
 }
+

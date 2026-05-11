@@ -26,6 +26,7 @@ import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart' as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
+import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
@@ -208,6 +209,12 @@ class MyApp extends StatelessWidget {
         final vehicleName = settings.arguments as String? ?? 'Pickup';
         return _noAnimation(
           owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
+          settings,
+        );
+
+      case '/pemilik_jasa/dashboard/detail_pembayaran':
+        return _noAnimation(
+          const PemilikJasaPembayaranDetailView(),
           settings,
         );
 

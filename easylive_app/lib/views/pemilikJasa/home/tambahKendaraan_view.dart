@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:easylive_app/controllers/halamanJasa/tambahKendaraan_controller.dart';
 import 'package:easylive_app/widgets/pemilikJasa/home/tambahKendaraan.dart';
 
+import 'package:easylive_app/core/color.dart';
+
+
 class TambahKendaraanView extends StatefulWidget {
   const TambahKendaraanView({super.key});
 
@@ -71,15 +74,10 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
 
                 Row(
                   children: List.generate(3, (index) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 8),
-                      width: 65,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: Color(0xfff0f0f0),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(Icons.camera_alt, color: Colors.grey),
+                    return TambahKendaraanWidget.fotoSlot(
+                      index: index,
+                      controller: controller,
+                      context: context,
                     );
                   }),
                 ),
