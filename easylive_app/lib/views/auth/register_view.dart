@@ -120,7 +120,22 @@ class _RegisterViewState extends State<RegisterView> {
     }
   }
 
+<<<<<<< HEAD
+  String _routeByRole(String role) {
+    switch (role) {
+      case 'Pemilik Kos':
+        return '/pemilik_kos';
+      case 'Pemilik Jasa':
+        return '/pemilik_jasa';
+      case 'Admin':
+        return '/admin';
+      default:
+        return '/login';
+    }
+  }
+=======
 
+>>>>>>> d76592fda1c065fa8445e7c4641e61af94944afc
 
   @override
   Widget build(BuildContext context) {

@@ -36,18 +36,21 @@ class PaymentHistoryCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                     color: AppColors.darkBlue,
                   ),
                 ),
               ),
               Text(
                 price,
-                style: const TextStyle(
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  fontSize: 13,
+                  color: AppColors.darkBlue,
                 ),
               ),
             ],
@@ -58,22 +61,25 @@ class PaymentHistoryCard extends StatelessWidget {
           /// NAMA KOST
           Text(
             kost,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.grey,
-            ),
+           style: TextStyle(
+             fontFamily: 'Montserrat',
+             fontSize: 12,
+             fontWeight: FontWeight.w700,
+             color: AppColors.darkBlue,
+                        ),
           ),
 
           const SizedBox(height: 6),
 
-          /// ROW BAWAH
           Row(
             children: [
               Text(
                 date,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: AppColors.grey,
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.darkBlue,
                 ),
               ),
               const Spacer(),
@@ -88,11 +94,12 @@ class PaymentHistoryCard extends StatelessWidget {
                 ),
                 child: const Text(
                   "Lunas",
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF31B75D),
-                  ),
+                 style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.darkBlue,
+                        ),
                 ),
               ),
             ],

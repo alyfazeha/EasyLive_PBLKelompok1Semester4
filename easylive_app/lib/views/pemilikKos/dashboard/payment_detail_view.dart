@@ -48,13 +48,13 @@ class PaymentDetailView extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Montserrat',
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                const SizedBox(width: 30), // penyeimbang agar title tetap center
+                const SizedBox(width: 30),   
               ],
             ),
           ),
@@ -79,7 +79,7 @@ class PaymentDetailView extends StatelessWidget {
                     'Rincian Pembayaran',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: AppColors.darkBlue,
                     ),
@@ -98,7 +98,7 @@ class PaymentDetailView extends StatelessWidget {
                     'Riwayat Status',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: AppColors.darkBlue,
                     ),
