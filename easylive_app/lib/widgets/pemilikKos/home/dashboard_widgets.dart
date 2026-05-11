@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/color.dart';
+import '../../../controllers/pemilikKos/homeKos_controller.dart';
+import '../../../models/pemilikKos/pemilikKos_model.dart';
 import '../../../views/pemilikKos/home/editKamar_view.dart';
 import 'bottom_navbar.dart';
 import 'owner_search_section.dart';
@@ -62,33 +65,24 @@ class OwnerDashboardContent extends StatelessWidget {
     required this.onSearchChanged,
   });
 
-  static const List<_OwnerKosItem> _kosList = [
-    _OwnerKosItem(
-      image: 'assets/images/kos1.jpg',
-      name: 'Daniska Kos',
-      price: 'Rp 1.500.000 / bulan',
-      status: 'Aktif',
-      statusColor: Color(0xFF31B75D),
-      emptyRoom: '1 Kosong',
-      location: 'Jalan Cengger Ayam Dalam III, Lowokwaru Malang',
-    ),
-    _OwnerKosItem(
-      image: 'assets/images/kos2.jpg',
-      name: 'Triple A',
-      price: 'Rp 900.000 / bulan',
-      status: 'Penuh',
-      statusColor: AppColors.red,
-      emptyRoom: '5 Kosong',
-      location: 'Jalan Cengger Ayam Dalam III, Lowokwaru Malang',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<PemilikKosController>();
+    final model = controller.model;
+    final kostList = model?.kostList ?? [];
+
     final normalizedQuery = searchQuery.trim().toLowerCase();
     final filteredKos = normalizedQuery.isEmpty
-        ? _kosList
-        : _kosList.where((kos) => kos.matches(normalizedQuery)).toList();
+        ? kostList
+        : kostList.where((k) =>
+            k.name.toLowerCase().contains(normalizedQuery) ||
+            k.status.toLowerCase().contains(normalizedQuery) ||
+            k.alamat.toLowerCase().contains(normalizedQuery) ||
+            k.emptyRoom.toLowerCase().contains(normalizedQuery),
+          ).toList();
+
+    final occupiedRooms = model?.occupiedRooms ?? 0;
+    final totalRooms = model?.totalRooms ?? 0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,32 +99,32 @@ class OwnerDashboardContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const Row(
+        Row(
           children: [
             Expanded(
               child: OwnerSummaryCard(
                 icon: Icons.payments_rounded,
                 iconColor: AppColors.yellow,
                 title: 'Total Pendapatan',
-                value: 'Rp 22.500.000',
+                value: 'Rp ${_formatHarga(model?.totalIncome ?? 0)}',
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: OwnerSummaryCard(
                 icon: Icons.calendar_month_rounded,
                 iconColor: Color(0xFF4D82FF),
                 title: 'Booking Baru',
-                value: '18',
+                value: '${model?.newBookings ?? 0}',  // ← dari Supabase
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: OwnerSummaryCard(
                 icon: Icons.bed_rounded,
                 iconColor: Color(0xFF31B75D),
                 title: 'Kamar Terisi',
-                value: '30 / 50',
+                value: '$occupiedRooms / $totalRooms',
               ),
             ),
           ],
@@ -146,52 +140,28 @@ class OwnerDashboardContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        if (filteredKos.isEmpty)
+
+        if (controller.isLoading)
+          const Center(child: CircularProgressIndicator())
+        else if (filteredKos.isEmpty)
           const _EmptyKosSearchResult()
         else
-          ...filteredKos.expand(
-            (kos) => [
-              OwnerKosCard(
-                image: kos.image,
-                name: kos.name,
-                price: kos.price,
-                status: kos.status,
-                statusColor: kos.statusColor,
-                emptyRoom: kos.emptyRoom,
-              ),
-              const SizedBox(height: 14),
-            ],
-          ),
+          ...filteredKos.expand((kos) => [
+            OwnerKosCard(
+              imageWidget: kos.imageWidget,
+              name: kos.name,
+              idKost: kos.idKost,
+              price: kos.price,
+              status: kos.status,
+              statusColor: kos.statusColorValue,
+              emptyRoom: kos.emptyRoom,
+              jumlahKamar: kos.jumlahKamar,
+              alamat: kos.alamat,
+            ),
+            const SizedBox(height: 14),
+          ]),
       ],
     );
-  }
-}
-
-class _OwnerKosItem {
-  final String image;
-  final String name;
-  final String price;
-  final String status;
-  final Color statusColor;
-  final String emptyRoom;
-  final String location;
-
-  const _OwnerKosItem({
-    required this.image,
-    required this.name,
-    required this.price,
-    required this.status,
-    required this.statusColor,
-    required this.emptyRoom,
-    required this.location,
-  });
-
-  bool matches(String query) {
-    return name.toLowerCase().contains(query) ||
-        price.toLowerCase().contains(query) ||
-        status.toLowerCase().contains(query) ||
-        emptyRoom.toLowerCase().contains(query) ||
-        location.toLowerCase().contains(query);
   }
 }
 
@@ -210,11 +180,7 @@ class _EmptyKosSearchResult extends StatelessWidget {
       ),
       child: const Column(
         children: [
-          Icon(
-            Icons.search_off_rounded,
-            color: Colors.black38,
-            size: 34,
-          ),
+          Icon(Icons.search_off_rounded, color: Colors.black38, size: 34),
           SizedBox(height: 8),
           Text(
             'Kost tidak ditemukan',
@@ -245,6 +211,11 @@ class OwnerHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<PemilikKosController>().model;
+    final ownerName = model?.ownerName ?? 'Pemilik Kos';
+    final totalKost = model?.totalKost ?? 0;
+    final availableRooms = model?.availableRooms ?? 0;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 26),
@@ -260,14 +231,10 @@ class OwnerHeaderSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Area profil yang bisa diklik
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/pemilik_kos/profile',
-                    );
+                    Navigator.pushNamed(context, '/pemilik_kos/profile');
                   },
                   borderRadius: BorderRadius.circular(50),
                   child: Row(
@@ -282,33 +249,31 @@ class OwnerHeaderSection extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hi, Rafi',
-                              style: TextStyle(
+                              'Hi, $ownerName',
+                              style: const TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: 2),
+                            const SizedBox(height: 2),
                             Text.rich(
                               TextSpan(
                                 text: 'Welcome to ',
-                                children: [
+                                children: const [
                                   TextSpan(
                                     text: 'EasyLive !',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                                    style: TextStyle(fontWeight: FontWeight.w900),
                                   ),
                                 ],
                               ),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 16,
                                 color: Colors.white,
@@ -321,29 +286,26 @@ class OwnerHeaderSection extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(width: 8),
-
-              // Icon notifikasi tetap di kanan
               const _NotificationBell(),
             ],
           ),
           const SizedBox(height: 18),
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: OwnerHeaderStat(
                   icon: Icons.meeting_room_outlined,
                   title: 'Total Kost',
-                  value: '5 Kost',
+                  value: '$totalKost Kost',
                 ),
               ),
-              SizedBox(width: 14),
+              const SizedBox(width: 14),
               Expanded(
                 child: OwnerHeaderStat(
                   icon: Icons.bed_rounded,
                   title: 'Kamar Tersedia',
-                  value: '12 Kamar',
+                  value: '$availableRooms Kamar',
                 ),
               ),
             ],
@@ -592,21 +554,27 @@ class OwnerSummaryCard extends StatelessWidget {
 }
 
 class OwnerKosCard extends StatelessWidget {
-  final String image;
+  final Widget imageWidget;
   final String name;
   final String price;
+  final String idKost;
   final String status;
   final Color statusColor;
   final String emptyRoom;
+  final String alamat;
+  final int jumlahKamar;
 
   const OwnerKosCard({
     super.key,
-    required this.image,
+    required this.imageWidget,
     required this.name,
     required this.price,
     required this.status,
     required this.statusColor,
+    required this.idKost,
     required this.emptyRoom,
+    required this.alamat,
+    required this.jumlahKamar,
   });
 
   @override
@@ -639,12 +607,7 @@ class OwnerKosCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  image,
-                  width: 140,
-                  height: 88,
-                  fit: BoxFit.cover,
-                ),
+                child: imageWidget,
               ),
               const SizedBox(width: 11),
               Expanded(
@@ -670,20 +633,20 @@ class OwnerKosCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 3),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on_outlined,
                           size: 10,
                           color: Colors.black38,
                         ),
-                        SizedBox(width: 3),
+                        const SizedBox(width: 3),
                         Expanded(
                           child: Text(
-                            'Jalan Cengger Ayam Dalam III, No 24 Lowokwaru Malang',
+                            alamat,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 7.5,
                               color: Colors.black38,
@@ -698,9 +661,9 @@ class OwnerKosCard extends StatelessWidget {
                       spacing: 6,
                       runSpacing: 5,
                       children: [
-                        const _MiniInfo(
+                        _MiniInfo(
                           icon: Icons.bed_rounded,
-                          label: '30 Kamar',
+                          label: '$jumlahKamar Kamar',
                           color: Colors.black54,
                         ),
                         _MiniInfo(
@@ -754,7 +717,6 @@ class OwnerKosCard extends StatelessWidget {
                     label: 'Hapus',
                     color: AppColors.red,
                     onTap: () {
-                      // Show delete confirmation dialog
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -785,15 +747,29 @@ class OwnerKosCard extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {
-                                // Logika hapus kost di sini
-                                Navigator.pop(ctx);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Kost berhasil dihapus"),
-                                    backgroundColor: AppColors.darkBlue,
-                                  ),
-                                );
+                              onPressed: () async {
+                                Navigator.pop(ctx); // tutup dialog dulu
+
+                                try {
+                                  // Panggil deleteKost dari controller
+                                  await context
+                                      .read<PemilikKosController>()
+                                      .deleteKost(idKost); // ← idKost dari parameter card
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Kost berhasil dihapus"),
+                                      backgroundColor: AppColors.darkBlue,
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Gagal menghapus kost: $e"),
+                                      backgroundColor: AppColors.red,
+                                    ),
+                                  );
+                                }
                               },
                               child: Text(
                                 "Hapus",
@@ -935,4 +911,14 @@ class _ActionButton extends StatelessWidget {
       ),
     );
   }
+}
+// Tambah di luar class, di bagian bawah dashboard_widgets.dart
+String _formatHarga(double harga) {
+  return harga
+      .toInt()
+      .toString()
+      .replaceAllMapped(
+        RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+        (m) => '${m[1]}.',
+      );
 }

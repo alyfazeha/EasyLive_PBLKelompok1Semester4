@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'controllers/user/favorite_controller.dart';
+import 'controllers/pemilikKos/homeKos_controller.dart';
 
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
@@ -39,7 +41,6 @@ import 'views/User/payment/qrisPayment_view.dart';
 import 'views/pemilikKos/dashboard/payment_detail_view.dart';
 
 void main() async {
-  // Pastikan binding Flutter sudah siap
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
@@ -47,10 +48,16 @@ void main() async {
     anonKey: 'sb_publishable_QBW63CEkf5bh3CdBvDkdgg_wShXq-Ku',
   );
 
-  // Initialize FavoriteController for persistent favorites
   await FavoriteController.init();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PemilikKosController()), // ← tambah
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
