@@ -1,0 +1,39 @@
+{
+  "currentTask": null,
+  "taskStatus": null,
+  "blockedBy": null,
+  "sessionStarted": "2026-05-11T10:26:46.707Z",
+  "lastActivity": "2026-05-11T14:24:43.173Z",
+  "filesChangedThisSession": [
+    "TODO.md",
+    "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+    "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+    "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+    "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart",
+    "git\\scm0\\input",
+    "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart"
+  ],
+  "totalEditsThisSession": 1067,
+  "decisions": [],
+  "warnings": [
+    {
+      "type": "stale",
+      "message": "Session resumed after 383 min break. Previous session: 1 files changed.",
+      "timestamp": "2026-05-11T10:26:46.707Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/main.dart: 5870 chars replaced with 6211 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-11T12:51:15.553Z"
+    }
+  ],
+  "prdItems": null,
+  "lastCompactionNote": null,
+  "criticalContext": [],
+  "lastAIAction": null,
+  "lastAIFile": null
+}

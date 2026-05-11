@@ -1,0 +1,31 @@
+{
+  "id": "conv-1778495206681-4mqaov",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-11T04:02:49.390Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/auth/register_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 1,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/auth/register_view.dart",
+      "timestamp": "2026-05-11T04:02:49.390Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/auth/register_view.dart"
+      }
+    }
+  ]
+}

@@ -103,46 +103,6 @@ class DetailJasaView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final harga = parsePrice(jasa.price);
-                    Navigator.pushNamed(
-                      context,
-                      '/personal_info',
-                      arguments: {
-                        'kost': KostModel(
-                          name: jasa.name,
-                          address: jasa.address,
-                          image: jasa.images.isNotEmpty ? jasa.images.first : '',
-                          price: harga,
-                        ),
-                        'isJasa': true,
-                        'fromLocation': 'Lowokwaru, Malang',
-                        'toLocation': 'Sukun, Malang',
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.yellow,
-                    foregroundColor: AppColors.darkBlue,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: const Text(
-                    'Select Vehicle',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
               PemilikJasaBottomNav(
                 currentIndex: 2,
                 onNavigate: (index) {

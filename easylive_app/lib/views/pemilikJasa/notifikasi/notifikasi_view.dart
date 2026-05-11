@@ -51,6 +51,7 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
               height: 66,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.centerLeft,
+              color: AppColors.primary,
               child: Row(
                 children: [
                   InkWell(
@@ -60,7 +61,7 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
                       padding: EdgeInsets.all(4),
                       child: Icon(
                         Icons.arrow_back_rounded,
-                        color: AppColors.darkBlue,
+                        color: Colors.white,
                         size: 27,
                       ),
                     ),
@@ -72,7 +73,7 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
                       fontFamily: 'Montserrat',
                       fontSize: 15,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.darkBlue,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -115,8 +116,18 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
                             ),
                             itemCount: notifications.length,
                             itemBuilder: (context, index) {
-                              return OwnerJasaNotificationCard(
-                                notification: notifications[index],
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/pemilik_jasa/notifikasi/detail',
+                                    arguments: notifications[index],
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(12),
+                                child: OwnerJasaNotificationCard(
+                                  notification: notifications[index],
+                                ),
                               );
                             },
                           ),

@@ -1,0 +1,177 @@
+{
+  "id": "conv-1778505732038-px23tw",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-11T13:22:12.038Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+    "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 17,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:45:44.785Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:52:55.073Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+      "timestamp": "2026-05-11T11:53:03.144Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:53:18.904Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:53:31.788Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:53:58.165Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:54:33.793Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:59:10.286Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T12:00:21.890Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T12:52:01.055Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "timestamp": "2026-05-11T13:07:44.751Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "timestamp": "2026-05-11T13:07:56.974Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart",
+      "timestamp": "2026-05-11T13:08:40.600Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "timestamp": "2026-05-11T13:08:55.405Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "timestamp": "2026-05-11T13:10:24.117Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T13:10:46.453Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T13:11:30.187Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    }
+  ]
+}

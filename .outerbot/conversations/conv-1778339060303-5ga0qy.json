@@ -1,0 +1,91 @@
+{
+  "id": "conv-1778339060303-5ga0qy",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-09T15:04:20.303Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 8,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:08:03.866Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:23:02.484Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:25:37.539Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:25:45.262Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:25:54.207Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:45:22.102Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:45:43.386Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T14:45:50.879Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    }
+  ]
+}

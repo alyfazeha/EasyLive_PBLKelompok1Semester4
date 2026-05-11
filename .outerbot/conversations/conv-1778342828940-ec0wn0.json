@@ -1,0 +1,51 @@
+{
+  "id": "conv-1778342828940-ec0wn0",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-09T15:59:30.591Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 3 messages, 3 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+    "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+    "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_filter_tabs.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 3,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+      "timestamp": "2026-05-09T15:59:30.591Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-09T15:59:52.193Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_filter_tabs.dart",
+      "timestamp": "2026-05-09T16:05:06.341Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_filter_tabs.dart"
+      }
+    }
+  ]
+}

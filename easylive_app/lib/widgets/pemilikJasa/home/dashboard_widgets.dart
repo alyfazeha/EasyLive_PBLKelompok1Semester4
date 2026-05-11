@@ -140,6 +140,48 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
                               ),
                             );
                           },
+                          onDelete: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Konfirmasi Hapus'),
+                                content: Text(
+                                  'Apakah Anda yakin ingin menghapus ${vehicle.name}? Data yang dihapus tidak dapat dikembalikan.',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: const Text('Batal'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      setState(() {
+                                        // update daftar kendaraan (mock): hapus item yang dipilih
+                                        final updated = List<OwnerVehicle>.from(widget.vehicles)
+                                          ..removeWhere((e) => e.name == vehicle.name);
+                                        widget.vehicles
+                                          ..clear()
+                                          ..addAll(updated);
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            '${vehicle.name} berhasil dihapus',
+                                          ),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Hapus',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(height: 14),
                       ],
@@ -187,10 +229,14 @@ class PemilikJasaHeader extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(
-                  'https://i.pravatar.cc/120?img=12',
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/profile'),
+                borderRadius: BorderRadius.circular(999),
+                child: const CircleAvatar(
+                  radius: 22,
+                  backgroundImage: NetworkImage(
+                    'https://i.pravatar.cc/120?img=12',
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -375,13 +421,16 @@ class OwnerVehicleCard extends StatelessWidget {
   final OwnerVehicle vehicle;
   final VoidCallback? onDetail;
   final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const OwnerVehicleCard({
     super.key,
     required this.vehicle,
     this.onDetail,
     this.onEdit,
+    this.onDelete,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -512,6 +561,7 @@ class OwnerVehicleCard extends StatelessWidget {
                 icon: Icons.delete_outline_rounded,
                 label: 'Hapus',
                 color: AppColors.red,
+                onTap: onDelete,
               ),
               const SizedBox(height: 6),
               _ActionButton(

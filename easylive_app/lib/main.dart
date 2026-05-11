@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'controllers/user/favorite_controller.dart';
+import 'controllers/pemilikKos/homeKos_controller.dart';
 
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
@@ -26,8 +28,18 @@ import 'views/pemilikKos/booking/detail_booking_view.dart'
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+<<<<<<< HEAD
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
+=======
+import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
+import 'views/pemilikJasa/profile/profile_view.dart';
+import 'models/pemilikJasa/notifikasi_model.dart';
+
+
+
+>>>>>>> d76592fda1c065fa8445e7c4641e61af94944afc
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart'
     as pemilik_jasa_detail_booking;
@@ -51,7 +63,14 @@ void main() async {
 
   await FavoriteController.init();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PemilikKosController()), // ← tambah
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -125,6 +144,10 @@ class MyApp extends StatelessWidget {
       case '/profile':
         return _noAnimation(const ProfileView(), settings);
 
+      case '/pemilik_jasa/profile':
+        return _noAnimation(const PemilikJasaProfileView(), settings);
+
+
       case '/edit_profile':
         return _noAnimation(const EditProfileView(), settings);
 
@@ -197,6 +220,13 @@ class MyApp extends StatelessWidget {
         final vehicleName = settings.arguments as String? ?? 'Pickup';
         return _noAnimation(
           owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
+          settings,
+        );
+
+      case '/pemilik_jasa/notifikasi/detail':
+        final notification = settings.arguments as OwnerNotification;
+        return _noAnimation(
+          DetailOwnerJasaNotificationView(notification: notification),
           settings,
         );
 

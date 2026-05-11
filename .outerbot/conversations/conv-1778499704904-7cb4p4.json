@@ -1,0 +1,84 @@
+{
+  "id": "conv-1778499704904-7cb4p4",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-11T11:41:44.904Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "TODO.md",
+    "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+    "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 7,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: TODO.md",
+      "timestamp": "2026-05-11T11:11:10.702Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "TODO.md"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-11T11:11:32.699Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-11T11:11:50.433Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-11T11:12:34.704Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "timestamp": "2026-05-11T11:12:48.268Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: TODO.md",
+      "timestamp": "2026-05-11T11:13:01.845Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "TODO.md"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+      "timestamp": "2026-05-11T11:32:52.012Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart"
+      }
+    }
+  ]
+}
