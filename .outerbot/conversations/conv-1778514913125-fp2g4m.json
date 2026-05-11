@@ -1,0 +1,31 @@
+{
+  "id": "conv-1778514913125-fp2g4m",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-11T15:46:04.877Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 1,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart",
+      "timestamp": "2026-05-11T15:46:04.877Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart"
+      }
+    }
+  ]
+}
