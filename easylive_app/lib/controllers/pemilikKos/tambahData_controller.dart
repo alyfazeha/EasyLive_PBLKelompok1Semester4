@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TambahDataController {
@@ -16,40 +19,12 @@ class TambahDataController {
 
   String tipeKost = '';
 
-<<<<<<< HEAD
-  /// Simpan path foto yang dipilih (max 3)
-  final List<File> selectedPhotos = [];
+  List<Uint8List> selectedPhotosBytes = [];
 
-  void setPhoto(int index, File file) {
-    // Pastikan list panjangnya minimal sesuai index
-    while (selectedPhotos.length < index) {
-      selectedPhotos.add(File(''));
-    }
+  @Deprecated('Gunakan selectedPhotosBytes untuk kompatibilitas Flutter Web')
+  List<File> selectedPhotos = [];
 
-    if (selectedPhotos.length == index) {
-      selectedPhotos.add(file);
-      return;
-    }
-
-    selectedPhotos[index] = file;
-  }
-
-  void addPhoto(File file) {
-    if (selectedPhotos.length >= 3) return;
-    selectedPhotos.add(file);
-  }
-
-  int get photosCount => selectedPhotos.length;
-
-  void simpanData(BuildContext context) {
-    // Demo: print data and show success
-    print("Nama Kost: ${namaKost.text}");
-    print("Nomor HP: ${nomorHp.text}");
-    print("Kost Type: $tipeKost");
-    print("Jumlah foto terpilih: ${selectedPhotos.length}");
-=======
   final supabase = Supabase.instance.client;
->>>>>>> 191d8aaac5305d62bae2515ba5162cab5f81dd18
 
   Future<void> simpanData(BuildContext context) async {
     try {
@@ -57,9 +32,9 @@ class TambahDataController {
       final user = supabase.auth.currentUser;
 
       if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("User is not logged in")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("User is not logged in")));
         return;
       }
 
@@ -79,19 +54,15 @@ class TambahDataController {
         'status': 'pending',
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Kost data saved successfully"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Kost data saved successfully")));
 
       Navigator.pop(context);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error: $e"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
   }
 }

@@ -36,6 +36,7 @@ import 'models/user/kos_model.dart';
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
+import 'views/pemilikKos/dashboard/payment_detail_view.dart';
 
 void main() async {
   // Pastikan binding Flutter sudah siap
@@ -157,8 +158,13 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/dashboard':
         return _noAnimation(DashboardView(), settings);
 
+      case '/pemilik_kos/detail_pembayaran':
+        return _noAnimation(PaymentDetailView(), settings);
+
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
+
+      
 
       case '/pemilik_jasa/notifikasi':
         return _noAnimation(const OwnerJasaNotificationView(), settings);

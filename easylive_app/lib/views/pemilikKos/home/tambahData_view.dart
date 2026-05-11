@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,7 +15,6 @@ class TambahDataView extends StatefulWidget {
 class _TambahDataViewState extends State<TambahDataView> {
   final controller = TambahDataController();
 
-  // List of selected fasilitas (index)
   final List<int> selectedFasilitas = [];
 
   void _toggleFasilitas(int index) {
@@ -52,21 +51,39 @@ class _TambahDataViewState extends State<TambahDataView> {
 
     if (picked == null) return;
 
-    final file = File(picked.path);
+    final Uint8List bytes = await picked.readAsBytes();
 
     setState(() {
+      // Maintain bytes list size up to slotIndex
+      while (controller.selectedPhotosBytes.length < slotIndex) {
+        controller.selectedPhotosBytes.add(Uint8List(0));
+      }
+
+      if (controller.selectedPhotosBytes.length == slotIndex) {
+        controller.selectedPhotosBytes.add(bytes);
+      } else {
+        controller.selectedPhotosBytes[slotIndex] = bytes;
+      }
+
+      controller.selectedPhotosBytes.removeWhere((b) => b.isEmpty);
+
+      if (controller.selectedPhotosBytes.length > 3) {
+        controller.selectedPhotosBytes.removeRange(
+          3,
+          controller.selectedPhotosBytes.length,
+        );
+      }
+
       while (controller.selectedPhotos.length < slotIndex) {
         controller.selectedPhotos.add(File(''));
       }
-
+      final file = File(picked.path);
       if (controller.selectedPhotos.length == slotIndex) {
         controller.selectedPhotos.add(file);
       } else {
         controller.selectedPhotos[slotIndex] = file;
       }
-
       controller.selectedPhotos.removeWhere((f) => f.path.isEmpty);
-
       if (controller.selectedPhotos.length > 3) {
         controller.selectedPhotos.removeRange(
           3,
@@ -81,7 +98,7 @@ class _TambahDataViewState extends State<TambahDataView> {
     // Get fasilitas list
     final fasilitasList = TambahDataWidget.getFasilitasList();
 
-    final photoCount = controller.selectedPhotos.length;
+    final photoCount = controller.selectedPhotosBytes.length;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -140,7 +157,8 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 Row(
                   children: List.generate(3, (index) {
-                    final hasPhoto = index < controller.selectedPhotos.length;
+                    final hasPhoto =
+                        index < controller.selectedPhotosBytes.length;
                     final file = hasPhoto
                         ? controller.selectedPhotos[index]
                         : null;
@@ -182,7 +200,9 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                                             await _pickPhoto(
                                               slotIndex: index,
-                                              source: ImageSource.camera,
+                                              source: kIsWeb
+                                                  ? ImageSource.gallery
+                                                  : ImageSource.camera,
                                             );
                                           },
                                           child: Column(
@@ -271,12 +291,20 @@ class _TambahDataViewState extends State<TambahDataView> {
                               child: hasPhoto
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
-                                      child: Image.file(
-                                        file!,
-                                        fit: BoxFit.cover,
-                                        width: 65,
-                                        height: 65,
-                                      ),
+                                      child: kIsWeb
+                                          ? Image.memory(
+                                              controller
+                                                  .selectedPhotosBytes[index],
+                                              fit: BoxFit.cover,
+                                              width: 65,
+                                              height: 65,
+                                            )
+                                          : Image.file(
+                                              controller.selectedPhotos[index],
+                                              fit: BoxFit.cover,
+                                              width: 65,
+                                              height: 65,
+                                            ),
                                     )
                                   : Icon(
                                       Icons.person,
@@ -368,7 +396,6 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 SizedBox(height: 20),
 
-                /// ================= DETAIL (3 KOLOM) =================
                 Text(
                   "Kost Details",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -440,6 +467,10 @@ class _TambahDataViewState extends State<TambahDataView> {
                 /// ================= BUTTON =================
                 TambahDataWidget.buttonSimpan(() async {
                   await controller.simpanData(context);
+                  // Trigger refresh home pemilik kos: kirimkan result true
+                  if (mounted) {
+                    Navigator.pop(context, true);
+                  }
                 }),
               ],
             ),

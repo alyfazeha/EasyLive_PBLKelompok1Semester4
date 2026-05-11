@@ -248,7 +248,7 @@ class OwnerHeaderSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 26),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.darkBlue,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(18),
@@ -260,49 +260,71 @@ class OwnerHeaderSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 21,
-                backgroundColor: AppColors.yellow,
-                child: Icon(
-                  Icons.person_rounded,
-                  color: AppColors.darkBlue,
-                  size: 28,
+              // Area profil yang bisa diklik
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/pemilik_kos/profile',
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(50),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 21,
+                        backgroundColor: AppColors.yellow,
+                        child: Icon(
+                          Icons.person_rounded,
+                          color: AppColors.darkBlue,
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hi, Rafi',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text.rich(
+                              TextSpan(
+                                text: 'Welcome to ',
+                                children: [
+                                  TextSpan(
+                                    text: 'EasyLive !',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hi, Rafi',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text.rich(
-                      TextSpan(
-                        text: 'Welcome to ',
-                        children: [
-                          TextSpan(
-                            text: 'EasyLive !',
-                            style: TextStyle(fontWeight: FontWeight.w900),
-                          ),
-                        ],
-                      ),
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
+              const SizedBox(width: 8),
+
+              // Icon notifikasi tetap di kanan
               const _NotificationBell(),
             ],
           ),
