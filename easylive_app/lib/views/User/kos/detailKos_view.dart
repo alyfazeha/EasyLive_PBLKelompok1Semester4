@@ -228,7 +228,10 @@ class _DetailKosViewState extends State<DetailKosView> {
               )
             : Column(
                 children: specifications
-                    .map((specification) => _SpecificationRow(label: specification))
+                    .map(
+                      (specification) =>
+                          _SpecificationRow(label: specification),
+                    )
                     .toList(),
               ),
       ],
@@ -392,29 +395,30 @@ class _KosHeader extends StatelessWidget {
             left: 22,
             right: 22,
             bottom: 0,
-            child: Container(
-              height: 152,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black.withValues(alpha: 0.12),
-                    blurRadius: 24,
-                    offset: const Offset(0, 12),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Hero(
-                  tag: heroTag,
-                  child: Image.asset(
-                    imagePath,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: Container(
+                height: 152,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black.withValues(alpha: 0.12),
+                      blurRadius: 24,
+                      offset: const Offset(0, 12),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Hero(
+                    tag: heroTag,
+                    child: Image.asset(
+                      imagePath,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

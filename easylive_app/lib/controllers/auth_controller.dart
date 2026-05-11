@@ -9,26 +9,44 @@ class AuthController {
     required String password,
   }) async {
     try {
-      // Mencari data di tabel profiles yang email dan password-nya cocok
+
+      // LOGIN KE SUPABASE AUTH
+      final response =
+          await _supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = response.user;
+
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'Login failed',
+        };
+      }
+
+      // AMBIL DATA PROFILE
       final userData = await _supabase
           .from('profiles')
           .select()
-          .eq('email', email)
-          .eq('password', password)
-          .maybeSingle();
-
-      if (userData == null) {
-        return {'success': false, 'message': 'Email atau password salah.'};
-      }
+          .eq('id_profile', user.id)
+          .single();
 
       return {
         'success': true,
-        'message': 'Login sebagai ${userData['role']} berhasil',
+        'message':
+            'Login as ${userData['role']} successful',
         'role': userData['role'] ?? 'user',
         'userData': userData,
       };
+
     } catch (e) {
-      return {'success': false, 'message': 'Terjadi kesalahan: $e'};
+
+      return {
+        'success': false,
+        'message': 'Error: $e',
+      };
     }
   }
 

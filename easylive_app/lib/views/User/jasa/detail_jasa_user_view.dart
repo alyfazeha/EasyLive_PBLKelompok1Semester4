@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../models/user/kos_model.dart';
 import 'jasa_view.dart';
-import 'route_card.dart';
+import '../../../widgets/user/jasa/route_card.dart';
 
 class DetailJasaUserView extends StatefulWidget {
   final JasaVehicle vehicle;
@@ -35,7 +35,7 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => JasaRouteView(kost: selectedKost)),
+      MaterialPageRoute(builder: (_) => UserJasaRouteView(kost: selectedKost)),
     );
   }
 

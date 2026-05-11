@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../core/color.dart';
-import '../../../controllers/user/profile_controller.dart';
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+import '../../../core/color.dart';
+import '../../../controllers/pemilikKos/profile_controller.dart';
+
+class PemilikKosProfileHeader extends StatelessWidget {
+  const PemilikKosProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,6 @@ class ProfileHeader extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [AppColors.darkBlue, Color(0xFF3D5A80)],
         ),
-        borderRadius: BorderRadius.zero,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -54,7 +54,6 @@ class ProfileHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 15),
-          // Decorative avatar with ring
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -76,22 +75,18 @@ class ProfileHeader extends StatelessWidget {
               child: const Icon(Icons.person, size: 50, color: Colors.white),
             ),
           ),
-
           const SizedBox(height: 15),
-
           Text(
-            ProfileController.getUserName(),
+            PemilikKosProfileController.getUserName(),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
-            ProfileController.getUserEmail(),
+            PemilikKosProfileController.getUserEmail(),
             style: const TextStyle(color: Colors.white70, fontSize: 14),
           ),
         ],

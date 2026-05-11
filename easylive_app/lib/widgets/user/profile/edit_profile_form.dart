@@ -24,6 +24,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
   late TextEditingController emailController;
   late TextEditingController roleController;
   late TextEditingController passwordController;
+  late TextEditingController phoneController;
+  late TextEditingController birthdateController;
+  late TextEditingController genderController;
+  late TextEditingController addressController;
   bool _isLoading = false;
 
   @override
@@ -33,6 +37,12 @@ class _EditProfileFormState extends State<EditProfileForm> {
     emailController = TextEditingController(text: widget.controller.email);
     roleController = TextEditingController(text: widget.controller.role);
     passwordController = TextEditingController();
+    phoneController = TextEditingController(text: widget.controller.phone);
+    birthdateController = TextEditingController(
+      text: widget.controller.birthdate,
+    );
+    genderController = TextEditingController(text: widget.controller.gender);
+    addressController = TextEditingController(text: widget.controller.address);
   }
 
   @override
@@ -41,10 +51,20 @@ class _EditProfileFormState extends State<EditProfileForm> {
     emailController.dispose();
     roleController.dispose();
     passwordController.dispose();
+    phoneController.dispose();
+    birthdateController.dispose();
+    genderController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
   void _save() {
+    // samakan field yang ada di register
+    widget.controller.phone = phoneController.text;
+    widget.controller.birthdate = birthdateController.text;
+    widget.controller.gender = genderController.text;
+    widget.controller.address = addressController.text;
+
     final error = widget.controller.validate(
       newName: nameController.text,
       newEmail: emailController.text,
@@ -89,13 +109,26 @@ class _EditProfileFormState extends State<EditProfileForm> {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
               color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  AppColors.secondary.withOpacity(0.32),
+                  Colors.white,
+                ],
+              ),
+              border: Border.all(
+                color: AppColors.darkBlue.withOpacity(0.16),
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.darkBlue.withOpacity(0.08),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
+                  color: AppColors.darkBlue.withOpacity(0.12),
+                  blurRadius: 26,
+                  offset: const Offset(0, 12),
                 ),
               ],
             ),
@@ -122,10 +155,51 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                EditProfileField(
-                  label: "Role",
-                  controller: roleController,
-                  icon: Icons.badge_rounded,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondary,
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: roleController.text.isEmpty
+                          ? 'User'
+                          : roleController.text,
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
+                        color: AppColors.primary,
+                      ),
+                      dropdownColor: Colors.white,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 14,
+                        color: AppColors.primary,
+                      ),
+                      items: const [
+                        DropdownMenuItem(value: 'User', child: Text('User')),
+                        DropdownMenuItem(
+                          value: 'Pemilik Kos',
+                          child: Text('Pemilik Kos'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Pemilik Jasa',
+                          child: Text('Pemilik Jasa'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Admin Jasa',
+                          child: Text('Admin Jasa'),
+                        ),
+                      ],
+                      onChanged: (String? newValue) {
+                        if (newValue == null) return;
+                        setState(() {
+                          roleController.text = newValue;
+                        });
+                      },
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
@@ -138,6 +212,30 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   label: "Email",
                   controller: emailController,
                   icon: Icons.email_rounded,
+                ),
+                const SizedBox(height: 14),
+                EditProfileField(
+                  label: "Phone",
+                  controller: phoneController,
+                  icon: Icons.phone_android_outlined,
+                ),
+                const SizedBox(height: 14),
+                EditProfileField(
+                  label: "Birthday (yyyy-MM-dd)",
+                  controller: birthdateController,
+                  icon: Icons.calendar_month_rounded,
+                ),
+                const SizedBox(height: 14),
+                EditProfileField(
+                  label: "Gender",
+                  controller: genderController,
+                  icon: Icons.transgender_rounded,
+                ),
+                const SizedBox(height: 14),
+                EditProfileField(
+                  label: "Address",
+                  controller: addressController,
+                  icon: Icons.location_on_outlined,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(

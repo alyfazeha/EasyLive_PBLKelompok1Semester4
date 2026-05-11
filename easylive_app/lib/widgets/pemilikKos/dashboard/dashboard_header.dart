@@ -18,7 +18,6 @@ class DashboardHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           /// TOP ROW (GREETING + NOTIF)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,32 +50,37 @@ class DashboardHeader extends StatelessWidget {
               ),
 
               /// NOTIFICATION ICON
-              Stack(
-                children: [
-                  const Icon(Icons.notifications, color: Colors.white),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: const BoxDecoration(
-                        color: Colors.orange,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Text(
-                        "9",
-                        style: TextStyle(fontSize: 8, color: Colors.white),
+              InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, '/pemilik_kos/notifikasi'),
+                borderRadius: BorderRadius.circular(18),
+                child: Stack(
+                  children: [
+                    const Icon(Icons.notifications, color: Colors.white),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          color: Colors.orange,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Text(
+                          "9",
+                          style: TextStyle(fontSize: 8, color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
 
           const SizedBox(height: 20),
 
-          ///  STAT CARD 
+          ///  STAT CARD
           Row(
             children: [
               Expanded(
@@ -101,7 +105,7 @@ class DashboardHeader extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          /// STAT CARD 
+          /// STAT CARD
           Row(
             children: [
               Expanded(
@@ -129,12 +133,7 @@ class DashboardHeader extends StatelessWidget {
   }
 
   /// 🔹 WIDGET STAT ITEM (SUDAH FIX)
-  Widget _statItem(
-    IconData icon,
-    String title,
-    String value,
-    Color color,
-  ) {
+  Widget _statItem(IconData icon, String title, String value, Color color) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -157,10 +156,7 @@ class DashboardHeader extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 11,
-                ),
+                style: const TextStyle(color: Colors.white70, fontSize: 11),
               ),
               Text(
                 value,

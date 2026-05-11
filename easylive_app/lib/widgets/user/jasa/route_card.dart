@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../../core/color.dart';
 import '../../../controllers/user/home_controller.dart';
 import '../../../models/user/kos_model.dart';
-import '../../../widgets/user/home/bottom_navbar.dart';
 import 'location_picker_view.dart';
 
-class JasaRouteView extends StatefulWidget {
-  final KostModel kost;
+import '../../../widgets/user/home/bottom_navbar.dart';
 
-  const JasaRouteView({super.key, required this.kost});
+class UserJasaRouteView extends StatefulWidget {
+  final KostModel kost;
+  const UserJasaRouteView({super.key, required this.kost});
 
   @override
-  State<JasaRouteView> createState() => _JasaRouteViewState();
+  State<UserJasaRouteView> createState() => _UserJasaRouteViewState();
 }
 
-class _JasaRouteViewState extends State<JasaRouteView> {
+class _UserJasaRouteViewState extends State<UserJasaRouteView> {
   String? _fromLocation = 'Lowokwaru, Malang';
   String? _toLocation = 'Sawojajar, Malang';
   DateTime _selectedDate = DateTime.now();
@@ -137,7 +138,7 @@ class _JasaRouteViewState extends State<JasaRouteView> {
                       bottom: Radius.circular(18),
                     ),
                   ),
-                  child: _RouteHeader(userName: userName),
+                  child: _UserJasaRouteHeader(userName: userName),
                 ),
                 const Expanded(child: SizedBox()),
               ],
@@ -146,7 +147,7 @@ class _JasaRouteViewState extends State<JasaRouteView> {
               left: 48,
               right: 48,
               top: 90,
-              child: RouteCard(
+              child: UserJasaRouteCard(
                 fromLocation: _fromLocation,
                 toLocation: _toLocation,
                 selectedDate: _selectedDate,
@@ -154,7 +155,8 @@ class _JasaRouteViewState extends State<JasaRouteView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => LocationPickerView(kost: widget.kost),
+                      builder: (_) =>
+                          UserJasaLocationPickerView(kost: widget.kost),
                     ),
                   );
                 },
@@ -248,10 +250,9 @@ class _JasaRouteViewState extends State<JasaRouteView> {
   }
 }
 
-class _RouteHeader extends StatelessWidget {
+class _UserJasaRouteHeader extends StatelessWidget {
   final String userName;
-
-  const _RouteHeader({required this.userName});
+  const _UserJasaRouteHeader({required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +265,6 @@ class _RouteHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 2),
-              // tombol Back untuk menggantikan teks 'Hi/Welcome'
               Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
@@ -358,7 +358,7 @@ class _SelectedVehicleCard extends StatelessWidget {
   }
 }
 
-class RouteCard extends StatelessWidget {
+class UserJasaRouteCard extends StatelessWidget {
   final String? fromLocation;
   final String? toLocation;
   final DateTime selectedDate;
@@ -367,7 +367,7 @@ class RouteCard extends StatelessWidget {
   final VoidCallback onLocationIconTap;
   final ValueChanged<DateTime> onDateChanged;
 
-  const RouteCard({
+  const UserJasaRouteCard({
     super.key,
     required this.fromLocation,
     required this.toLocation,
@@ -408,7 +408,6 @@ class RouteCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Bagian Lokasi
           Row(
             children: [
               Column(
@@ -481,8 +480,6 @@ class RouteCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 25),
-
-          // Bagian Departure & Tanggal
           const Text(
             'Departure',
             style: TextStyle(
@@ -492,10 +489,8 @@ class RouteCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-
           Row(
             children: [
-              // List Tanggal 26-30
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -544,14 +539,12 @@ class RouteCard extends StatelessWidget {
                   }),
                 ),
               ),
-              // Garis Vertikal Pemisah
               Container(
                 height: 40,
                 width: 1.5,
                 color: Colors.grey[300],
                 margin: const EdgeInsets.symmetric(horizontal: 15),
               ),
-              // Bulan & Tahun (klik untuk pilih tanggal)
               InkWell(
                 onTap: () => _showDatePicker(context),
                 borderRadius: BorderRadius.circular(12),

@@ -14,7 +14,7 @@ class DetailKostView extends StatelessWidget {
     final kost = controller.getKostDetail();
 
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [

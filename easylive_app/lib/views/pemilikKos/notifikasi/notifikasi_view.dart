@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/pemilikKos/notifikasi_controller.dart';
 import '../../../core/color.dart';
+import '../../../views/pemilikKos/notifikasi/notifikasi_detail_view.dart';
 import '../../../widgets/pemilikKos/home/bottom_navbar.dart';
 import '../../../widgets/pemilikKos/notifikasi/notifikasi_card.dart';
 import '../../../widgets/pemilikKos/notifikasi/notifikasi_filter_tabs.dart';
@@ -10,7 +11,8 @@ class OwnerNotificationView extends StatefulWidget {
   const OwnerNotificationView({super.key});
 
   @override
-  State<OwnerNotificationView> createState() => _OwnerNotificationViewState();
+  State<OwnerNotificationView> createState() =>
+      _OwnerNotificationViewState();
 }
 
 class _OwnerNotificationViewState extends State<OwnerNotificationView> {
@@ -25,11 +27,20 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
 
   void _navigateTo(int index) {
     if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos/dashboard',
+      );
     } else if (index == 2) {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos',
+      );
     } else if (index == 3) {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos/history');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos/history',
+      );
     }
   }
 
@@ -37,7 +48,10 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     } else {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos',
+      );
     }
   }
 
@@ -98,9 +112,15 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                          padding: const EdgeInsets.fromLTRB(
+                            17,
+                            17,
+                            17,
+                            0,
+                          ),
                           child: OwnerNotificationFilterTabs(
-                            showUnreadOnly: controller.showUnreadOnly,
+                            showUnreadOnly:
+                                controller.showUnreadOnly,
                             totalCount: controller.totalCount,
                             unreadCount: controller.unreadCount,
                             onShowAll: controller.showAll,
@@ -117,8 +137,22 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                             ),
                             itemCount: notifications.length,
                             itemBuilder: (context, index) {
-                              return OwnerNotificationCard(
-                                notification: notifications[index],
+                              final notification =
+                                  notifications[index];
+
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          NotificationDetailView(),
+                                    ),
+                                  );
+                                },
+                                child: OwnerNotificationCard(
+                                  notification: notification,
+                                ),
                               );
                             },
                           ),

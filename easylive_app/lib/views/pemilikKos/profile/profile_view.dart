@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/color.dart';
-import '../../../controllers/user/profile_controller.dart';
-import '../../../widgets/user/profile/profile_header.dart';
-import '../../../widgets/user/profile/profile_menu_section.dart';
+import '../../../controllers/pemilikKos/profile_controller.dart';
+import '../../../widgets/pemilikKos/profile/profile_header.dart';
+import '../../../widgets/pemilikKos/profile/profile_menu_section.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+class PemilikKosProfileView extends StatelessWidget {
+  const PemilikKosProfileView({super.key});
 
-  ///LOGOUT + KONFIRMASI
   void _logout(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
-        title: const Text("Logout"),
-        content: const Text("Are you sure you want to log out?"),
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to log out?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              ProfileController.logout();
+              PemilikKosProfileController.logout();
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/login',
                 (route) => false,
               );
             },
-            child: const Text("Logout", style: TextStyle(color: Colors.red)),
+            child: const Text('Logout', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
           children: [
             Stack(
               children: [
-                const ProfileHeader(),
+                const PemilikKosProfileHeader(),
                 Positioned(
                   top: 50,
                   right: 20,
@@ -70,30 +70,27 @@ class ProfileView extends StatelessWidget {
                         Icons.logout,
                         color: AppColors.background,
                       ),
-                      tooltip: "Logout",
+                      tooltip: 'Logout',
                       padding: const EdgeInsets.all(10),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 0),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(28),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.darkBlue.withOpacity(0.12),
                       blurRadius: 22,
-                      offset: const Offset(0, -8),
+                      offset: Offset(0, -8),
                     ),
                   ],
                 ),
-                child: const ProfileMenuSection(),
+                child: const PemilikKosProfileMenuSection(),
               ),
             ),
           ],

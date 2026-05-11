@@ -5,6 +5,12 @@ class EditProfileController {
   String password = "";
   String imagePath = "";
 
+  // Extra fields (disamakan dengan Register)
+  String phone = "";
+  String birthdate = ""; // yyyy-MM-dd
+  String gender = "";
+  String address = "";
+
   /// Validasi email
   bool isValidEmail(String email) {
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');

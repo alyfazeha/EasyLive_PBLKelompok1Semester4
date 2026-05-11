@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/color.dart';
 import '../../../controllers/pemilikKos/dashboard_controller.dart';
 import '../../../widgets/pemilikKos/dashboard/dashboard_header.dart';
@@ -14,29 +15,28 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  final controller = DashboardController();
+  final DashboardController controller = DashboardController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff5f5f5),
+      backgroundColor: Colors.white,
 
       body: Column(
         children: [
-          /// 🔥 HEADER
+          /// HEADER
           const DashboardHeader(),
 
-          /// 🔥 CONTENT
+          /// CONTENT
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 70, 16, 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   const SizedBox(height: 1),
 
-                  /// 🔥 RIWAYAT PEMBAYARAN
+                  /// RIWAYAT PEMBAYARAN
                   const Text(
                     "Riwayat Pembayaran",
                     style: TextStyle(
@@ -49,21 +49,42 @@ class _DashboardViewState extends State<DashboardView> {
 
                   const SizedBox(height: 12),
 
-                  /// CARD LIST
-                  const PaymentHistoryCard(
-                    name: "Budi Santoso (Kamar 03)",
-                    kost: "Daniska Kos",
-                    date: "01 Mei 2026",
-                    price: "Rp 5.500.000",
-                    status: "Lunas",
+                  /// CARD 1
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/pemilik_kos/detail_pembayaran',
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(18),
+                    child: const PaymentHistoryCard(
+                      name: "Budi Santoso (Kamar 03)",
+                      kost: "Daniska Kos",
+                      date: "01 Mei 2026",
+                      price: "Rp 5.500.000",
+                      status: "Lunas",
+                    ),
                   ),
 
-                  const PaymentHistoryCard(
-                    name: "Andi Wijaya (Kamar 07)",
-                    kost: "Daniska Kos",
-                    date: "28 Ags 2026",
-                    price: "Rp 5.500.000",
-                    status: "Lunas",
+                  const SizedBox(height: 12),
+
+                  /// CARD 2
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/pemilik_kos/detail_pembayaran',
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(18),
+                    child: const PaymentHistoryCard(
+                      name: "Andi Wijaya (Kamar 07)",
+                      kost: "Daniska Kos",
+                      date: "28 Ags 2026",
+                      price: "Rp 5.500.000",
+                      status: "Lunas",
+                    ),
                   ),
                 ],
               ),
@@ -72,7 +93,7 @@ class _DashboardViewState extends State<DashboardView> {
         ],
       ),
 
-      /// 🔥 BOTTOM NAV
+      /// BOTTOM NAVIGATION
       bottomNavigationBar: OwnerBottomNav(
         currentIndex: 0,
         onNavigate: (index) {
@@ -80,16 +101,20 @@ class _DashboardViewState extends State<DashboardView> {
 
           if (index == 3) {
             Navigator.pushReplacementNamed(
-                context, '/pemilik_kos/history');
+              context,
+              '/pemilik_kos/history',
+            );
           } else if (index == 2) {
             Navigator.pushReplacementNamed(
-                context, '/pemilik_kos');
+              context,
+              '/pemilik_kos',
+            );
           } else {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    ComingSoonView(title: "Halaman"),
+                    const ComingSoonView(title: "Halaman"),
               ),
             );
           }
