@@ -23,7 +23,7 @@ class TambahDataController {
 
   final supabase = Supabase.instance.client;
 
-  Future<void> simpanData(BuildContext context) async {
+Future<void> simpanData(BuildContext context) async {
     try {
       final user = supabase.auth.currentUser;
 
@@ -56,6 +56,22 @@ class TambahDataController {
         fotoUrls.add(publicUrl);
       }
 
+      // Debug: print semua nilai sebelum insert
+      print('=== DEBUG INSERT ===');
+      print('owner_id: ${user.id}');
+      print('nama_kost: ${namaKost.text}');
+      print('harga: ${harga.text} → ${double.tryParse(harga.text)}');
+      print('nomor_hp: ${nomorHp.text}');
+      print('alamat: ${alamat.text}');
+      print('kecamatan: ${kecamatan.text}');
+      print('kota: ${kota.text}');
+      print('jumlah_kamar: ${jumlahKamar.text} → ${int.tryParse(jumlahKamar.text)}');
+      print('kamar_kosong: ${kamarKosong.text} → ${int.tryParse(kamarKosong.text)}');
+      print('tipe_kost: $tipeKost');
+      print('status: pending');
+      print('gambar: $fotoUrls');
+      print('====================');
+
       // 2️⃣ Insert kost sekaligus dengan array URL foto ke kolom gambar
       await supabase.from('kost').insert({
         'owner_id': user.id,
@@ -70,14 +86,16 @@ class TambahDataController {
         'kamar_kosong': int.tryParse(kamarKosong.text) ?? 0,
         'tipe_kost': tipeKost,
         'status': 'pending',
-        'gambar': fotoUrls, // ✅ langsung kirim List<String> → text[]
+        'gambar': fotoUrls,
       });
 
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Kost data saved successfully")));
 
       Navigator.pop(context);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('ERROR: $e');
+      print('STACKTRACE: $stackTrace');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Error: $e")));
     }
