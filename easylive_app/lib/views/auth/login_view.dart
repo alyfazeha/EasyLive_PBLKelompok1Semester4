@@ -81,8 +81,10 @@ class _LoginViewState extends State<LoginView> {
 
         if (role == 'kos') {
           Navigator.pushReplacementNamed(context, '/pemilik_kos');
-        } else if (role == 'jasa' || role == 'admin') {
+        } else if (role == 'jasa') {
           Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+        } else if (role == 'admin') {
+          Navigator.pushReplacementNamed(context, '/admin');
         } else {
           Navigator.pushReplacementNamed(context, '/home');
         }
