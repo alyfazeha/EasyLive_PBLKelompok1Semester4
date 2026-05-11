@@ -25,6 +25,9 @@ import 'views/pemilikKos/booking/detail_booking_view.dart' as pemilik_kos_detail
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
+import 'models/pemilikJasa/notifikasi_model.dart';
 
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart' as pemilik_jasa_detail_booking;
@@ -185,6 +188,13 @@ class MyApp extends StatelessWidget {
         final vehicleName = settings.arguments as String? ?? 'Pickup';
         return _noAnimation(
           owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
+          settings,
+        );
+
+      case '/pemilik_jasa/notifikasi/detail':
+        final notification = settings.arguments as OwnerNotification;
+        return _noAnimation(
+          DetailOwnerJasaNotificationView(notification: notification),
           settings,
         );
 

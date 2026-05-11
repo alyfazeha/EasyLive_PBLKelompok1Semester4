@@ -1,0 +1,94 @@
+{
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:45:44.785Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:52:55.073Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+      "timestamp": "2026-05-11T11:53:03.144Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-11T11:53:18.904Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:53:31.788Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:53:58.165Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:54:33.793Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T11:59:10.286Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-11T12:00:21.890Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    }
+  ],
+  "filesModified": [
+    "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+    "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+    "easylive_app/lib/main.dart"
+  ],
+  "decisions": [],
+  "startTime": "2026-05-11T11:45:44.785Z",
+  "lastWriteTime": "2026-05-11T12:00:21.890Z"
+}
