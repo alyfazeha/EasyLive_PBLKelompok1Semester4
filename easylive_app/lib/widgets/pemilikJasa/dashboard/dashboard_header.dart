@@ -32,11 +32,13 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 22,
-                backgroundImage: NetworkImage(
+                backgroundColor: Colors.white24,
+                backgroundImage: const NetworkImage(
                   'https://i.pravatar.cc/120?img=12',
                 ),
+                onBackgroundImageError: (_, __) {},
               ),
               const SizedBox(width: 10),
               Expanded(

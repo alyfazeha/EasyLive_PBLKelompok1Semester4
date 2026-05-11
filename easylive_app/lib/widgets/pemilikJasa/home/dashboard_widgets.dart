@@ -229,10 +229,14 @@ class PemilikJasaHeader extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(
-                  'https://i.pravatar.cc/120?img=12',
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/profile'),
+                borderRadius: BorderRadius.circular(999),
+                child: const CircleAvatar(
+                  radius: 22,
+                  backgroundImage: NetworkImage(
+                    'https://i.pravatar.cc/120?img=12',
+                  ),
                 ),
               ),
               const SizedBox(width: 10),

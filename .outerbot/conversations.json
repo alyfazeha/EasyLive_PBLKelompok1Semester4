@@ -1,5 +1,91 @@
 [
   {
+    "id": "conv-1778508164008-jgcn9q",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-11T13:27:21.181Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 10 messages, 3 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "TODO.md",
+      "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1778508144543-ccjg1i",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-11T14:02:24.543Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "TODO.md",
+      "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+      "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1778505753582-fpjuz0",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-11T11:45:44.785Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 17 messages, 6 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+      "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+      "easylive_app/lib/main.dart",
+      "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1778505732038-px23tw",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-11T13:22:12.038Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikJasa/notifikasi/notifikasi_view.dart",
+      "easylive_app/lib/views/pemilikJasa/notifikasi/detail_notifikasi_view.dart",
+      "easylive_app/lib/widgets/pemilikJasa/notifikasi/notifikasi_card.dart",
+      "easylive_app/lib/main.dart",
+      "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+      "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
     "id": "conv-1778499723231-gqe8zg",
     "project": "EasyLive_PBLKelompok1Semester4",
     "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",

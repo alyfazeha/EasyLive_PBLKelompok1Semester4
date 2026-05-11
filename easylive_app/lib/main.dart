@@ -29,7 +29,10 @@ import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
+import 'views/pemilikJasa/profile/profile_view.dart';
 import 'models/pemilikJasa/notifikasi_model.dart';
+
+
 
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart' as pemilik_jasa_detail_booking;
@@ -133,6 +136,10 @@ class MyApp extends StatelessWidget {
 
       case '/profile':
         return _noAnimation(const ProfileView(), settings);
+
+      case '/pemilik_jasa/profile':
+        return _noAnimation(const PemilikJasaProfileView(), settings);
+
 
       case '/edit_profile':
         return _noAnimation(const EditProfileView(), settings);
