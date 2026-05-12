@@ -29,7 +29,16 @@ class DetailKostWidget extends StatelessWidget {
                       itemBuilder: (_, i) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(kost.images[i], fit: BoxFit.cover),
+                          child: kost.images[i].startsWith('http')
+                            ? Image.network(
+                                kost.images[i],
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => Image.asset(
+                                  'assets/images/kos1.jpg',
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Image.asset(kost.images[i], fit: BoxFit.cover),
                         );
                       },
                     ),

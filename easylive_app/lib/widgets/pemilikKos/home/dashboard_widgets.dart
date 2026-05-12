@@ -580,7 +580,7 @@ class OwnerKosCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openDetail() {
-      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar');
+      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar', arguments: idKost);
     }
 
     return Material(

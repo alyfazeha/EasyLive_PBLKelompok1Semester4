@@ -217,10 +217,8 @@ class MyApp extends StatelessWidget {
         );
 
       case '/pemilik_kos/detail_kamar':
-        return _noAnimation(
-          DetailKostView(),
-          settings,
-        );
+        final idKost = settings.arguments as String? ?? '';
+        return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
         return _noAnimation(
