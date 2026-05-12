@@ -753,6 +753,8 @@ class _SummaryCard extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 8),
+
         ],
       ),
     );

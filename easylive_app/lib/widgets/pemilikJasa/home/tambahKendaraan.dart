@@ -1,43 +1,12 @@
-import 'package:easylive_app/core/color.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../core/color.dart';
+import '../../../controllers/halamanJasa/tambahKendaraan_controller.dart';
 
 class TambahKendaraanWidget {
-  /* ===============================
-     BACK BUTTON (KOTAK KUNING)
-  =============================== */
-  static Widget backButton(VoidCallback onTap) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.yellow,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Icon(
-                Icons.arrow_back_rounded,
-                color: AppColors.darkBlue,
-                size: 22,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   /* ===============================
      INPUT FIELD (TEKS LEBIH KECIL)
   =============================== */
@@ -51,33 +20,31 @@ class TambahKendaraanWidget {
       children: [
         Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         TextField(
           controller: controller,
           maxLines: maxLines,
-          style: TextStyle(fontSize: 13),
+          style: const TextStyle(fontSize: 13),
           decoration: InputDecoration(
-            hintText: "Masukkan ${label.toLowerCase()}",
+            hintText: 'Masukkan ${label.toLowerCase()}',
             hintStyle: TextStyle(color: AppColors.grey, fontSize: 12),
             filled: true,
             fillColor: AppColors.background,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: AppColors.secondary),
             ),
-
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: AppColors.secondary),
             ),
-
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Color(0xff2c3e50)),
+              borderSide: const BorderSide(color: Color(0xff2c3e50)),
             ),
           ),
         ),
@@ -98,12 +65,11 @@ class TambahKendaraanWidget {
       children: [
         Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
         ),
-        SizedBox(height: 5),
-
+        const SizedBox(height: 5),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -113,15 +79,15 @@ class TambahKendaraanWidget {
             child: DropdownButton<String>(
               value: value.isEmpty ? null : value,
               hint: Text(
-                "Pilih ${label.toLowerCase()}",
-                style: TextStyle(fontSize: 12),
+                'Pilih ${label.toLowerCase()}',
+                style: const TextStyle(fontSize: 12),
               ),
               isExpanded: true,
-              style: TextStyle(fontSize: 12, color: Colors.black87),
-              items: ["Mobil", "Motor", "Truk"].map((item) {
+              style: const TextStyle(fontSize: 12, color: Colors.black87),
+              items: ['Mobil', 'Motor', 'Truk'].map((item) {
                 return DropdownMenuItem(
                   value: item,
-                  child: Text(item, style: TextStyle(fontSize: 12)),
+                  child: Text(item, style: const TextStyle(fontSize: 12)),
                 );
               }).toList(),
               onChanged: onChanged,
@@ -133,7 +99,7 @@ class TambahKendaraanWidget {
   }
 
   /* ===============================
-     BUTTON SIMPAN (KUNING, TULISAN BIRU)
+     BUTTON SIMPAN
   =============================== */
   static Widget buttonSimpan(VoidCallback onTap) {
     return SizedBox(
@@ -143,20 +109,88 @@ class TambahKendaraanWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.yellow,
           foregroundColor: AppColors.darkBlue,
-          padding: EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 0,
         ),
-        child: Text(
-          "Simpan",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+        child: const Text(
+          'Simpan',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
+
+  /* ===============================
+     FOTO PICKER 0/3
+  =============================== */
+  static Widget fotoSlot({
+    required int index,
+    required TambahKendaraanController controller,
+    required BuildContext context,
+  }) {
+    final hasPhoto = index < controller.selectedPhotosBytes.length &&
+        index < controller.selectedPhotos.length &&
+        controller.selectedPhotosBytes.length > index &&
+        controller.selectedPhotosBytes[index].isNotEmpty;
+
+    return InkWell(
+      onTap: () async {
+        final picker = ImagePicker();
+
+        // sederhanakan: pilih dari gallery
+        final XFile? picked = await picker.pickImage(
+          source: ImageSource.gallery,
+          maxWidth: 1600,
+          maxHeight: 1600,
+          imageQuality: 85,
+        );
+        if (picked == null) return;
+
+        final bytes = await picked.readAsBytes();
+        final file = File(picked.path);
+
+        controller.setFoto(
+          slotIndex: index,
+          bytes: bytes,
+          file: file,
+        );
+
+        if (context.mounted) {
+          // minta rebuild parent
+          Navigator.of(context).pop();
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 8),
+        width: 65,
+        height: 65,
+        decoration: BoxDecoration(
+          color: const Color(0xfff0f0f0),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: hasPhoto
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: kIsWeb
+                    ? Image.memory(
+                        controller.selectedPhotosBytes[index],
+                        fit: BoxFit.cover,
+                        width: 65,
+                        height: 65,
+                      )
+                    : Image.file(
+                        controller.selectedPhotos[index],
+                        fit: BoxFit.cover,
+                        width: 65,
+                        height: 65,
+                      ),
+              )
+            : const Icon(Icons.camera_alt, color: Colors.grey),
+      ),
+    );
+  }
 }
+

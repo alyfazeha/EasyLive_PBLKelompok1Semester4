@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../controllers/pemilikKos/homeKos_controller.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
 import '../../controllers/auth_controller.dart';

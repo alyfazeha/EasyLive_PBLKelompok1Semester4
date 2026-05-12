@@ -29,7 +29,16 @@ class DetailKostWidget extends StatelessWidget {
                       itemBuilder: (_, i) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(kost.images[i], fit: BoxFit.cover),
+                          child: kost.images[i].startsWith('http')
+                            ? Image.network(
+                                kost.images[i],
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => Image.asset(
+                                  'assets/images/kos1.jpg',
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Image.asset(kost.images[i], fit: BoxFit.cover),
                         );
                       },
                     ),
@@ -57,6 +66,7 @@ class DetailKostWidget extends StatelessWidget {
                       Icons.check_circle_outline_rounded,
                     ),
                     _buildChip(kost.price, Icons.attach_money_rounded),
+                    _buildChip(kost.tipeKost, Icons.people_rounded),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -155,7 +165,8 @@ class DetailKostWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.yellow, // ← tambah ini
+        border: Border.all(color: AppColors.darkBlue), // ← ganti jadi yellow
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -163,7 +174,13 @@ class DetailKostWidget extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: AppColors.darkBlue),
           const SizedBox(width: 6),
-          Text(text),
+          Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.darkBlue, // ← tambah warna teks
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

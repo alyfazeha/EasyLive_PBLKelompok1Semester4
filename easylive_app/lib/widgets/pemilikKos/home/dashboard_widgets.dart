@@ -580,7 +580,7 @@ class OwnerKosCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openDetail() {
-      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar');
+      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar', arguments: idKost);
     }
 
     return Material(
@@ -702,13 +702,17 @@ class OwnerKosCard extends StatelessWidget {
                   _ActionButton(
                     icon: Icons.edit_outlined,
                     label: 'Edit',
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditKamarView(),
+                          builder: (context) => EditKamarView(idKost: idKost), // ← kirim idKost
                         ),
                       );
+                      // Refresh home kalau edit berhasil
+                      if (result == true && context.mounted) {
+                        context.read<PemilikKosController>().refresh();
+                      }
                     },
                   ),
                   const SizedBox(height: 6),

@@ -1,0 +1,28 @@
+{
+  "id": "conv-1778514893028-b2t421",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-11T15:54:53.028Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 1,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart",
+      "timestamp": "2026-05-11T15:46:04.877Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/home/tambahKendaraan_view.dart"
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/color.dart';
 import '../../../models/pemilikJasa/detail_jasa_model.dart';
+
 
 class DetailJasaWidget extends StatelessWidget {
   final DetailJasa jasa;
@@ -10,142 +10,96 @@ class DetailJasaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-            ),
-            child: ListView(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  child: SizedBox(
-                    height: 180,
-                    child: PageView.builder(
-                      itemCount: jasa.images.length,
-                      itemBuilder: (_, i) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            color: AppColors.softBlue,
-                            child: Image.asset(
-                              jasa.images[i],
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  jasa.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(jasa.address, style: const TextStyle(color: Colors.grey)),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildChip(
-                      '${jasa.totalVehicle} kendaraan',
-                      Icons.local_shipping_rounded,
-                    ),
-                    _buildChip(
-                      '${jasa.availableVehicle} tersedia',
-                      Icons.check_circle_outline_rounded,
-                    ),
-                    _buildChip(jasa.price, Icons.attach_money_rounded),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Detail Jasa',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  jasa.description,
-                  style: const TextStyle(color: Colors.grey, height: 1.4),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Spesifikasi Kendaraan',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: jasa.specifications
-                      .map(_buildSpecificationChip)
-                      .toList(),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
+    return Expanded(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _InfoTitle('Penyewa / Customer'),
+            // Model DetailJasa saat ini belum menyimpan nama customer
+            const _InfoValue('-'),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Kendaraan'),
+            _InfoValue(jasa.name),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Lokasi'),
+            _InfoValue(jasa.address),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Tanggal'),
+            const _InfoValue('-'),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Total'),
+            _InfoValue(jasa.price),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Status'),
+            const _InfoValue('-'),
+            const SizedBox(height: 12),
+
+            // Tambahan agar detail tetap informatif (tanpa menghilangkan konten)
+            const SizedBox(height: 8),
+            const _InfoTitle('Deskripsi'),
+            _InfoValue(jasa.description),
+            const SizedBox(height: 12),
+
+            const _InfoTitle('Spesifikasi'),
+            _InfoValue(jasa.specifications.join(', ')),
+          ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildChip(String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: AppColors.darkBlue),
-          const SizedBox(width: 4),
-          Text(text, style: const TextStyle(fontSize: 12)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSpecificationChip(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.check_circle_outline_rounded,
-            size: 16,
-            color: AppColors.darkBlue,
-          ),
-          const SizedBox(width: 6),
-          Text(text),
-        ],
       ),
     );
   }
 }
+
+class _InfoTitle extends StatelessWidget {
+  final String title;
+
+  const _InfoTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontFamily: 'Montserrat',
+        fontSize: 12,
+        fontWeight: FontWeight.w900,
+        color: Colors.black54,
+      ),
+    );
+  }
+}
+
+class _InfoValue extends StatelessWidget {
+  final String value;
+
+  const _InfoValue(this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Text(
+        value,
+        style: const TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 13,
+          fontWeight: FontWeight.w800,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+

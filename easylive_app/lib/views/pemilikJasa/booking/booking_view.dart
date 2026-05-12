@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../controllers/pemilikJasa/booking/booking_controller.dart';
 import '../../../core/color.dart';
 import '../../../models/pemilikJasa/booking_model.dart';
@@ -13,6 +14,7 @@ class PemilikJasaBookingView extends StatefulWidget {
 
 class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   final TextEditingController _searchController = TextEditingController();
+
   late OwnerJasaBookingController _bookingController;
 
   @override
@@ -29,7 +31,138 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
 
   void _updateSearch(String value) {
     _bookingController.setSearch(value);
-    setState(() {});
+  }
+
+  Widget _filterChip({
+    required String label,
+    required bool active,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: active ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: active ? AppColors.darkBlue : Colors.grey.shade300,
+            width: 1.5,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: active ? Colors.white : AppColors.darkBlue,
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildBookingCard(Booking booking) {
+    String statusText = 'ACTIVE';
+    Color statusBgColor = AppColors.yellow;
+
+    switch (booking.status) {
+      case 'pending':
+        statusText = 'Pending';
+        statusBgColor = AppColors.yellow;
+        break;
+      case 'aktif':
+        statusText = 'Aktif';
+        statusBgColor = const Color(0xFF31B75D);
+        break;
+      case 'selesai':
+        statusText = 'Selesai';
+        statusBgColor = Colors.grey.shade400;
+        break;
+      default:
+        statusText = booking.status;
+        statusBgColor = AppColors.yellow;
+        break;
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.grey.shade200,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundImage: booking.profileImage != null && booking.profileImage!.isNotEmpty
+                ? NetworkImage(booking.profileImage!)
+                : null,
+            backgroundColor: AppColors.lightGrey,
+            onBackgroundImageError: (exception, stackTrace) {},
+            child: booking.profileImage == null || booking.profileImage!.isEmpty
+                ? const Icon(Icons.person, size: 18, color: AppColors.darkBlue)
+                : null,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  booking.nama,
+                  style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.darkBlue,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${booking.tanggal} • ${booking.jam}',
+                  style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 11,
+                    color: Colors.black54,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+            decoration: BoxDecoration(
+              color: statusBgColor,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Text(
+              statusText,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 10,
+                fontWeight: FontWeight.w900,
+                color: statusText.toLowerCase().contains('pending')
+                    ? AppColors.darkBlue
+                    : Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -87,50 +220,92 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                 ],
               ),
             ),
+
             // Search and Filter
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _updateSearch,
-                        decoration: const InputDecoration(
-                          hintText: 'Cari Pernyewaan...',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 12),
-                          hintStyle: TextStyle(color: Colors.grey),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: _updateSearch,
+                            decoration: const InputDecoration(
+                              hintText: 'Cari Pernyewaan...',
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(vertical: 12),
+                              hintStyle: TextStyle(color: Colors.grey),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 14,
+                      ),
+                      const SizedBox(width: 10),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.tune_rounded,
+                          color: AppColors.darkBlue,
+                          size: 22,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.tune_rounded,
-                      color: AppColors.darkBlue,
-                      size: 22,
-                    ),
+                  const SizedBox(height: 10),
+
+                  AnimatedBuilder(
+                    animation: _bookingController,
+                    builder: (context, _) {
+                      return SizedBox(
+                        height: 40,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _filterChip(
+                              label: 'All',
+                              active: _bookingController.selectedFilter == 'semua',
+                              onTap: () => _bookingController.setFilter('semua'),
+                            ),
+                            _filterChip(
+                              label: 'Pending',
+                              active: _bookingController.selectedFilter == 'pending',
+                              onTap: () => _bookingController.setFilter('pending'),
+                            ),
+                            _filterChip(
+                              label: 'Aktif',
+                              active: _bookingController.selectedFilter == 'aktif',
+                              onTap: () => _bookingController.setFilter('aktif'),
+                            ),
+                            _filterChip(
+                              label: 'Selesai',
+                              active: _bookingController.selectedFilter == 'selesai',
+                              onTap: () => _bookingController.setFilter('selesai'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
+
             // Booking List
             Expanded(
               child: Container(
@@ -151,20 +326,26 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                           ),
                         ),
                       )
-                    : ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                        itemCount: _bookingController.filteredList.length,
-                        itemBuilder: (context, index) {
-                          final booking = _bookingController.filteredList[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/pemilik_jasa/detail_booking',
-                                arguments: booking.nama,
+                    : AnimatedBuilder(
+                        animation: _bookingController,
+                        builder: (context, _) {
+                          final list = _bookingController.filteredList;
+                          return ListView.builder(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              final booking = list[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/pemilik_jasa/detail_booking',
+                                    arguments: booking.nama,
+                                  );
+                                },
+                                child: _buildBookingCard(booking),
                               );
                             },
-                            child: _buildBookingCard(booking),
                           );
                         },
                       ),
@@ -185,105 +366,5 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
       ),
     );
   }
-
-  Widget _buildBookingCard(Booking booking) {
-    String statusText = 'ACTIVE';
-    Color statusBgColor = AppColors.yellow;
-
-    switch (booking.status) {
-      case 'aktif':
-        statusText = 'ACTIVE';
-        statusBgColor = const Color(0xFF31B75D);
-        break;
-      case 'pending':
-        statusText = 'WAITING';
-        statusBgColor = AppColors.yellow;
-        break;
-      case 'selesai':
-        statusText = 'NEXT';
-        statusBgColor = Colors.grey.shade400;
-        break;
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade200,
-          width: 1,
-        ),
-      ),
-      child: Row(
-        children: [
-          // Profile Image
-          CircleAvatar(
-            radius: 24,
-            backgroundImage: NetworkImage(booking.profileImage ?? ''),
-            onBackgroundImageError: (exception, stackTrace) {
-              // Fallback if image fails to load
-            },
-          ),
-          const SizedBox(width: 12),
-          // Name and Details
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  booking.nama,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.darkBlue,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${booking.tanggal} • ${booking.jam}',
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 11,
-                          color: Colors.black54,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          // Status Button
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-            decoration: BoxDecoration(
-              color: statusBgColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              statusText,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 10,
-                fontWeight: FontWeight.w800,
-                color: booking.status == 'pending'
-                    ? AppColors.darkBlue
-                    : Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
+

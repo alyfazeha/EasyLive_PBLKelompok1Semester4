@@ -1,4 +1,5 @@
 class Kost {
+  final String idKost;
   final String name;
   final String address;
   final int totalRoom;
@@ -7,8 +8,10 @@ class Kost {
   final String description;
   final List<String> images;
   final List<String> facilities;
+  final String tipeKost;
 
   Kost({
+    required this.idKost,
     required this.name,
     required this.address,
     required this.totalRoom,
@@ -17,5 +20,6 @@ class Kost {
     required this.description,
     required this.images,
     required this.facilities,
+    required this.tipeKost,
   });
 }
