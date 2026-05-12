@@ -54,8 +54,21 @@ class _LoginViewState extends State<LoginView> {
       if (!context.mounted) return;
 
       if (result['success'] == true) {
-        // Ambil role dan pastikan huruf kecil agar cocok dengan database
-        final String role = (result['role'] ?? 'user').toString().toLowerCase();
+        // Normalisasi role agar match dengan format database (bisa "admin", "Admin Jasa", "Pemilik Jasa", dll)
+        String role = (result['role'] ?? 'user').toString();
+        role = role.trim().toLowerCase();
+
+        // mapping label -> internal
+        if (role.contains('admin')) {
+          role = 'admin';
+        } else if (role.contains('jasa')) {
+          role = 'jasa';
+        } else if (role.contains('kos')) {
+          role = 'kos';
+        } else if (role == 'user' || role.isEmpty) {
+          role = 'user';
+        }
+
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

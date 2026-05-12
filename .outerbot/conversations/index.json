@@ -1,6 +1,51 @@
 {
   "conversations": [
     {
+      "id": "conv-1778576270397-laul7a",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-11T14:07:28.104Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 17 messages, 5 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+        "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart",
+        "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/auth/register_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 17
+    },
+    {
+      "id": "conv-1778520594088-zvm6hh",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-11T17:29:54.088Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/views/pemilikJasa/profile/profile_view.dart",
+        "easylive_app/lib/widgets/pemilikJasa/profile/profile_header.dart",
+        "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/auth/register_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 17
+    },
+    {
       "id": "conv-1778508164008-jgcn9q",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
@@ -374,5 +419,5 @@
       "messageCount": 6
     }
   ],
-  "lastUpdated": "2026-05-11T14:02:44.009Z"
+  "lastUpdated": "2026-05-12T08:57:50.398Z"
 }
