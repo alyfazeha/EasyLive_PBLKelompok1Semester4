@@ -1,13 +1,17 @@
 class Dashboard {
-  String title;
-  String description;
-  String time;
-  String type;
+  final String name;
+  final String kostName;
+  final String date;
+  final String price;
+  final String status;
+  final String idBooking;
 
   Dashboard({
-    required this.title,
-    required this.description,
-    required this.time,
-    required this.type,
+    required this.name,
+    required this.kostName,
+    required this.date,
+    required this.price,
+    required this.status,
+    required this.idBooking,
   });
 }
