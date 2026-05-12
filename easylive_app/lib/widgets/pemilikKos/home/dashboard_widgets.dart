@@ -702,13 +702,17 @@ class OwnerKosCard extends StatelessWidget {
                   _ActionButton(
                     icon: Icons.edit_outlined,
                     label: 'Edit',
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditKamarView(),
+                          builder: (context) => EditKamarView(idKost: idKost), // ← kirim idKost
                         ),
                       );
+                      // Refresh home kalau edit berhasil
+                      if (result == true && context.mounted) {
+                        context.read<PemilikKosController>().refresh();
+                      }
                     },
                   ),
                   const SizedBox(height: 6),

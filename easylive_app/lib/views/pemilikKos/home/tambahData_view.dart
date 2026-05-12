@@ -466,8 +466,12 @@ class _TambahDataViewState extends State<TambahDataView> {
 
                 /// ================= BUTTON =================
                 TambahDataWidget.buttonSimpan(() async {
-                  await controller.simpanData(context);
-                  // Trigger refresh home pemilik kos: kirimkan result true
+                  // Ambil label fasilitas yang dipilih
+                  final fasilitasLabels = selectedFasilitas
+                      .map((i) => fasilitasList[i]['label'] as String)
+                      .toList();
+
+                  await controller.simpanData(context, fasilitasLabels); // ← kirim fasilitasLabels
                   if (mounted) {
                     Navigator.pop(context, true);
                   }

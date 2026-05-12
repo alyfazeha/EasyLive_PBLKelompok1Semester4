@@ -8,6 +8,7 @@ class Kost {
   final String description;
   final List<String> images;
   final List<String> facilities;
+  final String tipeKost;
 
   Kost({
     required this.idKost,
@@ -19,5 +20,6 @@ class Kost {
     required this.description,
     required this.images,
     required this.facilities,
+    required this.tipeKost,
   });
 }
