@@ -82,8 +82,6 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (role == 'kos') {
-          // ← tambah ini sebelum navigate
-          context.read<PemilikKosController>().refresh();
           Navigator.pushReplacementNamed(context, '/pemilik_kos');
         } else if (role == 'jasa') {
           Navigator.pushReplacementNamed(context, '/pemilik_jasa');

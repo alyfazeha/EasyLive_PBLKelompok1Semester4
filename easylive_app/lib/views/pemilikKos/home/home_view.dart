@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../controllers/pemilikKos/homeKos_controller.dart';
 import '../../../widgets/pemilikKos/home/dashboard_widgets.dart';
 
-class PemilikKosHomeView extends StatelessWidget {
+class PemilikKosHomeView extends StatefulWidget {
   const PemilikKosHomeView({super.key});
+
+  @override
+  State<PemilikKosHomeView> createState() => _PemilikKosHomeViewState();
+}
+
+class _PemilikKosHomeViewState extends State<PemilikKosHomeView> {
+  late PemilikKosController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PemilikKosController(); // fresh tiap login
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _handleNavigation(BuildContext context, int index) {
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
-        break;
-      case 2:
-        // Home (current page) → do nothing
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/pemilik_kos/history');
@@ -20,12 +38,14 @@ class PemilikKosHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-
-      body: SafeArea(
-        child: OwnerDashboardFrame(
-          onNavigate: (index) => _handleNavigation(context, index),
+    return ChangeNotifierProvider.value(
+      value: _controller,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: OwnerDashboardFrame(
+            onNavigate: (index) => _handleNavigation(context, index),
+          ),
         ),
       ),
     );

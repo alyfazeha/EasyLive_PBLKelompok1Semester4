@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:provider/provider.dart';
 
 import 'controllers/user/favorite_controller.dart';
-import 'controllers/pemilikKos/homeKos_controller.dart';
 
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
@@ -71,17 +69,7 @@ void main() async {
   );
 
   await FavoriteController.init();
-
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => PemilikKosController(),
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -330,9 +318,13 @@ class MyApp extends StatelessWidget {
           ),
           settings,
         );
+      
+      case '/admin':
+        return _noAnimation(const LoginView(), settings);
 
       default:
         return null;
+
     }
   }
 
