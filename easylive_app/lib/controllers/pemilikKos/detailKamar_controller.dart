@@ -16,6 +16,11 @@ class KostController {
             .toList() ??
         [];
 
+    final fasilitas = (res['fasilitas'] as List?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+
     final harga = (res['harga'] as num?)?.toDouble() ?? 0;
     final jumlahKamar = (res['jumlah_kamar'] as int?) ?? 0;
     final kamarKosong = (res['kamar_kosong'] as int?) ?? 0;
@@ -29,7 +34,8 @@ class KostController {
       price: 'Rp ${_formatHarga(harga)} / bulan',
       description: res['deskripsi'] ?? '-',
       images: gambar.isNotEmpty ? gambar : ['assets/images/kos1.jpg'],
-      facilities: [], // ← isi jika ada tabel fasilitas
+      facilities: fasilitas,
+      tipeKost: res['tipe_kost'] ?? '-',
     );
   }
 

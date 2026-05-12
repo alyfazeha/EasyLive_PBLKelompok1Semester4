@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../controllers/pemilikKos/homeKos_controller.dart';
 import '../../core/color.dart'; // Pastikan path ini sesuai
 import '../../widgets/auth/input_field.dart'; // Pastikan path ini sesuai
 import '../../controllers/auth_controller.dart';
@@ -80,6 +82,8 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (role == 'kos') {
+          // ← tambah ini sebelum navigate
+          context.read<PemilikKosController>().refresh();
           Navigator.pushReplacementNamed(context, '/pemilik_kos');
         } else if (role == 'jasa') {
           Navigator.pushReplacementNamed(context, '/pemilik_jasa');

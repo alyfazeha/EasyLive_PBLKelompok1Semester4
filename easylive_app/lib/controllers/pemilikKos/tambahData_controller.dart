@@ -23,7 +23,7 @@ class TambahDataController {
 
   final supabase = Supabase.instance.client;
 
-  Future<void> simpanData(BuildContext context) async {
+  Future<void> simpanData(BuildContext context, List<String> fasilitasLabels) async {
     try {
       final user = supabase.auth.currentUser;
 
@@ -68,6 +68,7 @@ class TambahDataController {
         'tipe_kost': tipeKost,
         'status': 'pending',
         'gambar': fotoUrls,
+        'fasilitas': fasilitasLabels,
       });
 
       ScaffoldMessenger.of(context)

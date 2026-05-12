@@ -2,6 +2,8 @@ class Kost {
   final String id;
   final String name;
   final String address;
+  final String kecamatan; // ← tambah
+  final String kota;      // ← tambah
   final String tipeKost;
   final int totalRoom;
   final int availableRoom;
@@ -14,6 +16,8 @@ class Kost {
     required this.id,
     required this.name,
     required this.address,
+    required this.kecamatan, // ← tambah
+    required this.kota,      // ← tambah
     required this.tipeKost,
     required this.totalRoom,
     required this.availableRoom,
