@@ -1,4 +1,5 @@
 class Kost {
+  final String idKost;
   final String name;
   final String address;
   final int totalRoom;
@@ -9,6 +10,7 @@ class Kost {
   final List<String> facilities;
 
   Kost({
+    required this.idKost,
     required this.name,
     required this.address,
     required this.totalRoom,
