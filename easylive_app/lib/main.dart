@@ -23,8 +23,7 @@ import 'views/pemilikKos/home/detailKamar_view.dart';
 import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
-import 'views/pemilikKos/booking/booking_view.dart'
-    as pemilik_booking;
+import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
@@ -32,23 +31,25 @@ import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
 
+import 'views/admin/dashboard/dashboard_view.dart';
+import 'views/admin/history/history_view.dart';
+
+// fallback ke halaman admin (bila case '/admin' dipanggil)
+
 // FIX: hapus duplicate import
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
 
 // FIX: gunakan alias
-import 'views/pemilikJasa/profile/profile_view.dart'
-    as jasa_profile;
+import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'models/pemilikJasa/notifikasi_model.dart';
 
-import 'views/pemilikJasa/home/detailJasa_view.dart'
-    as owner_jasa_detail;
+import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart'
     as pemilik_jasa_detail_booking;
 import 'views/pemilikJasa/home/home_view.dart';
-import 'views/pemilikJasa/booking/booking_view.dart'
-    as pemilik_jasa_booking;
+import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
 
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
@@ -88,34 +89,24 @@ class MyApp extends StatelessWidget {
     switch (settings.name) {
       case '/':
         return _noAnimation(const SplashScreen(), settings);
-
       case '/login':
         return _noAnimation(const LoginView(), settings);
-
       case '/register':
         return _noAnimation(const RegisterView(), settings);
-
       case '/home':
         return _noAnimation(const HomeView(), settings);
-
       case '/kost':
         return _noAnimation(const KosView(), settings);
 
       case '/detail_kos':
         final kost = settings.arguments as KostModel;
-        return _noAnimation(
-          DetailKosView(kost: kost),
-          settings,
-        );
+        return _noAnimation(DetailKosView(kost: kost), settings);
 
       case '/personal_info':
         final args = settings.arguments;
 
         if (args is KostModel) {
-          return _noAnimation(
-            PersonalInfoView(kost: args),
-            settings,
-          );
+          return _noAnimation(PersonalInfoView(kost: args), settings);
         } else {
           final map = args as Map<String, dynamic>;
 
@@ -129,49 +120,41 @@ class MyApp extends StatelessWidget {
             settings,
           );
         }
+        final map = args as Map<String, dynamic>;
+        return _noAnimation(
+          PersonalInfoView(
+            kost: map['kost'] as KostModel,
+            isJasa: map['isJasa'] as bool? ?? false,
+            fromLocation: map['fromLocation'] as String?,
+            toLocation: map['toLocation'] as String?,
+          ),
+          settings,
+        );
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
 
-        return _noAnimation(
-          InvoiceView(kost: kost),
-          settings,
-        );
+        return _noAnimation(InvoiceView(kost: kost), settings);
 
       case '/payment':
         final kost = settings.arguments as KostModel;
 
-        return _noAnimation(
-          QrisPaymentView(kost: kost),
-          settings,
-        );
+        return _noAnimation(QrisPaymentView(kost: kost), settings);
 
       case '/booking':
-        return _noAnimation(
-          const user_booking.BookingView(),
-          settings,
-        );
+        return _noAnimation(const user_booking.BookingView(), settings);
 
       case '/history':
-        return _noAnimation(
-          const HistoryView(),
-          settings,
-        );
+        return _noAnimation(const HistoryView(), settings);
 
       case '/history/detail':
         final item = settings.arguments as HistoryItem;
 
-        return _noAnimation(
-          HistoryDetailView(item: item),
-          settings,
-        );
+        return _noAnimation(HistoryDetailView(item: item), settings);
 
       // FIX PROFILE USER
       case '/profile':
-        return _noAnimation(
-          const user_profile.ProfileView(),
-          settings,
-        );
+        return _noAnimation(const user_profile.ProfileView(), settings);
 
       // FIX PROFILE PEMILIK JASA
       case '/pemilik_jasa/profile':
@@ -181,159 +164,110 @@ class MyApp extends StatelessWidget {
         );
 
       case '/edit_profile':
-        return _noAnimation(
-          const EditProfileView(),
-          settings,
-        );
+        return _noAnimation(const EditProfileView(), settings);
 
       case '/favorite':
-        return _noAnimation(
-          const FavoriteView(),
-          settings,
-        );
+        return _noAnimation(const FavoriteView(), settings);
 
       case '/security':
-        return _noAnimation(
-          const SecurityView(),
-          settings,
-        );
+        return _noAnimation(const SecurityView(), settings);
 
       case '/pemilik_kos':
-        return _noAnimation(
-          const PemilikKosHomeView(),
-          settings,
-        );
+        return _noAnimation(const PemilikKosHomeView(), settings);
 
       case '/pemilik_kos/detail_kamar':
         final idKost = settings.arguments as String? ?? '';
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
-        return _noAnimation(
-          TambahDataView(),
-          settings,
-        );
+        return _noAnimation(TambahDataView(), settings);
 
       case '/pemilik_kos/history':
-        return _noAnimation(
-          const pemilik_booking.OwnerBookingView(),
-          settings,
-        );
+        return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
 
       case '/pemilik_kos/detail_booking':
-        final tenantName =
-            settings.arguments as String? ?? 'Budi Santoso';
+        final tenantName = settings.arguments as String? ?? 'Budi Santoso';
 
         return _noAnimation(
-          pemilik_kos_detail_booking.DetailBookingView(
-            tenantName: tenantName,
-          ),
+          pemilik_kos_detail_booking.DetailBookingView(tenantName: tenantName),
           settings,
         );
 
       case '/pemilik_kos/profile':
-        return _noAnimation(
-          const user_profile.ProfileView(),
-          settings,
-        );
+        return _noAnimation(const user_profile.ProfileView(), settings);
 
       case '/pemilik_kos/dashboard':
-        return _noAnimation(
-          DashboardView(),
-          settings,
-        );
+        return _noAnimation(DashboardView(), settings);
 
       case '/pemilik_kos/detail_pembayaran':
-        return _noAnimation(
-          PaymentDetailView(),
-          settings,
-        );
+        return _noAnimation(PaymentDetailView(), settings);
+
+      case '/pemilik_jasa/dashboard/detail_pembayaran':
+        return _noAnimation(PaymentDetailView(), settings);
 
       case '/pemilik_kos/notifikasi':
-        return _noAnimation(
-          const OwnerNotificationView(),
-          settings,
-        );
+        return _noAnimation(const OwnerNotificationView(), settings);
 
       case '/pemilik_jasa/notifikasi':
-        return _noAnimation(
-          const OwnerJasaNotificationView(),
-          settings,
-        );
+        return _noAnimation(const OwnerJasaNotificationView(), settings);
 
       case '/pemilik_jasa':
-        return _noAnimation(
-          PemilikJasaHomeView(),
-          settings,
-        );
+        return _noAnimation(PemilikJasaHomeView(), settings);
 
       case '/pemilik_jasa/dashboard':
-        return _noAnimation(
-          PemilikJasaDashboardView(),
-          settings,
-        );
+        return _noAnimation(PemilikJasaDashboardView(), settings);
 
       case '/pemilik_jasa/booking':
         return _noAnimation(
-          const pemilik_jasa_booking
-              .PemilikJasaBookingView(),
+          const pemilik_jasa_booking.PemilikJasaBookingView(),
           settings,
         );
 
       case '/pemilik_jasa/detail_booking':
-        final tenantName =
-            settings.arguments as String? ?? 'Budi Santoso';
+        final tenantName = settings.arguments as String? ?? 'Budi Santoso';
 
         return _noAnimation(
-          pemilik_jasa_detail_booking.DetailBookingView(
-            tenantName: tenantName,
-          ),
+          pemilik_jasa_detail_booking.DetailBookingView(tenantName: tenantName),
           settings,
         );
 
       case '/pemilik_jasa/detail_jasa':
-        final vehicleName =
-            settings.arguments as String? ?? 'Pickup';
+        final vehicleName = settings.arguments as String? ?? 'Pickup';
 
         return _noAnimation(
-          owner_jasa_detail.DetailJasaView(
-            vehicleName: vehicleName,
-          ),
+          owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
           settings,
         );
 
       case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(
-          const PemilikJasaPembayaranDetailView(),
-          settings,
-        );
+        return _noAnimation(const PemilikJasaPembayaranDetailView(), settings);
 
       case '/pemilik_jasa/notifikasi/detail':
-        final notification =
-            settings.arguments as OwnerNotification;
+        final notification = settings.arguments as OwnerNotification;
 
         return _noAnimation(
-          DetailOwnerJasaNotificationView(
-            notification: notification,
-          ),
+          DetailOwnerJasaNotificationView(notification: notification),
           settings,
         );
-      
+
       case '/admin':
+<<<<<<< HEAD
         // sementara: admin belum ada view khusus, jadi redirect ke home agar tidak kembali ke halaman login
         return _noAnimation(const HomeView(), settings);
 
+=======
+        return _noAnimation(const AdminHomeView(), settings);
+
+      case '/admin/home':
+        return _noAnimation(const AdminHomeView(), settings);
+>>>>>>> 4e7adf42b51aded1332e1482029b1be5d6f9c4b4
 
       default:
         return null;
-
     }
   }
 
-  static PageRouteBuilder _noAnimation(
-    Widget page,
-    RouteSettings settings,
-  ) {
+  static PageRouteBuilder _noAnimation(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       pageBuilder: (context, _, _) => page,
       settings: settings,
