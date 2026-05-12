@@ -753,17 +753,6 @@ class _SummaryCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          const Text(
-            '+12% dari bulan lalu',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 7,
-              color: Color(0xFF31B75D),
-            ),
-          ),
         ],
       ),
     );

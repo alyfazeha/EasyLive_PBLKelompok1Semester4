@@ -17,41 +17,35 @@ import 'views/User/profile/profile_view.dart';
 import 'views/User/profile/edit_profile_view.dart';
 import 'views/User/profile/favorite_view.dart';
 import 'views/User/profile/security_view.dart';
+
 import 'views/pemilikKos/home/detailKamar_view.dart';
 import 'views/pemilikKos/home/home_view.dart';
-
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
+import 'views/pemilikKos/dashboard/payment_detail_view.dart';
+
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
-import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
-<<<<<<< HEAD
-import 'views/admin/dashboard/dashboard_view.dart';
-import 'views/admin/history/history_view.dart';
-=======
-import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
-import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
-import 'views/pemilikJasa/profile/profile_view.dart';
-import 'models/pemilikJasa/notifikasi_model.dart';
-
-
-
->>>>>>> d76592fda1c065fa8445e7c4641e61af94944afc
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart'
     as pemilik_jasa_detail_booking;
 import 'views/pemilikJasa/home/home_view.dart';
 import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
+import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
+import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
+import 'views/pemilikJasa/profile/profile_view.dart';
+import 'models/pemilikJasa/notifikasi_model.dart';
+
+import 'views/pemilikJasa/home/home_view.dart';
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
-import 'views/pemilikKos/dashboard/payment_detail_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +60,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PemilikKosController()), // ← tambah
+        ChangeNotifierProvider(create: (_) => PemilikKosController()),
       ],
       child: const MyApp(),
     ),
@@ -89,16 +83,12 @@ class MyApp extends StatelessWidget {
     switch (settings.name) {
       case '/':
         return _noAnimation(const SplashScreen(), settings);
-
       case '/login':
         return _noAnimation(const LoginView(), settings);
-
       case '/register':
         return _noAnimation(const RegisterView(), settings);
-
       case '/home':
         return _noAnimation(const HomeView(), settings);
-
       case '/kost':
         return _noAnimation(const KosView(), settings);
 
@@ -110,18 +100,17 @@ class MyApp extends StatelessWidget {
         final args = settings.arguments;
         if (args is KostModel) {
           return _noAnimation(PersonalInfoView(kost: args), settings);
-        } else {
-          final map = args as Map<String, dynamic>;
-          return _noAnimation(
-            PersonalInfoView(
-              kost: map['kost'] as KostModel,
-              isJasa: map['isJasa'] as bool? ?? false,
-              fromLocation: map['fromLocation'] as String?,
-              toLocation: map['toLocation'] as String?,
-            ),
-            settings,
-          );
         }
+        final map = args as Map<String, dynamic>;
+        return _noAnimation(
+          PersonalInfoView(
+            kost: map['kost'] as KostModel,
+            isJasa: map['isJasa'] as bool? ?? false,
+            fromLocation: map['fromLocation'] as String?,
+            toLocation: map['toLocation'] as String?,
+          ),
+          settings,
+        );
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
@@ -133,10 +122,8 @@ class MyApp extends StatelessWidget {
 
       case '/booking':
         return _noAnimation(const user_booking.BookingView(), settings);
-
       case '/history':
         return _noAnimation(const HistoryView(), settings);
-
       case '/history/detail':
         final item = settings.arguments as HistoryItem;
         return _noAnimation(HistoryDetailView(item: item), settings);
@@ -147,13 +134,10 @@ class MyApp extends StatelessWidget {
       case '/pemilik_jasa/profile':
         return _noAnimation(const PemilikJasaProfileView(), settings);
 
-
       case '/edit_profile':
         return _noAnimation(const EditProfileView(), settings);
-
       case '/favorite':
         return _noAnimation(const FavoriteView(), settings);
-
       case '/security':
         return _noAnimation(const SecurityView(), settings);
 
@@ -185,6 +169,9 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/detail_pembayaran':
         return _noAnimation(PaymentDetailView(), settings);
 
+      case '/pemilik_jasa/dashboard/detail_pembayaran':
+        return _noAnimation(PaymentDetailView(), settings);
+
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
 
@@ -193,12 +180,6 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_jasa':
         return _noAnimation(PemilikJasaHomeView(), settings);
-
-      case '/admin':
-        return _noAnimation(AdminHomeView(), settings);
-
-      case '/admin/history':
-        return _noAnimation(const AdminHistoryView(), settings);
 
       case '/pemilik_jasa/dashboard':
         return _noAnimation(PemilikJasaDashboardView(), settings);

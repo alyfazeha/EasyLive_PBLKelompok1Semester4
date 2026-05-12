@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../controllers/auth_controller.dart';
 import '../../core/color.dart';
-import '../../widgets/auth/input_field.dart'; // Import widget baru
+import '../../widgets/auth/input_field.dart';
 import '../../widgets/auth/register_extra_fields.dart';
 
 class RegisterView extends StatefulWidget {
@@ -53,12 +54,9 @@ class _RegisterViewState extends State<RegisterView> {
     if (emailController.text.isEmpty ||
         usernameController.text.isEmpty ||
         passController.text.isEmpty) {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Semua field harus diisi!'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Semua field harus diisi!')));
       return;
     }
 
@@ -83,28 +81,20 @@ class _RegisterViewState extends State<RegisterView> {
 
     if (!mounted) return;
 
-    // TAMPILKAN NOTIFIKASI
     messenger.showSnackBar(
       SnackBar(
         content: Text(result['message']),
-        backgroundColor:
-            result['success'] ? Colors.green : Colors.red,
+        backgroundColor: result['success'] ? Colors.green : Colors.red,
         duration: const Duration(seconds: 2),
       ),
     );
 
-    // JIKA REGISTER BERHASIL
     if (result['success'] == true) {
-
-      // TUNGGU SNACKBAR
       await Future.delayed(const Duration(seconds: 2));
-
-      // SELALU KE LOGIN
       Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
-  // Mapping role dropdown ke value di database
   String _mapRole(String role) {
     switch (role) {
       case 'User':
@@ -113,39 +103,21 @@ class _RegisterViewState extends State<RegisterView> {
         return 'kos';
       case 'Pemilik Jasa':
         return 'jasa';
-      case 'Admin':
+      case 'Admin Jasa':
         return 'admin';
       default:
         return 'user';
     }
   }
 
-<<<<<<< HEAD
-  String _routeByRole(String role) {
-    switch (role) {
-      case 'Pemilik Kos':
-        return '/pemilik_kos';
-      case 'Pemilik Jasa':
-        return '/pemilik_jasa';
-      case 'Admin':
-        return '/admin';
-      default:
-        return '/login';
-    }
-  }
-=======
-
->>>>>>> d76592fda1c065fa8445e7c4641e61af94944afc
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary, // Background biru full
+      backgroundColor: AppColors.primary,
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 60),
-            // Header Logo
             const Text(
               'EasyLive',
               style: TextStyle(
@@ -156,7 +128,6 @@ class _RegisterViewState extends State<RegisterView> {
               ),
             ),
             const SizedBox(height: 30),
-            // Container Putih Full Width & Rounded Top
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -170,7 +141,6 @@ class _RegisterViewState extends State<RegisterView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Gambar Ilustrasi
                   Center(
                     child: Image.asset(
                       'assets/images/register.png',
@@ -197,6 +167,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   const SizedBox(height: 25),
+
                   // Role Dropdown
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -218,12 +189,14 @@ class _RegisterViewState extends State<RegisterView> {
                           fontSize: 14,
                           color: AppColors.primary,
                         ),
-                        items: roles.map((String role) {
-                          return DropdownMenuItem<String>(
-                            value: role,
-                            child: Text(role),
-                          );
-                        }).toList(),
+                        items: roles
+                            .map(
+                              (String role) => DropdownMenuItem<String>(
+                                value: role,
+                                child: Text(role),
+                              ),
+                            )
+                            .toList(),
                         onChanged: (String? newValue) {
                           if (newValue != null) {
                             setState(() {
@@ -234,14 +207,16 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: _fieldSpacing),
-                  // Menggunakan AuthInputField yang sudah dipisah
+
                   AuthInputField(
                     controller: usernameController,
                     hintText: 'User Name',
                     icon: Icons.person_outline_rounded,
                   ),
                   const SizedBox(height: _fieldSpacing),
+
                   AuthInputField(
                     controller: fullnameController,
                     hintText: 'Full Name',
@@ -249,30 +224,34 @@ class _RegisterViewState extends State<RegisterView> {
                     keyboardType: TextInputType.name,
                   ),
                   const SizedBox(height: _fieldSpacing),
+
                   AuthInputField(
                     controller: emailController,
                     hintText: 'Email',
                     icon: Icons.mail_outline_rounded,
                     keyboardType: TextInputType.emailAddress,
                   ),
+
                   const SizedBox(height: _fieldSpacing),
 
-                  // Extra form fields
                   RegisterExtraFields(
                     phoneController: phoneController,
                     birthdateController: birthdateController,
                     genderController: genderController,
                     addressController: addressController,
                   ),
+
                   const SizedBox(height: _fieldSpacing),
+
                   AuthInputField(
                     controller: passController,
                     hintText: 'Password',
                     icon: Icons.lock_outline_rounded,
                     obscureText: true,
                   ),
+
                   const SizedBox(height: 24),
-                  // Tombol Sign Up
+
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -296,12 +275,13 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
-                  // Footer Link
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account? "),
+                      const Text('Already have an account? '),
                       GestureDetector(
                         onTap: () =>
                             Navigator.pushReplacementNamed(context, '/login'),
