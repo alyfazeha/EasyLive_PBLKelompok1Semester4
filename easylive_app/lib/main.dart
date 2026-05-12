@@ -88,16 +88,12 @@ class MyApp extends StatelessWidget {
     switch (settings.name) {
       case '/':
         return _noAnimation(const SplashScreen(), settings);
-
       case '/login':
         return _noAnimation(const LoginView(), settings);
-
       case '/register':
         return _noAnimation(const RegisterView(), settings);
-
       case '/home':
         return _noAnimation(const HomeView(), settings);
-
       case '/kost':
         return _noAnimation(const KosView(), settings);
 
@@ -129,6 +125,16 @@ class MyApp extends StatelessWidget {
             settings,
           );
         }
+        final map = args as Map<String, dynamic>;
+        return _noAnimation(
+          PersonalInfoView(
+            kost: map['kost'] as KostModel,
+            isJasa: map['isJasa'] as bool? ?? false,
+            fromLocation: map['fromLocation'] as String?,
+            toLocation: map['toLocation'] as String?,
+          ),
+          settings,
+        );
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
@@ -248,6 +254,9 @@ class MyApp extends StatelessWidget {
           PaymentDetailView(),
           settings,
         );
+
+      case '/pemilik_jasa/dashboard/detail_pembayaran':
+        return _noAnimation(PaymentDetailView(), settings);
 
       case '/pemilik_kos/notifikasi':
         return _noAnimation(
