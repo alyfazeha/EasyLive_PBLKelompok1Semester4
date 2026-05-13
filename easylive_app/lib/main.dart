@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'controllers/user/favorite_controller.dart';
-
 import 'models/user/history_model.dart';
 import 'views/auth/login_view.dart';
 import 'views/auth/register_view.dart';
@@ -11,14 +9,10 @@ import 'views/User/history/history_detail_view.dart';
 import 'views/User/history/history_view.dart';
 import 'views/User/home/home_view.dart';
 import 'views/User/kos/kos_view.dart';
-
-// FIX: gunakan alias agar tidak bentrok
 import 'views/User/profile/profile_view.dart' as user_profile;
-
 import 'views/User/profile/edit_profile_view.dart';
 import 'views/User/profile/favorite_view.dart';
 import 'views/User/profile/security_view.dart';
-
 import 'views/pemilikKos/home/detailKamar_view.dart';
 import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
@@ -27,38 +21,25 @@ import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
-
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
-
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
-
-// fallback ke halaman admin (bila case '/admin' dipanggil)
-
-// FIX: hapus duplicate import
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
-
-// FIX: gunakan alias
 import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
-
 import 'models/pemilikJasa/notifikasi_model.dart';
-
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/booking/detail_booking_view.dart'
     as pemilik_jasa_detail_booking;
 import 'views/pemilikJasa/home/home_view.dart';
 import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
-
 import 'views/splash/splash_view.dart';
 import 'views/User/kos/detailKos_view.dart';
 import 'models/user/kos_model.dart';
-
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
-
 import 'views/pemilikKos/dashboard/payment_detail_view.dart';
 
 void main() async {
@@ -152,11 +133,9 @@ class MyApp extends StatelessWidget {
 
         return _noAnimation(HistoryDetailView(item: item), settings);
 
-      // FIX PROFILE USER
       case '/profile':
         return _noAnimation(const user_profile.ProfileView(), settings);
 
-      // FIX PROFILE PEMILIK JASA
       case '/pemilik_jasa/profile':
         return _noAnimation(
           const jasa_profile.PemilikJasaProfileView(),
