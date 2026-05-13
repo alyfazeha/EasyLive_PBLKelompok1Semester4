@@ -8,9 +8,25 @@ import '../../../widgets/pemilikKos/notifikasi/rejection_reason_card.dart';
 import '../../../widgets/pemilikKos/notifikasi/submitter_card.dart';
 
 class NotificationDetailView extends StatelessWidget {
-  final OwnerNotification ownerNotification; // ← terima dari luar
+  final OwnerNotification ownerNotification;
 
   NotificationDetailView({super.key, required this.ownerNotification});
+
+  // Teks detail sesuai type
+  String _getDetailText(String property) {
+    switch (ownerNotification.type) {
+      case OwnerNotificationType.approved:
+        return 'Selamat! Kost "$property" Anda telah disetujui oleh admin dan sekarang sudah aktif.';
+      case OwnerNotificationType.rejected:
+        return 'Maaf, kost "$property" Anda ditolak oleh admin aplikasi. Silakan periksa alasan penolakan di bawah.';
+      case OwnerNotificationType.booking:
+        return 'Ada booking baru masuk untuk kost "$property". Silakan konfirmasi atau tolak booking ini.';
+      case OwnerNotificationType.payment:
+        return 'Pembayaran untuk kost "$property" telah berhasil diterima.';
+      default:
+        return 'Ada notifikasi baru untuk kost "$property".';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +34,8 @@ class NotificationDetailView extends StatelessWidget {
       ownerNotification: ownerNotification,
     );
     final data = controller.notification;
+    final type = ownerNotification.type;
 
-    // ... sisa build tetap sama persis tidak diubah
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
@@ -67,8 +83,11 @@ class NotificationDetailView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NotificationHeaderCard(data: data),
+                // Header dengan icon dinamis
+                NotificationHeaderCard(data: data, type: type),
+
                 const SizedBox(height: 28),
+
                 const Text(
                   'Detail',
                   style: TextStyle(
@@ -78,9 +97,12 @@ class NotificationDetailView extends StatelessWidget {
                     color: Color(0xFF2F4157),
                   ),
                 ),
+
                 const SizedBox(height: 12),
+
+                // Teks detail sesuai type
                 Text(
-                  'Maaf, pengajuan Anda untuk memesan ${data.property} telah ditolak oleh admin aplikasi.',
+                  _getDetailText(data.property),
                   style: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 13,
@@ -88,15 +110,32 @@ class NotificationDetailView extends StatelessWidget {
                     color: Color(0xFF4A5568),
                   ),
                 ),
+
                 const SizedBox(height: 24),
+
+                // Info detail — semua type tampilkan
                 DetailInfoCard(data: data),
+
                 const SizedBox(height: 24),
-                RejectionReasonCard(reason: data.rejectionReason),
-                const SizedBox(height: 24),
-                SubmitterCard(data: data),
-                const SizedBox(height: 30),
-                const ActionButtons(),
-                const SizedBox(height: 30),
+
+                // Rejection reason — hanya untuk rejected
+                if (type == OwnerNotificationType.rejected) ...[
+                  RejectionReasonCard(reason: data.rejectionReason),
+                  const SizedBox(height: 24),
+                ],
+
+                // Submitter — hanya untuk booking & payment
+                if (type == OwnerNotificationType.booking ||
+                    type == OwnerNotificationType.payment) ...[
+                  SubmitterCard(data: data),
+                  const SizedBox(height: 24),
+                ],
+
+                // Action buttons — hanya untuk rejected & booking
+                if (type == OwnerNotificationType.booking) ...[
+                  const ActionButtons(),
+                  const SizedBox(height: 30),
+                ],
               ],
             ),
           ),
