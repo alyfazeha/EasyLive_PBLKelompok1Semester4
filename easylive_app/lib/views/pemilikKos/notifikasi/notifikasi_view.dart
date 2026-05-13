@@ -159,7 +159,9 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (_) => NotificationDetailView(),
+                                              builder: (_) => NotificationDetailView(
+                                                ownerNotification: notification, // ← kirim notifikasi
+                                              ),
                                             ),
                                           );
                                         },

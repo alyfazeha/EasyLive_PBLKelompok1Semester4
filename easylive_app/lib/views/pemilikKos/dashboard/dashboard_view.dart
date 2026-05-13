@@ -82,7 +82,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         Navigator.pushNamed(
                                           context,
                                           '/pemilik_kos/detail_pembayaran',
-                                          arguments: item,
+                                          arguments: item, // ← kirim Dashboard
                                         );
                                       },
                                       borderRadius: BorderRadius.circular(18),

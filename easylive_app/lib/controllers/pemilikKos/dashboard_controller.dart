@@ -7,7 +7,6 @@ class DashboardController extends ChangeNotifier {
   bool isLoading = false;
   String errorMessage = '';
 
-  // ← tambah field header
   String ownerName = '';
   int totalKost = 0;
   int kamarTersedia = 0;
@@ -36,7 +35,6 @@ class DashboardController extends ChangeNotifier {
         return;
       }
 
-      // 1️⃣ Ambil nama owner
       final profileRes = await supabase
           .from('profiles')
           .select('username')
@@ -44,7 +42,6 @@ class DashboardController extends ChangeNotifier {
           .single();
       ownerName = profileRes['username'] ?? 'Pemilik Kos';
 
-      // 2️⃣ Ambil semua kost milik owner
       final kostRes = await supabase
           .from('kost')
           .select('id_kost, nama_kost, kamar_kosong')
@@ -52,7 +49,7 @@ class DashboardController extends ChangeNotifier {
 
       totalKost = (kostRes as List).length;
       kamarTersedia = kostRes.fold(
-        0, (sum, k) => sum + ((k['kamar_kosong'] as int?) ?? 0));
+          0, (sum, k) => sum + ((k['kamar_kosong'] as int?) ?? 0));
 
       if (kostRes.isEmpty) {
         dashboardList = [];
@@ -67,14 +64,12 @@ class DashboardController extends ChangeNotifier {
       };
       final kostIds = kostNames.keys.toList();
 
-      // 3️⃣ Ambil booking_kos milik owner
       final bookingRes = await supabase
           .from('booking_kos')
           .select('id_booking_kost, id_kost, id_profile, total_bayar, tanggal_checkin, status_pesanan')
           .inFilter('id_kost', kostIds)
           .order('id_booking_kost', ascending: false);
 
-      // Booking baru = status menunggu
       bookingBaru = (bookingRes as List)
           .where((b) => b['status_pesanan'] == 'menunggu')
           .length;
@@ -90,10 +85,10 @@ class DashboardController extends ChangeNotifier {
           .map((b) => b['id_booking_kost'] as int)
           .toList();
 
-      // 4️⃣ Ambil payments settlement
+      // ← tambah id_transaction dan payment_type
       final paymentRes = await supabase
           .from('payments')
-          .select('id_booking_kost, gross_amount, status')
+          .select('id_booking_kost, gross_amount, status, id_transaction, payment_type')
           .inFilter('id_booking_kost', bookingIds)
           .eq('status', 'settlement');
 
@@ -102,11 +97,9 @@ class DashboardController extends ChangeNotifier {
           (p['id_booking_kost'] as int): p
       };
 
-      // Total pendapatan
       totalPendapatan = (paymentRes).fold(
-        0.0, (sum, p) => sum + ((p['gross_amount'] as num?)?.toDouble() ?? 0));
+          0.0, (sum, p) => sum + ((p['gross_amount'] as num?)?.toDouble() ?? 0));
 
-      // 5️⃣ Ambil nama penyewa
       final profileIds = bookingRes
           .map((b) => b['id_profile'] as String?)
           .where((id) => id != null)
@@ -123,7 +116,6 @@ class DashboardController extends ChangeNotifier {
           (p['id_profile'] as String): (p['username'] as String? ?? '-')
       };
 
-      // 6️⃣ Gabungkan — hanya settlement
       final List<Dashboard> result = [];
       for (var booking in bookingRes) {
         final idBooking = booking['id_booking_kost'] as int;
@@ -134,6 +126,8 @@ class DashboardController extends ChangeNotifier {
         final idProfile = booking['id_profile'] as String? ?? '';
         final tanggal = booking['tanggal_checkin'] as String? ?? '-';
         final grossAmount = (payment['gross_amount'] as num?)?.toDouble() ?? 0;
+        final transactionId = payment['id_transaction'] as String? ?? '-';
+        final paymentMethod = payment['payment_type'] as String? ?? '-';
 
         result.add(Dashboard(
           idBooking: idBooking.toString(),
@@ -142,6 +136,9 @@ class DashboardController extends ChangeNotifier {
           date: _formatTanggal(tanggal),
           price: 'Rp ${_formatHarga(grossAmount)}',
           status: 'Lunas',
+          transactionId: transactionId,     // ← tambah
+          paymentMethod: paymentMethod,     // ← tambah
+          grossAmount: grossAmount.toInt(), // ← tambah
         ));
       }
 
