@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../controllers/pemilikKos/booking_controller.dart';
 import '../../../core/color.dart';
-import '../../../models/pemilikKos/booking_model.dart';
 import '../../../widgets/pemilikKos/booking/booking_card.dart';
 import '../../../widgets/pemilikKos/booking/searching.dart';
 import '../../../widgets/pemilikKos/booking/filtering.dart';
@@ -14,64 +15,18 @@ class OwnerBookingView extends StatefulWidget {
 }
 
 class _OwnerBookingViewState extends State<OwnerBookingView> {
-  List<Booking> allBookings = [
-    Booking(
-      nama: "Budi Santoso",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Pending",
-    ),
-    Booking(
-      nama: "Andi Wijaya",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Aktif",
-    ),
-    Booking(
-      nama: "Siti Aminah",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Aktif",
-    ),
-    Booking(
-      nama: "Rudi Hartono",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Aktif",
-    ),
-    Booking(
-      nama: "Dwi Lestari",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Aktif",
-    ),
-    Booking(
-      nama: "Ahmad Fauzi",
-      kamar: "Kamar 01 - Daniska Kost",
-      status: "Selesai",
-    ),
-  ];
-
-  List<Booking> filtered = [];
-
-  String selectedFilter = "All";
-  String searchText = "";
+  late BookingController controller;
 
   @override
   void initState() {
     super.initState();
-    filtered = allBookings;
+    controller = BookingController(); // fresh tiap buka page
   }
 
-  void applyFilter() {
-    setState(() {
-      filtered = allBookings.where((b) {
-        final matchSearch = b.nama.toLowerCase().contains(
-          searchText.toLowerCase(),
-        );
-
-        final matchFilter = selectedFilter == "All"
-            ? true
-            : b.status.toLowerCase() == selectedFilter.toLowerCase();
-
-        return matchSearch && matchFilter;
-      }).toList();
-    });
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void _navigateTo(int index) {
@@ -79,113 +34,125 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
       Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
     } else if (index == 2) {
       Navigator.pushReplacementNamed(context, '/pemilik_kos');
-    } else if (index == 3) {
-      // already on bookings page
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-
-      body: SafeArea(
-        child: Column(
-          children: [
-            /// 🔵 HEADER
-            Container(
-              padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
-              decoration: const BoxDecoration(color: AppColors.darkBlue),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
-                        Navigator.pushReplacementNamed(context, '/pemilik_kos');
-                      }
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    "Booking",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            /// 🔻 CONTENT
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    topRight: Radius.circular(14),
-                  ),
-                ),
-                child: Column(
+    return ChangeNotifierProvider.value(
+      value: controller,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              /// HEADER — tidak diubah
+              Container(
+                padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                decoration: const BoxDecoration(color: AppColors.darkBlue),
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
-                      child: Column(
-                        children: [
-                          /// 🔍 SEARCH
-                          SearchBarWidget(
-                            onChanged: (value) {
-                              searchText = value;
-                              applyFilter();
-                            },
-                          ),
-
-                          const SizedBox(height: 12),
-
-                          /// 🔘 FILTER
-                          BookingFilter(
-                            selectedFilter: selectedFilter,
-                            onChanged: (value) {
-                              selectedFilter = value;
-                              applyFilter();
-                            },
-                          ),
-
-                          const SizedBox(height: 14),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushReplacementNamed(context, '/pemilik_kos');
+                        }
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
                       ),
                     ),
-
-                    /// 📋 LIST
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: filtered.length,
-                        itemBuilder: (context, index) {
-                          return BookingCard(booking: filtered[index]);
-                        },
+                    const SizedBox(width: 10),
+                    const Text(
+                      "Booking",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+
+              /// CONTENT
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(14),
+                      topRight: Radius.circular(14),
+                    ),
+                  ),
+                  child: Consumer<BookingController>(
+                    builder: (context, ctrl, _) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                            child: Column(
+                              children: [
+                                /// SEARCH
+                                SearchBarWidget(
+                                  onChanged: (value) => ctrl.setSearch(value),
+                                ),
+
+                                const SizedBox(height: 12),
+
+                                /// FILTER
+                                BookingFilter(
+                                  selectedFilter: ctrl.selectedFilter,
+                                  onChanged: (value) => ctrl.setFilter(value),
+                                ),
+
+                                const SizedBox(height: 14),
+                              ],
+                            ),
+                          ),
+
+                          /// LIST
+                          Expanded(
+                            child: ctrl.isLoading
+                                ? const Center(child: CircularProgressIndicator())
+                                : ctrl.filteredList.isEmpty
+                                    ? const Center(
+                                        child: Text(
+                                          'Belum ada booking',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.black45,
+                                          ),
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        itemCount: ctrl.filteredList.length,
+                                        itemBuilder: (context, index) {
+                                          return BookingCard(
+                                            booking: ctrl.filteredList[index],
+                                          );
+                                        },
+                                      ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: OwnerBottomNav(
-        currentIndex: 3,
-        onNavigate: _navigateTo,
+        bottomNavigationBar: OwnerBottomNav(
+          currentIndex: 3,
+          onNavigate: _navigateTo,
+        ),
       ),
     );
   }
