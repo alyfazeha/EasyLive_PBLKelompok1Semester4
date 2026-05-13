@@ -7,9 +7,11 @@ enum OwnerNotificationType {
   checkout,
   reminder,
   cancelled,
+  approved,
 }
 
 class OwnerNotification {
+  final String id;
   final String title;
   final String description;
   final String time;
@@ -17,6 +19,7 @@ class OwnerNotification {
   final bool isRead;
 
   const OwnerNotification({
+    required this.id,
     required this.title,
     required this.description,
     required this.time,
@@ -38,6 +41,8 @@ class OwnerNotification {
         return Icons.notifications_rounded;
       case OwnerNotificationType.cancelled:
         return Icons.block_rounded;
+      case OwnerNotificationType.approved:
+        return Icons.check_circle_outline_rounded;
     }
   }
 
@@ -55,6 +60,8 @@ class OwnerNotification {
         return const Color(0xFFFF7A21);
       case OwnerNotificationType.cancelled:
         return const Color(0xFFE4251B);
+      case OwnerNotificationType.approved:
+        return const Color(0xFF0C7A3D);
     }
   }
 }
