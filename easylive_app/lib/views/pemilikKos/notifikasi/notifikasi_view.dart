@@ -105,62 +105,75 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                   ),
                 ),
                 child: AnimatedBuilder(
-                  animation: controller,
-                  builder: (context, _) {
-                    final notifications = controller.notifications;
+                    animation: controller,
+                    builder: (context, _) {
+                      if (controller.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            17,
-                            17,
-                            17,
-                            0,
-                          ),
-                          child: OwnerNotificationFilterTabs(
-                            showUnreadOnly:
-                                controller.showUnreadOnly,
-                            totalCount: controller.totalCount,
-                            unreadCount: controller.unreadCount,
-                            onShowAll: controller.showAll,
-                            onShowUnread: controller.showUnread,
-                          ),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.fromLTRB(
-                              18,
-                              55,
-                              18,
-                              110,
+                      final notifications = controller.notifications;
+
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                            child: OwnerNotificationFilterTabs(
+                              showUnreadOnly: controller.showUnreadOnly,
+                              totalCount: controller.totalCount,
+                              unreadCount: controller.unreadCount,
+                              onShowAll: controller.showAll,
+                              onShowUnread: controller.showUnread,
                             ),
-                            itemCount: notifications.length,
-                            itemBuilder: (context, index) {
-                              final notification =
-                                  notifications[index];
-
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          NotificationDetailView(),
-                                    ),
-                                  );
-                                },
-                                child: OwnerNotificationCard(
-                                  notification: notification,
-                                ),
-                              );
-                            },
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                          Expanded(
+                            child: notifications.isEmpty
+                                ? const Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.notifications_off_outlined,
+                                          size: 40,
+                                          color: Colors.black26,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          'Belum ada notifikasi',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black38,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    padding: const EdgeInsets.fromLTRB(18, 55, 18, 110),
+                                    itemCount: notifications.length,
+                                    itemBuilder: (context, index) {
+                                      final notification = notifications[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => NotificationDetailView(),
+                                            ),
+                                          );
+                                        },
+                                        child: OwnerNotificationCard(
+                                          notification: notification,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
               ),
             ),
           ],
