@@ -7,6 +7,15 @@ class DashboardController extends ChangeNotifier {
   bool isLoading = false;
   String errorMessage = '';
 
+  // ← tambah field header
+  String ownerName = '';
+  int totalKost = 0;
+  int kamarTersedia = 0;
+  int bookingBaru = 0;
+  double totalPendapatan = 0;
+
+  String get pendapatanFormatted => 'Rp ${_formatHarga(totalPendapatan)}';
+
   final supabase = Supabase.instance.client;
 
   DashboardController() {
@@ -27,44 +36,61 @@ class DashboardController extends ChangeNotifier {
         return;
       }
 
-      // 1️⃣ Ambil semua id_kost milik owner
+      // 1️⃣ Ambil nama owner
+      final profileRes = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id_profile', user.id)
+          .single();
+      ownerName = profileRes['username'] ?? 'Pemilik Kos';
+
+      // 2️⃣ Ambil semua kost milik owner
       final kostRes = await supabase
           .from('kost')
-          .select('id_kost, nama_kost')
+          .select('id_kost, nama_kost, kamar_kosong')
           .eq('owner_id', user.id);
 
-      if ((kostRes as List).isEmpty) {
+      totalKost = (kostRes as List).length;
+      kamarTersedia = kostRes.fold(
+        0, (sum, k) => sum + ((k['kamar_kosong'] as int?) ?? 0));
+
+      if (kostRes.isEmpty) {
         dashboardList = [];
         isLoading = false;
         notifyListeners();
         return;
       }
 
-      // Map id_kost → nama_kost
       final Map<int, String> kostNames = {
         for (var k in kostRes)
           (k['id_kost'] as int): (k['nama_kost'] as String? ?? '-')
       };
-
       final kostIds = kostNames.keys.toList();
 
-      // 2️⃣ Ambil booking_kos yang id_kost-nya milik owner
+      // 3️⃣ Ambil booking_kos milik owner
       final bookingRes = await supabase
           .from('booking_kos')
           .select('id_booking_kost, id_kost, id_profile, total_bayar, tanggal_checkin, status_pesanan')
           .inFilter('id_kost', kostIds)
           .order('id_booking_kost', ascending: false);
 
-      if ((bookingRes as List).isEmpty) {
+      // Booking baru = status menunggu
+      bookingBaru = (bookingRes as List)
+          .where((b) => b['status_pesanan'] == 'menunggu')
+          .length;
+
+      if (bookingRes.isEmpty) {
         dashboardList = [];
         isLoading = false;
         notifyListeners();
         return;
       }
 
-      // 3️⃣ Ambil payments untuk booking tersebut
-      final bookingIds = bookingRes.map((b) => b['id_booking_kost'] as int).toList();
+      final bookingIds = bookingRes
+          .map((b) => b['id_booking_kost'] as int)
+          .toList();
 
+      // 4️⃣ Ambil payments settlement
       final paymentRes = await supabase
           .from('payments')
           .select('id_booking_kost, gross_amount, status')
@@ -76,31 +102,33 @@ class DashboardController extends ChangeNotifier {
           (p['id_booking_kost'] as int): p
       };
 
-      // 4️⃣ Ambil nama penyewa dari profiles
+      // Total pendapatan
+      totalPendapatan = (paymentRes).fold(
+        0.0, (sum, p) => sum + ((p['gross_amount'] as num?)?.toDouble() ?? 0));
+
+      // 5️⃣ Ambil nama penyewa
       final profileIds = bookingRes
           .map((b) => b['id_profile'] as String?)
           .where((id) => id != null)
           .toSet()
           .toList();
 
-      final profileRes = await supabase
+      final profilesRes = await supabase
           .from('profiles')
           .select('id_profile, username')
           .inFilter('id_profile', profileIds);
 
       final Map<String, String> profileNames = {
-        for (var p in (profileRes as List))
+        for (var p in (profilesRes as List))
           (p['id_profile'] as String): (p['username'] as String? ?? '-')
       };
 
-      // 5️⃣ Gabungkan semua data — hanya yang sudah settlement
+      // 6️⃣ Gabungkan — hanya settlement
       final List<Dashboard> result = [];
-
       for (var booking in bookingRes) {
         final idBooking = booking['id_booking_kost'] as int;
         final payment = paymentMap[idBooking];
-
-        if (payment == null) continue; // skip yang belum settlement
+        if (payment == null) continue;
 
         final idKost = booking['id_kost'] as int;
         final idProfile = booking['id_profile'] as String? ?? '';

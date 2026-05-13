@@ -20,7 +20,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   void initState() {
     super.initState();
-    controller = DashboardController(); // fresh tiap buka page
+    controller = DashboardController();
   }
 
   @override
@@ -35,71 +35,73 @@ class _DashboardViewState extends State<DashboardView> {
       value: controller,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            const DashboardHeader(),
-            Expanded(
-              child: Consumer<DashboardController>(
-                builder: (context, ctrl, _) {
-                  if (ctrl.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (ctrl.dashboardList.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'Belum ada riwayat pembayaran',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.black45,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 70, 16, 100),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 1),
-                        const Text(
-                          "Riwayat Pembayaran",
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.darkBlue,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        ...ctrl.dashboardList.map((item) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/pemilik_kos/detail_pembayaran',
-                                arguments: item, // ← kirim data ke detail
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(18),
-                            child: PaymentHistoryCard(
-                              name: item.name,
-                              kost: item.kostName,
-                              date: item.date,
-                              price: item.price,
-                              status: item.status,
+        body: Consumer<DashboardController>(
+          builder: (context, ctrl, _) {
+            return Column(
+              children: [
+                DashboardHeader(
+                  ownerName: ctrl.ownerName,
+                  totalKost: ctrl.totalKost,
+                  kamarTersedia: ctrl.kamarTersedia,
+                  bookingBaru: ctrl.bookingBaru,
+                  pendapatan: ctrl.pendapatanFormatted,
+                ),
+                Expanded(
+                  child: ctrl.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : ctrl.dashboardList.isEmpty
+                          ? const Center(
+                              child: Text(
+                                'Belum ada riwayat pembayaran',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.black45,
+                                ),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              padding: const EdgeInsets.fromLTRB(16, 70, 16, 100),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 1),
+                                  const Text(
+                                    "Riwayat Pembayaran",
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColors.darkBlue,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ...ctrl.dashboardList.map((item) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/pemilik_kos/detail_pembayaran',
+                                          arguments: item,
+                                        );
+                                      },
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: PaymentHistoryCard(
+                                        name: item.name,
+                                        kost: item.kostName,
+                                        date: item.date,
+                                        price: item.price,
+                                        status: item.status,
+                                      ),
+                                    ),
+                                  )),
+                                ],
+                              ),
                             ),
-                          ),
-                        )),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
         bottomNavigationBar: OwnerBottomNav(
           currentIndex: 0,
