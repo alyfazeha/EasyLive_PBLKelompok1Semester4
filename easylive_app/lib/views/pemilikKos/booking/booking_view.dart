@@ -136,6 +136,7 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
                                         itemBuilder: (context, index) {
                                           return BookingCard(
                                             booking: ctrl.filteredList[index],
+                                            onRefresh: () => ctrl.refresh(),
                                           );
                                         },
                                       ),

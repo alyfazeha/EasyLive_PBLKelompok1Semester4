@@ -1,7 +1,7 @@
 class Booking {
   final String idBooking;
-  String nama;
-  String kamar;
+  final String nama;
+  final String kamar;
   String status;
   final String idProfile;
   final String tanggalCheckin;
