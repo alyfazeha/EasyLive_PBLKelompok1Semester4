@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-
 import '../../../controllers/pemilikKos/payment_detail_controller.dart';
 import '../../../core/color.dart';
+import '../../../models/pemilikKos/dashboard_model.dart';
 import '../../../widgets/pemilikKos/dashboard/payment_detail_widgets.dart';
 
 class PaymentDetailView extends StatelessWidget {
-  PaymentDetailView({super.key});
+  final Dashboard dashboard; // ← tambah parameter
 
-  final PaymentDetailController controller = PaymentDetailController();
+  PaymentDetailView({super.key, required this.dashboard}); // ← tambah required
 
   @override
   Widget build(BuildContext context) {
+    final controller = PaymentDetailController(dashboard: dashboard); // ← pass dashboard
     final payment = controller.getPaymentDetail();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       body: Column(
         children: [
-          // Header
+          // Header — tidak diubah
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(20, 50, 20, 24),
@@ -54,12 +55,12 @@ class PaymentDetailView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 30),   
+                const SizedBox(width: 30),
               ],
             ),
           ),
 
-          // Content
+          // Content — tidak diubah
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -68,13 +69,9 @@ class PaymentDetailView extends StatelessWidget {
                 children: [
                   PaymentInfoCard(
                     payment: payment,
-                    formattedTotal: controller.formatCurrency(
-                      payment.totalPayment,
-                    ),
+                    formattedTotal: controller.formatCurrency(payment.totalPayment),
                   ),
-
                   const SizedBox(height: 24),
-
                   const Text(
                     'Rincian Pembayaran',
                     style: TextStyle(
@@ -84,16 +81,12 @@ class PaymentDetailView extends StatelessWidget {
                       color: AppColors.darkBlue,
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   PaymentSummaryCard(
                     payment: payment,
                     formatCurrency: controller.formatCurrency,
                   ),
-
                   const SizedBox(height: 24),
-
                   const Text(
                     'Riwayat Status',
                     style: TextStyle(
@@ -103,13 +96,9 @@ class PaymentDetailView extends StatelessWidget {
                       color: AppColors.darkBlue,
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   PaymentStatusCard(payment: payment),
-
                   const SizedBox(height: 30),
-
                   SizedBox(
                     width: double.infinity,
                     height: 56,
@@ -117,16 +106,11 @@ class PaymentDetailView extends StatelessWidget {
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text(
-                              'Bukti pembayaran berhasil diunduh',
-                            ),
+                            content: Text('Bukti pembayaran berhasil diunduh'),
                           ),
                         );
                       },
-                      icon: const Icon(
-                        Icons.download_rounded,
-                        color: AppColors.darkBlue,
-                      ),
+                      icon: const Icon(Icons.download_rounded, color: AppColors.darkBlue),
                       label: const Text(
                         'Unduh Bukti Pembayaran',
                         style: TextStyle(
@@ -137,10 +121,7 @@ class PaymentDetailView extends StatelessWidget {
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(
-                          color: AppColors.darkBlue,
-                          width: 1.5,
-                        ),
+                        side: const BorderSide(color: AppColors.darkBlue, width: 1.5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),

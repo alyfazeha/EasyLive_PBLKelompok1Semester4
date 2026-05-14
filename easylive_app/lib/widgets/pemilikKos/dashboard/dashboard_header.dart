@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 class DashboardHeader extends StatelessWidget {
-  const DashboardHeader({super.key});
+  final String ownerName;
+  final int totalKost;
+  final int kamarTersedia;
+  final int bookingBaru;
+  final String pendapatan;
+
+  const DashboardHeader({
+    super.key,
+    required this.ownerName,
+    required this.totalKost,
+    required this.kamarTersedia,
+    required this.bookingBaru,
+    required this.pendapatan,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +31,6 @@ class DashboardHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// TOP ROW (GREETING + NOTIF)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -32,12 +44,12 @@ class DashboardHeader extends StatelessWidget {
                   const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        "Hi, Rafi",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                        'Hi, $ownerName', // ← dari Supabase
+                        style: const TextStyle(color: Colors.white70, fontSize: 12),
                       ),
-                      Text(
+                      const Text(
                         "Welcome to EasyLive!",
                         style: TextStyle(
                           color: Colors.white,
@@ -48,8 +60,6 @@ class DashboardHeader extends StatelessWidget {
                   ),
                 ],
               ),
-
-              /// NOTIFICATION ICON
               InkWell(
                 onTap: () =>
                     Navigator.pushNamed(context, '/pemilik_kos/notifikasi'),
@@ -66,9 +76,9 @@ class DashboardHeader extends StatelessWidget {
                           color: Colors.orange,
                           shape: BoxShape.circle,
                         ),
-                        child: const Text(
-                          "9",
-                          style: TextStyle(fontSize: 8, color: Colors.white),
+                        child: Text(
+                          '$bookingBaru', // ← dari Supabase
+                          style: const TextStyle(fontSize: 8, color: Colors.white),
                         ),
                       ),
                     ),
@@ -80,14 +90,13 @@ class DashboardHeader extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          ///  STAT CARD
           Row(
             children: [
               Expanded(
                 child: _statItem(
                   Icons.home,
                   "Total Kost",
-                  "5 Kost",
+                  '$totalKost Kost', // ← dari Supabase
                   Colors.orange,
                 ),
               ),
@@ -96,7 +105,7 @@ class DashboardHeader extends StatelessWidget {
                 child: _statItem(
                   Icons.bed,
                   "Kamar Tersedia",
-                  "12 Kamar",
+                  '$kamarTersedia Kamar', // ← dari Supabase
                   Colors.green,
                 ),
               ),
@@ -105,14 +114,13 @@ class DashboardHeader extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          /// STAT CARD
           Row(
             children: [
               Expanded(
                 child: _statItem(
                   Icons.calendar_today,
                   "Booking Baru",
-                  "8 Kost",
+                  '$bookingBaru Booking', // ← dari Supabase
                   Colors.blue,
                 ),
               ),
@@ -121,7 +129,7 @@ class DashboardHeader extends StatelessWidget {
                 child: _statItem(
                   Icons.attach_money,
                   "Pendapatan",
-                  "12 Juta",
+                  pendapatan, // ← dari Supabase
                   Colors.purple,
                 ),
               ),
@@ -132,7 +140,6 @@ class DashboardHeader extends StatelessWidget {
     );
   }
 
-  /// 🔹 WIDGET STAT ITEM (SUDAH FIX)
   Widget _statItem(IconData icon, String title, String value, Color color) {
     return Container(
       padding: const EdgeInsets.all(12),

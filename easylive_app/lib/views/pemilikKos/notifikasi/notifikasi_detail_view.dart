@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
-
 import '../../../controllers/pemilikKos/notifikasi_detail_controller.dart';
+import '../../../models/pemilikKos/notifikasi_model.dart';
 import '../../../widgets/pemilikKos/notifikasi/action_buttons.dart';
 import '../../../widgets/pemilikKos/notifikasi/detail_info_card.dart';
 import '../../../widgets/pemilikKos/notifikasi/notification_header_card.dart';
 import '../../../widgets/pemilikKos/notifikasi/rejection_reason_card.dart';
 import '../../../widgets/pemilikKos/notifikasi/submitter_card.dart';
-import '../../../widgets/pemilikKos/notifikasi/notifikasi_card.dart';
 
 class NotificationDetailView extends StatelessWidget {
-  NotificationDetailView({super.key});
+  final OwnerNotification ownerNotification;
 
-  final NotificationDetailController controller =
-      NotificationDetailController();
+  NotificationDetailView({super.key, required this.ownerNotification});
+
+  // Teks detail sesuai type
+  String _getDetailText(String property) {
+    switch (ownerNotification.type) {
+      case OwnerNotificationType.approved:
+        return 'Selamat! Kost "$property" Anda telah disetujui oleh admin dan sekarang sudah aktif.';
+      case OwnerNotificationType.rejected:
+        return 'Maaf, kost "$property" Anda ditolak oleh admin aplikasi. Silakan periksa alasan penolakan di bawah.';
+      case OwnerNotificationType.booking:
+        return 'Ada booking baru masuk untuk kost "$property". Silakan konfirmasi atau tolak booking ini.';
+      case OwnerNotificationType.payment:
+        return 'Pembayaran untuk kost "$property" telah berhasil diterima.';
+      default:
+        return 'Ada notifikasi baru untuk kost "$property".';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = NotificationDetailController(
+      ownerNotification: ownerNotification,
+    );
     final data = controller.notification;
+    final type = ownerNotification.type;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
-
-      // ================= APP BAR =================
       appBar: AppBar(
         backgroundColor: const Color(0xFF2F4157),
         elevation: 0,
@@ -54,44 +70,39 @@ class NotificationDetailView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-            ),  
-
-      // ================= BODY =================
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
           decoration: const BoxDecoration(
             color: Color(0xFFF7F7F7),
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Notification Card
-                NotificationHeaderCard(data: data),
+                // Header dengan icon dinamis
+                NotificationHeaderCard(data: data, type: type),
 
                 const SizedBox(height: 28),
 
-                // Detail Title
-              const Text(
-                'Detail',
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF2F4157),
+                const Text(
+                  'Detail',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF2F4157),
+                  ),
                 ),
-              ),
 
                 const SizedBox(height: 12),
 
-                // Detail Description
+                // Teks detail sesuai type
                 Text(
-                  'Maaf, pengajuan Anda untuk memesan ${data.property} telah ditolak oleh admin aplikasi.',
+                  _getDetailText(data.property),
                   style: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 13,
@@ -102,27 +113,29 @@ class NotificationDetailView extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // Detail Booking Info
+                // Info detail — semua type tampilkan
                 DetailInfoCard(data: data),
 
                 const SizedBox(height: 24),
 
-                // Rejection Reason
-                RejectionReasonCard(
-                  reason: data.rejectionReason,
-                ),
+                // Rejection reason — hanya untuk rejected
+                if (type == OwnerNotificationType.rejected) ...[
+                  RejectionReasonCard(reason: data.rejectionReason),
+                  const SizedBox(height: 24),
+                ],
 
-                const SizedBox(height: 24),
+                // Submitter — hanya untuk booking & payment
+                if (type == OwnerNotificationType.booking ||
+                    type == OwnerNotificationType.payment) ...[
+                  SubmitterCard(data: data),
+                  const SizedBox(height: 24),
+                ],
 
-                // Submitted By
-                SubmitterCard(data: data),
-
-                const SizedBox(height: 30),
-
-                // Action Buttons
-                const ActionButtons(),
-
-                const SizedBox(height: 30),
+                // Action buttons — hanya untuk rejected & booking
+                if (type == OwnerNotificationType.booking) ...[
+                  const ActionButtons(),
+                  const SizedBox(height: 30),
+                ],
               ],
             ),
           ),

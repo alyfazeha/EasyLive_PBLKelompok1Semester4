@@ -7,21 +7,44 @@ enum OwnerNotificationType {
   checkout,
   reminder,
   cancelled,
+  approved,
 }
 
 class OwnerNotification {
+    final String id;
   final String title;
   final String description;
   final String time;
   final OwnerNotificationType type;
   final bool isRead;
 
+  // ← tambah field detail
+  final String? property;
+  final String? room;
+  final String? checkIn;
+  final String? checkOut;
+  final String? paymentMethod;
+  final String? rejectionReason;
+  final String? applicantName;
+  final String? applicantEmail;
+  final String? applicantPhone;
+
   const OwnerNotification({
+    required this.id,
     required this.title,
     required this.description,
     required this.time,
     required this.type,
     this.isRead = false,
+    this.property,
+    this.room,
+    this.checkIn,
+    this.checkOut,
+    this.paymentMethod,
+    this.rejectionReason,
+    this.applicantName,
+    this.applicantEmail,
+    this.applicantPhone,
   });
 
   IconData get icon {
@@ -38,6 +61,8 @@ class OwnerNotification {
         return Icons.notifications_rounded;
       case OwnerNotificationType.cancelled:
         return Icons.block_rounded;
+      case OwnerNotificationType.approved:
+        return Icons.check_circle_outline_rounded;
     }
   }
 
@@ -55,6 +80,8 @@ class OwnerNotification {
         return const Color(0xFFFF7A21);
       case OwnerNotificationType.cancelled:
         return const Color(0xFFE4251B);
+      case OwnerNotificationType.approved:
+        return const Color(0xFF0C7A3D);
     }
   }
 }
