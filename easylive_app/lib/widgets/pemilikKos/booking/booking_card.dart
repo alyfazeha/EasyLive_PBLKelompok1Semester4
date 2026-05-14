@@ -4,8 +4,13 @@ import '../../../models/pemilikKos/booking_model.dart';
 
 class BookingCard extends StatelessWidget {
   final Booking booking;
+  final VoidCallback? onRefresh; // ← tambah ini
 
-  const BookingCard({super.key, required this.booking});
+  const BookingCard({
+    super.key,
+    required this.booking,
+    this.onRefresh, // ← tambah ini
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +38,16 @@ class BookingCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(
+        onTap: () async {
+          final result = await Navigator.pushNamed(
             context,
             '/pemilik_kos/detail_booking',
-            arguments: booking.nama,
+            arguments: booking.idBooking,
           );
+
+          if (result == true) {
+            onRefresh?.call(); // ← refresh jika ada perubahan
+          }
         },
         borderRadius: BorderRadius.circular(18),
         child: Container(
@@ -57,7 +66,6 @@ class BookingCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              /// 🟣 AVATAR
               CircleAvatar(
                 radius: 22,
                 backgroundColor: const Color(0xFF5B4CF0),
@@ -69,10 +77,7 @@ class BookingCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(width: 12),
-
-              /// 📝 TEXT
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,8 +102,6 @@ class BookingCard extends StatelessWidget {
                   ],
                 ),
               ),
-
-              /// 🔘 STATUS BADGE
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
