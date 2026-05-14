@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../../models/pemilikKos/notifikasi_detail_model.dart';
+import '../../../models/pemilikKos/notifikasi_model.dart';
 
 class DetailInfoCard extends StatelessWidget {
   final NotificationModel data;
+  final OwnerNotificationType type;
 
-  const DetailInfoCard({super.key, required this.data});
+  const DetailInfoCard({
+    super.key,
+    required this.data,
+    required this.type,
+  });
 
   Widget buildRow(String label, String value) {
     return Padding(
@@ -17,21 +23,21 @@ class DetailInfoCard extends StatelessWidget {
             child: Text(
               label,
               style: const TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 13,
-            color: Color(0xFF4B5563),
-          ),
+                fontFamily: 'Montserrat',
+                fontSize: 13,
+                color: Color(0xFF4B5563),
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-                        style: const TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF2F4157),
-            ),
+              style: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF2F4157),
+              ),
             ),
           ),
         ],
@@ -50,11 +56,22 @@ class DetailInfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          buildRow('Properti', data.property),
-          buildRow('Kamar', data.room),
-          buildRow('Tanggal Check-in', data.checkIn),
-          buildRow('Tanggal Check-out', data.checkOut),
-          buildRow('Tipe Pembayaran', data.paymentMethod),
+          if (type == OwnerNotificationType.approved)
+            buildRow('Kost', data.property),
+
+          if (type == OwnerNotificationType.rejected)
+            buildRow('Kost', data.property),
+
+          if (type == OwnerNotificationType.booking) ...[
+            buildRow('Kost', data.property),
+            buildRow('Tanggal Check-in', data.checkIn),
+          ],
+
+          if (type == OwnerNotificationType.payment) ...[
+            buildRow('Kost', data.property),
+            buildRow('Tanggal Bayar', data.checkIn),
+            buildRow('Metode Pembayaran', data.paymentMethod),
+          ],
         ],
       ),
     );

@@ -12,7 +12,6 @@ class NotificationDetailView extends StatelessWidget {
 
   NotificationDetailView({super.key, required this.ownerNotification});
 
-  // Teks detail sesuai type
   String _getDetailText(String property) {
     switch (ownerNotification.type) {
       case OwnerNotificationType.approved:
@@ -83,7 +82,6 @@ class NotificationDetailView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header dengan icon dinamis
                 NotificationHeaderCard(data: data, type: type),
 
                 const SizedBox(height: 28),
@@ -100,7 +98,6 @@ class NotificationDetailView extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                // Teks detail sesuai type
                 Text(
                   _getDetailText(data.property),
                   style: const TextStyle(
@@ -113,25 +110,28 @@ class NotificationDetailView extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // Info detail — semua type tampilkan
-                DetailInfoCard(data: data),
+                // Info detail dinamis berdasar type
+                DetailInfoCard(
+                  data: data,
+                  type: type, // ← pass type
+                ),
 
                 const SizedBox(height: 24),
 
-                // Rejection reason — hanya untuk rejected
+                // Rejection reason — hanya rejected
                 if (type == OwnerNotificationType.rejected) ...[
                   RejectionReasonCard(reason: data.rejectionReason),
                   const SizedBox(height: 24),
                 ],
 
-                // Submitter — hanya untuk booking & payment
+                // Submitter — hanya booking & payment
                 if (type == OwnerNotificationType.booking ||
                     type == OwnerNotificationType.payment) ...[
                   SubmitterCard(data: data),
                   const SizedBox(height: 24),
                 ],
 
-                // Action buttons — hanya untuk rejected & booking
+                // Action buttons — hanya booking
                 if (type == OwnerNotificationType.booking) ...[
                   const ActionButtons(),
                   const SizedBox(height: 30),
