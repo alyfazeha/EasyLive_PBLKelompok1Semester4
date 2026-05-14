@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user/kos_model.dart';
 import '../../controllers/user/home_controller.dart';
@@ -49,10 +50,10 @@ class FavoriteController {
   static Future<void> toggleFavorite(String kosName) async {
     if (_favoriteNames.contains(kosName)) {
       _favoriteNames.remove(kosName);
-      print("Removed from favorites: $kosName");
+      debugPrint("Removed from favorites: $kosName"); // Tetap menggunakan debugPrint
     } else {
       _favoriteNames.add(kosName);
-      print("Added to favorites: $kosName");
+      debugPrint("Added to favorites: $kosName"); 
     }
     await _saveFavorites();
   }
@@ -60,21 +61,21 @@ class FavoriteController {
   /// Tambah ke favorit
   static Future<void> addFavorite(String kosName) async {
     _favoriteNames.add(kosName);
-    print("Added to favorites: $kosName");
+    debugPrint("Added to favorites: $kosName");
     await _saveFavorites();
   }
 
   /// Hapus dari favorit
   static Future<void> removeFavorite(String kosName) async {
     _favoriteNames.remove(kosName);
-    print("Removed from favorites: $kosName");
+    debugPrint("Removed from favorites: $kosName");
     await _saveFavorites();
   }
 
   /// Clear semua favorit
   static Future<void> clearFavorites() async {
     _favoriteNames.clear();
-    print("All favorites cleared");
+    debugPrint("All favorites cleared");
     await _saveFavorites();
   }
 

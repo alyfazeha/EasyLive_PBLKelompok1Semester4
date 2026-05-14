@@ -1,20 +1,19 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TambahDataController {
-  TextEditingController namaKost = TextEditingController();
-  TextEditingController nomorHp = TextEditingController();
-  TextEditingController alamat = TextEditingController();
-  TextEditingController kecamatan = TextEditingController();
-  TextEditingController kota = TextEditingController();
-  TextEditingController jumlahKamar = TextEditingController();
-  TextEditingController kamarKosong = TextEditingController();
-  TextEditingController harga = TextEditingController();
-  TextEditingController deskripsi = TextEditingController();
+  final TextEditingController namaKost = TextEditingController();
+  final TextEditingController nomorHp = TextEditingController();
+  final TextEditingController alamat = TextEditingController();
+  final TextEditingController kecamatan = TextEditingController();
+  final TextEditingController kota = TextEditingController();
+  final TextEditingController jumlahKamar = TextEditingController();
+  final TextEditingController kamarKosong = TextEditingController();
+  final TextEditingController harga = TextEditingController();
+  final TextEditingController deskripsi = TextEditingController();
 
   String tipeKost = '';
 
@@ -23,13 +22,27 @@ class TambahDataController {
 
   final supabase = Supabase.instance.client;
 
+  /// Memastikan controller dihapus dari memori saat tidak digunakan
+  void dispose() {
+    namaKost.dispose();
+    nomorHp.dispose();
+    alamat.dispose();
+    kecamatan.dispose();
+    kota.dispose();
+    jumlahKamar.dispose();
+    kamarKosong.dispose();
+    harga.dispose();
+    deskripsi.dispose();
+  }
+
   Future<void> simpanData(BuildContext context, List<String> fasilitasLabels) async {
     try {
       final user = supabase.auth.currentUser;
 
       if (user == null) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("User is not logged in")));
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("User is not logged in")));
         return;
       }
 
@@ -71,14 +84,16 @@ class TambahDataController {
         'fasilitas': fasilitasLabels,
       });
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Kost data saved successfully")));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Kost data saved successfully")));
 
       // ❌ Hapus Navigator.pop di sini, biarkan view yang handle
 
     } catch (e, stackTrace) {
-      print('ERROR: $e');
-      print('STACKTRACE: $stackTrace');
+      debugPrint('ERROR: $e');
+      debugPrint('STACKTRACE: $stackTrace');
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Error: $e")));
     }

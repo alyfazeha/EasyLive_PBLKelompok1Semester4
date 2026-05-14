@@ -120,6 +120,7 @@ class DashboardController extends ChangeNotifier {
       dashboardList = result;
     } catch (e) {
       debugPrint('Error loading dashboard: $e');
+      // Pastikan error message aman untuk ditampilkan ke UI
       errorMessage = e.toString();
     }
 

@@ -38,15 +38,20 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
     required bool active,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    final Color textColor = active ? AppColors.darkBlue : Colors.white;
+    final Color bgColor = active ? Colors.white : AppColors.darkBlue;
+    final Color borderColor = active ? AppColors.darkBlue : Colors.grey.shade300;
+
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? Colors.white : Colors.transparent,
+          color: bgColor,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: active ? AppColors.darkBlue : Colors.grey.shade300,
+            color: borderColor,
             width: 1.5,
           ),
         ),
@@ -55,13 +60,14 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: active ? Colors.white : AppColors.darkBlue,
+            fontWeight: FontWeight.w700,
+            color: textColor,
           ),
         ),
       ),
     );
   }
+
 
 
 
@@ -269,29 +275,33 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                   ),
                   const SizedBox(height: 10),
 
+                  // Filter Chip
                   AnimatedBuilder(
                     animation: _bookingController,
                     builder: (context, _) {
-                      return SizedBox(
-                        height: 40,
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             _filterChip(
                               label: 'All',
                               active: _bookingController.selectedFilter == 'semua',
                               onTap: () => _bookingController.setFilter('semua'),
                             ),
+                            const SizedBox(width: 10),
                             _filterChip(
                               label: 'Pending',
                               active: _bookingController.selectedFilter == 'pending',
                               onTap: () => _bookingController.setFilter('pending'),
                             ),
+                            const SizedBox(width: 10),
                             _filterChip(
                               label: 'Aktif',
                               active: _bookingController.selectedFilter == 'aktif',
                               onTap: () => _bookingController.setFilter('aktif'),
                             ),
+                            const SizedBox(width: 10),
                             _filterChip(
                               label: 'Selesai',
                               active: _bookingController.selectedFilter == 'selesai',

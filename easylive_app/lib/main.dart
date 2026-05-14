@@ -32,7 +32,6 @@ import 'views/pemilikJasa/dashboard/dashboard_view.dart';
 import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
 
 import 'views/admin/dashboard/dashboard_view.dart';
-import 'views/admin/history/history_view.dart';
 
 // fallback ke halaman admin (bila case '/admin' dipanggil)
 
@@ -120,16 +119,6 @@ class MyApp extends StatelessWidget {
             settings,
           );
         }
-        final map = args as Map<String, dynamic>;
-        return _noAnimation(
-          PersonalInfoView(
-            kost: map['kost'] as KostModel,
-            isJasa: map['isJasa'] as bool? ?? false,
-            fromLocation: map['fromLocation'] as String?,
-            toLocation: map['toLocation'] as String?,
-          ),
-          settings,
-        );
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
@@ -180,7 +169,7 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
-        return _noAnimation(TambahDataView(), settings);
+        return _noAnimation(TambahDataView(), settings); // Pastikan tidak pakai const jika class bukan const
 
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
@@ -202,9 +191,6 @@ class MyApp extends StatelessWidget {
       case '/pemilik_kos/detail_pembayaran':
         return _noAnimation(PaymentDetailView(), settings);
 
-      case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(PaymentDetailView(), settings);
-
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
 
@@ -219,7 +205,7 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_jasa/booking':
         return _noAnimation(
-          const pemilik_jasa_booking.PemilikJasaBookingView(),
+          pemilik_jasa_booking.PemilikJasaBookingView(),
           settings,
         );
 
@@ -251,16 +237,10 @@ class MyApp extends StatelessWidget {
         );
 
       case '/admin':
-<<<<<<< HEAD
-        // sementara: admin belum ada view khusus, jadi redirect ke home agar tidak kembali ke halaman login
-        return _noAnimation(const HomeView(), settings);
-
-=======
         return _noAnimation(const AdminHomeView(), settings);
 
       case '/admin/home':
         return _noAnimation(const AdminHomeView(), settings);
->>>>>>> 4e7adf42b51aded1332e1482029b1be5d6f9c4b4
 
       default:
         return null;

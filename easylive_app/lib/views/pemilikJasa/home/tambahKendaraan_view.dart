@@ -23,6 +23,7 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
       appBar: AppBar(
         backgroundColor: Color(0xff2c3e50),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
