@@ -155,7 +155,7 @@ class OwnerNotificationController extends ChangeNotifier {
         // 3️⃣ Payments settlement
         final allBookingRes = await supabase
             .from('booking_kos')
-            .select('id_booking_kost, id_profile, tanggal_checkin')
+            .select('id_booking_kost, id_profile, tanggal_checkin, id_kost') // ← tambah id_kost
             .inFilter('id_kost', kostIds);
 
         final bookingIds = (allBookingRes as List)
@@ -201,6 +201,10 @@ class OwnerNotificationController extends ChangeNotifier {
             final booking = bookingDetails[idBooking];
             final idProfile = booking?['id_profile'] as String? ?? '';
             final tanggalCheckin = booking?['tanggal_checkin'] as String? ?? '-';
+            final idKost = booking?['id_kost'] as int?; // ← ambil id_kost
+            final namaKost = idKost != null
+                ? (kostNames[idKost] ?? '-')
+                : '-'; // ← ambil nama kost
             final profile = allProfileDetails[idProfile];
             final nama = profile?['username'] ?? '-';
             final email = profile?['email'] ?? '-';
@@ -209,10 +213,11 @@ class OwnerNotificationController extends ChangeNotifier {
             result.add(OwnerNotification(
               id: 'payment_$idPayment',
               title: 'Pembayaran Berhasil',
-              description: 'Pembayaran dari $nama\nsebesar Rp ${_formatHarga(grossAmount)}',
+              description:
+                  'Pembayaran dari $nama\nsebesar Rp ${_formatHarga(grossAmount)}',
               time: '',
               type: OwnerNotificationType.payment,
-              property: '-',
+              property: namaKost, // ← sekarang nama kost yang benar
               checkIn: tanggalCheckin,
               checkOut: '-',
               paymentMethod: paymentType,
