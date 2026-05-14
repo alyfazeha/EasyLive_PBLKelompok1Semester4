@@ -99,10 +99,15 @@ class _AdminHomeViewState extends State<AdminHomeView> {
       bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) {
-          setState(() => selectedIndex = index);
+          // Sesuai flow: History selalu membuka halaman /admin/history
           if (index == 0) {
             Navigator.pushNamed(context, '/admin/history');
+            // jangan update selectedIndex dulu supaya state tetap konsisten
+            return;
           }
+
+          setState(() => selectedIndex = index);
+          // TODO: Implement halaman lain (Kos/Dashboard/Jasa/Profile) sesuai kebutuhan
         },
       ),
     );

@@ -173,6 +173,11 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
                     return HistoryItemCard(
                       item: filteredItems[index],
                       onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(filteredItems[index].title),
+                          ),
+                        );
                       },
                     );
                   },

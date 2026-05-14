@@ -45,6 +45,7 @@ import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
 import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'views/admin/dashboard/dashboard_view.dart';
+import 'views/admin/history/history_view.dart';
 
 import 'views/splash/splash_view.dart';
 
@@ -223,6 +224,9 @@ class MyApp extends StatelessWidget {
 
       case '/admin/home':
         return _noAnimation(const AdminHomeView(), settings);
+
+      case '/admin/history':
+        return _noAnimation(const AdminHistoryView(), settings);
 
       default:
         return null;
