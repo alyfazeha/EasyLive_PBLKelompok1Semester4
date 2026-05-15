@@ -3,17 +3,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'controllers/user/favorite_controller.dart';
 
-import 'models/user/history_model.dart';
-import 'models/pemilikKos/dashboard_model.dart'; // ← tambah import
 import 'models/pemilikJasa/notifikasi_model.dart';
+import 'models/user/history_model.dart';
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
 import 'views/auth/register_view.dart';
 
 import 'views/User/booking/booking_view.dart' as user_booking;
-import 'views/User/history/history_detail_view.dart';
-import 'views/User/history/history_view.dart';
 import 'views/User/home/home_view.dart';
 import 'views/User/kos/kos_view.dart';
 import 'views/User/kos/detailKos_view.dart';
@@ -21,6 +18,8 @@ import 'views/User/profile/profile_view.dart' as user_profile;
 import 'views/User/profile/edit_profile_view.dart';
 import 'views/User/profile/favorite_view.dart';
 import 'views/User/profile/security_view.dart';
+import 'views/User/history/history_view.dart';
+import 'views/User/history/history_detail_view.dart';
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
@@ -30,23 +29,23 @@ import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/dashboard/payment_detail_view.dart';
+import 'models/pemilikKos/dashboard_model.dart'; // Dashboard
+
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
-import 'views/pemilikKos/booking/detail_booking_view.dart' as pemilik_kos_detail_booking;
+import 'views/pemilikKos/booking/detail_booking_view.dart'
+    as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 
 import 'views/pemilikJasa/home/home_view.dart';
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
-<<<<<<< HEAD
-import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
-import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
-import 'views/pemilikJasa/booking/detail_booking_view.dart' as pemilik_jasa_detail_booking;
-=======
 import 'views/pemilikJasa/dashboard/payment_detail_view.dart'
     as jasa_payment_detail;
-import 'views/admin/dashboard/dashboard_view.dart';
-import 'views/admin/history/history_view.dart';
->>>>>>> ailsa
+import 'models/pemilikJasa/payment_detail_model.dart';
+
+import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
+import 'views/pemilikJasa/booking/detail_booking_view.dart'
+    as pemilik_jasa_detail_booking;
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/notifikasi/detail_notifikasi_view.dart';
 import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
@@ -55,16 +54,8 @@ import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
 
 import 'views/splash/splash_view.dart';
-<<<<<<< HEAD
-=======
-import 'views/User/kos/detailKos_view.dart';
-import 'models/user/kos_model.dart';
-import 'views/User/payment/personalInfo_view.dart';
-import 'views/User/payment/invoice_view.dart';
-import 'views/User/payment/qrisPayment_view.dart';
-import 'views/pemilikKos/dashboard/payment_detail_view.dart'
-    as kos_payment_detail;
->>>>>>> ailsa
+import 'models/pemilikJasa/payment_detail_model.dart'; // Dashboard
+import 'models/pemilikJasa/dashboard_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -127,19 +118,6 @@ class MyApp extends StatelessWidget {
             settings,
           );
         }
-<<<<<<< HEAD
-=======
-        return _noAnimation(
-          PersonalInfoView(
-            kost: (args as Map<String, dynamic>)['kost'] as KostModel,
-            isJasa: (args as Map<String, dynamic>)['isJasa'] as bool? ?? false,
-            fromLocation:
-                (args as Map<String, dynamic>)['fromLocation'] as String?,
-            toLocation: (args as Map<String, dynamic>)['toLocation'] as String?,
-          ),
-          settings,
-        );
->>>>>>> ailsa
 
       case '/invoice':
         final kost = settings.arguments as KostModel;
@@ -179,7 +157,7 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
-        return _noAnimation(TambahDataView(), settings); // Pastikan tidak pakai const jika class bukan const
+        return _noAnimation(TambahDataView(), settings);
 
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
@@ -195,18 +173,14 @@ class MyApp extends StatelessWidget {
         return _noAnimation(const user_profile.ProfileView(), settings);
 
       case '/pemilik_kos/dashboard':
-        return _noAnimation(DashboardView(), settings);
+        return _noAnimation(const DashboardView(), settings);
 
       case '/pemilik_kos/detail_pembayaran':
-<<<<<<< HEAD
-        final dashboard = settings.arguments as Dashboard; // ← fix
-        return _noAnimation(PaymentDetailView(dashboard: dashboard), settings);
-=======
-        return _noAnimation(kos_payment_detail.PaymentDetailView(), settings);
-
-      case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(jasa_payment_detail.PaymentDetailView(), settings);
->>>>>>> ailsa
+        final args = settings.arguments;
+        if (args is Dashboard) {
+          return _noAnimation(PaymentDetailView(dashboard: args), settings);
+        }
+        return null;
 
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
@@ -224,7 +198,14 @@ class MyApp extends StatelessWidget {
         return _noAnimation(PemilikJasaDashboardView(), settings);
 
       case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(const PemilikJasaPembayaranDetailView(), settings);
+        final history = settings.arguments as JasaPaymentHistory;
+
+        return _noAnimation(
+          jasa_payment_detail.PaymentDetailView(
+            history: history,
+          ),
+          settings,
+        );
 
       case '/pemilik_jasa/booking':
         return _noAnimation(
@@ -246,12 +227,6 @@ class MyApp extends StatelessWidget {
           settings,
         );
 
-<<<<<<< HEAD
-      case '/pemilik_jasa/notifikasi':
-        return _noAnimation(const OwnerJasaNotificationView(), settings);
-
-=======
->>>>>>> ailsa
       case '/pemilik_jasa/notifikasi/detail':
         final notification = settings.arguments as OwnerNotification;
         return _noAnimation(
@@ -264,12 +239,9 @@ class MyApp extends StatelessWidget {
 
       case '/admin/home':
         return _noAnimation(const AdminHomeView(), settings);
-<<<<<<< HEAD
-=======
 
       case '/admin/history':
         return _noAnimation(const AdminHistoryView(), settings);
->>>>>>> b55b5a97d98ca589774eb66db67d1242276b61df
 
       default:
         return null;
