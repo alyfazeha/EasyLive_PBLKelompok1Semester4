@@ -89,8 +89,6 @@ class DetailBookingInfoCard extends StatelessWidget {
         children: [
           DetailBookingInfoRow(label: 'Kost', value: booking.kosName),
           const SizedBox(height: 12),
-          DetailBookingInfoRow(label: 'Kamar', value: booking.roomName),
-          const SizedBox(height: 12),
           DetailBookingInfoRow(
             label: 'Tanggal Masuk',
             value: booking.checkInDate,
@@ -195,55 +193,86 @@ class _ContactLine extends StatelessWidget {
   }
 }
 
-class _StatusBadge extends StatelessWidget {
-  final String label;
+  class _StatusBadge extends StatelessWidget {
+    final String label;
 
-  const _StatusBadge({required this.label});
+    const _StatusBadge({required this.label});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9F4DF),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontFamily: 'Montserrat',
-          fontSize: 10,
-          fontWeight: FontWeight.w800,
-          color: Color(0xFF31B75D),
+    @override
+    Widget build(BuildContext context) {
+      Color bgColor;
+      Color textColor;
+
+      switch (label.toLowerCase()) {
+        case 'aktif':
+          bgColor = const Color(0xFFD9F4DF);
+          textColor = const Color(0xFF31B75D);
+          break;
+        case 'pending':
+          bgColor = const Color(0xFFFFF3D6);
+          textColor = const Color(0xFFFFB200);
+          break;
+        case 'ditolak':
+          bgColor = const Color(0xFFFFEAEA);
+          textColor = Colors.red;
+          break;
+        case 'selesai':
+          bgColor = const Color(0xFFEAF1FF);
+          textColor = const Color(0xFF4D82FF);
+          break;
+        default:
+          bgColor = Colors.grey.shade200;
+          textColor = Colors.grey;
+      }
+
+      return Container(
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(8),
         ),
-      ),
-    );
-  }
-}
-
-class _PaymentBadge extends StatelessWidget {
-  final String label;
-
-  const _PaymentBadge({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9F4DF),
-        borderRadius: BorderRadius.circular(7),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontFamily: 'Montserrat',
-          fontSize: 10,
-          fontWeight: FontWeight.w800,
-          color: Color(0xFF31B75D),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 10,
+            fontWeight: FontWeight.w800,
+            color: textColor,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
+
+  class _PaymentBadge extends StatelessWidget {
+    final String label;
+
+    const _PaymentBadge({required this.label});
+
+    @override
+    Widget build(BuildContext context) {
+      final isLunas = label.toLowerCase() == 'lunas';
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        decoration: BoxDecoration(
+          color: isLunas
+              ? const Color(0xFFD9F4DF)
+              : const Color(0xFFFFF3D6),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 10,
+            fontWeight: FontWeight.w800,
+            color: isLunas
+                ? const Color(0xFF31B75D)
+                : const Color(0xFFFFB200),
+          ),
+        ),
+      );
+    }
+  }

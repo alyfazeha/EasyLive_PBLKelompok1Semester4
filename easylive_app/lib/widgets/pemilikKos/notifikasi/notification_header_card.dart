@@ -1,13 +1,51 @@
 import 'package:flutter/material.dart';
 import '../../../models/pemilikKos/notifikasi_detail_model.dart';
+import '../../../models/pemilikKos/notifikasi_model.dart';
 
 class NotificationHeaderCard extends StatelessWidget {
   final NotificationModel data;
+  final OwnerNotificationType type;
 
-  const NotificationHeaderCard({super.key, required this.data});
+  const NotificationHeaderCard({
+    super.key,
+    required this.data,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // Icon dan warna berdasar type
+    IconData icon;
+    Color iconColor;
+    Color bgColor;
+
+    switch (type) {
+      case OwnerNotificationType.approved:
+        icon = Icons.check_circle_rounded;
+        iconColor = const Color(0xFF0C7A3D);
+        bgColor = const Color(0xFFE8F8EE);
+        break;
+      case OwnerNotificationType.rejected:
+        icon = Icons.cancel_rounded;
+        iconColor = const Color(0xFFE4251B);
+        bgColor = const Color(0xFFFFEBEB);
+        break;
+      case OwnerNotificationType.booking:
+        icon = Icons.receipt_long_rounded;
+        iconColor = const Color(0xFF2F80ED);
+        bgColor = const Color(0xFFEBF3FF);
+        break;
+      case OwnerNotificationType.payment:
+        icon = Icons.credit_card_rounded;
+        iconColor = const Color(0xFF0C7A3D);
+        bgColor = const Color(0xFFE8F8EE);
+        break;
+      default:
+        icon = Icons.notifications_rounded;
+        iconColor = const Color(0xFFFF7A21);
+        bgColor = const Color(0xFFFFF3EB);
+    }
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -21,15 +59,11 @@ class NotificationHeaderCard extends StatelessWidget {
           Container(
             width: 72,
             height: 72,
-            decoration: const BoxDecoration(
-              color: Color(0xFFFFEBEB),
+            decoration: BoxDecoration(
+              color: bgColor,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.close,
-              color: Colors.red,
-              size: 40,
-            ),
+            child: Icon(icon, color: iconColor, size: 40),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -55,15 +89,15 @@ class NotificationHeaderCard extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF1F1),
+                        color: bgColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Baru',
                         style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 13,
-                          color: Colors.red,
+                          color: iconColor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -82,11 +116,7 @@ class NotificationHeaderCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(
-                      Icons.access_time,
-                      size: 18,
-                      color: Colors.grey,
-                    ),
+                    const Icon(Icons.access_time, size: 18, color: Colors.grey),
                     const SizedBox(width: 6),
                     Text(
                       data.time,
@@ -98,7 +128,7 @@ class NotificationHeaderCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

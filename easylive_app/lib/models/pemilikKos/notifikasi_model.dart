@@ -11,12 +11,23 @@ enum OwnerNotificationType {
 }
 
 class OwnerNotification {
-  final String id;
+    final String id;
   final String title;
   final String description;
   final String time;
   final OwnerNotificationType type;
   final bool isRead;
+
+  // ← tambah field detail
+  final String? property;
+  final String? room;
+  final String? checkIn;
+  final String? checkOut;
+  final String? paymentMethod;
+  final String? rejectionReason;
+  final String? applicantName;
+  final String? applicantEmail;
+  final String? applicantPhone;
 
   const OwnerNotification({
     required this.id,
@@ -25,6 +36,15 @@ class OwnerNotification {
     required this.time,
     required this.type,
     this.isRead = false,
+    this.property,
+    this.room,
+    this.checkIn,
+    this.checkOut,
+    this.paymentMethod,
+    this.rejectionReason,
+    this.applicantName,
+    this.applicantEmail,
+    this.applicantPhone,
   });
 
   IconData get icon {

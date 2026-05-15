@@ -112,4 +112,3 @@ class DetailJasaView extends StatelessWidget {
     );
   }
 }
-

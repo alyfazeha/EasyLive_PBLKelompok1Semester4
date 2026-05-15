@@ -5,7 +5,7 @@ import '../../../core/color.dart';
 class DetailKostWidget extends StatelessWidget {
   final Kost kost;
 
-  const DetailKostWidget({required this.kost});
+  const DetailKostWidget({super.key, required this.kost});
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +109,7 @@ class DetailKostWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(String text, IconData icon) {
+  static Widget _buildChip(String text, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class DetailKostWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildFacilityChip(String text) {
+  static Widget _buildFacilityChip(String text) {
     IconData icon;
     if (text.toLowerCase().contains('wifi')) {
       icon = Icons.wifi_rounded;
