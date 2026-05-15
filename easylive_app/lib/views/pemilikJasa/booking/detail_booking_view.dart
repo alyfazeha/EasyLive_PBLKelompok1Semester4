@@ -18,10 +18,10 @@ class DetailBookingView extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.vertical(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              decoration: BoxDecoration(
+                color: AppColors.darkBlue, // Header biru tua
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(30),
                 ),
               ),
@@ -32,7 +32,10 @@ class DetailBookingView extends StatelessWidget {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/pemilik_jasa/booking',
+                        );
                       }
                     },
                     child: Container(
@@ -76,9 +79,7 @@ class DetailBookingView extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                 ),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -205,19 +206,26 @@ class DetailBookingView extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: AppColors.lightGrey,
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.grey.shade200,
-                                ),
+                                border: Border.all(color: Colors.grey.shade200),
                               ),
                               child: Column(
                                 children: [
                                   _buildDetailRow('Kost', booking.jasaName),
                                   const SizedBox(height: 12),
-                                  _buildDetailRow('Kamar', booking.kendaraanName),
+                                  _buildDetailRow(
+                                    'Kamar',
+                                    booking.kendaraanName,
+                                  ),
                                   const SizedBox(height: 12),
-                                  _buildDetailRow('Tanggal Masuk', booking.checkInDate),
+                                  _buildDetailRow(
+                                    'Tanggal Masuk',
+                                    booking.checkInDate,
+                                  ),
                                   const SizedBox(height: 12),
-                                  _buildDetailRow('Harga / Bulan', booking.monthlyPrice),
+                                  _buildDetailRow(
+                                    'Harga / Bulan',
+                                    booking.monthlyPrice,
+                                  ),
                                   const SizedBox(height: 12),
                                   _buildDetailRow(
                                     'Status Pembayaran',
@@ -246,7 +254,10 @@ class DetailBookingView extends StatelessWidget {
           currentIndex: 3,
           onNavigate: (index) {
             if (index == 0) {
-              Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+              Navigator.pushReplacementNamed(
+                context,
+                '/pemilik_jasa/dashboard',
+              );
             } else if (index == 2) {
               Navigator.pushReplacementNamed(context, '/pemilik_jasa/home');
             }
@@ -271,8 +282,10 @@ class DetailBookingView extends StatelessWidget {
         ),
         badge
             ? Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF31B75D),
                   borderRadius: BorderRadius.circular(12),

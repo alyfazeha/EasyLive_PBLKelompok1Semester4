@@ -1,26 +1,33 @@
 import '../../models/pemilikJasa/payment_detail_model.dart';
+import '../../models/pemilikJasa/dashboard_model.dart';
 
 class PaymentDetailController {
-  JasaPaymentDetailModel getPaymentDetail() {
-    return const JasaPaymentDetailModel(
-      ownerName: 'Rafi',
-      vehicleType: 'Pickup',
-      location: 'Daniska KOS',
-      paymentDate: '01 Mei 2026',
-      paymentMethod: 'Transfer Bank',
-      transactionId: 'TRX250501001',
-      status: 'Lunas',
-      totalPayment: 5500000,
+  JasaPaymentDetailModel getPaymentDetail({
+    required JasaPaymentHistory history,
+  }) {
+    return JasaPaymentDetailModel(
+      ownerName: history.name,
+      vehicleType: history.vehicleType,
+      location: history.location,
+      paymentDate: history.date,
+      paymentMethod: history.paymentMethod,
+      transactionId: history.transactionId,
+      status: history.status,
+      totalPayment: history.totalPayment,
+
       items: [
-        JasaPaymentItem(title: 'Sewa Jasa (Mei 2026)', amount: 5000000),
-        JasaPaymentItem(title: 'Biaya Pickup', amount: 300000),
-        JasaPaymentItem(title: 'Biaya Perjalanan', amount: 150000),
-        JasaPaymentItem(title: 'Biaya Administrasi', amount: 50000),
+        JasaPaymentItem(
+          title: 'Sewa Jasa',
+          amount: history.totalPayment,
+        ),
       ],
     );
   }
 
   String formatCurrency(int value) {
-    return 'Rp ${value.toString().replaceAllMapped(RegExp(r'\\B(?=(\\d{3})+(?!\\d))'), (match) => '.')}';
+    return 'Rp ${value.toString().replaceAllMapped(
+      RegExp(r'\\B(?=(\\d{3})+(?!\\d))'),
+      (match) => '.',
+    )}';
   }
 }

@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../../controllers/pemilikJasa/payment_detail_controller.dart';
 import '../../../../core/color.dart';
 import '../../../../widgets/pemilikJasa/dashboard/payment_detail_widgets.dart';
+import '../../../../models/pemilikJasa/dashboard_model.dart';
 
-class PaymentDetailView extends StatelessWidget {
+ class PaymentDetailView extends StatelessWidget {
   PaymentDetailView({super.key});
 
   final PaymentDetailController controller = PaymentDetailController();
 
   @override
   Widget build(BuildContext context) {
-    final payment = controller.getPaymentDetail();
+    final history =
+        ModalRoute.of(context)!.settings.arguments as JasaPaymentHistory;
+
+    final payment = controller.getPaymentDetail(history: history);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
@@ -28,6 +32,7 @@ class PaymentDetailView extends StatelessWidget {
                 bottomRight: Radius.circular(24),
               ),
             ),
+
             child: Row(
               children: [
                 InkWell(
@@ -42,6 +47,7 @@ class PaymentDetailView extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 const Expanded(
                   child: Text(
                     'Detail Pembayaran',
@@ -107,7 +113,6 @@ class PaymentDetailView extends StatelessWidget {
                   const SizedBox(height: 14),
 
                   PaymentStatusCard(payment: payment),
-
                 ],
               ),
             ),

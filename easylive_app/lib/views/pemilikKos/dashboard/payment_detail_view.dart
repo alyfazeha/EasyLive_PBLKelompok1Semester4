@@ -110,43 +110,6 @@ class PaymentDetailView extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: OutlinedButton.icon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Bukti pembayaran berhasil diunduh',
-                            ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.download_rounded,
-                        color: AppColors.darkBlue,
-                      ),
-                      label: const Text(
-                        'Unduh Bukti Pembayaran',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.darkBlue,
-                        ),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(
-                          color: AppColors.darkBlue,
-                          width: 1.5,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

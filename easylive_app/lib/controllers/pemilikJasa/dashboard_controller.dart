@@ -34,22 +34,29 @@ class PemilikJasaDashboardController {
     ),
   ];
 
-  final List<JasaPaymentHistory> payments = const [
-    JasaPaymentHistory(
-      name: 'M. Miftahul Akmal',
-      vehicleType: 'Pickup',
-      location: 'Daniska KOS',
-      date: '01 Mei 2026',
-      price: 'Rp 5.500.000',
-      status: 'Lunas',
-    ),
-    JasaPaymentHistory(
-      name: 'Ahmad Rafi Hamdi',
-      vehicleType: 'Truck',
-      location: 'Daniska KOS',
-      date: '28 Ags 2026',
-      price: 'Rp 5.500.000',
-      status: 'Lunas',
-    ),
-  ];
+final List<JasaPaymentHistory> payments = const [
+  JasaPaymentHistory(
+    name: 'M. Miftahul Akmal',
+    vehicleType: 'Pickup',
+    location: 'Daniska KOS',
+    date: '01 Mei 2026',
+    price: 'Rp 5.500.000',
+    status: 'Lunas',
+    paymentMethod: 'Transfer Bank',
+    transactionId: 'TRX250501001',
+    totalPayment: 5500000,
+  ),
+
+  JasaPaymentHistory(
+    name: 'Ahmad Rafi Hamdi',
+    vehicleType: 'Truck',
+    location: 'Malang Kota',
+    date: '28 Ags 2026',
+    price: 'Rp 3.500.000',
+    status: 'Lunas',
+    paymentMethod: 'E-Wallet',
+    transactionId: 'TRX250828002',
+    totalPayment: 3500000,
+  ),
+];
 }

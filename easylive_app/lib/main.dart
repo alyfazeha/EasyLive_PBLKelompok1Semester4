@@ -22,7 +22,8 @@ import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
-import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
+import 'views/pemilikJasa/dashboard/payment_detail_view.dart'
+    as jasa_payment_detail;
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
 import 'views/pemilikJasa/notifikasi/notifikasi_view.dart';
@@ -40,7 +41,8 @@ import 'models/user/kos_model.dart';
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
-import 'views/pemilikKos/dashboard/payment_detail_view.dart';
+import 'views/pemilikKos/dashboard/payment_detail_view.dart'
+    as kos_payment_detail;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,13 +103,13 @@ class MyApp extends StatelessWidget {
             settings,
           );
         }
-        final map = args as Map<String, dynamic>;
         return _noAnimation(
           PersonalInfoView(
-            kost: map['kost'] as KostModel,
-            isJasa: map['isJasa'] as bool? ?? false,
-            fromLocation: map['fromLocation'] as String?,
-            toLocation: map['toLocation'] as String?,
+            kost: (args as Map<String, dynamic>)['kost'] as KostModel,
+            isJasa: (args as Map<String, dynamic>)['isJasa'] as bool? ?? false,
+            fromLocation:
+                (args as Map<String, dynamic>)['fromLocation'] as String?,
+            toLocation: (args as Map<String, dynamic>)['toLocation'] as String?,
           ),
           settings,
         );
@@ -179,10 +181,10 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DashboardView(), settings);
 
       case '/pemilik_kos/detail_pembayaran':
-        return _noAnimation(PaymentDetailView(), settings);
+        return _noAnimation(kos_payment_detail.PaymentDetailView(), settings);
 
       case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(PaymentDetailView(), settings);
+        return _noAnimation(jasa_payment_detail.PaymentDetailView(), settings);
 
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
@@ -217,9 +219,6 @@ class MyApp extends StatelessWidget {
           owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
           settings,
         );
-
-      case '/pemilik_jasa/dashboard/detail_pembayaran':
-        return _noAnimation(const PemilikJasaPembayaranDetailView(), settings);
 
       case '/pemilik_jasa/notifikasi/detail':
         final notification = settings.arguments as OwnerNotification;
