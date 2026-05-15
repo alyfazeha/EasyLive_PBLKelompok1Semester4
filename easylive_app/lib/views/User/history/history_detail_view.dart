@@ -4,6 +4,7 @@ import '../../../controllers/user/history_controller.dart';
 import '../../../models/user/history_model.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../core/color.dart';
+import '../../../widgets/common/back_button_widget.dart';
 
 class HistoryDetailView extends StatelessWidget {
   final HistoryItem item;
@@ -28,27 +29,12 @@ class HistoryDetailView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: AppColors.golden,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back_ios_new,
-                      color: AppColors.darkBlue,
-                      size: 20,
-                    ),
-                  ),
+                const BackButtonWidget(
+                  backgroundColor: AppColors.golden,
+                  iconColor: AppColors.darkBlue,
+                  size: 44,
+                  iconSize: 20,
+                  borderRadius: 12,
                 ),
                 const SizedBox(width: 15),
                 const Expanded(

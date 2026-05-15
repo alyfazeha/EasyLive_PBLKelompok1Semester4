@@ -6,6 +6,7 @@ import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/history/item_card.dart';
 import '../../../widgets/admin/history/searching.dart';
 import '../../../widgets/admin/history/filtering.dart';
+import '../../../widgets/common/back_button_widget.dart';
 
 class AdminHistoryView extends StatefulWidget {
   const AdminHistoryView({super.key});
@@ -18,7 +19,7 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
   final AdminHistoryController controller = AdminHistoryController();
 
   int selectedTab = 0;
-  int selectedNavbar = 0; // History
+  int selectedNavbar = 1; // History
 
   String _searchQuery = '';
 
@@ -90,24 +91,12 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
             padding: const EdgeInsets.only(top: 10),
             child: Row(
               children: [
-                // Tombol Back
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF6BE00),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 18,
-                      color: Color(0xFF243447),
-                    ),
-                  ),
+                const BackButtonWidget(
+                  backgroundColor: Color(0xFFF6BE00),
+                  iconColor: Color(0xFF243447),
+                  size: 42,
+                  iconSize: 18,
+                  borderRadius: 12,
                 ),
 
                 const SizedBox(width: 12),
@@ -129,9 +118,9 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
 
       // ================= BODY =================
    body: SafeArea(
-  child: Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
       children: [
         // Search Bar
         HistorySearchBar(
@@ -189,12 +178,39 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
 ),
 
       // ================= BOTTOM NAVBAR =================
-      bottomNavigationBar: AdminBottomNavbar(
+bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedNavbar,
         onItemTapped: (index) {
-          setState(() {
-            selectedNavbar = index;
-          });
+          // index sesuai urutan di AdminBottomNavbar:
+          // 0 Dashboard, 1 History, 2 Kost, 3 Jasa, 4 Profile
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/admin');
+              return;
+
+            case 1:
+              // tetap di halaman history
+              setState(() => selectedNavbar = index);
+              return;
+
+            case 2:
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Halaman Kost (Admin) belum tersedia')),
+              );
+              setState(() => selectedNavbar = index);
+              return;
+
+            case 3:
+              Navigator.pushNamed(context, '/admin/jasa');
+              return;
+
+            case 4:
+              Navigator.pushNamed(context, '/admin/profile');
+              return;
+
+            default:
+              return;
+          }
         },
       ),
     );

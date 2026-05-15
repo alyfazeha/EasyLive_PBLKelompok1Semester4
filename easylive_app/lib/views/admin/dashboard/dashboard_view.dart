@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../controllers/admin/dashboard_controller.dart';
-import '../../../widgets/admin/dashboard/navbar_button.dart';
-import '../../../widgets/admin/dashboard/dashboard_header.dart';
-import '../../../widgets/admin/dashboard/notifikasi_item.dart';
 import '../../../widgets/admin/dashboard/dashboard_card.dart';
+import '../../../widgets/admin/dashboard/dashboard_header.dart';
+import '../../../widgets/admin/dashboard/navbar_button.dart';
 
 class AdminHomeView extends StatefulWidget {
   const AdminHomeView({super.key});
@@ -15,12 +14,11 @@ class AdminHomeView extends StatefulWidget {
 
 class _AdminHomeViewState extends State<AdminHomeView> {
   final AdminHomeController controller = AdminHomeController();
-  int selectedIndex = 2;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final dashboard = controller.getDashboardData();
-    final notifications = controller.getRecentNotifications();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,14 +28,10 @@ class _AdminHomeViewState extends State<AdminHomeView> {
             const AdminHeader(),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    // ── STAT CARDS ──────────────────────────────
-                    // Ganti GridView.count → Column + Row
-                    // supaya tinggi card mengikuti konten
                     Column(
                       children: [
                         Row(
@@ -87,7 +81,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -99,15 +92,32 @@ class _AdminHomeViewState extends State<AdminHomeView> {
       bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) {
-          // Sesuai flow: History selalu membuka halaman /admin/history
-          if (index == 0) {
-            Navigator.pushNamed(context, '/admin/history');
-            // jangan update selectedIndex dulu supaya state tetap konsisten
-            return;
+          switch (index) {
+            case 0:
+              setState(() => selectedIndex = index);
+              return;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/admin/history');
+              return;
+            case 2:
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Halaman Kost (Admin) belum tersedia'),
+                ),
+              );
+              setState(() => selectedIndex = index);
+              return;
+            case 3:
+              Navigator.pushReplacementNamed(context, '/admin/jasa');
+              return;
+            case 4:
+              Navigator.pushReplacementNamed(context, '/admin/profile');
+              return;
+            default:
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Halaman belum tersedia')),
+              );
           }
-
-          setState(() => selectedIndex = index);
-          // TODO: Implement halaman lain (Kos/Dashboard/Jasa/Profile) sesuai kebutuhan
         },
       ),
     );
