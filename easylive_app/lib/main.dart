@@ -52,10 +52,14 @@ import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
+import 'views/admin/kos/kos_approval_view.dart';
 
 import 'views/splash/splash_view.dart';
 import 'models/pemilikJasa/payment_detail_model.dart'; // Dashboard
 import 'models/pemilikJasa/dashboard_model.dart';
+import 'models/admin/kos_model.dart';
+import 'views/admin/kos/detail_approvalKos.dart';
+import 'views/admin/kos/kos_approval_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -201,9 +205,7 @@ class MyApp extends StatelessWidget {
         final history = settings.arguments as JasaPaymentHistory;
 
         return _noAnimation(
-          jasa_payment_detail.PaymentDetailView(
-            history: history,
-          ),
+          jasa_payment_detail.PaymentDetailView(history: history),
           settings,
         );
 
@@ -242,6 +244,19 @@ class MyApp extends StatelessWidget {
 
       case '/admin/history':
         return _noAnimation(const AdminHistoryView(), settings);
+
+      case '/admin/kos_approval':
+        return _noAnimation(const ApprovalView(), settings);
+
+      case '/admin/kos_approval/detail':
+        final approval = settings.arguments as ApprovalModel;
+
+        return _noAnimation(
+          ApprovalDetailView(
+            approval: approval, // kirim seluruh object dummy
+          ),
+          settings,
+        );
 
       default:
         return null;

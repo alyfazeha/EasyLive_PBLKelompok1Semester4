@@ -88,8 +88,6 @@ class TambahDataController {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Kost data saved successfully")));
 
-      // ❌ Hapus Navigator.pop di sini, biarkan view yang handle
-
     } catch (e, stackTrace) {
       debugPrint('ERROR: $e');
       debugPrint('STACKTRACE: $stackTrace');

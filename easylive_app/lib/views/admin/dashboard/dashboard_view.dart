@@ -34,7 +34,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     // ── STAT CARDS ──────────────────────────────
                     // Ganti GridView.count → Column + Row
                     // supaya tinggi card mengikuti konten
@@ -107,7 +106,13 @@ class _AdminHomeViewState extends State<AdminHomeView> {
           }
 
           setState(() => selectedIndex = index);
-          // TODO: Implement halaman lain (Kos/Dashboard/Jasa/Profile) sesuai kebutuhan
+          // Navigasi Admin:
+          // index 1 (Kos Approval) menampilkan kos_approval_view
+          if (index == 1) {
+            Navigator.pushNamed(context, '/admin/kos_approval');
+            return;
+          }
+          // index 2..4: TODO sesuai kebutuhan
         },
       ),
     );

@@ -58,8 +58,7 @@ class AdminNavbarButton extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 11,
-                fontWeight:
-                    isSelected ? FontWeight.bold : FontWeight.w500,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 color: primaryColor,
               ),
             ),
@@ -83,34 +82,16 @@ class AdminBottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      {
-        'icon': Icons.history,
-        'label': 'History',
-      },
-      {
-        'icon': Icons.home_work,
-        'label': 'Kos',
-      },
-      {
-        'icon': Icons.dashboard_customize_outlined,
-        'label': 'Dashboard',
-      },
-      {
-        'icon': Icons.miscellaneous_services,
-        'label': 'Jasa',
-      },
-      {
-        'icon': Icons.person_outline,
-        'label': 'Profile',
-      },
+      {'icon': Icons.history, 'label': 'History'},
+      {'icon': Icons.home_work, 'label': 'Kos Approval'},
+      {'icon': Icons.dashboard_customize_outlined, 'label': 'Dashboard'},
+      {'icon': Icons.miscellaneous_services, 'label': 'Jasa'},
+      {'icon': Icons.person_outline, 'label': 'Profile'},
     ];
 
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFFF6BE00),
         borderRadius: BorderRadius.circular(30),
