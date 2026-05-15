@@ -230,16 +230,10 @@ class MyApp extends StatelessWidget {
         );
 
       case '/admin':
-<<<<<<< HEAD
-        // sementara: admin belum ada view khusus, jadi redirect ke home agar tidak kembali ke halaman login
-        return _noAnimation(const HomeView(), settings);
-
-=======
         return _noAnimation(const AdminHomeView(), settings);
 
       case '/admin/home':
         return _noAnimation(const AdminHomeView(), settings);
->>>>>>> 4e7adf42b51aded1332e1482029b1be5d6f9c4b4
 
       default:
         return null;
