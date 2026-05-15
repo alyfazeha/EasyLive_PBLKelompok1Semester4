@@ -22,6 +22,11 @@ class JasaPaymentHistory {
   final String price;
   final String status;
 
+  // TAMBAHAN
+  final String paymentMethod;
+  final String transactionId;
+  final int totalPayment;
+
   const JasaPaymentHistory({
     required this.name,
     required this.vehicleType,
@@ -29,5 +34,10 @@ class JasaPaymentHistory {
     required this.date,
     required this.price,
     required this.status,
+
+    // TAMBAHAN
+    required this.paymentMethod,
+    required this.transactionId,
+    required this.totalPayment,
   });
 }

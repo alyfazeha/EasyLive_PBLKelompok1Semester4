@@ -26,9 +26,13 @@ class DetailBookingView extends StatelessWidget {
           children: [
             // HEADER
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-              color: AppColors.darkBlue,
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              decoration: BoxDecoration(
+                color: AppColors.darkBlue, // Header biru tua
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(30),
+                ),
+              ),
               child: Row(
                 children: [
                   GestureDetector(
@@ -75,6 +79,7 @@ class DetailBookingView extends StatelessWidget {
 
             // CONTENT
             Expanded(
+<<<<<<< HEAD
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(
@@ -82,6 +87,13 @@ class DetailBookingView extends StatelessWidget {
                   20,
                   20,
                   120,
+=======
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+>>>>>>> ailsa
                 ),
                 child: Column(
                   children: [
@@ -272,8 +284,48 @@ class DetailBookingView extends StatelessWidget {
                                 ),
                               ],
                             ),
+<<<<<<< HEAD
                           ),
                         ],
+=======
+                            const SizedBox(height: 24),
+                            Container(
+                              padding: const EdgeInsets.all(18),
+                              decoration: BoxDecoration(
+                                color: AppColors.lightGrey,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: Colors.grey.shade200),
+                              ),
+                              child: Column(
+                                children: [
+                                  _buildDetailRow('Kost', booking.jasaName),
+                                  const SizedBox(height: 12),
+                                  _buildDetailRow(
+                                    'Kamar',
+                                    booking.kendaraanName,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  _buildDetailRow(
+                                    'Tanggal Masuk',
+                                    booking.checkInDate,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  _buildDetailRow(
+                                    'Harga / Bulan',
+                                    booking.monthlyPrice,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  _buildDetailRow(
+                                    'Status Pembayaran',
+                                    booking.paymentStatus,
+                                    badge: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+>>>>>>> ailsa
                       ),
                     ),
                   ],

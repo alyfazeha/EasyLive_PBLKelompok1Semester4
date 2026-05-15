@@ -99,6 +99,7 @@ class PaymentDetailView extends StatelessWidget {
                   const SizedBox(height: 14),
                   PaymentStatusCard(payment: payment),
                   const SizedBox(height: 30),
+<<<<<<< HEAD
                   SizedBox(
                     width: double.infinity,
                     height: 56,
@@ -128,6 +129,9 @@ class PaymentDetailView extends StatelessWidget {
                       ),
                     ),
                   ),
+=======
+
+>>>>>>> ailsa
                 ],
               ),
             ),

@@ -272,6 +272,7 @@ class PaymentStatusCard extends StatelessWidget {
           BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12),
         ],
       ),
+
       child: Row(
         children: [
           Container(
@@ -301,6 +302,7 @@ class PaymentStatusCard extends StatelessWidget {
                     color: AppColors.darkBlue,
                   ),
                 ),
+
                 const SizedBox(height: 4),
                 Text(
                   '${payment.paymentDate} • 10:30 WIB',
@@ -313,6 +315,7 @@ class PaymentStatusCard extends StatelessWidget {
               ],
             ),
           ),
+          
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(

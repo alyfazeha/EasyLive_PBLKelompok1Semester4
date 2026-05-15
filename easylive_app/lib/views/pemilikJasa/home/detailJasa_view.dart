@@ -11,52 +11,59 @@ class DetailJasaView extends StatelessWidget {
   final String vehicleName;
   final DetailJasaController controller = DetailJasaController();
 
-  DetailJasaView({
-    super.key,
-    this.vehicleName = 'Pickup',
-  });
+  DetailJasaView({super.key, this.vehicleName = 'Pickup'});
 
   @override
   Widget build(BuildContext context) {
     final jasa = controller.getJasaDetail(vehicleName);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            // Header (dibuat serupa dengan halaman detail pembayaran pemilik jasa)
+            // HEADER (samakan dengan pemilikKos)
             Container(
-              height: 66,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              color: AppColors.primary,
+              padding: const EdgeInsets.all(16),
+              color: AppColors.darkBlue,
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () => Navigator.pop(context),
-                    borderRadius: BorderRadius.circular(18),
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Icon(
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppColors.yellow,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black.withOpacity(0.1),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      borderRadius: BorderRadius.circular(12),
+                      child: const Icon(
                         Icons.arrow_back_rounded,
-                        color: Colors.white,
-                        size: 27,
+                        color: AppColors.darkBlue,
+                        size: 22,
                       ),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Expanded(
-                    child: Text(
-                      'Detail Jasa',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                      ),
+                  const Text(
+                    'Detail Jasa',
+                    style: TextStyle(
+                      color: AppColors.background,
+                      fontSize: 18,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  // tombol edit seperti sebelumnya
+                  const Spacer(),
+
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -70,12 +77,12 @@ class DetailJasaView extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.yellow.withOpacity(0.2),
+                        color: AppColors.yellow.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
                         Icons.edit_outlined,
-                        color: Colors.white,
+                        color: AppColors.background,
                         size: 20,
                       ),
                     ),
@@ -83,29 +90,29 @@ class DetailJasaView extends StatelessWidget {
                 ],
               ),
             ),
+
+            // BODY
             Expanded(child: DetailJasaWidget(jasa: jasa)),
           ],
         ),
       ),
+      // bottom nav (tetap milik pemilik jasa)
       bottomNavigationBar: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PemilikJasaBottomNav(
-                currentIndex: 2,
-                onNavigate: (index) {
-                  if (index == 0) {
-                    Navigator.pushReplacementNamed(
-                        context, '/pemilik_jasa/dashboard');
-                  } else if (index == 2) {
-                    Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-                  }
-                },
-              ),
-            ],
+          padding: const EdgeInsets.only(bottom: 10),
+          child: PemilikJasaBottomNav(
+            currentIndex: 2,
+            onNavigate: (index) {
+              if (index == 0) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/pemilik_jasa/dashboard',
+                );
+              } else if (index == 2) {
+                Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+              }
+            },
           ),
         ),
       ),

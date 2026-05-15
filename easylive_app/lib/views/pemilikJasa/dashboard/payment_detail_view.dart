@@ -4,9 +4,15 @@ import '../../../../controllers/pemilikJasa/payment_detail_controller.dart';
 import '../../../../core/color.dart';
 import '../../../../models/pemilikJasa/payment_detail_model.dart';
 import '../../../../widgets/pemilikJasa/dashboard/payment_detail_widgets.dart';
+import '../../../../models/pemilikJasa/dashboard_model.dart';
 
+<<<<<<< HEAD
 class PaymentDetailView extends StatelessWidget {
   final JasaPaymentDetailModel payment;
+=======
+ class PaymentDetailView extends StatelessWidget {
+  PaymentDetailView({super.key});
+>>>>>>> ailsa
 
   const PaymentDetailView({
     super.key,
@@ -15,7 +21,14 @@ class PaymentDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final controller = PaymentDetailController();
+=======
+    final history =
+        ModalRoute.of(context)!.settings.arguments as JasaPaymentHistory;
+
+    final payment = controller.getPaymentDetail(history: history);
+>>>>>>> ailsa
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
@@ -129,6 +142,7 @@ class PaymentDetailView extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
+<<<<<<< HEAD
                   PaymentStatusCard(
                     payment: payment,
                   ),
@@ -186,6 +200,9 @@ class PaymentDetailView extends StatelessWidget {
                       ),
                     ),
                   ),
+=======
+                  PaymentStatusCard(payment: payment),
+>>>>>>> ailsa
                 ],
               ),
             ),
