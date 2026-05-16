@@ -209,39 +209,31 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                 icon: Icons.lock_outline,
                                 title: 'Ubah Password',
                                 onTap: () {
-                                  // belum ada route spesifik: placeholder
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Ubah Password belum tersedia',
-                                      ),
-                                    ),
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/admin/ubah_password',
                                   );
                                 },
                               ),
+
                               _MenuRow(
                                 icon: Icons.notifications_active_outlined,
                                 title: 'Notification Settings',
                                 onTap: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Notification Settings belum tersedia',
-                                      ),
-                                    ),
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/admin/notifikasi_settings',
                                   );
                                 },
                               ),
+
                               _MenuRow(
                                 icon: Icons.settings_outlined,
                                 title: 'App Settings',
                                 onTap: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'App Settings belum tersedia',
-                                      ),
-                                    ),
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/admin/app_settings',
                                   );
                                 },
                               ),
@@ -249,12 +241,9 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                 icon: Icons.help_outline,
                                 title: 'Help & Support',
                                 onTap: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Help & Support belum tersedia',
-                                      ),
-                                    ),
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/admin/help_support',
                                   );
                                 },
                               ),

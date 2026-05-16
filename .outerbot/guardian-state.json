@@ -3,7 +3,7 @@
   "taskStatus": null,
   "blockedBy": null,
   "sessionStarted": "2026-05-16T04:19:59.954Z",
-  "lastActivity": "2026-05-16T11:32:25.821Z",
+  "lastActivity": "2026-05-16T14:43:50.975Z",
   "filesChangedThisSession": [
     "git\\scm0\\input",
     "easylive_app/lib/main.dart",
@@ -21,9 +21,19 @@
     "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
     "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
     "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
-    "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
+    "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart",
+    "easylive_app/lib/controllers/admin/profile/change_password_controller.dart",
+    "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+    "easylive_app/lib/controllers/admin/notifikasi/notifikasi_settings_controller.dart",
+    "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+    "easylive_app/lib/models/admin/app_settings_model.dart",
+    "easylive_app/lib/models/admin/help_support_model.dart",
+    "easylive_app/lib/controllers/admin/app_settings/app_settings_controller.dart",
+    "easylive_app/lib/controllers/admin/help_support/help_support_controller.dart",
+    "easylive_app/lib/views/admin/profile/app_settings_view.dart",
+    "easylive_app/lib/views/admin/profile/help_support_view.dart"
   ],
-  "totalEditsThisSession": 165,
+  "totalEditsThisSession": 1454,
   "decisions": [],
   "warnings": [
     {

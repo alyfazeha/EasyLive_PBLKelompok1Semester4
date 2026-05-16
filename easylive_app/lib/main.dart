@@ -61,6 +61,9 @@ import 'views/admin/notifikasi/notifikasi_detail_view.dart';
 import 'views/admin/notifikasi/notifikasi_view.dart';
 import 'views/admin/profile/admin_profile_view.dart';
 import 'views/admin/profile/profile_information_view.dart';
+import 'views/admin/profile/ubah_password_admin_view.dart';
+import 'views/admin/profile/app_settings_view.dart';
+import 'views/admin/profile/help_support_view.dart';
 
 import 'views/splash/splash_view.dart';
 import 'models/pemilikJasa/payment_detail_model.dart'; // Dashboard
@@ -68,6 +71,9 @@ import 'models/pemilikJasa/dashboard_model.dart';
 import 'models/admin/kos_model.dart';
 import 'views/admin/kos/detail_approvalKos.dart';
 import 'views/admin/kos/kos_approval_view.dart';
+import 'views/admin/notifikasi/notification_settings_view.dart';
+import 'controllers/user/favorite_controller.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -281,6 +287,30 @@ class MyApp extends StatelessWidget {
 
       case '/admin/profile_information':
         return _noAnimation(const AdminProfileInformationView(), settings);
+
+      case '/admin/ubah_password':
+        return _noAnimation(
+          const UbahPasswordAdminView(),
+          settings,
+        );
+
+      case '/admin/notifikasi_settings':
+        return _noAnimation(
+          const AdminNotificationSettingsView(),
+          settings,
+        );
+
+      case '/admin/app_settings':
+        return _noAnimation(
+          const AdminAppSettingsView(),
+          settings,
+        );
+
+      case '/admin/help_support':
+        return _noAnimation(
+          const AdminHelpSupportView(),
+          settings,
+        );
 
       default:
         return null;

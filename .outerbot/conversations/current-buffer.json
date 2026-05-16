@@ -2,8 +2,53 @@
   "messages": [
     {
       "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/profile/change_password_controller.dart",
+      "timestamp": "2026-05-16T13:05:01.628Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/profile/change_password_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/profile/change_password_controller.dart",
+      "timestamp": "2026-05-16T13:05:17.294Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/profile/change_password_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+      "timestamp": "2026-05-16T13:06:16.600Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/profile/change_password_controller.dart",
+      "timestamp": "2026-05-16T13:07:02.770Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/profile/change_password_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+      "timestamp": "2026-05-16T13:07:14.585Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T11:29:26.144Z",
+      "timestamp": "2026-05-16T13:07:25.925Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -12,7 +57,79 @@
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T11:29:46.641Z",
+      "timestamp": "2026-05-16T13:07:37.193Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/notifikasi/notifikasi_settings_controller.dart",
+      "timestamp": "2026-05-16T13:14:34.517Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/notifikasi/notifikasi_settings_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+      "timestamp": "2026-05-16T13:15:28.716Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+      "timestamp": "2026-05-16T13:15:50.558Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-16T13:15:59.297Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-16T13:16:24.070Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+      "timestamp": "2026-05-16T13:16:33.246Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+      "timestamp": "2026-05-16T13:17:00.957Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T13:17:12.612Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -21,7 +138,7 @@
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T11:30:00.697Z",
+      "timestamp": "2026-05-16T13:17:49.655Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -30,7 +147,7 @@
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T11:30:29.005Z",
+      "timestamp": "2026-05-16T13:25:31.026Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -39,7 +156,7 @@
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T11:30:38.990Z",
+      "timestamp": "2026-05-16T13:26:30.062Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -47,19 +164,138 @@
     },
     {
       "type": "tool",
-      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart",
-      "timestamp": "2026-05-16T11:32:24.771Z",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T13:27:30.400Z",
       "metadata": {
         "tool": "Edit",
-        "file": "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T13:32:00.368Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T13:36:25.593Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/admin/app_settings_model.dart",
+      "timestamp": "2026-05-16T14:13:27.819Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/admin/app_settings_model.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/admin/help_support_model.dart",
+      "timestamp": "2026-05-16T14:13:30.770Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/admin/help_support_model.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/app_settings/app_settings_controller.dart",
+      "timestamp": "2026-05-16T14:13:34.652Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/app_settings/app_settings_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/admin/help_support/help_support_controller.dart",
+      "timestamp": "2026-05-16T14:13:37.462Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/admin/help_support/help_support_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/app_settings_view.dart",
+      "timestamp": "2026-05-16T14:13:51.939Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/app_settings_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/help_support_view.dart",
+      "timestamp": "2026-05-16T14:14:05.641Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/help_support_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+      "timestamp": "2026-05-16T14:31:16.137Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T14:31:19.317Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T14:31:23.675Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T14:32:09.129Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
       }
     }
   ],
   "filesModified": [
+    "easylive_app/lib/controllers/admin/profile/change_password_controller.dart",
+    "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+    "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
     "easylive_app/lib/main.dart",
-    "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
+    "easylive_app/lib/controllers/admin/notifikasi/notifikasi_settings_controller.dart",
+    "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+    "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+    "easylive_app/lib/models/admin/app_settings_model.dart",
+    "easylive_app/lib/models/admin/help_support_model.dart",
+    "easylive_app/lib/controllers/admin/app_settings/app_settings_controller.dart",
+    "easylive_app/lib/controllers/admin/help_support/help_support_controller.dart",
+    "easylive_app/lib/views/admin/profile/app_settings_view.dart",
+    "easylive_app/lib/views/admin/profile/help_support_view.dart"
   ],
   "decisions": [],
-  "startTime": "2026-05-16T11:29:26.144Z",
-  "lastWriteTime": "2026-05-16T11:32:24.771Z"
+  "startTime": "2026-05-16T13:05:01.628Z",
+  "lastWriteTime": "2026-05-16T14:32:09.129Z"
 }
