@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'controllers/user/favorite_controller.dart';
+import 'models/user/history_model.dart' as user_history;
+
+
 
 import 'models/user/history_model.dart';
 import 'models/pemilikKos/dashboard_model.dart'; 
@@ -134,8 +137,11 @@ class MyApp extends StatelessWidget {
         return _noAnimation(const HistoryView(), settings);
 
       case '/history/detail':
-        final item = settings.arguments as HistoryItem;
+        final item = settings.arguments as user_history.HistoryItem;
+
         return _noAnimation(HistoryDetailView(item: item), settings);
+
+
 
       case '/profile':
         return _noAnimation(const user_profile.ProfileView(), settings);
