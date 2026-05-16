@@ -43,37 +43,6 @@ class _PemilikJasaProfileViewState extends State<PemilikJasaProfileView> {
     super.dispose();
   }
 
-  void _logout(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to log out?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              ProfileController.logout();
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login',
-                (route) => false,
-              );
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,16 +55,25 @@ class _PemilikJasaProfileViewState extends State<PemilikJasaProfileView> {
             if (index == 4) return; // tetap di profile
             switch (index) {
               case 0:
-                Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/pemilik_jasa/dashboard',
+                );
                 break;
               case 1:
                 Navigator.pushReplacementNamed(context, '/pemilik_jasa');
                 break;
               case 3:
-                Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/pemilik_jasa/booking',
+                );
                 break;
               case 2:
-                Navigator.pushReplacementNamed(context, '/pemilik_jasa/detail_jasa');
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/pemilik_jasa/detail_jasa',
+                );
                 break;
               default:
                 break;
@@ -135,8 +113,10 @@ class _PemilikJasaProfileViewState extends State<PemilikJasaProfileView> {
                           const SnackBar(content: Text('Notifikasi (demo)')),
                         );
                       },
-                      icon: const Icon(Icons.notifications_active_outlined,
-                          color: AppColors.background),
+                      icon: const Icon(
+                        Icons.notifications_active_outlined,
+                        color: AppColors.background,
+                      ),
                       tooltip: 'Notifikasi',
                     ),
                   ],
@@ -153,7 +133,9 @@ class _PemilikJasaProfileViewState extends State<PemilikJasaProfileView> {
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(28),
+                      ),
                     ),
                     padding: const EdgeInsets.fromLTRB(16, 18, 16, 22),
                     child: Column(
@@ -289,20 +271,17 @@ class _PemilikJasaProfileViewState extends State<PemilikJasaProfileView> {
   }
 }
 
-
 class _InfoField extends StatelessWidget {
   final String label;
   final IconData icon;
   final TextEditingController controller;
   final bool readOnly;
-  final int maxLines;
 
   const _InfoField({
     required this.label,
     required this.icon,
     required this.controller,
     this.readOnly = false,
-    this.maxLines = 1,
   });
 
   @override
@@ -315,11 +294,11 @@ class _InfoField extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE8EEF5)),
       ),
       child: Row(
-        crossAxisAlignment: maxLines > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 36,
-            height: maxLines > 1 ? 36 : 36,
+            height: 36,
             decoration: BoxDecoration(
               color: const Color(0xFFF6BE00).withOpacity(0.18),
               borderRadius: BorderRadius.circular(10),
@@ -344,7 +323,6 @@ class _InfoField extends StatelessWidget {
                 TextField(
                   controller: controller,
                   readOnly: readOnly,
-                  maxLines: maxLines,
                   decoration: const InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.zero,
@@ -391,7 +369,9 @@ class _PillInfoField extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE8EEF5)),
       ),
       child: Row(
-        crossAxisAlignment: maxLines > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        crossAxisAlignment: maxLines > 1
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           Container(
             width: 36,
@@ -418,7 +398,10 @@ class _PillInfoField extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF6BE00).withOpacity(0.09),
                     borderRadius: BorderRadius.circular(10),
@@ -500,7 +483,10 @@ class _DropdownLikeField extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF6BE00).withOpacity(0.09),
                     borderRadius: BorderRadius.circular(10),
@@ -525,7 +511,11 @@ class _DropdownLikeField extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Icon(Icons.keyboard_arrow_down_rounded, size: 18, color: Color(0xFF243447)),
+                      const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 18,
+                        color: Color(0xFF243447),
+                      ),
                     ],
                   ),
                 ),

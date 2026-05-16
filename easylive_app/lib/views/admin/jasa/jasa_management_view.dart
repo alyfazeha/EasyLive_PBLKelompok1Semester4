@@ -55,20 +55,13 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
       final matchTab = _tab == 'all'
           ? true
           : _tab == 'active'
-              ? item.status.toLowerCase() == 'aktif' ||
-                  item.status.toLowerCase() == 'active'
-              : item.status.toLowerCase() == 'inactive' ||
-                  item.status.toLowerCase() == 'tidak aktif';
+          ? item.status.toLowerCase() == 'aktif' ||
+                item.status.toLowerCase() == 'active'
+          : item.status.toLowerCase() == 'inactive' ||
+                item.status.toLowerCase() == 'tidak aktif';
 
       return matchSearch && matchTab;
     }).toList();
-  }
-
-  void _onFab() {
-    // placeholder: nanti bisa diarahkan ke halaman tambah jasa
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tambah jasa belum tersedia')),
-    );
   }
 
   @override
@@ -78,7 +71,6 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
       body: SafeArea(
         child: Column(
           children: [
-
             // Header (samakan tinggi & nyambung seperti halaman admin lain)
             Container(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 25),
@@ -111,16 +103,21 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.14),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
+                  InkWell(
+                    onTap: () =>
+                        Navigator.pushNamed(context, '/admin/notifikasi'),
+                    borderRadius: BorderRadius.circular(14),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.14),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: const Icon(
+                        Icons.notifications,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -133,9 +130,7 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(28),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
@@ -216,10 +211,13 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
                                     imageAsset: item.imageAsset,
                                     onTap: () {
                                       // placeholder detail navigation
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         SnackBar(
-                                          content:
-                                              Text('Detail: ${item.title}'),
+                                          content: Text(
+                                            'Detail: ${item.title}',
+                                          ),
                                         ),
                                       );
                                     },
@@ -254,11 +252,7 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
                       break;
 
                     case 2:
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Halaman Kost (Admin) belum tersedia'),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/admin/kos');
                       break;
 
                     case 4:
@@ -273,8 +267,6 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
                 },
               ),
             ),
-
-
           ],
         ),
       ),

@@ -86,47 +86,57 @@ class AdminBottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     // Urutan sesuai gambar: History, Kost, Dashboard, Jasa, Profile
     // Ikon aktif dibuat lebih “bold” dengan varian icon yang lebih filled.
-    final List<(IconData normalIcon, IconData selectedIcon, String label, int idx)> items =
-        [
+    final List<
+      (IconData normalIcon, IconData selectedIcon, String label, int idx)
+    >
+    items = [
       (Icons.history, Icons.history, 'History', 1),
       (Icons.home_work, Icons.home, 'Kost', 2),
-      (Icons.dashboard_customize_outlined, Icons.dashboard_customize, 'Dashboard', 0),
+      (
+        Icons.dashboard_customize_outlined,
+        Icons.dashboard_customize,
+        'Dashboard',
+        0,
+      ),
       (Icons.miscellaneous_services, Icons.miscellaneous_services, 'Jasa', 3),
       (Icons.person_outline, Icons.person, 'Profile', 4),
     ];
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF6BE00),
-        borderRadius: BorderRadius.circular(35),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.12),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(items.length, (i) {
-            final (normalIcon, selectedIcon, label, idx) = items[i];
+    return ColoredBox(
+      color: Colors.white,
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF6BE00),
+          borderRadius: BorderRadius.circular(35),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.12),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          top: false,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: List.generate(items.length, (i) {
+              final (normalIcon, selectedIcon, label, idx) = items[i];
 
-            return Expanded(
-              child: AdminNavbarButton(
-                icon: normalIcon,
-                selectedIcon: selectedIcon,
-                label: label,
-                isSelected: selectedIndex == idx,
-                onTap: () => onItemTapped(idx),
-              ),
-            );
-          }),
+              return Expanded(
+                child: AdminNavbarButton(
+                  icon: normalIcon,
+                  selectedIcon: selectedIcon,
+                  label: label,
+                  isSelected: selectedIndex == idx,
+                  onTap: () => onItemTapped(idx),
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );

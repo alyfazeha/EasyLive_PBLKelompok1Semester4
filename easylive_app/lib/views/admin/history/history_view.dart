@@ -117,19 +117,62 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
       ),
 
       // ================= BODY =================
-   body: SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Column(
-      children: [
-        // Search Bar
-        HistorySearchBar(
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Column(
+            children: [
+              // Search Bar
+              HistorySearchBar(
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 16),
+
+              HistoryFilterTabs(
+                tabs: tabs,
+                selectedIndex: selectedTab,
+                onTap: (index) {
+                  setState(() {
+                    selectedTab = index;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 16),
+
+              Expanded(
+                child: filteredItems.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Tidak ada data history',
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: filteredItems.length,
+                        itemBuilder: (context, index) {
+                          return HistoryItemCard(
+                            item: filteredItems[index],
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(filteredItems[index].title),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
+<<<<<<< HEAD
 
               const SizedBox(height: 16),
 
@@ -175,10 +218,12 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
             ],
           ),
         ),
+=======
+>>>>>>> rafi
       ),
 
       // ================= BOTTOM NAVBAR =================
-bottomNavigationBar: AdminBottomNavbar(
+      bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedNavbar,
         onItemTapped: (index) {
           // index sesuai urutan di AdminBottomNavbar:
@@ -194,10 +239,7 @@ bottomNavigationBar: AdminBottomNavbar(
               return;
 
             case 2:
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Halaman Kost (Admin) belum tersedia')),
-              );
-              setState(() => selectedNavbar = index);
+              Navigator.pushNamed(context, '/admin/kos');
               return;
 
             case 3:

@@ -4,8 +4,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'controllers/user/favorite_controller.dart';
 
 import 'models/pemilikJasa/notifikasi_model.dart';
+<<<<<<< HEAD
 import 'models/user/history_model.dart';
 import 'models/admin/history_model.dart';
+=======
+import 'models/admin/notifikasi/notifikasi_model.dart';
+>>>>>>> rafi
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
@@ -54,6 +58,9 @@ import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
 import 'views/admin/jasa/jasa_management_view.dart';
+import 'views/admin/kos/kos_approval_view.dart';
+import 'views/admin/notifikasi/notifikasi_detail_view.dart';
+import 'views/admin/notifikasi/notifikasi_view.dart';
 import 'views/admin/profile/admin_profile_view.dart';
 import 'views/admin/profile/profile_information_view.dart';
 
@@ -164,7 +171,14 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
+<<<<<<< HEAD
         return _noAnimation(TambahDataView(), settings);
+=======
+        return _noAnimation(
+          TambahDataView(),
+          settings,
+        ); // Pastikan tidak pakai const jika class bukan const
+>>>>>>> rafi
 
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
@@ -251,14 +265,25 @@ class MyApp extends StatelessWidget {
       case '/admin/jasa':
         return _noAnimation(const AdminJasaManagementView(), settings);
 
+      case '/admin/kos':
+      case '/admin/kos_approval':
+        return _noAnimation(const ApprovalView(), settings);
+
+      case '/admin/notifikasi':
+        return _noAnimation(const AdminNotificationView(), settings);
+
+      case '/admin/notifikasi/detail':
+        final notification = settings.arguments as AdminNotification;
+        return _noAnimation(
+          AdminNotificationDetailView(notification: notification),
+          settings,
+        );
+
       case '/admin/profile':
         return _noAnimation(const AdminProfileView(), settings);
 
       case '/admin/profile_information':
-        return _noAnimation(
-          const AdminProfileInformationView(),
-          settings,
-        );
+        return _noAnimation(const AdminProfileInformationView(), settings);
 
       default:
         return null;

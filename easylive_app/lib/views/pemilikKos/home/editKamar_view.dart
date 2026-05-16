@@ -8,7 +8,7 @@ import 'package:easylive_app/core/color.dart';
 class EditKamarView extends StatefulWidget {
   final String idKost;
 
-  EditKamarView({super.key, required this.idKost});
+  const EditKamarView({super.key, required this.idKost});
 
   @override
   State<EditKamarView> createState() => _EditKamarViewState();
@@ -33,12 +33,11 @@ class _EditKamarViewState extends State<EditKamarView> {
           .eq('id_kost', int.parse(widget.idKost))
           .single();
 
-      final gambar = (res['gambar'] as List?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          [];
-      
-      final fasilitas = (res['fasilitas'] as List?) // ← pastikan ada di sini
+      final gambar =
+          (res['gambar'] as List?)?.map((e) => e.toString()).toList() ?? [];
+
+      final fasilitas =
+          (res['fasilitas'] as List?) // ← pastikan ada di sini
               ?.map((e) => e.toString())
               .toList() ??
           [];
@@ -48,7 +47,7 @@ class _EditKamarViewState extends State<EditKamarView> {
         name: res['nama_kost'] ?? '',
         address: res['alamat'] ?? '',
         kecamatan: res['kecamatan'] ?? '', // ← dari kolom terpisah
-        kota: res['kota'] ?? '',           // ← dari kolom terpisah
+        kota: res['kota'] ?? '', // ← dari kolom terpisah
         tipeKost: res['tipe_kost'] ?? '',
         totalRoom: (res['jumlah_kamar'] as int?) ?? 0,
         availableRoom: (res['kamar_kosong'] as int?) ?? 0,
@@ -63,9 +62,9 @@ class _EditKamarViewState extends State<EditKamarView> {
         existingPhotos = gambar; // ← tambah ini
         isLoading = false;
       });
-      } catch (e) {
-        setState(() => isLoading = false);
-      }
+    } catch (e) {
+      setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -131,7 +130,9 @@ class _EditKamarViewState extends State<EditKamarView> {
                       Row(
                         children: List.generate(3, (index) {
                           final hasPhoto = index < existingPhotos.length;
-                          final photoUrl = hasPhoto ? existingPhotos[index] : null;
+                          final photoUrl = hasPhoto
+                              ? existingPhotos[index]
+                              : null;
 
                           return Container(
                             margin: EdgeInsets.only(right: 8),
@@ -141,22 +142,28 @@ class _EditKamarViewState extends State<EditKamarView> {
                               color: Color(0xfff0f0f0),
                               borderRadius: BorderRadius.circular(12),
                               border: hasPhoto
-                                  ? Border.all(color: AppColors.yellow, width: 2)
+                                  ? Border.all(
+                                      color: AppColors.yellow,
+                                      width: 2,
+                                    )
                                   : null,
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: hasPhoto
                                   ? (photoUrl!.startsWith('http')
-                                      ? Image.network(
-                                          photoUrl,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (_, __, ___) => Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                      : Image.asset(photoUrl, fit: BoxFit.cover))
+                                        ? Image.network(
+                                            photoUrl,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (_, __, ___) => Icon(
+                                              Icons.camera_alt,
+                                              color: Colors.grey,
+                                            ),
+                                          )
+                                        : Image.asset(
+                                            photoUrl,
+                                            fit: BoxFit.cover,
+                                          ))
                                   : Icon(Icons.camera_alt, color: Colors.grey),
                             ),
                           );
@@ -171,7 +178,9 @@ class _EditKamarViewState extends State<EditKamarView> {
                       ),
                       SizedBox(height: 12),
                       EditKamarWidget.inputField(
-                          "Nama Kost", controller.namaKost),
+                        "Nama Kost",
+                        controller.namaKost,
+                      ),
                       SizedBox(height: 12),
                       EditKamarWidget.dropdownField(
                         "Tipe Kost",
@@ -191,12 +200,16 @@ class _EditKamarViewState extends State<EditKamarView> {
                         children: [
                           Expanded(
                             child: EditKamarWidget.inputField(
-                                "Kecamatan", controller.kecamatan),
+                              "Kecamatan",
+                              controller.kecamatan,
+                            ),
                           ),
                           SizedBox(width: 10),
                           Expanded(
                             child: EditKamarWidget.inputField(
-                                "Kota", controller.kota),
+                              "Kota",
+                              controller.kota,
+                            ),
                           ),
                         ],
                       ),
@@ -212,17 +225,23 @@ class _EditKamarViewState extends State<EditKamarView> {
                         children: [
                           Expanded(
                             child: EditKamarWidget.inputField(
-                                "Jumlah Kamar", controller.jumlahKamar),
+                              "Jumlah Kamar",
+                              controller.jumlahKamar,
+                            ),
                           ),
                           SizedBox(width: 8),
                           Expanded(
                             child: EditKamarWidget.inputField(
-                                "Kamar Kosong", controller.kamarKosong),
+                              "Kamar Kosong",
+                              controller.kamarKosong,
+                            ),
                           ),
                           SizedBox(width: 8),
                           Expanded(
                             child: EditKamarWidget.inputField(
-                                "Harga Mulai", controller.harga),
+                              "Harga Mulai",
+                              controller.harga,
+                            ),
                           ),
                         ],
                       ),
@@ -245,8 +264,8 @@ class _EditKamarViewState extends State<EditKamarView> {
                         runSpacing: 8,
                         children: List.generate(fasilitasList.length, (index) {
                           final item = fasilitasList[index];
-                          final isSelected =
-                              controller.selectedFasilitas.contains(index);
+                          final isSelected = controller.selectedFasilitas
+                              .contains(index);
                           return EditKamarWidget.fasilitasItem(
                             item['icon'] as IconData,
                             item['label'] as String,

@@ -3,67 +3,77 @@
   "taskStatus": null,
   "blockedBy": null,
   "sessionStarted": "2026-05-16T04:19:59.954Z",
-  "lastActivity": "2026-05-16T08:47:21.133Z",
+  "lastActivity": "2026-05-16T10:11:17.010Z",
   "filesChangedThisSession": [
     "git\\scm0\\input",
     "easylive_app/lib/main.dart",
     "easylive_app/lib/views/admin/profile/profile_information_view.dart",
     "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
     "easylive_app/lib/views/admin/history/history_view.dart",
-    "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart"
+    "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
+    "easylive_app/lib/views/admin/jasa/jasa_management_view.dart",
+    "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+    "easylive_app/lib/views/admin/kos/detail_approvalKos.dart",
+    "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
+    "easylive_app/lib/controllers/admin/approvalKos_detail_controller.dart",
+    "easylive_app/lib/controllers/admin/kos/approvalKos_detail_controller.dart",
+    "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
+    "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
+    "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+    "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart"
   ],
-  "totalEditsThisSession": 26,
+  "totalEditsThisSession": 111,
   "decisions": [],
   "warnings": [
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 6272 chars replaced with 6946 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:13:03.934Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/history/history_view.dart: 2672 chars replaced with 4074 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:08:17.093Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 6946 chars replaced with 6272 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:43:19.695Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/kos/detail_approvalKos.dart: 9118 chars replaced with 10161 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:08:17.096Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 4614 chars replaced with 4107 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:43:19.701Z"
+      "message": "Large overwrite in easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart: 1985 chars replaced with 1088 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:08:36.870Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 8403 chars replaced with 9993 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:43:35.095Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/kos/detail_approvalKos.dart: 945 chars replaced with 608 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:09:41.340Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 2944 chars replaced with 3383 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:43:35.098Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/kos/kos_approval_view.dart: 2636 chars replaced with 1448 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:09:55.765Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 7336 chars replaced with 7933 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:44:14.707Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/kos/kos_approval_view.dart: 1122 chars replaced with 593 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:10:03.693Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 4506 chars replaced with 5394 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:44:14.710Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart: 1484 chars replaced with 683 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:10:21.505Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 1784 chars replaced with 964 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:44:52.759Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart: 832 chars replaced with 570 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:10:25.271Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/history/history_view.dart: 1972 chars replaced with 1105 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:45:12.032Z"
+      "message": "Large overwrite in easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart: 5891 chars replaced with 2080 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:10:29.730Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/admin/dashboard/navbar_button.dart: 947 chars replaced with 580 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T08:46:13.778Z"
+      "message": "Large overwrite in easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart: 1183 chars replaced with 662 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T10:10:49.679Z"
     }
   ],
   "prdItems": null,

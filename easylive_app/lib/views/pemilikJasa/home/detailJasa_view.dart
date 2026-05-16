@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import '../../../core/color.dart';
-import '../../../models/user/kos_model.dart';
 import '../../../widgets/pemilikJasa/home/detailJasa.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 import './editKendaraan_view.dart';
@@ -100,6 +99,7 @@ class DetailJasaView extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         top: false,
         child: Padding(
+<<<<<<< HEAD
           padding: const EdgeInsets.only(bottom: 10),
           child: PemilikJasaBottomNav(
             currentIndex: 2,
@@ -113,6 +113,26 @@ class DetailJasaView extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, '/pemilik_jasa');
               }
             },
+=======
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PemilikJasaBottomNav(
+                currentIndex: 2,
+                onNavigate: (index) {
+                  if (index == 0) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/pemilik_jasa/dashboard',
+                    );
+                  } else if (index == 2) {
+                    Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+                  }
+                },
+              ),
+            ],
+>>>>>>> rafi
           ),
         ),
       ),

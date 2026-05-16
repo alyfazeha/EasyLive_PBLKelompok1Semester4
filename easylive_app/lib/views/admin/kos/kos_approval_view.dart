@@ -41,8 +41,12 @@ class _ApprovalViewState extends State<ApprovalView> {
     final selectedStatus = tabs[selectedTabIndex];
 
     return allRequests.where((request) {
+<<<<<<< HEAD
       return request.status.toLowerCase() ==
           selectedStatus.toLowerCase();
+=======
+      return request.status.toLowerCase() == selectedStatus.toLowerCase();
+>>>>>>> rafi
     }).toList();
   }
 
@@ -64,9 +68,15 @@ class _ApprovalViewState extends State<ApprovalView> {
       }).toList();
     });
 
+<<<<<<< HEAD
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('${request.name} approved')),
     );
+=======
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('${request.name} approved')));
+>>>>>>> rafi
   }
 
   // Update status menjadi Rejected
@@ -87,9 +97,15 @@ class _ApprovalViewState extends State<ApprovalView> {
       }).toList();
     });
 
+<<<<<<< HEAD
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('${request.name} rejected')),
     );
+=======
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('${request.name} rejected')));
+>>>>>>> rafi
   }
 
   @override
@@ -143,6 +159,7 @@ class _ApprovalViewState extends State<ApprovalView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+<<<<<<< HEAD
                     Stack(
                       children: [
                         const Icon(
@@ -171,6 +188,41 @@ class _ApprovalViewState extends State<ApprovalView> {
                           ),
                         ),
                       ],
+=======
+                    InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/admin/notifikasi'),
+                      borderRadius: BorderRadius.circular(18),
+                      child: Stack(
+                        children: [
+                          const Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              decoration: const BoxDecoration(
+                                color: Colors.amber,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                '9',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+>>>>>>> rafi
                     ),
                   ],
                 ),
@@ -197,9 +249,13 @@ class _ApprovalViewState extends State<ApprovalView> {
                 ? const Center(
                     child: Text(
                       'No approval requests found.',
+<<<<<<< HEAD
                       style: TextStyle(
                         color: Colors.grey,
                       ),
+=======
+                      style: TextStyle(color: Colors.grey),
+>>>>>>> rafi
                     ),
                   )
                 : ListView(
@@ -218,9 +274,13 @@ class _ApprovalViewState extends State<ApprovalView> {
                       // List Card Approval
                       ...filteredRequests.map(
                         (request) => Padding(
+<<<<<<< HEAD
                           padding: const EdgeInsets.only(
                             bottom: 16,
                           ),
+=======
+                          padding: const EdgeInsets.only(bottom: 16),
+>>>>>>> rafi
                           child: ApprovalCard(
                             approval: request,
 
@@ -236,9 +296,14 @@ class _ApprovalViewState extends State<ApprovalView> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
+<<<<<<< HEAD
                                   builder: (_) => ApprovalDetailView(
                                     approval: request,
                                   ),
+=======
+                                  builder: (_) =>
+                                      ApprovalDetailView(approval: request),
+>>>>>>> rafi
                                 ),
                               );
 
@@ -259,6 +324,7 @@ class _ApprovalViewState extends State<ApprovalView> {
       ),
 
       bottomNavigationBar: AdminBottomNavbar(
+<<<<<<< HEAD
         selectedIndex: 1,
         onItemTapped: (index) {
           if (index == 0) {
@@ -274,6 +340,25 @@ class _ApprovalViewState extends State<ApprovalView> {
           if (index == 2) {
             Navigator.pushNamed(context, '/admin/home');
             return;
+=======
+        selectedIndex: 2,
+        onItemTapped: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/admin');
+              return;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/admin/history');
+              return;
+            case 2:
+              return;
+            case 3:
+              Navigator.pushReplacementNamed(context, '/admin/jasa');
+              return;
+            case 4:
+              Navigator.pushReplacementNamed(context, '/admin/profile');
+              return;
+>>>>>>> rafi
           }
         },
       ),

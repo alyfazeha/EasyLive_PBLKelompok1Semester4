@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
 import '../../../controllers/pemilikKos/notifikasi_controller.dart';
 import '../../../core/color.dart';
 import '../../../views/pemilikKos/notifikasi/notifikasi_detail_view.dart';
@@ -18,6 +19,23 @@ class OwnerNotificationView extends StatefulWidget {
 class _OwnerNotificationViewState extends State<OwnerNotificationView> {
   final OwnerNotificationController controller =
       OwnerNotificationController();
+=======
+import '../../../controllers/admin/notifikasi/notifikasi_controller.dart';
+import '../../../widgets/admin/notifikasi/notifikasi_card.dart';
+import '../../../widgets/admin/notifikasi/notifikasi_empty_state.dart';
+import '../../../widgets/admin/notifikasi/notifikasi_filter_tabs.dart';
+import 'notifikasi_detail_view.dart';
+
+class AdminNotificationView extends StatefulWidget {
+  const AdminNotificationView({super.key});
+
+  @override
+  State<AdminNotificationView> createState() => _AdminNotificationViewState();
+}
+
+class _AdminNotificationViewState extends State<AdminNotificationView> {
+  final AdminNotificationController controller = AdminNotificationController();
+>>>>>>> rafi
 
   @override
   void dispose() {
@@ -25,6 +43,7 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
     super.dispose();
   }
 
+<<<<<<< HEAD
   void _navigateTo(int index) {
     if (index == 0) {
       Navigator.pushReplacementNamed(
@@ -44,10 +63,13 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
     }
   }
 
+=======
+>>>>>>> rafi
   void _goBack() {
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     } else {
+<<<<<<< HEAD
       Navigator.pushReplacementNamed(
         context,
         '/pemilik_kos',
@@ -59,6 +81,31 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBlue,
+=======
+      Navigator.pushReplacementNamed(context, '/admin');
+    }
+  }
+
+  void _handleTap(int index) {
+    final notification = controller.notifications[index];
+    final id = notification.id;
+    controller.markAsRead(id);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AdminNotificationDetailView(
+          notification: notification.copyWith(isRead: true),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF243447),
+>>>>>>> rafi
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -83,7 +130,11 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                   ),
                   const SizedBox(width: 8),
                   const Text(
+<<<<<<< HEAD
                     'Notifikasi',
+=======
+                    'Notifikasi Admin',
+>>>>>>> rafi
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 15,
@@ -105,6 +156,7 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                   ),
                 ),
                 child: AnimatedBuilder(
+<<<<<<< HEAD
                     animation: controller,
                     builder: (context, _) {
                       if (controller.isLoading) {
@@ -176,11 +228,58 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
                       );
                     },
                   ),
+=======
+                  animation: controller,
+                  builder: (context, _) {
+                    if (controller.isLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    final notifications = controller.notifications;
+
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                          child: AdminNotificationFilterTabs(
+                            showUnreadOnly: controller.showUnreadOnly,
+                            totalCount: controller.totalCount,
+                            unreadCount: controller.unreadCount,
+                            onShowAll: controller.showAll,
+                            onShowUnread: controller.showUnread,
+                          ),
+                        ),
+                        Expanded(
+                          child: notifications.isEmpty
+                              ? const AdminNotificationEmptyState()
+                              : ListView.builder(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    18,
+                                    28,
+                                    18,
+                                    28,
+                                  ),
+                                  itemCount: notifications.length,
+                                  itemBuilder: (context, index) {
+                                    final notification = notifications[index];
+                                    return AdminNotificationCard(
+                                      notification: notification,
+                                      onTap: () => _handleTap(index),
+                                    );
+                                  },
+                                ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+>>>>>>> rafi
               ),
             ),
           ],
         ),
       ),
+<<<<<<< HEAD
       bottomNavigationBar: Container(
         color: Colors.white,
         child: OwnerBottomNav(
@@ -191,3 +290,8 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
     );
   }
 }
+=======
+    );
+  }
+}
+>>>>>>> rafi
