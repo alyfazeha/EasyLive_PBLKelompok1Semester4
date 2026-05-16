@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class PemilikKosProfileController {
   static String _userName = '';
   static String _userEmail = '';

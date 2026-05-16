@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easylive_app/controllers/halamanJasa/tambahKendaraan_controller.dart';
 import 'package:easylive_app/widgets/pemilikJasa/home/tambahKendaraan.dart';
 
-import 'package:easylive_app/core/color.dart';
-
-
 class TambahKendaraanView extends StatefulWidget {
   const TambahKendaraanView({super.key});
 

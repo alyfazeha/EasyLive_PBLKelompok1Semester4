@@ -38,10 +38,7 @@ class _RejectReasonApprovalKosViewState
         elevation: 0,
         title: const Text(
           'Reject Kost',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -66,10 +63,7 @@ class _RejectReasonApprovalKosViewState
               ],
               const Text(
                 'Alasan Menolak',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -89,8 +83,10 @@ class _RejectReasonApprovalKosViewState
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide:
-                        BorderSide(color: Colors.grey.shade600, width: 1),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade600,
+                      width: 1,
+                    ),
                   ),
                 ),
               ),

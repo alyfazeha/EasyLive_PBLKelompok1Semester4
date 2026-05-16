@@ -36,11 +36,10 @@ class ApprovalDetailController {
       final owner = response['owner'] as Map<String, dynamic>?;
 
       // Ambil foto-foto kost
-      final List<String> photos =
-          (response['gambar'] as List<dynamic>? ?? [])
-              .map((e) => e.toString())
-              .where((e) => e.isNotEmpty)
-              .toList();
+      final List<String> photos = (response['gambar'] as List<dynamic>? ?? [])
+          .map((e) => e.toString())
+          .where((e) => e.isNotEmpty)
+          .toList();
 
       // Karena kolom avatar_url tidak ada di tabel profiles,
       // gunakan gambar default lokal
@@ -48,24 +47,18 @@ class ApprovalDetailController {
           'https://ui-avatars.com/api/?name=Owner&background=243B55&color=ffffff';
 
       return ApprovalDetailModel(
-        ownerName:
-            owner?['full_name']?.toString() ?? 'Unknown Owner',
+        ownerName: owner?['full_name']?.toString() ?? 'Unknown Owner',
         ownerRole: 'Kost Owner',
-        status:
-            response['status']?.toString() ?? 'Pending',
+        status: response['status']?.toString() ?? 'Pending',
         profileImage: defaultAvatar,
-        businessName:
-            response['nama_kost']?.toString() ?? '-',
-        phoneNumber:
-            response['nomor_hp']?.toString() ?? '-',
-        email:
-            owner?['email']?.toString() ?? '-',
+        businessName: response['nama_kost']?.toString() ?? '-',
+        phoneNumber: response['nomor_hp']?.toString() ?? '-',
+        email: owner?['email']?.toString() ?? '-',
         address:
             '${response['alamat'] ?? ''}, '
             '${response['kecamatan'] ?? ''}, '
             '${response['kota'] ?? ''}',
-        description:
-            response['deskripsi']?.toString() ?? '-',
+        description: response['deskripsi']?.toString() ?? '-',
         photos: photos,
       );
     } catch (e) {
@@ -78,9 +71,7 @@ class ApprovalDetailController {
   Future<void> approveKost(String kostId) async {
     await supabase
         .from('kost')
-        .update({
-          'status': 'approved',
-        })
+        .update({'status': 'approved'})
         .eq('id_kost', kostId);
   }
 
@@ -88,9 +79,7 @@ class ApprovalDetailController {
   Future<void> rejectKost(String kostId) async {
     await supabase
         .from('kost')
-        .update({
-          'status': 'rejected',
-        })
+        .update({'status': 'rejected'})
         .eq('id_kost', kostId);
   }
 }

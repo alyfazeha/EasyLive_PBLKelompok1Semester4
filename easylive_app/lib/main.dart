@@ -3,15 +3,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'controllers/user/favorite_controller.dart';
 
-import 'models/pemilikJasa/notifikasi_model.dart';
 import 'models/user/history_model.dart';
-import 'models/admin/history_model.dart';
+import 'models/pemilikKos/dashboard_model.dart'; // ← tambah import
+import 'models/pemilikJasa/notifikasi_model.dart';
+import 'models/admin/notifikasi/notifikasi_model.dart';
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
 import 'views/auth/register_view.dart';
 
 import 'views/User/booking/booking_view.dart' as user_booking;
+import 'views/User/history/history_detail_view.dart';
+import 'views/User/history/history_view.dart';
 import 'views/User/home/home_view.dart';
 import 'views/User/kos/kos_view.dart';
 import 'views/User/kos/detailKos_view.dart';
@@ -19,8 +22,6 @@ import 'views/User/profile/profile_view.dart' as user_profile;
 import 'views/User/profile/edit_profile_view.dart';
 import 'views/User/profile/favorite_view.dart';
 import 'views/User/profile/security_view.dart';
-import 'views/User/history/history_view.dart';
-import 'views/User/history/history_detail_view.dart';
 import 'views/User/payment/personalInfo_view.dart';
 import 'views/User/payment/invoice_view.dart';
 import 'views/User/payment/qrisPayment_view.dart';
@@ -30,8 +31,6 @@ import 'views/pemilikKos/home/home_view.dart';
 import 'views/pemilikKos/home/tambahData_view.dart';
 import 'views/pemilikKos/dashboard/dashboard_view.dart';
 import 'views/pemilikKos/dashboard/payment_detail_view.dart';
-import 'models/pemilikKos/dashboard_model.dart'; // Dashboard
-
 import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
@@ -40,10 +39,7 @@ import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikJasa/home/home_view.dart';
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
-import 'views/pemilikJasa/dashboard/payment_detail_view.dart'
-    as jasa_payment_detail;
-import 'models/pemilikJasa/payment_detail_model.dart';
-
+import 'views/pemilikJasa/dashboard/pembayaran_detail_view.dart';
 import 'views/pemilikJasa/booking/booking_view.dart' as pemilik_jasa_booking;
 import 'views/pemilikJasa/booking/detail_booking_view.dart'
     as pemilik_jasa_detail_booking;
@@ -53,17 +49,14 @@ import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
-import 'views/admin/history/history_detail_view.dart';
+import 'views/admin/jasa/jasa_management_view.dart';
 import 'views/admin/kos/kos_approval_view.dart';
-import 'views/admin/jasa/admin_jasa_placeholder_view.dart';
-import 'views/admin/profile/admin_profile_placeholder_view.dart';
+import 'views/admin/notifikasi/notifikasi_detail_view.dart';
+import 'views/admin/notifikasi/notifikasi_view.dart';
+import 'views/admin/profile/admin_profile_view.dart';
+import 'views/admin/profile/profile_information_view.dart';
 
 import 'views/splash/splash_view.dart';
-import 'models/pemilikJasa/payment_detail_model.dart'; // Dashboard
-import 'models/pemilikJasa/dashboard_model.dart';
-import 'models/admin/kos_model.dart';
-import 'views/admin/kos/detail_approvalKos.dart';
-import 'views/admin/kos/kos_approval_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -165,7 +158,10 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
-        return _noAnimation(TambahDataView(), settings);
+        return _noAnimation(
+          TambahDataView(),
+          settings,
+        ); // Pastikan tidak pakai const jika class bukan const
 
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);
@@ -181,14 +177,11 @@ class MyApp extends StatelessWidget {
         return _noAnimation(const user_profile.ProfileView(), settings);
 
       case '/pemilik_kos/dashboard':
-        return _noAnimation(const DashboardView(), settings);
+        return _noAnimation(DashboardView(), settings);
 
       case '/pemilik_kos/detail_pembayaran':
-        final args = settings.arguments;
-        if (args is Dashboard) {
-          return _noAnimation(PaymentDetailView(dashboard: args), settings);
-        }
-        return null;
+        final dashboard = settings.arguments as Dashboard; // ← fix
+        return _noAnimation(PaymentDetailView(dashboard: dashboard), settings);
 
       case '/pemilik_kos/notifikasi':
         return _noAnimation(const OwnerNotificationView(), settings);
@@ -206,12 +199,7 @@ class MyApp extends StatelessWidget {
         return _noAnimation(PemilikJasaDashboardView(), settings);
 
       case '/pemilik_jasa/dashboard/detail_pembayaran':
-        final history = settings.arguments as JasaPaymentHistory;
-
-        return _noAnimation(
-          jasa_payment_detail.PaymentDetailView(history: history),
-          settings,
-        );
+        return _noAnimation(const PemilikJasaPembayaranDetailView(), settings);
 
       case '/pemilik_jasa/booking':
         return _noAnimation(
@@ -233,6 +221,9 @@ class MyApp extends StatelessWidget {
           settings,
         );
 
+      case '/pemilik_jasa/notifikasi':
+        return _noAnimation(const OwnerJasaNotificationView(), settings);
+
       case '/pemilik_jasa/notifikasi/detail':
         final notification = settings.arguments as OwnerNotification;
         return _noAnimation(
@@ -249,31 +240,28 @@ class MyApp extends StatelessWidget {
       case '/admin/history':
         return _noAnimation(const AdminHistoryView(), settings);
 
-      case '/admin/history/detail':
-        final historyItem = settings.arguments as HistoryItemModel;
-        return _noAnimation(
-          AdminHistoryDetailView(historyItem: historyItem),
-          settings,
-        );
+      case '/admin/jasa':
+        return _noAnimation(const AdminJasaManagementView(), settings);
 
+      case '/admin/kos':
       case '/admin/kos_approval':
         return _noAnimation(const ApprovalView(), settings);
 
-      case '/admin/kos_approval/detail':
-        final approval = settings.arguments as ApprovalModel;
+      case '/admin/notifikasi':
+        return _noAnimation(const AdminNotificationView(), settings);
 
+      case '/admin/notifikasi/detail':
+        final notification = settings.arguments as AdminNotification;
         return _noAnimation(
-          ApprovalDetailView(
-            approval: approval, // kirim seluruh object dummy
-          ),
+          AdminNotificationDetailView(notification: notification),
           settings,
         );
 
-      case '/admin/jasa':
-        return _noAnimation(const AdminJasaPlaceholderView(), settings);
-
       case '/admin/profile':
-        return _noAnimation(const AdminProfilePlaceholderView(), settings);
+        return _noAnimation(const AdminProfileView(), settings);
+
+      case '/admin/profile_information':
+        return _noAnimation(const AdminProfileInformationView(), settings);
 
       default:
         return null;

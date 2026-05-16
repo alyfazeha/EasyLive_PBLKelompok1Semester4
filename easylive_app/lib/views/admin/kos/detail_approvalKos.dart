@@ -59,7 +59,15 @@ class ApprovalDetailView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Icon(Icons.notifications_none, color: Colors.white),
+                InkWell(
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/admin/notifikasi'),
+                  borderRadius: BorderRadius.circular(18),
+                  child: const Icon(
+                    Icons.notifications_none,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -264,15 +272,24 @@ class ApprovalDetailView extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: AdminBottomNavbar(
-        selectedIndex: 1,
+        selectedIndex: 2,
         onItemTapped: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/admin/history');
-            return;
-          }
-          if (index == 1) {
-            Navigator.pushNamed(context, '/admin/kos_approval');
-            return;
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, '/admin');
+              return;
+            case 1:
+              Navigator.pushNamed(context, '/admin/history');
+              return;
+            case 2:
+              Navigator.pushNamed(context, '/admin/kos');
+              return;
+            case 3:
+              Navigator.pushNamed(context, '/admin/jasa');
+              return;
+            case 4:
+              Navigator.pushNamed(context, '/admin/profile');
+              return;
           }
         },
       ),

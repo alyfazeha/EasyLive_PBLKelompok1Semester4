@@ -9,16 +9,14 @@ class ApprovalDetailController {
 
   /// Mengambil detail approval dari data (placeholder saat ini).
   /// Catatan: tetap dummy seperti sebelumnya.
-  Future<ApprovalDetailModel?> getApprovalDetail(
-    ApprovalModel approval,
-  ) async {
+  Future<ApprovalDetailModel?> getApprovalDetail(ApprovalModel approval) async {
     // Ambil data dari Supabase agar field seperti alasan_tolak persist setelah logout.
     final kostId = approval.id;
 
     final response = await supabase
         .from('kost')
         .select(
-          'id_kost, nama_pemilik, no_hp_pemilik, email_pemilik, alamat, deskripsi, status, alasan_tolak, foto1_url, foto2_url, foto3_url, nama_kost'
+          'id_kost, nama_pemilik, no_hp_pemilik, email_pemilik, alamat, deskripsi, status, alasan_tolak, foto1_url, foto2_url, foto3_url, nama_kost',
         )
         .eq('id_kost', int.tryParse(kostId) ?? kostId)
         .maybeSingle();
@@ -33,8 +31,11 @@ class ApprovalDetailController {
           ? approval.name
           : readString(response['nama_pemilik']),
       ownerRole: 'Kost Owner',
-      status: readString(response['status']) == '' ? approval.status : readString(response['status']),
-      profileImage: approval.imageUrl, // belum ada kolom foto profil di query ini
+      status: readString(response['status']) == ''
+          ? approval.status
+          : readString(response['status']),
+      profileImage:
+          approval.imageUrl, // belum ada kolom foto profil di query ini
       businessName: readString(response['nama_kost']) == ''
           ? approval.propertyName
           : readString(response['nama_kost']),
@@ -51,9 +52,15 @@ class ApprovalDetailController {
           ? 'Kost nyaman, bersih, dan strategis dekat kampus serta fasilitas umum.'
           : readString(response['deskripsi']),
       photos: [
-        readString(response['foto1_url']) != '' ? readString(response['foto1_url']) : approval.imageUrl,
-        readString(response['foto2_url']) != '' ? readString(response['foto2_url']) : approval.imageUrl,
-        readString(response['foto3_url']) != '' ? readString(response['foto3_url']) : approval.imageUrl,
+        readString(response['foto1_url']) != ''
+            ? readString(response['foto1_url'])
+            : approval.imageUrl,
+        readString(response['foto2_url']) != ''
+            ? readString(response['foto2_url'])
+            : approval.imageUrl,
+        readString(response['foto3_url']) != ''
+            ? readString(response['foto3_url'])
+            : approval.imageUrl,
       ],
       rejectionReason: (response['alasan_tolak'] == null)
           ? null
@@ -82,10 +89,7 @@ class ApprovalDetailController {
 
     await supabase
         .from('kost')
-        .update({
-          'status': 'ditolak',
-          'alasan_tolak': reason,
-        })
+        .update({'status': 'ditolak', 'alasan_tolak': reason})
         .eq('id_kost', int.tryParse(kostId) ?? kostId);
   }
 }

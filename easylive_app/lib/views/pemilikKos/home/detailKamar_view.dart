@@ -8,7 +8,7 @@ import '../../../core/color.dart';
 class DetailKostView extends StatefulWidget {
   final String idKost;
 
-  DetailKostView({super.key, required this.idKost});
+  const DetailKostView({super.key, required this.idKost});
 
   @override
   State<DetailKostView> createState() => _DetailKostViewState();
@@ -89,8 +89,8 @@ class _DetailKostViewState extends State<DetailKostView> {
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : kost == null
-                      ? const Center(child: Text("Gagal memuat data"))
-                      : DetailKostWidget(kost: kost!),
+                  ? const Center(child: Text("Gagal memuat data"))
+                  : DetailKostWidget(kost: kost!),
             ),
           ],
         ),

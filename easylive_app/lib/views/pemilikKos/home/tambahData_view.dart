@@ -159,9 +159,6 @@ class _TambahDataViewState extends State<TambahDataView> {
                   children: List.generate(3, (index) {
                     final hasPhoto =
                         index < controller.selectedPhotosBytes.length;
-                    final file = hasPhoto
-                        ? controller.selectedPhotos[index]
-                        : null;
 
                     return InkWell(
                       onTap: () async {
@@ -471,7 +468,10 @@ class _TambahDataViewState extends State<TambahDataView> {
                       .map((i) => fasilitasList[i]['label'] as String)
                       .toList();
 
-                  await controller.simpanData(context, fasilitasLabels); // ← kirim fasilitasLabels
+                  await controller.simpanData(
+                    context,
+                    fasilitasLabels,
+                  ); // ← kirim fasilitasLabels
                   if (mounted) {
                     Navigator.pop(context, true);
                   }
