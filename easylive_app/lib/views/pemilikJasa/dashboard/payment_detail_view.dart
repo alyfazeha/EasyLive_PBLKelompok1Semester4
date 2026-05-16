@@ -68,7 +68,6 @@ final payment = controller.getPaymentDetail(
             ),
           ),
 
-          // CONTENT
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
