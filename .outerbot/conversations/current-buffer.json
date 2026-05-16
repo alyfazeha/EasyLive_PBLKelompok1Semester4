@@ -2,17 +2,8 @@
   "messages": [
     {
       "type": "tool",
-      "content": "File modified: easylive_app/lib/views/admin/profile/profile_information_view.dart",
-      "timestamp": "2026-05-15T18:06:14.657Z",
-      "metadata": {
-        "tool": "Edit",
-        "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
-      }
-    },
-    {
-      "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-15T18:06:40.774Z",
+      "timestamp": "2026-05-16T11:29:26.144Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -21,52 +12,16 @@
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-15T18:07:03.696Z",
+      "timestamp": "2026-05-16T11:29:46.641Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
-      }
-    },
-    {
-      "type": "tool",
-      "content": "File modified: easylive_app/lib/views/admin/profile/admin_profile_view.dart",
-      "timestamp": "2026-05-15T18:07:20.265Z",
-      "metadata": {
-        "tool": "Edit",
-        "file": "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
-      }
-    },
-    {
-      "type": "tool",
-      "content": "File modified: easylive_app/lib/views/admin/profile/profile_information_view.dart",
-      "timestamp": "2026-05-15T18:36:08.361Z",
-      "metadata": {
-        "tool": "Edit",
-        "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
-      }
-    },
-    {
-      "type": "tool",
-      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
-      "timestamp": "2026-05-16T08:47:20.086Z",
-      "metadata": {
-        "tool": "Edit",
-        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
-      }
-    },
-    {
-      "type": "tool",
-      "content": "File modified: easylive_app/lib/views/admin/history/history_view.dart",
-      "timestamp": "2026-05-16T08:47:20.094Z",
-      "metadata": {
-        "tool": "Edit",
-        "file": "easylive_app/lib/views/admin/history/history_view.dart"
       }
     },
     {
       "type": "tool",
       "content": "File modified: easylive_app/lib/main.dart",
-      "timestamp": "2026-05-16T08:47:20.102Z",
+      "timestamp": "2026-05-16T11:30:00.697Z",
       "metadata": {
         "tool": "Edit",
         "file": "easylive_app/lib/main.dart"
@@ -74,23 +29,37 @@
     },
     {
       "type": "tool",
-      "content": "File modified: easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
-      "timestamp": "2026-05-16T08:47:20.111Z",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T11:30:29.005Z",
       "metadata": {
         "tool": "Edit",
-        "file": "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart"
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-16T11:30:38.990Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart",
+      "timestamp": "2026-05-16T11:32:24.771Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
       }
     }
   ],
   "filesModified": [
-    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
     "easylive_app/lib/main.dart",
-    "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
-    "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
-    "easylive_app/lib/views/admin/history/history_view.dart",
-    "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart"
+    "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
   ],
   "decisions": [],
-  "startTime": "2026-05-15T18:06:14.657Z",
-  "lastWriteTime": "2026-05-16T08:47:20.111Z"
+  "startTime": "2026-05-16T11:29:26.144Z",
+  "lastWriteTime": "2026-05-16T11:32:24.771Z"
 }

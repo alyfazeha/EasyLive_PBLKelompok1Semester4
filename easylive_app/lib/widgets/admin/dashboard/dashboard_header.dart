@@ -38,35 +38,6 @@ class AdminHeader extends StatelessWidget {
               ],
             ),
           ),
-<<<<<<< HEAD
-          Stack(
-            children: [
-              const Icon(
-                Icons.notifications_none,
-                color: Colors.white,
-                size: 30,
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.amber,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Text(
-                    '9',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-=======
           InkWell(
             onTap: () => Navigator.pushNamed(context, '/admin/notifikasi'),
             borderRadius: BorderRadius.circular(18),
@@ -98,7 +69,6 @@ class AdminHeader extends StatelessWidget {
                 ),
               ],
             ),
->>>>>>> rafi
           ),
         ],
       ),

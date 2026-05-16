@@ -20,6 +20,10 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
                   date: (payment['date'] ?? '') as String,
                   price: (payment['price'] ?? '') as String,
                   status: (payment['status'] ?? '') as String,
+                  paymentMethod:
+                      (payment['paymentMethod'] ?? '') as String,
+                  transactionId: (payment['transactionId'] ?? '') as String,
+                  totalPayment: (payment['totalPayment'] ?? 0) as int,
                 )
               : const JasaPaymentHistory(
                   name: '-',
@@ -28,7 +32,11 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
                   date: '-',
                   price: '-',
                   status: '-',
+                  paymentMethod: '-',
+                  transactionId: '-',
+                  totalPayment: 0,
                 ));
+
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),

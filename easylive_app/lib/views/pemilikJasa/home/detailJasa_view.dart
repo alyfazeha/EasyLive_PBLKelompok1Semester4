@@ -99,21 +99,6 @@ class DetailJasaView extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         top: false,
         child: Padding(
-<<<<<<< HEAD
-          padding: const EdgeInsets.only(bottom: 10),
-          child: PemilikJasaBottomNav(
-            currentIndex: 2,
-            onNavigate: (index) {
-              if (index == 0) {
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/pemilik_jasa/dashboard',
-                );
-              } else if (index == 2) {
-                Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-              }
-            },
-=======
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -132,7 +117,6 @@ class DetailJasaView extends StatelessWidget {
                 },
               ),
             ],
->>>>>>> rafi
           ),
         ),
       ),

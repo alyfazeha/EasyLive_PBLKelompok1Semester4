@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'controllers/user/favorite_controller.dart';
+import 'models/user/history_model.dart' as user_history;
+
+
 
 import 'models/pemilikJasa/notifikasi_model.dart';
-<<<<<<< HEAD
-import 'models/user/history_model.dart';
-import 'models/admin/history_model.dart';
-=======
 import 'models/admin/notifikasi/notifikasi_model.dart';
->>>>>>> rafi
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
@@ -148,8 +146,11 @@ class MyApp extends StatelessWidget {
         return _noAnimation(const HistoryView(), settings);
 
       case '/history/detail':
-        final item = settings.arguments as HistoryItem;
+        final item = settings.arguments as user_history.HistoryItem;
+
         return _noAnimation(HistoryDetailView(item: item), settings);
+
+
 
       case '/profile':
         return _noAnimation(const user_profile.ProfileView(), settings);
@@ -171,14 +172,10 @@ class MyApp extends StatelessWidget {
         return _noAnimation(DetailKostView(idKost: idKost), settings);
 
       case '/pemilik_kos/tambah_data':
-<<<<<<< HEAD
-        return _noAnimation(TambahDataView(), settings);
-=======
         return _noAnimation(
           TambahDataView(),
           settings,
         ); // Pastikan tidak pakai const jika class bukan const
->>>>>>> rafi
 
       case '/pemilik_kos/history':
         return _noAnimation(const pemilik_booking.OwnerBookingView(), settings);

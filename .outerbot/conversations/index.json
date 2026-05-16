@@ -1,6 +1,69 @@
 {
   "conversations": [
     {
+      "id": "conv-1778926376189-x8q071",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-15T18:06:14.657Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 19 messages, 14 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+        "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+        "easylive_app/lib/views/admin/history/history_view.dart",
+        "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
+        "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
+        "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+        "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+        "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
+        "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
+        "easylive_app/lib/views/admin/kos/detail_approvalKos.dart",
+        "easylive_app/lib/controllers/admin/approvalKos_detail_controller.dart",
+        "easylive_app/lib/controllers/admin/kos/approvalKos_detail_controller.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 19
+    },
+    {
+      "id": "conv-1778926347129-038z3j",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-16T10:12:27.129Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+        "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+        "easylive_app/lib/views/admin/history/history_view.dart",
+        "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
+        "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
+        "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+        "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
+        "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
+        "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
+        "easylive_app/lib/views/admin/kos/detail_approvalKos.dart",
+        "easylive_app/lib/controllers/admin/approvalKos_detail_controller.dart",
+        "easylive_app/lib/controllers/admin/kos/approvalKos_detail_controller.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 19
+    },
+    {
       "id": "conv-1778867053666-jqr8hm",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
@@ -946,5 +1009,5 @@
       "messageCount": 6
     }
   ],
-  "lastUpdated": "2026-05-15T17:44:13.667Z"
+  "lastUpdated": "2026-05-16T10:12:56.190Z"
 }

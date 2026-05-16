@@ -172,54 +172,6 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
             ],
           ),
         ),
-<<<<<<< HEAD
-
-              const SizedBox(height: 16),
-
-              HistoryFilterTabs(
-                tabs: tabs,
-                selectedIndex: selectedTab,
-                onTap: (index) {
-                  setState(() {
-                    selectedTab = index;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              Expanded(
-                child: filteredItems.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'Tidak ada data history',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: filteredItems.length,
-                        itemBuilder: (context, index) {
-                          return HistoryItemCard(
-                            item: filteredItems[index],
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/admin/history/detail',
-                                arguments: filteredItems[index],
-                              );
-                            },
-                          );
-                        },
-                      ),
-              ),
-            ],
-          ),
-        ),
-=======
->>>>>>> rafi
       ),
 
       // ================= BOTTOM NAVBAR =================
