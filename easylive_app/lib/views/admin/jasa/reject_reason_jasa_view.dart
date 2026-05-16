@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-class RejectReasonApprovalKosView extends StatefulWidget {
-  final String kostId;
-  final String? propertyName;
+class RejectReasonJasaView extends StatefulWidget {
+  final String serviceName;
 
-  const RejectReasonApprovalKosView({
+  const RejectReasonJasaView({
     super.key,
-    required this.kostId,
-    this.propertyName,
+    required this.serviceName,
   });
 
   @override
-  State<RejectReasonApprovalKosView> createState() =>
-      _RejectReasonApprovalKosViewState();
+  State<RejectReasonJasaView> createState() => _RejectReasonJasaViewState();
 }
 
-class _RejectReasonApprovalKosViewState
-    extends State<RejectReasonApprovalKosView> {
+class _RejectReasonJasaViewState extends State<RejectReasonJasaView> {
   final TextEditingController reasonController = TextEditingController();
 
   @override
@@ -33,7 +29,7 @@ class _RejectReasonApprovalKosViewState
         backgroundColor: const Color(0xFF243B55),
         elevation: 0,
         title: const Text(
-          'Reject Kost',
+          'Reject Jasa',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
@@ -47,16 +43,14 @@ class _RejectReasonApprovalKosViewState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.propertyName != null) ...[
-                Text(
-                  'Kost: ${widget.propertyName}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+              Text(
+                'Jasa: ${widget.serviceName}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                 ),
-                const SizedBox(height: 16),
-              ],
+              ),
+              const SizedBox(height: 16),
               const Text(
                 'Alasan Menolak',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -65,6 +59,7 @@ class _RejectReasonApprovalKosViewState
               TextField(
                 controller: reasonController,
                 maxLines: 5,
+                textInputAction: TextInputAction.newline,
                 decoration: InputDecoration(
                   hintText: 'Masukkan alasan penolakan...',
                   filled: true,

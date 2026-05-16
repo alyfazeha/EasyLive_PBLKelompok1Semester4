@@ -57,6 +57,7 @@ class _ApprovalViewState extends State<ApprovalView> {
             submittedDate: r.submittedDate,
             status: 'Approved',
             imageUrl: r.imageUrl,
+            rejectionReason: null,
           );
         }
         return r;
@@ -69,7 +70,7 @@ class _ApprovalViewState extends State<ApprovalView> {
   }
 
   // Update status menjadi Rejected
-  void _onReject(ApprovalModel request) {
+  void _onReject(ApprovalModel request, String reason) {
     setState(() {
       allRequests = allRequests.map((r) {
         if (r.id == request.id) {
@@ -80,6 +81,7 @@ class _ApprovalViewState extends State<ApprovalView> {
             submittedDate: r.submittedDate,
             status: 'Rejected',
             imageUrl: r.imageUrl,
+            rejectionReason: reason,
           );
         }
         return r;
@@ -242,10 +244,15 @@ class _ApprovalViewState extends State<ApprovalView> {
                               );
 
                               // Jika status berubah dari halaman detail
-                              if (result == 'approved') {
+                              if (result is Map &&
+                                  result['status'] == 'approved') {
                                 _onApprove(request);
-                              } else if (result == 'rejected') {
-                                _onReject(request);
+                              } else if (result is Map &&
+                                  result['status'] == 'rejected') {
+                                _onReject(
+                                  request,
+                                  result['reason']?.toString() ?? '',
+                                );
                               }
                             },
                           ),

@@ -198,29 +198,36 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                           Navigator.pushNamed(context, '/admin/kos'),
                     ),
                     const SizedBox(height: 8),
-                    ...List.generate(pendingActions.length, (index) {
-                      final action = pendingActions[index];
-                      final icons = [
-                        Icons.home_work_outlined,
-                        Icons.miscellaneous_services_outlined,
-                        Icons.report_problem_outlined,
-                      ];
-                      final colors = [
-                        const Color(0xFF2F80ED),
-                        const Color(0xFF7B61FF),
-                        const Color(0xFFE4251B),
-                      ];
+                    SizedBox(
+                      height: 260,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: pendingActions.length,
+                        itemBuilder: (context, index) {
+                          final action = pendingActions[index];
+                          final icons = [
+                            Icons.home_work_outlined,
+                            Icons.miscellaneous_services_outlined,
+                            Icons.report_problem_outlined,
+                          ];
+                          final colors = [
+                            const Color(0xFF2F80ED),
+                            const Color(0xFF7B61FF),
+                            const Color(0xFFE4251B),
+                          ];
 
-                      return AdminPendingActionCard(
-                        title: action.title,
-                        subtitle: action.subtitle,
-                        status: action.status,
-                        icon: icons[index],
-                        color: colors[index],
-                        onTap: () =>
-                            Navigator.pushNamed(context, action.routeName),
-                      );
-                    }),
+                          return AdminPendingActionCard(
+                            title: action.title,
+                            subtitle: action.subtitle,
+                            status: action.status,
+                            icon: icons[index % icons.length],
+                            color: colors[index % colors.length],
+                            onTap: () =>
+                                Navigator.pushNamed(context, action.routeName),
+                          );
+                        },
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     AdminDashboardSectionHeader(
                       title: 'Recent Activity',

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/color.dart';
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/jasa/jasa_card.dart';
-import '../../../widgets/common/back_button_widget.dart';
+import '../../../widgets/admin/kos/approval_tab_filter.dart';
+import 'detail_jasa_view.dart';
 
 class AdminJasaManagementView extends StatefulWidget {
   const AdminJasaManagementView({super.key});
@@ -14,300 +14,277 @@ class AdminJasaManagementView extends StatefulWidget {
 }
 
 class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
-  String _search = '';
-  String _tab = 'all'; // all | active | inactive
+  final List<String> tabs = ['All', 'Pending', 'Approved', 'Rejected'];
 
-  final List<_JasaItem> _items = const [
+  int selectedTabIndex = 0;
+
+  List<_JasaItem> _items = const [
     _JasaItem(
       title: 'Jasa Pindah',
       subtitle: 'EasyMove Reguler',
-      status: 'pending',
+      submittedDate: '12 Mei 2026',
+      status: 'Pending',
       imageAsset: 'assets/images/jasa_icon_motor.png',
     ),
     _JasaItem(
       title: 'Laundry',
       subtitle: 'Bersih Laundry',
-      status: 'pending',
+      submittedDate: '10 Mei 2026',
+      status: 'Pending',
       imageAsset: 'assets/images/jasa_icon_laundry.png',
     ),
     _JasaItem(
       title: 'Cleaning Service',
       subtitle: 'Bersih Bersih Cleaning',
-      status: 'pending',
+      submittedDate: '08 Mei 2026',
+      status: 'Approved',
       imageAsset: 'assets/images/jasa_icon_cleaning.png',
     ),
     _JasaItem(
       title: 'Transport',
       subtitle: 'Prima Transport',
-      status: 'pending',
+      submittedDate: '05 Mei 2026',
+      status: 'Rejected',
       imageAsset: 'assets/images/jasa_icon_transport.png',
+      rejectionReason: 'Data kendaraan dan dokumen layanan belum lengkap.',
     ),
   ];
 
-  List<_JasaItem> get filtered {
-    final q = _search.trim().toLowerCase();
+  List<_JasaItem> get filteredRequests {
+    if (selectedTabIndex == 0) {
+      return _items;
+    }
+
+    final selectedStatus = tabs[selectedTabIndex];
 
     return _items.where((item) {
-      final matchSearch =
-          item.title.toLowerCase().contains(q) ||
-          item.subtitle.toLowerCase().contains(q);
-
-      final matchTab = _tab == 'all'
-          ? true
-          : _tab == 'active'
-          ? item.status.toLowerCase() == 'aktif' ||
-                item.status.toLowerCase() == 'active'
-          : item.status.toLowerCase() == 'inactive' ||
-                item.status.toLowerCase() == 'tidak aktif';
-
-      return matchSearch && matchTab;
+      return item.status.toLowerCase() == selectedStatus.toLowerCase();
     }).toList();
+  }
+
+  void _updateStatus(_JasaItem item, String status) {
+    setState(() {
+      _items = _items.map((current) {
+        if (current.title == item.title && current.subtitle == item.subtitle) {
+          return current.copyWith(
+            status: status,
+            rejectionReason: status == 'Rejected'
+                ? current.rejectionReason
+                : '',
+          );
+        }
+        return current;
+      }).toList();
+    });
+  }
+
+  void _rejectWithReason(_JasaItem item, String reason) {
+    setState(() {
+      _items = _items.map((current) {
+        if (current.title == item.title && current.subtitle == item.subtitle) {
+          return current.copyWith(
+            status: 'Rejected',
+            rejectionReason: reason,
+          );
+        }
+        return current;
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header (samakan tinggi & nyambung seperti halaman admin lain)
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 25),
-              decoration: const BoxDecoration(
-                color: Color(0xFF243447), // sama dengan AdminHeader
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(28),
-                  bottomRight: Radius.circular(28),
-                ),
-              ),
-              child: Row(
-                children: [
-                  const BackButtonWidget(
-                    backgroundColor: AppColors.yellow,
-                    iconColor: AppColors.darkBlue,
-                    size: 44,
-                    iconSize: 20,
-                    borderRadius: 14,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'Jasa Management',
-                      style: const TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  InkWell(
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/admin/notifikasi'),
-                    borderRadius: BorderRadius.circular(14),
-                    child: Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.14),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: const Icon(
-                        Icons.notifications,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+      backgroundColor: const Color(0xFFF3F3F3),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(
+              top: 50,
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0xFF243B55),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(28),
+                bottomRight: Radius.circular(28),
               ),
             ),
-
-            // Content frame
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Search
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEAF0F7),
-                          borderRadius: BorderRadius.circular(16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF6BE00),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 18,
+                          color: Color(0xFF243447),
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.search, color: Colors.grey),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: TextField(
-                                onChanged: (v) => setState(() => _search = v),
-                                decoration: const InputDecoration(
-                                  hintText: 'Search host',
-                                  border: InputBorder.none,
-                                  isDense: true,
+                      ),
+                    ),
+                    const Text(
+                      'Jasa Management',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/admin/notifikasi'),
+                      borderRadius: BorderRadius.circular(18),
+                      child: Stack(
+                        children: [
+                          const Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              decoration: const BoxDecoration(
+                                color: Colors.amber,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                '9',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Tabs
-                      Row(
-                        children: [
-                          _TabChip(
-                            label: 'All',
-                            active: _tab == 'all',
-                            onTap: () => setState(() => _tab = 'all'),
-                          ),
-                          const SizedBox(width: 10),
-                          _TabChip(
-                            label: 'Active',
-                            active: _tab == 'active',
-                            onTap: () => setState(() => _tab = 'active'),
-                          ),
-                          const SizedBox(width: 10),
-                          _TabChip(
-                            label: 'Inactive',
-                            active: _tab == 'inactive',
-                            onTap: () => setState(() => _tab = 'inactive'),
                           ),
                         ],
                       ),
-
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ApprovalTabFilter(
+                  tabs: tabs,
+                  selectedIndex: selectedTabIndex,
+                  onTap: (index) {
+                    setState(() {
+                      selectedTabIndex = index;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: filteredRequests.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No jasa requests found.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  )
+                : ListView(
+                    padding: const EdgeInsets.all(20),
+                    children: [
+                      const Text(
+                        'Jasa Owner Request',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF2C3E50),
+                        ),
+                      ),
                       const SizedBox(height: 16),
-
-                      Expanded(
-                        child: filtered.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  'Tidak ada data',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              )
-                            : ListView.separated(
-                                itemCount: filtered.length,
-                                separatorBuilder: (_, __) =>
-                                    const SizedBox(height: 12),
-                                itemBuilder: (context, index) {
-                                  final item = filtered[index];
-                                  return JasaCard(
+                      ...filteredRequests.map(
+                        (item) => Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: JasaCard(
+                            title: item.title,
+                            subtitle: item.subtitle,
+                            submittedDate: item.submittedDate,
+                            status: item.status,
+                            imageAsset: item.imageAsset,
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AdminJasaDetailView(
                                     title: item.title,
                                     subtitle: item.subtitle,
+                                    submittedDate: item.submittedDate,
                                     status: item.status,
                                     imageAsset: item.imageAsset,
-                                    onTap: () {
-                                      // placeholder detail navigation
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Detail: ${item.title}',
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
+                                    rejectionReason: item.rejectionReason,
+                                  ),
+                                ),
+                              );
+
+                              if (result is Map &&
+                                  result['status'] == 'approved') {
+                                _updateStatus(item, 'Approved');
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('${item.subtitle} approved'),
+                                  ),
+                                );
+                              } else if (result is Map &&
+                                  result['status'] == 'rejected') {
+                                _rejectWithReason(
+                                  item,
+                                  result['reason']?.toString() ?? '',
+                                );
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('${item.subtitle} rejected'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-
-            // Bottom navbar
-            Container(
-              color: Colors.transparent,
-              padding: EdgeInsets.zero,
-              child: AdminBottomNavbar(
-                selectedIndex: 3, // Jasa
-                onItemTapped: (index) {
-                  // index sesuai urutan di AdminBottomNavbar:
-                  // 0 Dashboard, 1 History, 2 Kost, 3 Jasa, 4 Profile
-                  if (index == 3) return;
-
-                  switch (index) {
-                    case 0:
-                      Navigator.pushNamed(context, '/admin');
-                      break;
-
-                    case 1:
-                      Navigator.pushNamed(context, '/admin/history');
-                      break;
-
-                    case 2:
-                      Navigator.pushNamed(context, '/admin/kos');
-                      break;
-
-                    case 4:
-                      Navigator.pushNamed(context, '/admin/profile');
-                      break;
-
-                    default:
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Halaman belum tersedia')),
-                      );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class _TabChip extends StatelessWidget {
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-
-  const _TabChip({
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(999),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: active ? AppColors.yellow : const Color(0xFFEAF0F7),
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: active ? AppColors.yellow : Colors.transparent,
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 12,
-            fontWeight: FontWeight.w900,
-            color: active ? AppColors.darkBlue : Colors.black87,
-          ),
-        ),
+      bottomNavigationBar: AdminBottomNavbar(
+        selectedIndex: 3,
+        onItemTapped: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/admin');
+              return;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/admin/history');
+              return;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/admin/kos');
+              return;
+            case 3:
+              return;
+            case 4:
+              Navigator.pushReplacementNamed(context, '/admin/profile');
+              return;
+          }
+        },
       ),
     );
   }
@@ -316,13 +293,35 @@ class _TabChip extends StatelessWidget {
 class _JasaItem {
   final String title;
   final String subtitle;
+  final String submittedDate;
   final String status;
   final String imageAsset;
+  final String rejectionReason;
 
   const _JasaItem({
     required this.title,
     required this.subtitle,
+    required this.submittedDate,
     required this.status,
     required this.imageAsset,
+    this.rejectionReason = '',
   });
+
+  _JasaItem copyWith({
+    String? title,
+    String? subtitle,
+    String? submittedDate,
+    String? status,
+    String? imageAsset,
+    String? rejectionReason,
+  }) {
+    return _JasaItem(
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      submittedDate: submittedDate ?? this.submittedDate,
+      status: status ?? this.status,
+      imageAsset: imageAsset ?? this.imageAsset,
+      rejectionReason: rejectionReason ?? this.rejectionReason,
+    );
+  }
 }
