@@ -7,11 +7,16 @@ import '../../../widgets/pemilikKos/dashboard/payment_detail_widgets.dart';
 class PaymentDetailView extends StatelessWidget {
   final Dashboard dashboard; // ← tambah parameter
 
-  PaymentDetailView({super.key, required this.dashboard}); // ← tambah required
+  const PaymentDetailView({
+    super.key,
+    required this.dashboard,
+  }); // ← tambah required
 
   @override
   Widget build(BuildContext context) {
-    final controller = PaymentDetailController(dashboard: dashboard); // ← pass dashboard
+    final controller = PaymentDetailController(
+      dashboard: dashboard,
+    ); // ← pass dashboard
     final payment = controller.getPaymentDetail();
 
     return Scaffold(
@@ -69,7 +74,9 @@ class PaymentDetailView extends StatelessWidget {
                 children: [
                   PaymentInfoCard(
                     payment: payment,
-                    formattedTotal: controller.formatCurrency(payment.totalPayment),
+                    formattedTotal: controller.formatCurrency(
+                      payment.totalPayment,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const Text(
@@ -110,7 +117,10 @@ class PaymentDetailView extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.download_rounded, color: AppColors.darkBlue),
+                      icon: const Icon(
+                        Icons.download_rounded,
+                        color: AppColors.darkBlue,
+                      ),
                       label: const Text(
                         'Unduh Bukti Pembayaran',
                         style: TextStyle(
@@ -121,7 +131,10 @@ class PaymentDetailView extends StatelessWidget {
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: AppColors.darkBlue, width: 1.5),
+                        side: const BorderSide(
+                          color: AppColors.darkBlue,
+                          width: 1.5,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),

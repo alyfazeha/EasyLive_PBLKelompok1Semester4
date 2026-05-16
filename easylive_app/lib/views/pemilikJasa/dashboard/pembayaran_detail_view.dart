@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../controllers/pemilikJasa/dashboard_controller.dart';
 import '../../../models/pemilikJasa/dashboard_model.dart';
 import '../../../core/color.dart';
 
@@ -14,22 +13,22 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
     final JasaPaymentHistory data = payment is JasaPaymentHistory
         ? payment
         : (payment is Map<String, dynamic>
-            ? JasaPaymentHistory(
-                name: (payment['name'] ?? '') as String,
-                vehicleType: (payment['vehicleType'] ?? '') as String,
-                location: (payment['location'] ?? '') as String,
-                date: (payment['date'] ?? '') as String,
-                price: (payment['price'] ?? '') as String,
-                status: (payment['status'] ?? '') as String,
-              )
-            : const JasaPaymentHistory(
-                name: '-',
-                vehicleType: '-',
-                location: '-',
-                date: '-',
-                price: '-',
-                status: '-',
-              ));
+              ? JasaPaymentHistory(
+                  name: (payment['name'] ?? '') as String,
+                  vehicleType: (payment['vehicleType'] ?? '') as String,
+                  location: (payment['location'] ?? '') as String,
+                  date: (payment['date'] ?? '') as String,
+                  price: (payment['price'] ?? '') as String,
+                  status: (payment['status'] ?? '') as String,
+                )
+              : const JasaPaymentHistory(
+                  name: '-',
+                  vehicleType: '-',
+                  location: '-',
+                  date: '-',
+                  price: '-',
+                  status: '-',
+                ));
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
@@ -98,11 +97,16 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
                     _InfoTitle('Status'),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE6F6EC),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFF31B75D).withOpacity(0.25)),
+                        border: Border.all(
+                          color: const Color(0xFF31B75D).withOpacity(0.25),
+                        ),
                       ),
                       child: Text(
                         data.status,
@@ -171,4 +175,3 @@ class _InfoValue extends StatelessWidget {
     );
   }
 }
-

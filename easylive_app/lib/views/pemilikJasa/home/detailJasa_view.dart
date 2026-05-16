@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import '../../../core/color.dart';
-import '../../../models/user/kos_model.dart';
 import '../../../widgets/pemilikJasa/home/detailJasa.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 import './editKendaraan_view.dart';
@@ -11,10 +10,7 @@ class DetailJasaView extends StatelessWidget {
   final String vehicleName;
   final DetailJasaController controller = DetailJasaController();
 
-  DetailJasaView({
-    super.key,
-    this.vehicleName = 'Pickup',
-  });
+  DetailJasaView({super.key, this.vehicleName = 'Pickup'});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +95,9 @@ class DetailJasaView extends StatelessWidget {
                 onNavigate: (index) {
                   if (index == 0) {
                     Navigator.pushReplacementNamed(
-                        context, '/pemilik_jasa/dashboard');
+                      context,
+                      '/pemilik_jasa/dashboard',
+                    );
                   } else if (index == 2) {
                     Navigator.pushReplacementNamed(context, '/pemilik_jasa');
                   }

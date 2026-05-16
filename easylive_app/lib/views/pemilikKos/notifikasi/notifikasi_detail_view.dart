@@ -10,7 +10,7 @@ import '../../../widgets/pemilikKos/notifikasi/submitter_card.dart';
 class NotificationDetailView extends StatelessWidget {
   final OwnerNotification ownerNotification;
 
-  NotificationDetailView({super.key, required this.ownerNotification});
+  const NotificationDetailView({super.key, required this.ownerNotification});
 
   // Teks detail sesuai type
   String _getDetailText(String property) {
