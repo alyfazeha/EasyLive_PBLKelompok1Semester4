@@ -57,8 +57,9 @@ class PemilikKosProfileMenuSection extends StatelessWidget {
               icon: Icons.person,
               title: 'Edit Profile',
               subtitle: 'Ubah informasi profil Anda',
-              onTap: () =>
-                  Navigator.pushNamed(context, '/pemilik_kos/edit_profile'),
+              onTap: () {
+                Navigator.pushNamed(context, '/pemilik_kos/edit_profile');
+              },
             ),
             const SizedBox(height: 12),
             PemilikKosProfileMenuItem(

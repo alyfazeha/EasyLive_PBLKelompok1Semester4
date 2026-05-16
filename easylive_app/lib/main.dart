@@ -4,10 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'controllers/user/favorite_controller.dart';
 import 'models/user/history_model.dart' as user_history;
 
-
-
 import 'models/user/history_model.dart';
-import 'models/pemilikKos/dashboard_model.dart'; 
+import 'models/pemilikKos/dashboard_model.dart';
 import 'models/pemilikJasa/notifikasi_model.dart';
 import 'models/admin/notifikasi/notifikasi_model.dart';
 import 'models/user/kos_model.dart';
@@ -55,6 +53,10 @@ import 'views/admin/jasa/jasa_management_view.dart';
 import 'views/admin/kos/kos_approval_view.dart';
 import 'views/admin/notifikasi/notifikasi_detail_view.dart';
 import 'views/admin/notifikasi/notifikasi_view.dart';
+import 'views/admin/notifikasi/notification_settings_view.dart';
+import 'views/admin/profile/app_settings_view.dart';
+import 'views/admin/profile/help_support_view.dart';
+import 'views/admin/profile/ubah_password_admin_view.dart';
 import 'views/admin/profile/admin_profile_view.dart';
 import 'views/admin/profile/profile_information_view.dart';
 
@@ -141,8 +143,6 @@ class MyApp extends StatelessWidget {
 
         return _noAnimation(HistoryDetailView(item: item), settings);
 
-
-
       case '/profile':
         return _noAnimation(const user_profile.ProfileView(), settings);
 
@@ -180,6 +180,16 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_kos/profile':
         return _noAnimation(const user_profile.ProfileView(), settings);
+
+      // Profile menu (Pemilik Kos)
+      case '/pemilik_kos/edit_profile':
+        return _noAnimation(const EditProfileView(), settings);
+
+      case '/pemilik_kos/favorite':
+        return _noAnimation(const FavoriteView(), settings);
+
+      case '/pemilik_kos/security':
+        return _noAnimation(const SecurityView(), settings);
 
       case '/pemilik_kos/dashboard':
         return _noAnimation(DashboardView(), settings);
@@ -267,6 +277,18 @@ class MyApp extends StatelessWidget {
 
       case '/admin/profile_information':
         return _noAnimation(const AdminProfileInformationView(), settings);
+
+      case '/admin/ubah_password':
+        return _noAnimation(const UbahPasswordAdminView(), settings);
+
+      case '/admin/notifikasi_settings':
+        return _noAnimation(const AdminNotificationSettingsView(), settings);
+
+      case '/admin/app_settings':
+        return _noAnimation(const AdminAppSettingsView(), settings);
+
+      case '/admin/help_support':
+        return _noAnimation(const AdminHelpSupportView(), settings);
 
       default:
         return null;
