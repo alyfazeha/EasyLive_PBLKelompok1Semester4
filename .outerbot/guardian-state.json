@@ -3,7 +3,7 @@
   "taskStatus": null,
   "blockedBy": null,
   "sessionStarted": "2026-05-16T04:19:59.954Z",
-  "lastActivity": "2026-05-16T14:43:50.975Z",
+  "lastActivity": "2026-05-16T14:49:41.893Z",
   "filesChangedThisSession": [
     "git\\scm0\\input",
     "easylive_app/lib/main.dart",
@@ -33,19 +33,9 @@
     "easylive_app/lib/views/admin/profile/app_settings_view.dart",
     "easylive_app/lib/views/admin/profile/help_support_view.dart"
   ],
-  "totalEditsThisSession": 1454,
+  "totalEditsThisSession": 1462,
   "decisions": [],
   "warnings": [
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/history/history_view.dart: 2672 chars replaced with 4074 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T10:08:17.093Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/admin/kos/detail_approvalKos.dart: 9118 chars replaced with 10161 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-16T10:08:17.096Z"
-    },
     {
       "type": "rewrite",
       "message": "Large overwrite in easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart: 1985 chars replaced with 1088 chars. Verify this wasn't an unintended rewrite.",
@@ -85,6 +75,16 @@
       "type": "rewrite",
       "message": "Large overwrite in easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart: 1183 chars replaced with 662 chars. Verify this wasn't an unintended rewrite.",
       "timestamp": "2026-05-16T10:10:49.679Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/profile/admin_profile_view.dart: 1620 chars replaced with 2408 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T14:44:46.951Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/profile/admin_profile_view.dart: 2408 chars replaced with 1620 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T14:49:30.071Z"
     }
   ],
   "prdItems": null,
