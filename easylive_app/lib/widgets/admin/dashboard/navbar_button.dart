@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AdminNavbarButton extends StatelessWidget {
   final IconData icon;
+  final IconData selectedIcon;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
@@ -9,6 +10,7 @@ class AdminNavbarButton extends StatelessWidget {
   const AdminNavbarButton({
     super.key,
     required this.icon,
+    required this.selectedIcon,
     required this.label,
     required this.isSelected,
     required this.onTap,
@@ -16,54 +18,55 @@ class AdminNavbarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF243447); // Navy
-    const Color navbarColor = Color(0xFFF6BE00); // Yellow
+    const Color navy = Color(0xFF243447);
+    const Color yellow = Color(0xFFF6BE00);
 
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(30),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Lingkaran biru ketika selected
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: isSelected ? primaryColor : Colors.transparent,
-                shape: BoxShape.circle,
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: primaryColor.withOpacity(0.25),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
-                        ),
-                      ]
-                    : [],
-              ),
-              child: Icon(
-                icon,
-                size: 24,
-                color: isSelected ? navbarColor : primaryColor,
-              ),
+    const double selectedIconSize = 28;
+    const double normalIconSize = 21;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: isSelected ? navy : Colors.transparent,
+              shape: BoxShape.circle,
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: navy.withOpacity(0.25),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]
+                  : [],
             ),
-
-            const SizedBox(height: 4),
-
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                color: primaryColor,
-              ),
+            child: Icon(
+              isSelected ? selectedIcon : icon,
+              size: isSelected ? selectedIconSize : normalIconSize,
+              color: isSelected ? yellow : navy,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+              color: navy,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -81,20 +84,23 @@ class AdminBottomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = [
-      {'icon': Icons.history, 'label': 'History'},
-      {'icon': Icons.home_work, 'label': 'Kos Approval'},
-      {'icon': Icons.dashboard_customize_outlined, 'label': 'Dashboard'},
-      {'icon': Icons.miscellaneous_services, 'label': 'Jasa'},
-      {'icon': Icons.person_outline, 'label': 'Profile'},
+    // Urutan sesuai gambar: History, Kost, Dashboard, Jasa, Profile
+    // Ikon aktif dibuat lebih “bold” dengan varian icon yang lebih filled.
+    final List<(IconData normalIcon, IconData selectedIcon, String label, int idx)> items =
+        [
+      (Icons.history, Icons.history, 'History', 1),
+      (Icons.home_work, Icons.home, 'Kost', 2),
+      (Icons.dashboard_customize_outlined, Icons.dashboard_customize, 'Dashboard', 0),
+      (Icons.miscellaneous_services, Icons.miscellaneous_services, 'Jasa', 3),
+      (Icons.person_outline, Icons.person, 'Profile', 4),
     ];
 
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: const Color(0xFFF6BE00),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(35),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.12),
@@ -106,16 +112,21 @@ class AdminBottomNavbar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: List.generate(
-            items.length,
-            (index) => AdminNavbarButton(
-              icon: items[index]['icon'] as IconData,
-              label: items[index]['label'] as String,
-              isSelected: selectedIndex == index,
-              onTap: () => onItemTapped(index),
-            ),
-          ),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: List.generate(items.length, (i) {
+            final (normalIcon, selectedIcon, label, idx) = items[i];
+
+            return Expanded(
+              child: AdminNavbarButton(
+                icon: normalIcon,
+                selectedIcon: selectedIcon,
+                label: label,
+                isSelected: selectedIndex == idx,
+                onTap: () => onItemTapped(idx),
+              ),
+            );
+          }),
         ),
       ),
     );

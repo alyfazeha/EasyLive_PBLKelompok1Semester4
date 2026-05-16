@@ -1,5 +1,6 @@
 import 'package:easylive_app/core/color.dart';
 import 'package:flutter/material.dart';
+import 'package:easylive_app/widgets/common/back_button_widget.dart';
 
 import '../../../controllers/user/history_controller.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
@@ -30,37 +31,12 @@ class _HistoryViewState extends State<HistoryView> {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
               child: Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/home',
-                          (route) => false,
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.yellow,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: AppColors.primary,
-                        size: 20,
-                      ),
-                    ),
+                  const BackButtonWidget(
+                    backgroundColor: AppColors.yellow,
+                    iconColor: AppColors.primary,
+                    size: 44,
+                    iconSize: 20,
+                    borderRadius: 12,
                   ),
                   const SizedBox(width: 15),
                   const Expanded(

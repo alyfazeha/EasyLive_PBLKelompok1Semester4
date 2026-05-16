@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
+import '../../../widgets/common/back_button_widget.dart';
 
 class LocationPickerView extends StatelessWidget {
   final KostModel kost;
@@ -38,30 +39,16 @@ class LocationPickerView extends StatelessWidget {
                 ),
               ),
 
-              // Tombol Back
+              // Tombol Back (seragam)
               Positioned(
                 top: 25,
                 left: 20,
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: AppColors.darkBlue,
-                    ),
-                  ),
+                child: const BackButtonWidget(
+                  backgroundColor: Colors.white,
+                  iconColor: AppColors.darkBlue,
+                  size: 44,
+                  iconSize: 20,
+                  borderRadius: 12,
                 ),
               ),
 

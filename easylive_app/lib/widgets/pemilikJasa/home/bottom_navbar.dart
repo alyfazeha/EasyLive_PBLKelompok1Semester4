@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../../core/color.dart';
 
+/// Index mapping:
+/// 0 = Dashboard
+/// 1 = Jasa (owner jasa)
+/// 2 = Home (fab circle center)
+/// 3 = Bookings
+/// 4 = Profile
 class PemilikJasaBottomNav extends StatelessWidget {
   final int currentIndex;
   final Function(int)? onNavigate;
 
   const PemilikJasaBottomNav({
     super.key,
-    this.currentIndex = 2,
+    this.currentIndex = 0,
     this.onNavigate,
   });
 
@@ -34,15 +40,28 @@ class PemilikJasaBottomNav extends StatelessWidget {
                 active: currentIndex == 0,
                 onTap: () => onNavigate?.call(0),
               ),
-              const SizedBox(width: 64),
+              _BottomNavItem(
+                icon: Icons.inventory_2_outlined,
+                label: 'Jasa',
+                active: currentIndex == 1,
+                onTap: () => onNavigate?.call(1),
+              ),
               _BottomNavItem(
                 icon: Icons.bookmark_border_rounded,
                 label: 'Bookings',
                 active: currentIndex == 3,
                 onTap: () => onNavigate?.call(3),
               ),
+              _BottomNavItem(
+                icon: Icons.person_outline,
+                label: 'Profile',
+                active: currentIndex == 4,
+                onTap: () => onNavigate?.call(4),
+              ),
             ],
           ),
+
+          /// Center FAB (Home)
           Positioned(
             top: -18,
             child: GestureDetector(
@@ -89,7 +108,7 @@ class _BottomNavItem extends StatelessWidget {
         : AppColors.darkBlue.withValues(alpha: 0.62);
 
     return SizedBox(
-      width: 54,
+      width: 72,
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
@@ -100,6 +119,9 @@ class _BottomNavItem extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 8,

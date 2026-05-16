@@ -2,19 +2,68 @@
   "currentTask": null,
   "taskStatus": null,
   "blockedBy": null,
-  "sessionStarted": "2026-05-14T11:38:38.807Z",
-  "lastActivity": "2026-05-14T12:03:59.979Z",
+  "sessionStarted": "2026-05-16T04:19:59.954Z",
+  "lastActivity": "2026-05-16T08:47:21.133Z",
   "filesChangedThisSession": [
     "git\\scm0\\input",
-    "easylive_app/lib/main.dart"
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+    "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+    "easylive_app/lib/views/admin/history/history_view.dart",
+    "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart"
   ],
-  "totalEditsThisSession": 14,
+  "totalEditsThisSession": 26,
   "decisions": [],
   "warnings": [
     {
-      "type": "stale",
-      "message": "Session resumed after 1220 min break. Previous session: 3 files changed.",
-      "timestamp": "2026-05-14T11:38:38.807Z"
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/main.dart: 6272 chars replaced with 6946 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:13:03.934Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/main.dart: 6946 chars replaced with 6272 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:43:19.695Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 4614 chars replaced with 4107 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:43:19.701Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/main.dart: 8403 chars replaced with 9993 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:43:35.095Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 2944 chars replaced with 3383 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:43:35.098Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/main.dart: 7336 chars replaced with 7933 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:44:14.707Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 4506 chars replaced with 5394 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:44:14.710Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/dashboard/dashboard_view.dart: 1784 chars replaced with 964 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:44:52.759Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/views/admin/history/history_view.dart: 1972 chars replaced with 1105 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:45:12.032Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/lib/widgets/admin/dashboard/navbar_button.dart: 947 chars replaced with 580 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-16T08:46:13.778Z"
     }
   ],
   "prdItems": null,

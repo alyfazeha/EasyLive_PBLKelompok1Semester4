@@ -1,0 +1,58 @@
+{
+  "id": "conv-1778905199941-iliogs",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-14T12:00:26.767Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 4 messages, 1 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/main.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 4,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:00:26.767Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:02:44.960Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:03:58.967Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-15T19:54:11.512Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    }
+  ]
+}
