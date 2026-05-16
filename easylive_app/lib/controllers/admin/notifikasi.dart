@@ -198,10 +198,10 @@ class OwnerNotificationController extends ChangeNotifier {
             final booking = bookingDetails[idBooking];
             final idProfile = booking?['id_profile'] as String? ?? '';
             final tanggalCheckin = booking?['tanggal_checkin'] as String? ?? '-';
-            final idKost = booking?['id_kost'] as int?; // ← ambil id_kost
+            final idKost = booking?['id_kost'] as int?; 
             final namaKost = idKost != null
                 ? (kostNames[idKost] ?? '-')
-                : '-'; // ← ambil nama kost
+                : '-'; 
             final profile = allProfileDetails[idProfile];
             final nama = profile?['username'] ?? '-';
             final email = profile?['email'] ?? '-';
@@ -214,7 +214,7 @@ class OwnerNotificationController extends ChangeNotifier {
                   'Pembayaran dari $nama\nsebesar Rp ${_formatHarga(grossAmount)}',
               time: '',
               type: OwnerNotificationType.payment,
-              property: namaKost, // ← sekarang nama kost yang benar
+              property: namaKost, 
               checkIn: tanggalCheckin,
               checkOut: '-',
               paymentMethod: paymentType,
