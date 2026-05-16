@@ -10,20 +10,32 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final payment = ModalRoute.of(context)?.settings.arguments;
 
+    String readString(Map<String, dynamic> map, String key, [String fallback = '-']) {
+      final value = map[key];
+      if (value == null) return fallback;
+      return value.toString();
+    }
+
+    int readInt(Map<String, dynamic> map, String key) {
+      final value = map[key];
+      if (value is int) return value;
+      if (value is num) return value.toInt();
+      return int.tryParse(value?.toString() ?? '') ?? 0;
+    }
+
     final JasaPaymentHistory data = payment is JasaPaymentHistory
         ? payment
         : (payment is Map<String, dynamic>
               ? JasaPaymentHistory(
-                  name: (payment['name'] ?? '') as String,
-                  vehicleType: (payment['vehicleType'] ?? '') as String,
-                  location: (payment['location'] ?? '') as String,
-                  date: (payment['date'] ?? '') as String,
-                  price: (payment['price'] ?? '') as String,
-                  status: (payment['status'] ?? '') as String,
-                  paymentMethod:
-                      (payment['paymentMethod'] ?? '') as String,
-                  transactionId: (payment['transactionId'] ?? '') as String,
-                  totalPayment: (payment['totalPayment'] ?? 0) as int,
+                  name: readString(payment, 'name'),
+                  vehicleType: readString(payment, 'vehicleType'),
+                  location: readString(payment, 'location'),
+                  date: readString(payment, 'date'),
+                  price: readString(payment, 'price'),
+                  status: readString(payment, 'status'),
+                  paymentMethod: readString(payment, 'paymentMethod'),
+                  transactionId: readString(payment, 'transactionId'),
+                  totalPayment: readInt(payment, 'totalPayment'),
                 )
               : const JasaPaymentHistory(
                   name: '-',
@@ -36,7 +48,6 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
                   transactionId: '-',
                   totalPayment: 0,
                 ));
-
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),

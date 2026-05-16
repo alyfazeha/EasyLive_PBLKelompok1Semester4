@@ -1,25 +1,41 @@
-// detail_approvalKos.dart
 import 'package:flutter/material.dart';
-import '../../../models/admin/kos_model.dart';
+
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/kos/detail_info.dart';
-import '../../../widgets/admin/kos/photo_gallery.dart';
-import 'reject_reason_approvalKos_view.dart';
+import 'reject_reason_jasa_view.dart';
 
-class ApprovalDetailView extends StatelessWidget {
-  final ApprovalModel approval;
+class AdminJasaDetailView extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
+  final String? submittedDate;
+  final String? status;
+  final String? imageAsset;
+  final String? rejectionReason;
 
-  const ApprovalDetailView({super.key, required this.approval});
+  const AdminJasaDetailView({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.submittedDate,
+    required this.status,
+    required this.imageAsset,
+    this.rejectionReason,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final rejectionReason = approval.rejectionReason?.trim() ?? '';
+    final serviceType = _safeText(title);
+    final businessName = _safeText(subtitle);
+    final submittedAt = _safeText(submittedDate);
+    final currentStatus = _safeText(status, fallback: 'Pending');
+    final imagePath = imageAsset?.trim() ?? '';
+    final reason = rejectionReason?.trim() ?? '';
+    final statusStyle = _statusStyle(currentStatus);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: Column(
         children: [
-          // HEADER
           Container(
             padding: const EdgeInsets.only(
               top: 50,
@@ -54,7 +70,7 @@ class ApprovalDetailView extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'Approval Detail',
+                  'Jasa Detail',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -73,8 +89,6 @@ class ApprovalDetailView extends StatelessWidget {
               ],
             ),
           ),
-
-          // CONTENT CARD
           Expanded(
             child: Transform.translate(
               offset: const Offset(0, -50),
@@ -96,16 +110,14 @@ class ApprovalDetailView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // PROFILE
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundImage: NetworkImage(approval.imageUrl),
-                            onBackgroundImageError: (_, __) {},
-                            child: approval.imageUrl.isEmpty
-                                ? const Icon(Icons.person)
-                                : null,
+                          ClipOval(
+                            child: _JasaAssetImage(
+                              path: imagePath,
+                              size: 48,
+                              icon: Icons.miscellaneous_services,
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -113,14 +125,14 @@ class ApprovalDetailView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  approval.name,
+                                  businessName,
                                   style: const TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const Text(
-                                  'Kost Owner',
+                                  'Jasa Owner',
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               ],
@@ -132,13 +144,13 @@ class ApprovalDetailView extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFF3CD),
+                              color: statusStyle.background,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              approval.status,
-                              style: const TextStyle(
-                                color: Color(0xFFE0A800),
+                              currentStatus,
+                              style: TextStyle(
+                                color: statusStyle.foreground,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -146,10 +158,7 @@ class ApprovalDetailView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 30),
-
-                      // BUSINESS DETAILS
                       const Text(
                         'Business Details',
                         style: TextStyle(
@@ -157,32 +166,35 @@ class ApprovalDetailView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       const SizedBox(height: 16),
-
                       DetailInfoRow(
                         label: 'Business Name',
-                        value: approval.propertyName,
+                        value: businessName,
                       ),
+                      DetailInfoRow(label: 'Service Type', value: serviceType),
                       const DetailInfoRow(
                         label: 'Phone Number',
                         value: '081234567890',
                       ),
                       const DetailInfoRow(
                         label: 'Email',
-                        value: 'owner@example.com',
+                        value: 'ownerjasa@example.com',
                       ),
                       const DetailInfoRow(
                         label: 'Address',
-                        value: 'Jl. Soekarno Hatta No. 10, Malang',
+                        value: 'Jl. Veteran No. 21, Malang',
+                      ),
+                      DetailInfoRow(
+                        label: 'Submitted',
+                        value: submittedAt,
                       ),
                       const DetailInfoRow(
                         label: 'Description',
-                        value: 'Kost nyaman, bersih, dan dekat kampus.',
+                        value:
+                            'Layanan jasa untuk membantu kebutuhan penghuni kos dengan proses pemesanan yang praktis.',
                       ),
-
-                      if (approval.status.toLowerCase() == 'rejected' &&
-                          rejectionReason.isNotEmpty) ...[
+                      if (currentStatus.toLowerCase() == 'rejected' &&
+                          reason.isNotEmpty) ...[
                         const SizedBox(height: 20),
                         const Text(
                           'Rejection Reason',
@@ -203,7 +215,7 @@ class ApprovalDetailView extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            rejectionReason,
+                            reason,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.black87,
@@ -212,10 +224,7 @@ class ApprovalDetailView extends StatelessWidget {
                           ),
                         ),
                       ],
-
                       const SizedBox(height: 30),
-
-                      // PHOTOS
                       const Text(
                         'Photos',
                         style: TextStyle(
@@ -223,34 +232,25 @@ class ApprovalDetailView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       const SizedBox(height: 12),
-
-                      // Tampilkan 3 foto lokal untuk menghindari http request failed.
-                      // Sesuaikan dengan nama aset yang tersedia.
-                      PhotoGallery(
+                      _JasaPhotoGallery(
                         photos: [
-                          'assets/images/kamarKos.jpg',
-                          'assets/images/kos1.jpg',
-                          'assets/images/kos2.jpg',
+                          imagePath,
+                          'assets/images/mobilBox-BackgroundRemover.jpg',
+                          'assets/images/pickup-removed.png',
                         ],
                       ),
-
                       const SizedBox(height: 30),
-
-                      // BUTTONS
                       Row(
                         children: [
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () async {
-                                // Buka halaman input alasan reject
                                 final reason = await Navigator.push<String>(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => RejectReasonApprovalKosView(
-                                      kostId: approval.id,
-                                      propertyName: approval.propertyName,
+                                    builder: (_) => RejectReasonJasaView(
+                                      serviceName: businessName,
                                     ),
                                   ),
                                 );
@@ -307,7 +307,7 @@ class ApprovalDetailView extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: AdminBottomNavbar(
-        selectedIndex: 2,
+        selectedIndex: 3,
         onItemTapped: (index) {
           switch (index) {
             case 0:
@@ -330,4 +330,122 @@ class ApprovalDetailView extends StatelessWidget {
       ),
     );
   }
+
+  _JasaStatusStyle _statusStyle(String status) {
+    final value = status.toLowerCase();
+
+    if (value == 'approved') {
+      return const _JasaStatusStyle(
+        background: Color(0xFFE6F6EC),
+        foreground: Color(0xFF31B75D),
+      );
+    }
+
+    if (value == 'rejected') {
+      return const _JasaStatusStyle(
+        background: Color(0xFFFFE6E6),
+        foreground: Color(0xFFE53935),
+      );
+    }
+
+    return const _JasaStatusStyle(
+      background: Color(0xFFFFF3CD),
+      foreground: Color(0xFFE0A800),
+    );
+  }
+
+  String _safeText(String? value, {String fallback = '-'}) {
+    final text = value?.trim();
+    if (text == null || text.isEmpty) return fallback;
+    return text;
+  }
+}
+
+class _JasaPhotoGallery extends StatelessWidget {
+  final List<String> photos;
+
+  const _JasaPhotoGallery({
+    required this.photos,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final visiblePhotos = photos.where((photo) => photo.trim().isNotEmpty).toList();
+
+    if (visiblePhotos.isEmpty) {
+      return const Text(
+        'No photos available',
+        style: TextStyle(color: Colors.grey),
+      );
+    }
+
+    return SizedBox(
+      height: 70,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: visiblePhotos.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: _JasaAssetImage(
+              path: visiblePhotos[index],
+              size: 70,
+              icon: Icons.image_not_supported_outlined,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _JasaAssetImage extends StatelessWidget {
+  final String path;
+  final double size;
+  final IconData icon;
+
+  const _JasaAssetImage({
+    required this.path,
+    required this.size,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (path.trim().isEmpty) {
+      return _placeholder();
+    }
+
+    return Image.asset(
+      path,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => _placeholder(),
+    );
+  }
+
+  Widget _placeholder() {
+    return Container(
+      width: size,
+      height: size,
+      color: const Color(0xFFEAF0F7),
+      child: Icon(
+        icon,
+        color: const Color(0xFF243447),
+        size: size <= 48 ? 22 : 26,
+      ),
+    );
+  }
+}
+
+class _JasaStatusStyle {
+  final Color background;
+  final Color foreground;
+
+  const _JasaStatusStyle({
+    required this.background,
+    required this.foreground,
+  });
 }

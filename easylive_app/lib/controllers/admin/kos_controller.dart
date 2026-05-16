@@ -21,6 +21,15 @@ class ApprovalController {
         imageUrl:
             'https://i.pravatar.cc/150?img=5',
       ),
+      ApprovalModel(
+        id: '3',
+        name: 'Dewi Lestari',
+        propertyName: 'Kost Sejahtera',
+        submittedDate: '09 May 2025',
+        status: 'Rejected',
+        imageUrl: 'https://i.pravatar.cc/150?img=8',
+        rejectionReason: 'Foto kamar dan dokumen kepemilikan belum lengkap.',
+      ),
     ];
   }
 }

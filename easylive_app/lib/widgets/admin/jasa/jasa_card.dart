@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/color.dart';
-
 class JasaCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String status;
-  final String imageAsset;
+  final String? title;
+  final String? subtitle;
+  final String? submittedDate;
+  final String? status;
+  final String? imageAsset;
   final VoidCallback onTap;
 
   const JasaCard({
     super.key,
     required this.title,
     required this.subtitle,
+    required this.submittedDate,
     required this.status,
     required this.imageAsset,
     required this.onTap,
@@ -20,115 +20,163 @@ class JasaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color statusBg = Colors.amber;
-    Color statusText = const Color(0xFF243447);
+    final serviceType = _safeText(title);
+    final businessName = _safeText(subtitle);
+    final submittedAt = _safeText(submittedDate);
+    final currentStatus = _safeText(status, fallback: 'Pending');
+    final imagePath = imageAsset?.trim() ?? '';
+    final statusStyle = _statusStyle(currentStatus);
 
-    final raw = status.toLowerCase();
-    if (raw.contains('pending')) {
-      statusBg = AppColors.yellow;
-      statusText = AppColors.darkBlue;
-    } else if (raw.contains('active') || raw.contains('aktif')) {
-      statusBg = const Color(0xFF31B75D);
-      statusText = Colors.white;
-    } else if (raw.contains('inactive') || raw.contains('tidak')) {
-      statusBg = Colors.grey.shade400;
-      statusText = Colors.white;
-    }
-
-    return InkWell(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
             ),
           ],
-          border: Border.all(color: Colors.grey.shade200),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: AppColors.lightGreyAlt,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  imageAsset,
-                  width: 46,
-                  height: 46,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const Icon(
-                    Icons.construction,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-              ),
+            ClipOval(
+              child: _JasaCardImage(path: imagePath),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
-                    style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                      color: AppColors.darkBlue,
-                    ),
+                    serviceType,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2C3E50),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 11,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    businessName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Submitted $submittedAt',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
             ),
             const SizedBox(width: 10),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: statusBg,
-                borderRadius: BorderRadius.circular(12),
+                color: statusStyle.background,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                status,
+                currentStatus,
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 10,
-                  fontWeight: FontWeight.w900,
-                  color: statusText,
+                  fontSize: 11,
+                  color: statusStyle.foreground,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            Icon(Icons.chevron_right_rounded, color: Colors.black38),
           ],
         ),
       ),
     );
   }
+
+  _JasaStatusStyle _statusStyle(String status) {
+    final value = status.toLowerCase();
+
+    if (value == 'approved') {
+      return const _JasaStatusStyle(
+        background: Color(0xFFE6F6EC),
+        foreground: Color(0xFF31B75D),
+      );
+    }
+
+    if (value == 'rejected') {
+      return const _JasaStatusStyle(
+        background: Color(0xFFFFE6E6),
+        foreground: Color(0xFFE53935),
+      );
+    }
+
+    return const _JasaStatusStyle(
+      background: Color(0xFFFFF3CD),
+      foreground: Color(0xFFE0A800),
+    );
+  }
+
+  String _safeText(String? value, {String fallback = '-'}) {
+    final text = value?.trim();
+    if (text == null || text.isEmpty) return fallback;
+    return text;
+  }
+}
+
+class _JasaCardImage extends StatelessWidget {
+  final String path;
+
+  const _JasaCardImage({required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    if (path.trim().isEmpty) {
+      return _placeholder();
+    }
+
+    return Image.asset(
+      path,
+      width: 48,
+      height: 48,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => _placeholder(),
+    );
+  }
+
+  Widget _placeholder() {
+    return Container(
+      width: 48,
+      height: 48,
+      color: const Color(0xFFEAF0F7),
+      child: const Icon(
+        Icons.miscellaneous_services,
+        color: Color(0xFF243447),
+        size: 22,
+      ),
+    );
+  }
+}
+
+class _JasaStatusStyle {
+  final Color background;
+  final Color foreground;
+
+  const _JasaStatusStyle({
+    required this.background,
+    required this.foreground,
+  });
 }

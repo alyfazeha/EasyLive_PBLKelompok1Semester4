@@ -5,8 +5,39 @@
 import 'package:flutter/material.dart';
 import '../../../models/admin/kos_model.dart';
 
+class _StatusStyle {
+  final Color background;
+  final Color foreground;
+
+  const _StatusStyle({required this.background, required this.foreground});
+}
+
 class ApprovalCard extends StatelessWidget {
+  _StatusStyle _statusStyle(String status) {
+    final value = status.toLowerCase();
+
+    if (value == 'approved') {
+      return const _StatusStyle(
+        background: Color(0xFFE6F6EC),
+        foreground: Color(0xFF31B75D),
+      );
+    }
+
+    if (value == 'rejected') {
+      return const _StatusStyle(
+        background: Color(0xFFFFE6E6),
+        foreground: Color(0xFFE53935),
+      );
+    }
+
+    return const _StatusStyle(
+      background: Color(0xFFFFF3CD),
+      foreground: Color(0xFFE0A800),
+    );
+  }
+
   final ApprovalModel approval;
+
   final VoidCallback onApprove;
   final VoidCallback onReject;
   final VoidCallback? onTap;
@@ -31,6 +62,10 @@ class ApprovalCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(14),
+        // Samakan tinggi card dengan JasaCard (tidak dibuat fixed/minHeight agar konten menentukan tinggi)
+        constraints: const BoxConstraints(minHeight: 0),
+        clipBehavior: Clip.antiAlias,
+
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
@@ -92,14 +127,14 @@ class ApprovalCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFF3CD),
+                    color: _statusStyle(approval.status).background,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     approval.status,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
-                      color: Color(0xFFE0A800),
+                      color: _statusStyle(approval.status).foreground,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
