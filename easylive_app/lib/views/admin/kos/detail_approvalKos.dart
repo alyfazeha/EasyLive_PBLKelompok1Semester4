@@ -1,6 +1,7 @@
 // detail_approvalKos.dart
 import 'package:flutter/material.dart';
 import '../../../models/admin/kos_model.dart';
+import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/kos/detail_info.dart';
 import '../../../widgets/admin/kos/photo_gallery.dart';
 import 'reject_reason_approvalKos_view.dart';
@@ -34,9 +35,21 @@ class ApprovalDetailView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF6BE00),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 18,
+                      color: Color(0xFF243447),
+                    ),
+                  ),
                 ),
                 const Text(
                   'Approval Detail',
@@ -200,6 +213,13 @@ class ApprovalDetailView extends StatelessWidget {
                                   ),
                                 ).then((result) {
                                   if (result == 'rejected') {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Kos ditolak admin. Notifikasi akan muncul di tab Rejected.',
+                                        ),
+                                      ),
+                                    );
                                     Navigator.pop(context, 'rejected');
                                   }
                                 });
@@ -242,6 +262,19 @@ class ApprovalDetailView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: AdminBottomNavbar(
+        selectedIndex: 1,
+        onItemTapped: (index) {
+          if (index == 0) {
+            Navigator.pushNamed(context, '/admin/history');
+            return;
+          }
+          if (index == 1) {
+            Navigator.pushNamed(context, '/admin/kos_approval');
+            return;
+          }
+        },
       ),
     );
   }

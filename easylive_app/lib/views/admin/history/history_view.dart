@@ -127,74 +127,89 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
         ),
       ),
 
-      // ================= BODY =================
-   body: SafeArea(
-  child: Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      children: [
-        // Search Bar
-        HistorySearchBar(
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-        ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Search Bar
+              HistorySearchBar(
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
 
-        const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-        HistoryFilterTabs(
-          tabs: tabs,
-          selectedIndex: selectedTab,
-          onTap: (index) {
-            setState(() {
-              selectedTab = index;
-            });
-          },
-        ),
+              HistoryFilterTabs(
+                tabs: tabs,
+                selectedIndex: selectedTab,
+                onTap: (index) {
+                  setState(() {
+                    selectedTab = index;
+                  });
+                },
+              ),
 
-        const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-        Expanded(
-          child: filteredItems.isEmpty
-              ? const Center(
-                  child: Text(
-                    'Tidak ada data history',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: filteredItems.length,
-                  itemBuilder: (context, index) {
-                    return HistoryItemCard(
-                      item: filteredItems[index],
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(filteredItems[index].title),
+              Expanded(
+                child: filteredItems.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Tidak ada data history',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
                           ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: filteredItems.length,
+                        itemBuilder: (context, index) {
+                          return HistoryItemCard(
+                            item: filteredItems[index],
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/admin/history/detail',
+                                arguments: filteredItems[index],
+                              );
+                            },
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
-      ],
-    ),
-  ),
-),
+      ),
 
-      // ================= BOTTOM NAVBAR =================
       bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedNavbar,
         onItemTapped: (index) {
-          setState(() {
-            selectedNavbar = index;
-          });
+          // Hanya route admin yang tersedia:
+          // 0 History -> /admin/history
+          // 1 Kos Approval -> /admin/kos_approval
+          // 2 Dashboard -> /admin/home
+          if (index == 0) {
+            Navigator.pushNamed(context, '/admin/history');
+            return;
+          }
+          if (index == 1) {
+            Navigator.pushNamed(context, '/admin/kos_approval');
+            return;
+          }
+          if (index == 2) {
+            Navigator.pushNamed(context, '/admin/home');
+            return;
+          }
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Menu ini belum tersedia untuk Admin')),
+          );
         },
       ),
     );

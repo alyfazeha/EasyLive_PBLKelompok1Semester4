@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/admin/kos_controller.dart';
 import '../../../models/admin/kos_model.dart';
+import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/kos/approval_card.dart';
 import '../../../widgets/admin/kos/approval_tab_filter.dart';
 import 'detail_approvalKos.dart';
@@ -116,15 +117,26 @@ class _ApprovalViewState extends State<ApprovalView> {
               children: [
                 // Top Bar
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
-                      Icons.menu,
-                      color: Colors.white,
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF6BE00),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 18,
+                          color: Color(0xFF243447),
+                        ),
+                      ),
                     ),
                     const Text(
-                      'Approvals',
+                      'Kost Approvals',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -153,8 +165,7 @@ class _ApprovalViewState extends State<ApprovalView> {
                               '9',
                               style: TextStyle(
                                 fontSize: 9,
-                                fontWeight:
-                                    FontWeight.bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -207,8 +218,7 @@ class _ApprovalViewState extends State<ApprovalView> {
                       // List Card Approval
                       ...filteredRequests.map(
                         (request) => Padding(
-                          padding:
-                              const EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             bottom: 16,
                           ),
                           child: ApprovalCard(
@@ -223,23 +233,19 @@ class _ApprovalViewState extends State<ApprovalView> {
 
                             // Klik card membuka detail
                             onTap: () async {
-                              final result =
-                                  await Navigator.push(
+                              final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      ApprovalDetailView(
+                                  builder: (_) => ApprovalDetailView(
                                     approval: request,
                                   ),
                                 ),
                               );
 
                               // Jika status berubah dari halaman detail
-                              if (result ==
-                                  'approved') {
+                              if (result == 'approved') {
                                 _onApprove(request);
-                              } else if (result ==
-                                  'rejected') {
+                              } else if (result == 'rejected') {
                                 _onReject(request);
                               }
                             },
@@ -250,6 +256,26 @@ class _ApprovalViewState extends State<ApprovalView> {
                   ),
           ),
         ],
+      ),
+
+      bottomNavigationBar: AdminBottomNavbar(
+        selectedIndex: 1,
+        onItemTapped: (index) {
+          if (index == 0) {
+            Navigator.pushNamed(context, '/admin/history');
+            return;
+          }
+          // Kos Approval (index 1)
+          if (index == 1) {
+            Navigator.pushNamed(context, '/admin/kos_approval');
+            return;
+          }
+          // Dashboard (index 2)
+          if (index == 2) {
+            Navigator.pushNamed(context, '/admin/home');
+            return;
+          }
+        },
       ),
     );
   }

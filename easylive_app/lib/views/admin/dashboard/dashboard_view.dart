@@ -34,9 +34,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ── STAT CARDS ──────────────────────────────
-                    // Ganti GridView.count → Column + Row
-                    // supaya tinggi card mengikuti konten
                     Column(
                       children: [
                         Row(
@@ -86,7 +83,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -98,21 +94,31 @@ class _AdminHomeViewState extends State<AdminHomeView> {
       bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) {
-          // Sesuai flow: History selalu membuka halaman /admin/history
+          // 0 History
           if (index == 0) {
             Navigator.pushNamed(context, '/admin/history');
-            // jangan update selectedIndex dulu supaya state tetap konsisten
             return;
           }
-
-          setState(() => selectedIndex = index);
-          // Navigasi Admin:
-          // index 1 (Kos Approval) menampilkan kos_approval_view
+          // 1 Kos Approval
           if (index == 1) {
             Navigator.pushNamed(context, '/admin/kos_approval');
             return;
           }
-          // index 2..4: TODO sesuai kebutuhan
+          // 2 Dashboard
+          if (index == 2) {
+            Navigator.pushNamed(context, '/admin/home');
+            return;
+          }
+          // 3 Jasa (placeholder admin)
+          if (index == 3) {
+            Navigator.pushNamed(context, '/admin/jasa');
+            return;
+          }
+          // 4 Profile (placeholder admin)
+          if (index == 4) {
+            Navigator.pushNamed(context, '/admin/profile');
+            return;
+          }
         },
       ),
     );

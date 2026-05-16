@@ -5,6 +5,7 @@ import 'controllers/user/favorite_controller.dart';
 
 import 'models/pemilikJasa/notifikasi_model.dart';
 import 'models/user/history_model.dart';
+import 'models/admin/history_model.dart';
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
@@ -52,7 +53,10 @@ import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
+import 'views/admin/history/history_detail_view.dart';
 import 'views/admin/kos/kos_approval_view.dart';
+import 'views/admin/jasa/admin_jasa_placeholder_view.dart';
+import 'views/admin/profile/admin_profile_placeholder_view.dart';
 
 import 'views/splash/splash_view.dart';
 import 'models/pemilikJasa/payment_detail_model.dart'; // Dashboard
@@ -245,6 +249,13 @@ class MyApp extends StatelessWidget {
       case '/admin/history':
         return _noAnimation(const AdminHistoryView(), settings);
 
+      case '/admin/history/detail':
+        final historyItem = settings.arguments as HistoryItemModel;
+        return _noAnimation(
+          AdminHistoryDetailView(historyItem: historyItem),
+          settings,
+        );
+
       case '/admin/kos_approval':
         return _noAnimation(const ApprovalView(), settings);
 
@@ -257,6 +268,12 @@ class MyApp extends StatelessWidget {
           ),
           settings,
         );
+
+      case '/admin/jasa':
+        return _noAnimation(const AdminJasaPlaceholderView(), settings);
+
+      case '/admin/profile':
+        return _noAnimation(const AdminProfilePlaceholderView(), settings);
 
       default:
         return null;

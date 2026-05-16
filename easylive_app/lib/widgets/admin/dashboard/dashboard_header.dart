@@ -33,18 +33,18 @@ class AdminHeader extends StatelessWidget {
                 SizedBox(height: 4),
                 Text(
                   "Here's what's happening today.",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                   ),
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
             ),
           ),
           Stack(
             children: [
-              const Icon(Icons.notifications_none,
-                  color: Colors.white, size: 30),
+              const Icon(
+                Icons.notifications_none,
+                color: Colors.white,
+                size: 30,
+              ),
               Positioned(
                 right: 0,
                 top: 0,
@@ -63,7 +63,7 @@ class AdminHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],
