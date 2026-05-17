@@ -35,7 +35,7 @@ import 'views/pemilikKos/booking/booking_view.dart' as pemilik_booking;
 import 'views/pemilikKos/booking/detail_booking_view.dart'
     as pemilik_kos_detail_booking;
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
-
+import 'views/pemilikKos/profile/profile_view.dart' as pemilik_kos_profile;
 import 'views/pemilikJasa/home/home_view.dart';
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
 import 'views/pemilikJasa/dashboard/dashboard_view.dart';
@@ -179,7 +179,7 @@ class MyApp extends StatelessWidget {
         );
 
       case '/pemilik_kos/profile':
-        return _noAnimation(const user_profile.ProfileView(), settings);
+        return _noAnimation(const pemilik_kos_profile.PemilikKosProfileView(), settings);
 
       // Profile menu (Pemilik Kos)
       case '/pemilik_kos/edit_profile':
