@@ -5,7 +5,6 @@ import '../../../core/color.dart';
 import '../../../views/pemilikKos/notifikasi/notifikasi_detail_view.dart';
 import '../../../widgets/pemilikKos/home/bottom_navbar.dart';
 import '../../../widgets/pemilikKos/notifikasi/notifikasi_card.dart';
-import '../../../widgets/pemilikKos/notifikasi/notifikasi_filter_tabs.dart';
 
 class OwnerNotificationView extends StatefulWidget {
   const OwnerNotificationView({super.key});
@@ -115,16 +114,7 @@ class _OwnerNotificationViewState extends State<OwnerNotificationView> {
 
                       return Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
-                            child: OwnerNotificationFilterTabs(
-                              showUnreadOnly: controller.showUnreadOnly,
-                              totalCount: controller.totalCount,
-                              unreadCount: controller.unreadCount,
-                              onShowAll: controller.showAll,
-                              onShowUnread: controller.showUnread,
-                            ),
-                          ),
+                          
                           Expanded(
                             child: notifications.isEmpty
                                 ? const Center(

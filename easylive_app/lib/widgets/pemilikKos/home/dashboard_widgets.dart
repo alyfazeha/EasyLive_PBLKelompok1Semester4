@@ -340,28 +340,6 @@ class _NotificationBell extends StatelessWidget {
               color: Colors.white,
               size: 32,
             ),
-            Positioned(
-              top: -2,
-              right: -2,
-              child: Container(
-                width: 16,
-                height: 16,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: AppColors.yellow,
-                  shape: BoxShape.circle,
-                ),
-                child: const Text(
-                  '5',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.darkBlue,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
