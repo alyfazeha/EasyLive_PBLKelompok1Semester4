@@ -2,22 +2,31 @@ import 'package:flutter/material.dart';
 
 import '../../../../controllers/pemilikJasa/payment_detail_controller.dart';
 import '../../../../core/color.dart';
+import '../../../../models/pemilikJasa/dashboard_model.dart';
+import '../../../../models/pemilikJasa/payment_detail_model.dart';
 import '../../../../widgets/pemilikJasa/dashboard/payment_detail_widgets.dart';
 
 class PaymentDetailView extends StatelessWidget {
-  PaymentDetailView({super.key});
+  final JasaPaymentHistory history;
 
-  final PaymentDetailController controller = PaymentDetailController();
+  const PaymentDetailView({
+    super.key,
+    required this.history,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final payment = controller.getPaymentDetail();
+    final controller = PaymentDetailController();
+
+final payment = controller.getPaymentDetail(
+  history: history,
+);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       body: Column(
         children: [
-          // Header
+          // HEADER
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(20, 50, 20, 24),
@@ -59,7 +68,6 @@ class PaymentDetailView extends StatelessWidget {
             ),
           ),
 
-          // Content
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -72,7 +80,6 @@ class PaymentDetailView extends StatelessWidget {
                       payment.totalPayment,
                     ),
                   ),
-
                   const SizedBox(height: 24),
 
                   const Text(
@@ -84,14 +91,12 @@ class PaymentDetailView extends StatelessWidget {
                       color: AppColors.darkBlue,
                     ),
                   ),
-
                   const SizedBox(height: 14),
 
                   PaymentSummaryCard(
                     payment: payment,
                     formatCurrency: controller.formatCurrency,
                   ),
-
                   const SizedBox(height: 24),
 
                   const Text(
@@ -103,11 +108,46 @@ class PaymentDetailView extends StatelessWidget {
                       color: AppColors.darkBlue,
                     ),
                   ),
-
                   const SizedBox(height: 14),
 
                   PaymentStatusCard(payment: payment),
+                  const SizedBox(height: 30),
 
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Bukti pembayaran berhasil diunduh'),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.download_rounded,
+                        color: AppColors.darkBlue,
+                      ),
+                      label: const Text(
+                        'Unduh Bukti Pembayaran',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.darkBlue,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                          color: AppColors.darkBlue,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

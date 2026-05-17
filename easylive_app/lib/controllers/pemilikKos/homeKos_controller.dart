@@ -129,17 +129,25 @@ class PemilikKosController extends ChangeNotifier {
       final totalTerisi = totalKamar - totalKosong;
 
       // 4️⃣ Hitung total pendapatan dari payments settlement
+      // & 5️⃣ Hitung booking baru (status menunggu) dalam satu alur
       double totalPendapatan = 0;
+      int totalBookingBaru = 0;
 
       if (kostList.isNotEmpty) {
         final kostIds = kostList.map((k) => int.parse(k.idKost)).toList();
 
-        final bookingRes = await supabase
+        // Ambil semua booking untuk kost-kost ini
+        final allBookingsRes = await supabase
             .from('booking_kos')
-            .select('id_booking_kost')
+            .select('id_booking_kost, status_pesanan')
             .inFilter('id_kost', kostIds);
 
-        final bookingIds = (bookingRes as List)
+        final allBookings = allBookingsRes as List;
+        
+        // Hitung booking baru secara lokal
+        totalBookingBaru = allBookings.where((b) => b['status_pesanan'] == 'menunggu').length;
+
+        final bookingIds = allBookings
             .map((b) => b['id_booking_kost'] as int)
             .toList();
 
@@ -155,21 +163,6 @@ class PemilikKosController extends ChangeNotifier {
             (sum, p) => sum + ((p['gross_amount'] as num?)?.toDouble() ?? 0),
           );
         }
-      }
-
-      // 5️⃣ Hitung booking baru (status menunggu)
-      int totalBookingBaru = 0;
-
-      if (kostList.isNotEmpty) {
-        final kostIds = kostList.map((k) => int.parse(k.idKost)).toList();
-
-        final bookingBaruRes = await supabase
-            .from('booking_kos')
-            .select('id_booking_kost')
-            .inFilter('id_kost', kostIds)
-            .eq('status_pesanan', 'menunggu');
-
-        totalBookingBaru = (bookingBaruRes as List).length;
       }
 
       _model = PemilikKosModel(

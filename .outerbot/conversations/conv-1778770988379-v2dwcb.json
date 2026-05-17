@@ -1,0 +1,189 @@
+{
+  "id": "conv-1778770988379-v2dwcb",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-14T14:12:21.695Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 18 messages, 6 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+    "easylive_app/lib/views/pemilikJasa/booking/booking_view.dart",
+    "easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart",
+    "easylive_app/lib/widgets/pemilikJasa/dashboard/payment_detail_widgets.dart",
+    "easylive_app/lib/views/admin/history/history_view.dart",
+    "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 18,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+      "timestamp": "2026-05-14T14:12:21.695Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+      "timestamp": "2026-05-14T14:12:32.276Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+      "timestamp": "2026-05-14T14:13:52.678Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/booking_view.dart",
+      "timestamp": "2026-05-14T14:26:01.032Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart",
+      "timestamp": "2026-05-14T14:35:10.075Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart",
+      "timestamp": "2026-05-14T14:37:15.719Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart",
+      "timestamp": "2026-05-14T14:39:11.682Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart",
+      "timestamp": "2026-05-14T14:41:08.138Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/dashboard/payment_detail_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/dashboard/payment_detail_widgets.dart",
+      "timestamp": "2026-05-14T14:41:22.791Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/dashboard/payment_detail_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/pemilikJasa/dashboard/payment_detail_widgets.dart",
+      "timestamp": "2026-05-14T14:42:04.429Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/pemilikJasa/dashboard/payment_detail_widgets.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/history/history_view.dart",
+      "timestamp": "2026-05-14T14:54:06.999Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/history/history_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "timestamp": "2026-05-14T14:55:09.293Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/history/history_view.dart",
+      "timestamp": "2026-05-14T14:58:01.271Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/history/history_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "timestamp": "2026-05-14T15:01:32.742Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "timestamp": "2026-05-14T15:01:34.739Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "timestamp": "2026-05-14T15:01:36.291Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "timestamp": "2026-05-14T15:01:36.941Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/dashboard/dashboard_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/history/history_view.dart",
+      "timestamp": "2026-05-14T15:01:40.324Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/history/history_view.dart"
+      }
+    }
+  ]
+}

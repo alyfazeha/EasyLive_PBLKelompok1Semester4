@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/color.dart';
-import '../../../models/pemilikKos/pemilikKos_model.dart';
 
 ///
 /// Untuk sekarang: menampilkan placeholder.

@@ -1,12 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+class PemilikKosProfileController {
+  static String _userName = '';
+  static String _userEmail = '';
+  static String _userImage = '';
 
-class PemilikKosProfileController extends ChangeNotifier {
-  String _userName = '';
-  String _userEmail = '';
-  String _userImage = '';
-  String _role = '';
-  bool isLoading = false;
+  static void setUserData({
+    required String username,
+    required String email,
+    String? imagePath,
+  }) {
+    _userName = username;
+    _userEmail = email;
+    _userImage = imagePath ?? '';
+  }
 
   final supabase = Supabase.instance.client;
 

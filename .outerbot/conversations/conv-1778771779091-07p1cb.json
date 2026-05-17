@@ -1,0 +1,50 @@
+{
+  "id": "conv-1778771779091-07p1cb",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-14T15:06:12.217Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 3 messages, 2 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/admin/history/history_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 3,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T15:06:12.217Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T15:06:25.488Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/history/history_view.dart",
+      "timestamp": "2026-05-14T15:14:16.755Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/history/history_view.dart"
+      }
+    }
+  ]
+}

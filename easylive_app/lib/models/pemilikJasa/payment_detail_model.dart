@@ -5,7 +5,6 @@ class JasaPaymentDetailModel {
   final String paymentDate;
   final String paymentMethod;
   final String transactionId;
-
   final String status;
   final int totalPayment;
 
@@ -28,5 +27,8 @@ class JasaPaymentItem {
   final String title;
   final int amount;
 
-  const JasaPaymentItem({required this.title, required this.amount});
+  const JasaPaymentItem({
+    required this.title,
+    required this.amount,
+  });
 }

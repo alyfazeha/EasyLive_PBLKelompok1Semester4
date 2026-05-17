@@ -9,11 +9,14 @@ class PemilikJasaBookingView extends StatefulWidget {
   const PemilikJasaBookingView({super.key});
 
   @override
-  State<PemilikJasaBookingView> createState() => _PemilikJasaBookingViewState();
+  State<PemilikJasaBookingView> createState() =>
+      _PemilikJasaBookingViewState();
 }
 
-class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
-  final TextEditingController _searchController = TextEditingController();
+class _PemilikJasaBookingViewState
+    extends State<PemilikJasaBookingView> {
+  final TextEditingController _searchController =
+      TextEditingController();
 
   late OwnerJasaBookingController _bookingController;
 
@@ -38,15 +41,28 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
     required bool active,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    final Color textColor =
+        active ? AppColors.darkBlue : Colors.white;
+
+    final Color bgColor =
+        active ? Colors.white : AppColors.darkBlue;
+
+    final Color borderColor =
+        active ? AppColors.darkBlue : Colors.grey.shade300;
+
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 8,
+        ),
         decoration: BoxDecoration(
-          color: active ? Colors.white : Colors.transparent,
+          color: bgColor,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: active ? AppColors.darkBlue : Colors.grey.shade300,
+            color: borderColor,
             width: 1.5,
           ),
         ),
@@ -55,15 +71,13 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: active ? Colors.white : AppColors.darkBlue,
+            fontWeight: FontWeight.w700,
+            color: textColor,
           ),
         ),
       ),
     );
   }
-
-
 
   Widget _buildBookingCard(Booking booking) {
     String statusText = 'ACTIVE';
@@ -74,14 +88,17 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         statusText = 'Pending';
         statusBgColor = AppColors.yellow;
         break;
+
       case 'aktif':
         statusText = 'Aktif';
         statusBgColor = const Color(0xFF31B75D);
         break;
+
       case 'selesai':
         statusText = 'Selesai';
         statusBgColor = Colors.grey.shade400;
         break;
+
       default:
         statusText = booking.status;
         statusBgColor = AppColors.yellow;
@@ -103,19 +120,33 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: booking.profileImage != null && booking.profileImage!.isNotEmpty
-                ? NetworkImage(booking.profileImage!)
-                : null,
+            backgroundImage:
+                booking.profileImage != null &&
+                        booking.profileImage!.isNotEmpty
+                    ? NetworkImage(
+                        booking.profileImage!,
+                      )
+                    : null,
             backgroundColor: AppColors.lightGrey,
-            onBackgroundImageError: (exception, stackTrace) {},
-            child: booking.profileImage == null || booking.profileImage!.isEmpty
-                ? const Icon(Icons.person, size: 18, color: AppColors.darkBlue)
-                : null,
+            onBackgroundImageError:
+                (exception, stackTrace) {},
+            child:
+                booking.profileImage == null ||
+                        booking.profileImage!.isEmpty
+                    ? const Icon(
+                        Icons.person,
+                        size: 18,
+                        color: AppColors.darkBlue,
+                      )
+                    : null,
           ),
+
           const SizedBox(width: 12),
+
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   booking.nama,
@@ -128,7 +159,9 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+
                 const SizedBox(height: 4),
+
                 Text(
                   '${booking.tanggal} • ${booking.jam}',
                   style: const TextStyle(
@@ -142,8 +175,12 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
               ],
             ),
           ),
+
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+            padding: const EdgeInsets.symmetric(
+              vertical: 6,
+              horizontal: 12,
+            ),
             decoration: BoxDecoration(
               color: statusBgColor,
               borderRadius: BorderRadius.circular(18),
@@ -154,9 +191,12 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                 fontFamily: 'Montserrat',
                 fontSize: 10,
                 fontWeight: FontWeight.w900,
-                color: statusText.toLowerCase().contains('pending')
-                    ? AppColors.darkBlue
-                    : Colors.white,
+                color:
+                    statusText
+                            .toLowerCase()
+                            .contains('pending')
+                        ? AppColors.darkBlue
+                        : Colors.white,
               ),
             ),
           ),
@@ -169,12 +209,18 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBlue,
+
       body: SafeArea(
         child: Column(
           children: [
-            // Header
+            // HEADER
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+              padding: const EdgeInsets.fromLTRB(
+                20,
+                16,
+                20,
+                20,
+              ),
               child: Row(
                 children: [
                   GestureDetector(
@@ -182,17 +228,23 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/pemilik_jasa',
+                        );
                       }
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: AppColors.yellow,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius:
+                            BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
+                            color: Colors.black.withValues(
+                              alpha: 0.1,
+                            ),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -205,7 +257,9 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                       ),
                     ),
                   ),
+
                   const SizedBox(width: 12),
+
                   const Expanded(
                     child: Text(
                       'Booking',
@@ -221,29 +275,45 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
               ),
             ),
 
-            // Search and Filter
+            // SEARCH
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          padding:
+                              const EdgeInsets.symmetric(
+                            horizontal: 14,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius:
+                                BorderRadius.circular(12),
                           ),
                           child: TextField(
-                            controller: _searchController,
+                            controller:
+                                _searchController,
                             onChanged: _updateSearch,
-                            decoration: const InputDecoration(
-                              hintText: 'Cari Pernyewaan...',
+                            decoration:
+                                const InputDecoration(
+                              hintText:
+                                  'Cari Pernyewaan...',
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 12),
-                              hintStyle: TextStyle(color: Colors.grey),
+                              contentPadding:
+                                  EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                             style: const TextStyle(
                               fontFamily: 'Montserrat',
@@ -252,50 +322,78 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.tune_rounded,
-                          color: AppColors.darkBlue,
-                          size: 22,
-                        ),
-                      ),
                     ],
                   ),
+
                   const SizedBox(height: 10),
 
+                  // FILTER CHIP
                   AnimatedBuilder(
                     animation: _bookingController,
                     builder: (context, _) {
-                      return SizedBox(
-                        height: 40,
+                      return SingleChildScrollView(
+                        scrollDirection:
+                            Axis.horizontal,
+                        physics:
+                            const BouncingScrollPhysics(),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             _filterChip(
                               label: 'All',
-                              active: _bookingController.selectedFilter == 'semua',
-                              onTap: () => _bookingController.setFilter('semua'),
+                              active:
+                                  _bookingController
+                                          .selectedFilter ==
+                                      'semua',
+                              onTap:
+                                  () => _bookingController
+                                      .setFilter(
+                                'semua',
+                              ),
                             ),
+
+                            const SizedBox(width: 10),
+
                             _filterChip(
                               label: 'Pending',
-                              active: _bookingController.selectedFilter == 'pending',
-                              onTap: () => _bookingController.setFilter('pending'),
+                              active:
+                                  _bookingController
+                                          .selectedFilter ==
+                                      'pending',
+                              onTap:
+                                  () => _bookingController
+                                      .setFilter(
+                                'pending',
+                              ),
                             ),
+
+                            const SizedBox(width: 10),
+
                             _filterChip(
                               label: 'Aktif',
-                              active: _bookingController.selectedFilter == 'aktif',
-                              onTap: () => _bookingController.setFilter('aktif'),
+                              active:
+                                  _bookingController
+                                          .selectedFilter ==
+                                      'aktif',
+                              onTap:
+                                  () => _bookingController
+                                      .setFilter(
+                                'aktif',
+                              ),
                             ),
+
+                            const SizedBox(width: 10),
+
                             _filterChip(
                               label: 'Selesai',
-                              active: _bookingController.selectedFilter == 'selesai',
-                              onTap: () => _bookingController.setFilter('selesai'),
+                              active:
+                                  _bookingController
+                                          .selectedFilter ==
+                                      'selesai',
+                              onTap:
+                                  () => _bookingController
+                                      .setFilter(
+                                'selesai',
+                              ),
                             ),
                           ],
                         ),
@@ -306,65 +404,96 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
               ),
             ),
 
-            // Booking List
+            // BOOKING LIST
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
+                  borderRadius:
+                      BorderRadius.vertical(
                     top: Radius.circular(30),
                   ),
                 ),
-                child: _bookingController.filteredList.isEmpty
-                    ? Center(
-                        child: Text(
-                          'Tidak ada booking',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      )
-                    : AnimatedBuilder(
-                        animation: _bookingController,
-                        builder: (context, _) {
-                          final list = _bookingController.filteredList;
-                          return ListView.builder(
-                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              final booking = list[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/pemilik_jasa/detail_booking',
-                                    arguments: booking.nama,
+                child:
+                    _bookingController
+                            .filteredList
+                            .isEmpty
+                        ? Center(
+                            child: Text(
+                              'Tidak ada booking',
+                              style: TextStyle(
+                                fontFamily:
+                                    'Montserrat',
+                                fontSize: 16,
+                                color:
+                                    Colors.grey[600],
+                              ),
+                            ),
+                          )
+                        : AnimatedBuilder(
+                            animation:
+                                _bookingController,
+                            builder: (context, _) {
+                              final list =
+                                  _bookingController
+                                      .filteredList;
+
+                              return ListView.builder(
+                                padding:
+                                    const EdgeInsets
+                                        .fromLTRB(
+                                  16,
+                                  16,
+                                  16,
+                                  100,
+                                ),
+                                itemCount: list.length,
+                                itemBuilder:
+                                    (context, index) {
+                                  final booking =
+                                      list[index];
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator
+                                          .pushNamed(
+                                        context,
+                                        '/pemilik_jasa/detail_booking',
+                                        arguments:
+                                            booking.nama,
+                                      );
+                                    },
+                                    child:
+                                        _buildBookingCard(
+                                      booking,
+                                    ),
                                   );
                                 },
-                                child: _buildBookingCard(booking),
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
               ),
             ),
           ],
         ),
       ),
+
       bottomNavigationBar: PemilikJasaBottomNav(
         currentIndex: 3,
         onNavigate: (index) {
           if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/dashboard',
+            );
           } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/home');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/home',
+            );
           }
         },
       ),
     );
   }
 }
-

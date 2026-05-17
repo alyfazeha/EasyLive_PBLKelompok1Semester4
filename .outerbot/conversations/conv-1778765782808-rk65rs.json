@@ -1,0 +1,131 @@
+{
+  "id": "conv-1778765782808-rk65rs",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-14T13:36:22.808Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+    "c:\\Users\\Ahmad Rafi\\AppData\\Roaming\\Code\\User\\settings.json",
+    "TODO.md",
+    "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 12,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:00:26.767Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:02:44.960Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-14T12:03:58.967Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+      "timestamp": "2026-05-14T12:41:31.277Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+      "timestamp": "2026-05-14T12:47:09.460Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+      "timestamp": "2026-05-14T12:47:11.400Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+      "timestamp": "2026-05-14T12:50:06.064Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/models/pemilikJasa/detail_booking_view.dart",
+      "timestamp": "2026-05-14T12:52:43.838Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/models/pemilikJasa/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: c:\\Users\\Ahmad Rafi\\AppData\\Roaming\\Code\\User\\settings.json",
+      "timestamp": "2026-05-14T13:05:59.320Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "c:\\Users\\Ahmad Rafi\\AppData\\Roaming\\Code\\User\\settings.json"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: TODO.md",
+      "timestamp": "2026-05-14T13:08:46.213Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "TODO.md"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+      "timestamp": "2026-05-14T13:28:04.926Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+      "timestamp": "2026-05-14T13:34:12.341Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart"
+      }
+    }
+  ]
+}

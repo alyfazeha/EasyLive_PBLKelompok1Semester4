@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../../../controllers/pemilikJasa/booking/detail_booking_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 
 class DetailBookingView extends StatelessWidget {
   final String tenantName;
+
   const DetailBookingView({super.key, required this.tenantName});
 
   @override
@@ -17,11 +19,12 @@ class DetailBookingView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // HEADER
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.vertical(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              decoration: BoxDecoration(
+                color: AppColors.darkBlue,
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(30),
                 ),
               ),
@@ -32,21 +35,17 @@ class DetailBookingView extends StatelessWidget {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/pemilik_jasa/booking',
+                        );
                       }
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: AppColors.yellow,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Icon(
                         Icons.arrow_back,
@@ -58,10 +57,10 @@ class DetailBookingView extends StatelessWidget {
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(
-                      'Detail Penyewa',
+                      'Detail Booking',
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.bold,
                         fontSize: 18,
                         fontFamily: 'Montserrat',
                       ),
@@ -70,175 +69,188 @@ class DetailBookingView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+
+            // CONTENT
             Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 120),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 22,
-                          horizontal: 18,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(30),
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.04),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 22,
+                              horizontal: 18,
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  radius: 32,
-                                  backgroundColor: AppColors.lightGrey,
-                                  child: Text(
-                                    booking.tenantName.isNotEmpty
-                                        ? booking.tenantName[0]
-                                        : 'A',
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w900,
-                                      color: AppColors.darkBlue,
-                                    ),
-                                  ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
                                 ),
-                                const SizedBox(width: 14),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        booking.tenantName,
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 32,
+                                      backgroundColor: AppColors.lightGrey,
+                                      child: Text(
+                                        booking.tenantName.isNotEmpty
+                                            ? booking.tenantName[0]
+                                            : 'A',
                                         style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w900,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
                                           color: AppColors.darkBlue,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
-                                      Row(
+                                    ),
+                                    const SizedBox(width: 14),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          const Icon(
-                                            Icons.phone,
-                                            size: 14,
-                                            color: Colors.black54,
-                                          ),
-                                          const SizedBox(width: 6),
                                           Text(
-                                            booking.phone,
+                                            booking.tenantName,
                                             style: const TextStyle(
                                               fontFamily: 'Montserrat',
-                                              fontSize: 12,
-                                              color: Colors.black54,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.darkBlue,
                                             ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.phone,
+                                                size: 14,
+                                                color: Colors.black54,
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Text(
+                                                booking.phone,
+                                                style: const TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 12,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.email_outlined,
+                                                size: 14,
+                                                color: Colors.black54,
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Expanded(
+                                                child: Text(
+                                                  booking.email,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 12,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.email_outlined,
-                                            size: 14,
-                                            color: Colors.black54,
-                                          ),
-                                          const SizedBox(width: 6),
-                                          Expanded(
-                                            child: Text(
-                                              booking.email,
-                                              style: const TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontSize: 12,
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF31B75D),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Text(
+                                        'Aktif',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 24),
+                                Container(
+                                  padding: const EdgeInsets.all(18),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.lightGrey,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      _buildDetailRow('Kost', booking.jasaName),
+                                      const SizedBox(height: 12),
+                                      _buildDetailRow(
+                                        'Kamar',
+                                        booking.kendaraanName,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      _buildDetailRow(
+                                        'Tanggal Masuk',
+                                        booking.checkInDate,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      _buildDetailRow(
+                                        'Harga / Bulan',
+                                        booking.monthlyPrice,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      _buildDetailRow(
+                                        'Status Pembayaran',
+                                        booking.paymentStatus,
+                                        badge: true,
                                       ),
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF31B75D),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Text(
-                                    'Aktif',
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
-                            const SizedBox(height: 24),
-                            Container(
-                              padding: const EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                color: AppColors.lightGrey,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.grey.shade200,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  _buildDetailRow('Kost', booking.jasaName),
-                                  const SizedBox(height: 12),
-                                  _buildDetailRow('Kamar', booking.kendaraanName),
-                                  const SizedBox(height: 12),
-                                  _buildDetailRow('Tanggal Masuk', booking.checkInDate),
-                                  const SizedBox(height: 12),
-                                  _buildDetailRow('Harga / Bulan', booking.monthlyPrice),
-                                  const SizedBox(height: 12),
-                                  _buildDetailRow(
-                                    'Status Pembayaran',
-                                    booking.paymentStatus,
-                                    badge: true,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ],
         ),
       ),
+
+      // BOTTOM NAVBAR
       bottomNavigationBar: Container(
         color: Colors.white,
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
@@ -246,7 +258,10 @@ class DetailBookingView extends StatelessWidget {
           currentIndex: 3,
           onNavigate: (index) {
             if (index == 0) {
-              Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+              Navigator.pushReplacementNamed(
+                context,
+                '/pemilik_jasa/dashboard',
+              );
             } else if (index == 2) {
               Navigator.pushReplacementNamed(context, '/pemilik_jasa/home');
             }
@@ -271,18 +286,20 @@ class DetailBookingView extends StatelessWidget {
         ),
         badge
             ? Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF31B75D),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   value,
                   style: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 12,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
@@ -293,7 +310,7 @@ class DetailBookingView extends StatelessWidget {
                   fontFamily: 'Montserrat',
                   fontSize: 12,
                   color: AppColors.darkBlue,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
       ],

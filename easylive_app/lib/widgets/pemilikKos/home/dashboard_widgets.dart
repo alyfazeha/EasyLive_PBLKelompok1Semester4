@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/color.dart';
 import '../../../controllers/pemilikKos/homeKos_controller.dart';
-import '../../../models/pemilikKos/pemilikKos_model.dart';
 import '../../../views/pemilikKos/home/editKamar_view.dart';
 import 'bottom_navbar.dart';
 import 'owner_search_section.dart';
@@ -74,12 +73,15 @@ class OwnerDashboardContent extends StatelessWidget {
     final normalizedQuery = searchQuery.trim().toLowerCase();
     final filteredKos = normalizedQuery.isEmpty
         ? kostList
-        : kostList.where((k) =>
-            k.name.toLowerCase().contains(normalizedQuery) ||
-            k.status.toLowerCase().contains(normalizedQuery) ||
-            k.alamat.toLowerCase().contains(normalizedQuery) ||
-            k.emptyRoom.toLowerCase().contains(normalizedQuery),
-          ).toList();
+        : kostList
+              .where(
+                (k) =>
+                    k.name.toLowerCase().contains(normalizedQuery) ||
+                    k.status.toLowerCase().contains(normalizedQuery) ||
+                    k.alamat.toLowerCase().contains(normalizedQuery) ||
+                    k.emptyRoom.toLowerCase().contains(normalizedQuery),
+              )
+              .toList();
 
     final occupiedRooms = model?.occupiedRooms ?? 0;
     final totalRooms = model?.totalRooms ?? 0;
@@ -115,7 +117,7 @@ class OwnerDashboardContent extends StatelessWidget {
                 icon: Icons.calendar_month_rounded,
                 iconColor: Color(0xFF4D82FF),
                 title: 'Booking Baru',
-                value: '${model?.newBookings ?? 0}',  // ← dari Supabase
+                value: '${model?.newBookings ?? 0}', // ← dari Supabase
               ),
             ),
             const SizedBox(width: 8),
@@ -146,20 +148,22 @@ class OwnerDashboardContent extends StatelessWidget {
         else if (filteredKos.isEmpty)
           const _EmptyKosSearchResult()
         else
-          ...filteredKos.expand((kos) => [
-            OwnerKosCard(
-              imageWidget: kos.imageWidget,
-              name: kos.name,
-              idKost: kos.idKost,
-              price: kos.price,
-              status: kos.status,
-              statusColor: kos.statusColorValue,
-              emptyRoom: kos.emptyRoom,
-              jumlahKamar: kos.jumlahKamar,
-              alamat: kos.alamat,
-            ),
-            const SizedBox(height: 14),
-          ]),
+          ...filteredKos.expand(
+            (kos) => [
+              OwnerKosCard(
+                imageWidget: kos.imageWidget,
+                name: kos.name,
+                idKost: kos.idKost,
+                price: kos.price,
+                status: kos.status,
+                statusColor: kos.statusColorValue,
+                emptyRoom: kos.emptyRoom,
+                jumlahKamar: kos.jumlahKamar,
+                alamat: kos.alamat,
+              ),
+              const SizedBox(height: 14),
+            ],
+          ),
       ],
     );
   }
@@ -269,7 +273,9 @@ class OwnerHeaderSection extends StatelessWidget {
                                 children: const [
                                   TextSpan(
                                     text: 'EasyLive !',
-                                    style: TextStyle(fontWeight: FontWeight.w900),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -580,7 +586,11 @@ class OwnerKosCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openDetail() {
-      Navigator.pushNamed(context, '/pemilik_kos/detail_kamar', arguments: idKost);
+      Navigator.pushNamed(
+        context,
+        '/pemilik_kos/detail_kamar',
+        arguments: idKost,
+      );
     }
 
     return Material(
@@ -706,7 +716,8 @@ class OwnerKosCard extends StatelessWidget {
                       final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditKamarView(idKost: idKost), // ← kirim idKost
+                          builder: (context) =>
+                              EditKamarView(idKost: idKost), // ← kirim idKost
                         ),
                       );
                       // Refresh home kalau edit berhasil
@@ -758,7 +769,9 @@ class OwnerKosCard extends StatelessWidget {
                                   // Panggil deleteKost dari controller
                                   await context
                                       .read<PemilikKosController>()
-                                      .deleteKost(idKost); // ← idKost dari parameter card
+                                      .deleteKost(
+                                        idKost,
+                                      ); // ← idKost dari parameter card
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -916,13 +929,11 @@ class _ActionButton extends StatelessWidget {
     );
   }
 }
+
 // Tambah di luar class, di bagian bawah dashboard_widgets.dart
 String _formatHarga(double harga) {
-  return harga
-      .toInt()
-      .toString()
-      .replaceAllMapped(
-        RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-        (m) => '${m[1]}.',
-      );
+  return harga.toInt().toString().replaceAllMapped(
+    RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+    (m) => '${m[1]}.',
+  );
 }

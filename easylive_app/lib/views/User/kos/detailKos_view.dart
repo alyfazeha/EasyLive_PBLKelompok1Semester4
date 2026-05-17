@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/kosPage/detail_kos_widgets.dart';
@@ -51,7 +52,7 @@ class _DetailKosViewState extends State<DetailKosView> {
     final facilities = widget.kost.facilities ?? [];
     final availableRooms = widget.kost.availableRooms ?? 0;
     final price = widget.kost.price ?? 0;
-    final description = widget.kost.description ?? "No description available";
+    final description = widget.kost.description ?? 'No description available';
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),

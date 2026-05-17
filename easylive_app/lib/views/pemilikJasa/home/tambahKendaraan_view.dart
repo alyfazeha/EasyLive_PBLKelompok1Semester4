@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easylive_app/controllers/halamanJasa/tambahKendaraan_controller.dart';
 import 'package:easylive_app/widgets/pemilikJasa/home/tambahKendaraan.dart';
 
-import 'package:easylive_app/core/color.dart';
-
-
 class TambahKendaraanView extends StatefulWidget {
   const TambahKendaraanView({super.key});
 
@@ -23,6 +20,7 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
       appBar: AppBar(
         backgroundColor: Color(0xff2c3e50),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

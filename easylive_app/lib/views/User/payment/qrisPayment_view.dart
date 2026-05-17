@@ -87,7 +87,7 @@ class QrisPaymentView extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Icon(Icons.arrow_back, color: AppColors.primary),
+              child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
           ),
           const SizedBox(width: 15),
