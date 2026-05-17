@@ -72,14 +72,6 @@ class DashboardHeader extends StatelessWidget {
                       top: 0,
                       child: Container(
                         padding: const EdgeInsets.all(3),
-                        decoration: const BoxDecoration(
-                          color: Colors.orange,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '$bookingBaru', // ← dari Supabase
-                          style: const TextStyle(fontSize: 8, color: Colors.white),
-                        ),
                       ),
                     ),
                   ],
