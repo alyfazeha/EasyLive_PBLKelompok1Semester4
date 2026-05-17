@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/color.dart';
 import '../../../controllers/pemilikKos/profile_controller.dart';
 
 class PemilikKosProfileHeader extends StatelessWidget {
-  const PemilikKosProfileHeader({super.key});
+  final PemilikKosProfileController controller;
+
+  const PemilikKosProfileHeader({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
+    final hasPhoto = controller.userImage.isNotEmpty &&
+        controller.userImage.startsWith('http');
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 38, 20, 22),
@@ -72,12 +76,20 @@ class PemilikKosProfileHeader extends StatelessWidget {
             child: CircleAvatar(
               radius: 45,
               backgroundColor: Colors.white24,
-              child: const Icon(Icons.person, size: 50, color: Colors.white),
+              // ← foto dari Supabase jika ada, fallback ke asset
+              backgroundImage: hasPhoto
+                  ? NetworkImage(controller.userImage)
+                  : const AssetImage('assets/images/logo-easylive.png')
+                      as ImageProvider,
+              onBackgroundImageError: hasPhoto
+                  ? (_, __) {} // silent error, fallback otomatis
+                  : null,
+              child: !hasPhoto ? null : null,
             ),
           ),
           const SizedBox(height: 15),
           Text(
-            PemilikKosProfileController.getUserName(),
+            controller.userName,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -86,7 +98,7 @@ class PemilikKosProfileHeader extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            PemilikKosProfileController.getUserEmail(),
+            controller.userEmail,
             style: const TextStyle(color: Colors.white70, fontSize: 14),
           ),
         ],
