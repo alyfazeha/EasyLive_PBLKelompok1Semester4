@@ -1,0 +1,38 @@
+{
+  "id": "conv-1778998415605-ienyso",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-17T06:13:35.605Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/controllers/auth_controller.dart",
+    "easylive_app/lib/main.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 2,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/auth_controller.dart",
+      "timestamp": "2026-05-17T06:03:48.083Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/auth_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:08:16.248Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    }
+  ]
+}

@@ -9,10 +9,8 @@ class AuthController {
     required String password,
   }) async {
     try {
-
       // LOGIN KE SUPABASE AUTH
-      final response =
-          await _supabase.auth.signInWithPassword(
+      final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
@@ -22,11 +20,11 @@ class AuthController {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Login failed',
+          'message': 'Login failed: user is null',
         };
       }
 
-      // AMBIL DATA PROFILE
+      // AMBIL DATA PROFILE (hanya dilakukan kalau auth sukses)
       final userData = await _supabase
           .from('profiles')
           .select()
@@ -35,17 +33,15 @@ class AuthController {
 
       return {
         'success': true,
-        'message':
-            'Login as ${userData['role']} successful',
+        'message': 'Login as ${userData['role']} successful',
         'role': userData['role'] ?? 'user',
         'userData': userData,
       };
-
     } catch (e) {
-
       return {
         'success': false,
-        'message': 'Error: $e',
+        // tampilkan detail error auth/supabase apa adanya
+        'message': 'Auth error: $e',
       };
     }
   }
@@ -93,10 +89,11 @@ class AuthController {
       if (userId != null) {
 
         // INSERT DATA KE TABEL PROFILES
+        // Catatan: jangan simpan password plaintext ke database.
+        // Supabase Auth sudah menangani password.
         await _supabase.from('profiles').insert({
           'id_profile': userId,
           'username': username,
-          'password': password,
           'full_name': fullName,
           'phone': phone,
           'birth_date': birthdate,

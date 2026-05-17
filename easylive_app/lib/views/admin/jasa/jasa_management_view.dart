@@ -22,25 +22,25 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
       title: 'Jasa Pindah',
       subtitle: 'EasyMove Reguler',
       status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_motor.png',
+      imageAsset: 'assets/images/kos1.jpg',
     ),
     _JasaItem(
       title: 'Laundry',
       subtitle: 'Bersih Laundry',
       status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_laundry.png',
+      imageAsset: 'assets/images/kos2.jpg',
     ),
     _JasaItem(
       title: 'Cleaning Service',
       subtitle: 'Bersih Bersih Cleaning',
       status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_cleaning.png',
+      imageAsset: 'assets/images/kos3.jpg',
     ),
     _JasaItem(
       title: 'Transport',
       subtitle: 'Prima Transport',
       status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_transport.png',
+      imageAsset: 'assets/images/kamarKos.jpg',
     ),
   ];
 

@@ -1,4 +1,24 @@
 {
+  "id": "conv-1778987879207-xxwzxl",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-15T18:06:14.657Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 5 messages, 3 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 5,
   "messages": [
     {
       "type": "tool",
@@ -45,13 +65,5 @@
         "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
       }
     }
-  ],
-  "filesModified": [
-    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
-    "easylive_app/lib/main.dart",
-    "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
-  ],
-  "decisions": [],
-  "startTime": "2026-05-15T18:06:14.657Z",
-  "lastWriteTime": "2026-05-15T18:36:08.361Z"
+  ]
 }

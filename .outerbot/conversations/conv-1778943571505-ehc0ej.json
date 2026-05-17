@@ -1,0 +1,66 @@
+{
+  "id": "conv-1778943571505-ehc0ej",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-16T14:59:31.505Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+    "easylive_app/lib/main.dart",
+    "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 5,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/profile_information_view.dart",
+      "timestamp": "2026-05-15T18:06:14.657Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-15T18:06:40.774Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-15T18:07:03.696Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/admin_profile_view.dart",
+      "timestamp": "2026-05-15T18:07:20.265Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/profile_information_view.dart",
+      "timestamp": "2026-05-15T18:36:08.361Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
+      }
+    }
+  ]
+}
