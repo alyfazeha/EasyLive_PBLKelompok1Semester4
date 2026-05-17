@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/color.dart';
+import '../../../controllers/pemilikKos/profile_controller.dart';
 import '../../../widgets/pemilikKos/profile/profile_menu_item.dart';
 
 class PemilikKosProfileMenuSection extends StatelessWidget {
-  const PemilikKosProfileMenuSection({super.key});
+  final PemilikKosProfileController controller;
+
+  const PemilikKosProfileMenuSection({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +63,7 @@ class PemilikKosProfileMenuSection extends StatelessWidget {
                   Navigator.pushNamed(context, '/pemilik_kos/edit_profile'),
             ),
             const SizedBox(height: 12),
-            PemilikKosProfileMenuItem(
-              icon: Icons.favorite,
-              title: 'Favorit',
-              subtitle: 'Kost yang Anda simpan',
-              onTap: () =>
-                  Navigator.pushNamed(context, '/pemilik_kos/favorite'),
-            ),
-            const SizedBox(height: 12),
+            // ← Favorit dihapus
             PemilikKosProfileMenuItem(
               icon: Icons.security,
               title: 'Keamanan',
