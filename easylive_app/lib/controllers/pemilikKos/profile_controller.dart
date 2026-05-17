@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PemilikKosProfileController extends ChangeNotifier {
-  String _userName = '';
-  String _userEmail = '';
-  String _userImage = '';
-  String _role = '';
+  String userName = '';
+  String userEmail = '';
+  String userImage = '';
   bool isLoading = false;
 
   final supabase = Supabase.instance.client;
-
-  String get userName => _userName.isNotEmpty ? _userName : 'Pemilik Kos';
-  String get userEmail => _userEmail.isNotEmpty ? _userEmail : '-';
-  String get userImage => _userImage;
-  String get role => _role;
 
   PemilikKosProfileController() {
     loadData();
@@ -33,14 +27,13 @@ class PemilikKosProfileController extends ChangeNotifier {
 
       final res = await supabase
           .from('profiles')
-          .select('username, email, photo, role')
+          .select('username, email, image_path')
           .eq('id_profile', user.id)
           .single();
 
-      _userName = res['username'] ?? '';
-      _userEmail = res['email'] ?? '';
-      _userImage = res['photo'] ?? '';
-      _role = res['role'] ?? '';
+      userName = res['username'] ?? 'Pemilik Kos';
+      userEmail = res['email'] ?? '-';
+      userImage = res['image_path'] ?? '';
     } catch (e) {
       debugPrint('Error loading profile: $e');
     }
@@ -49,12 +42,47 @@ class PemilikKosProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logout() async {
-    await supabase.auth.signOut();
-    _userName = '';
-    _userEmail = '';
-    _userImage = '';
-    _role = '';
-    notifyListeners();
+  // Validasi & update password
+  Future<String?> updatePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    if (currentPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+      return 'Semua field harus diisi';
+    }
+
+    if (newPassword != confirmPassword) {
+      return 'Password baru tidak cocok';
+    }
+
+    if (newPassword.length < 6) {
+      return 'Password minimal 6 karakter';
+    }
+
+    try {
+      // 1️⃣ Validasi password saat ini dengan re-login
+      final user = supabase.auth.currentUser;
+      if (user == null) return 'User tidak login';
+
+      await supabase.auth.signInWithPassword(
+        email: userEmail,
+        password: currentPassword,
+      );
+
+      // 2️⃣ Update password
+      await supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+
+      return null; // null = sukses
+    } on AuthException catch (e) {
+      if (e.message.contains('Invalid login credentials')) {
+        return 'Password saat ini salah';
+      }
+      return 'Gagal update password: ${e.message}';
+    } catch (e) {
+      return 'Terjadi kesalahan: $e';
+    }
   }
 }

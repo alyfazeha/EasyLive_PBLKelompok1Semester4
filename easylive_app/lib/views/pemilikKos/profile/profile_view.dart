@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/color.dart';
 import '../../../controllers/pemilikKos/profile_controller.dart';
 import '../../../widgets/pemilikKos/profile/profile_header.dart';
 import '../../../widgets/pemilikKos/profile/profile_menu_section.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PemilikKosProfileView extends StatefulWidget {
   const PemilikKosProfileView({super.key});
@@ -40,7 +42,7 @@ class _PemilikKosProfileViewState extends State<PemilikKosProfileView> {
           ),
           TextButton(
             onPressed: () async {
-              await controller.logout();
+              await Supabase.instance.client.auth.signOut();
               if (context.mounted) {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -58,75 +60,77 @@ class _PemilikKosProfileViewState extends State<PemilikKosProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, _) {
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF1E4A7A), Color(0xFF1E4A7A)],
+    return ChangeNotifierProvider.value(
+      value: controller,
+      child: Consumer<PemilikKosProfileController>(
+        builder: (context, ctrl, _) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF1E4A7A), Color(0xFF1E4A7A)],
+                ),
               ),
-            ),
-            child: controller.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : Column(
-                    children: [
-                      Stack(
-                        children: [
-                          PemilikKosProfileHeader(controller: controller),
-                          Positioned(
-                            top: 50,
-                            right: 20,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.25),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color: AppColors.yellow.withOpacity(0.35),
+              child: ctrl.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        Stack(
+                          children: [
+                            PemilikKosProfileHeader(controller: ctrl),
+                            Positioned(
+                              top: 50,
+                              right: 20,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.25),
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: AppColors.yellow.withOpacity(0.35),
+                                  ),
+                                ),
+                                child: IconButton(
+                                  onPressed: () => _logout(context),
+                                  icon: const Icon(
+                                    Icons.logout,
+                                    color: AppColors.background,
+                                  ),
+                                  tooltip: 'Logout',
+                                  padding: const EdgeInsets.all(10),
                                 ),
                               ),
-                              child: IconButton(
-                                onPressed: () => _logout(context),
-                                icon: const Icon(
-                                  Icons.logout,
-                                  color: AppColors.background,
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(28),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.darkBlue.withOpacity(0.12),
+                                  blurRadius: 22,
+                                  offset: const Offset(0, -8),
                                 ),
-                                tooltip: 'Logout',
-                                padding: const EdgeInsets.all(10),
-                              ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(28),
+                            child: PemilikKosProfileMenuSection(
+                              controller: ctrl,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.darkBlue.withOpacity(0.12),
-                                blurRadius: 22,
-                                offset: const Offset(0, -8),
-                              ),
-                            ],
-                          ),
-                          child: PemilikKosProfileMenuSection(
-                            controller: controller,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-          ),
-        );
-      },
+                      ],
+                    ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

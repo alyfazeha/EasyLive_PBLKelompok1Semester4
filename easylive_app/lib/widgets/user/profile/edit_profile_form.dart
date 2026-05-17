@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../controllers/user/edit_profile_controller.dart';
 import '../../../core/color.dart';
 import 'edit_profile_field.dart';
@@ -22,8 +22,6 @@ class EditProfileForm extends StatefulWidget {
 class _EditProfileFormState extends State<EditProfileForm> {
   late TextEditingController nameController;
   late TextEditingController emailController;
-  late TextEditingController roleController;
-  late TextEditingController passwordController;
   late TextEditingController phoneController;
   late TextEditingController birthdateController;
   late TextEditingController genderController;
@@ -35,22 +33,32 @@ class _EditProfileFormState extends State<EditProfileForm> {
     super.initState();
     nameController = TextEditingController(text: widget.controller.name);
     emailController = TextEditingController(text: widget.controller.email);
-    roleController = TextEditingController(text: widget.controller.role);
-    passwordController = TextEditingController();
     phoneController = TextEditingController(text: widget.controller.phone);
-    birthdateController = TextEditingController(
-      text: widget.controller.birthdate,
-    );
+    birthdateController = TextEditingController(text: widget.controller.birthdate);
     genderController = TextEditingController(text: widget.controller.gender);
     addressController = TextEditingController(text: widget.controller.address);
+
+    widget.controller.addListener(_onControllerUpdate);
+  }
+
+  void _onControllerUpdate() {
+    if (!widget.controller.isLoading) {
+      setState(() {
+        nameController.text = widget.controller.name;
+        emailController.text = widget.controller.email;
+        phoneController.text = widget.controller.phone;
+        birthdateController.text = widget.controller.birthdate;
+        genderController.text = widget.controller.gender;
+        addressController.text = widget.controller.address;
+      });
+    }
   }
 
   @override
   void dispose() {
+    widget.controller.removeListener(_onControllerUpdate);
     nameController.dispose();
     emailController.dispose();
-    roleController.dispose();
-    passwordController.dispose();
     phoneController.dispose();
     birthdateController.dispose();
     genderController.dispose();
@@ -58,18 +66,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
     super.dispose();
   }
 
-  void _save() {
-    // samakan field yang ada di register
-    widget.controller.phone = phoneController.text;
-    widget.controller.birthdate = birthdateController.text;
-    widget.controller.gender = genderController.text;
-    widget.controller.address = addressController.text;
-
+  Future<void> _save() async {
     final error = widget.controller.validate(
       newName: nameController.text,
       newEmail: emailController.text,
-      newRole: roleController.text,
-      newPassword: passwordController.text,
     );
 
     if (error != null) {
@@ -81,22 +81,31 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
     setState(() => _isLoading = true);
 
-    widget.controller.updateProfile(
+    final updateError = await widget.controller.updateProfile(
       newName: nameController.text,
       newEmail: emailController.text,
-      newRole: roleController.text,
-      newPassword: passwordController.text,
-      newImagePath: widget.selectedImage?.path,
+      newPhone: phoneController.text,
+      newBirthdate: birthdateController.text,
+      newGender: genderController.text,
+      newAddress: addressController.text,
+      newImagePath: widget.selectedImage?.path, // ← path foto lokal
     );
 
     setState(() => _isLoading = false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Profile berhasil diupdate"),
-        backgroundColor: Colors.green,
-      ),
-    );
+    if (updateError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(updateError), backgroundColor: Colors.red),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile berhasil diupdate'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      if (mounted) Navigator.pop(context);
+    }
   }
 
   @override
@@ -136,7 +145,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Informasi Pribadi",
+                  'Informasi Pribadi',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 18,
@@ -146,7 +155,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  "Lengkapi data akun agar profil kamu mudah dikenali.",
+                  'Lengkapi data akun agar profil kamu mudah dikenali.',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 12,
@@ -155,95 +164,42 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: roleController.text.isEmpty
-                          ? 'User'
-                          : roleController.text,
-                      isExpanded: true,
-                      icon: const Icon(
-                        Icons.arrow_drop_down,
-                        color: AppColors.primary,
-                      ),
-                      dropdownColor: Colors.white,
-                      style: const TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 14,
-                        color: AppColors.primary,
-                      ),
-                      items: const [
-                        DropdownMenuItem(value: 'User', child: Text('User')),
-                        DropdownMenuItem(
-                          value: 'Pemilik Kos',
-                          child: Text('Pemilik Kos'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'Pemilik Jasa',
-                          child: Text('Pemilik Jasa'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'Admin Jasa',
-                          child: Text('Admin Jasa'),
-                        ),
-                      ],
-                      onChanged: (String? newValue) {
-                        if (newValue == null) return;
-                        setState(() {
-                          roleController.text = newValue;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Nama",
+                  label: 'Nama',
                   controller: nameController,
                   icon: Icons.person_rounded,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Email",
+                  label: 'Email',
                   controller: emailController,
                   icon: Icons.email_rounded,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Phone",
+                  label: 'Phone',
                   controller: phoneController,
                   icon: Icons.phone_android_outlined,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Birthday (yyyy-MM-dd)",
+                  label: 'Birthday (yyyy-MM-dd)',
                   controller: birthdateController,
                   icon: Icons.calendar_month_rounded,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Gender",
+                  label: 'Gender',
                   controller: genderController,
                   icon: Icons.transgender_rounded,
                 ),
                 const SizedBox(height: 14),
                 EditProfileField(
-                  label: "Address",
+                  label: 'Address',
                   controller: addressController,
                   icon: Icons.location_on_outlined,
                 ),
-                const SizedBox(height: 14),
-                EditProfileField(
-                  label: "Password baru (opsional)",
-                  controller: passwordController,
-                  icon: Icons.lock_rounded,
-                  isPassword: true,
-                ),
+                // ← field password dihapus
               ],
             ),
           ),
@@ -271,7 +227,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     )
                   : const Text(
-                      "Save Changes",
+                      'Save Changes',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
