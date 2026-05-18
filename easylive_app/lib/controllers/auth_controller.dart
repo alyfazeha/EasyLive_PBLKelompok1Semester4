@@ -9,10 +9,7 @@ class AuthController {
     required String password,
   }) async {
     try {
-
-      // LOGIN KE SUPABASE AUTH
-      final response =
-          await _supabase.auth.signInWithPassword(
+      final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
@@ -22,11 +19,10 @@ class AuthController {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Login failed',
+          'message': 'Login failed: user is null',
         };
       }
 
-      // AMBIL DATA PROFILE
       final userData = await _supabase
           .from('profiles')
           .select()
@@ -35,22 +31,19 @@ class AuthController {
 
       return {
         'success': true,
-        'message':
-            'Login as ${userData['role']} successful',
+        'message': 'Login as ${userData['role']} successful',
         'role': userData['role'] ?? 'user',
         'userData': userData,
       };
-
     } catch (e) {
-
       return {
         'success': false,
-        'message': 'Error: $e',
+        'message': _formatSupabaseAuthError(e),
       };
     }
   }
 
- /// REGISTER
+  /// REGISTER
   static Future<Map<String, dynamic>> register({
     required String email,
     required String password,
@@ -64,24 +57,20 @@ class AuthController {
     required String address,
   }) async {
     try {
-
-      // VALIDASI PASSWORD MINIMAL 6 KARAKTER
       if (password.length < 6) {
         return {
           'success': false,
-          'message': 'Password harus minimal 6 karakter.'
+          'message': 'Password harus minimal 6 karakter.',
         };
       }
 
-      // VALIDASI KONFIRMASI PASSWORD
       if (password != confirmPassword) {
         return {
           'success': false,
-          'message': 'Password tidak cocok.'
+          'message': 'Password tidak cocok.',
         };
       }
 
-      // REGISTER KE SUPABASE AUTH
       final AuthResponse res = await _supabase.auth.signUp(
         email: email,
         password: password,
@@ -89,14 +78,10 @@ class AuthController {
 
       final String? userId = res.user?.id;
 
-      // JIKA AUTH BERHASIL
       if (userId != null) {
-
-        // INSERT DATA KE TABEL PROFILES
         await _supabase.from('profiles').insert({
           'id_profile': userId,
           'username': username,
-          'password': password,
           'full_name': fullName,
           'phone': phone,
           'birth_date': birthdate,
@@ -106,44 +91,38 @@ class AuthController {
           'address': address,
         });
 
-        
         return {
           'success': true,
-          'message': 'Akun berhasil dibuat. Silakan login.'
+          'message': 'Akun berhasil dibuat. Silakan login.',
         };
       }
 
       return {
         'success': false,
-        'message': 'Gagal membuat akun autentikasi.'
+        'message': 'Gagal membuat akun autentikasi.',
       };
-
     } catch (e) {
-
       final errorMessage = e.toString().toLowerCase();
 
-      // RATE LIMIT
       if (errorMessage.contains('429')) {
         return {
           'success': false,
-          'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.'
+          'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.',
         };
       }
 
-      // EMAIL SUDAH TERDAFTAR
       if (errorMessage.contains('user already registered') ||
           errorMessage.contains('email already registered') ||
           errorMessage.contains('unique_violation')) {
-
         return {
           'success': false,
-          'message': 'Email sudah terdaftar. Silakan login.'
+          'message': 'Email sudah terdaftar. Silakan login.',
         };
       }
 
       return {
         'success': false,
-        'message': 'Terjadi kesalahan: $e'
+        'message': _formatSupabaseAuthError(e),
       };
     }
   }
@@ -159,5 +138,12 @@ class AuthController {
         .eq('email', email)
         .maybeSingle();
     return userData?['role'];
+  }
+
+  static String _formatSupabaseAuthError(Object e) {
+    if (e is AuthException) {
+      return e.message;
+    }
+    return 'Auth error: $e';
   }
 }

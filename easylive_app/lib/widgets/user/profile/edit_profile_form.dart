@@ -67,6 +67,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
   }
 
   Future<void> _save() async {
+<<<<<<< HEAD
+=======
+    // samakan field yang ada di register
+    widget.controller.phone = phoneController.text;
+    widget.controller.birthdate = birthdateController.text;
+    widget.controller.gender = genderController.text;
+    widget.controller.address = addressController.text;
+
+>>>>>>> rafi
     final error = widget.controller.validate(
       newName: nameController.text,
       newEmail: emailController.text,
@@ -81,6 +90,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
     setState(() => _isLoading = true);
 
+<<<<<<< HEAD
     final updateError = await widget.controller.updateProfile(
       newName: nameController.text,
       newEmail: emailController.text,
@@ -105,6 +115,28 @@ class _EditProfileFormState extends State<EditProfileForm> {
         ),
       );
       if (mounted) Navigator.pop(context);
+=======
+    try {
+      await widget.controller.updateProfile(
+        newName: nameController.text,
+        newEmail: emailController.text,
+        newRole: roleController.text,
+        newPassword: passwordController.text,
+        newImagePath: widget.selectedImage?.path,
+      );
+      
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Profile berhasil diupdate"), backgroundColor: Colors.green),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Gagal update: $e"), backgroundColor: Colors.red),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+>>>>>>> rafi
     }
   }
 

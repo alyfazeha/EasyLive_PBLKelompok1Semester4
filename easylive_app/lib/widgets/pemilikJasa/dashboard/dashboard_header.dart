@@ -35,10 +35,27 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
               CircleAvatar(
                 radius: 22,
                 backgroundColor: Colors.white24,
-                backgroundImage: const NetworkImage(
-                  'https://i.pravatar.cc/120?img=12',
+                child: ClipOval(
+                  child: Image.network(
+                    'https://i.pravatar.cc/120?img=12',
+                    width: 44,
+                    height: 44,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Image.asset(
+                      'assets/images/logo-easylive.png',
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.cover,
+                    ),
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+                      return const SizedBox(
+                        width: 44,
+                        height: 44,
+                      );
+                    },
+                  ),
                 ),
-                onBackgroundImageError: (_, __) {},
               ),
               const SizedBox(width: 10),
               Expanded(
