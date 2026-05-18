@@ -2,53 +2,19 @@
   "currentTask": null,
   "taskStatus": null,
   "blockedBy": null,
-  "sessionStarted": "2026-05-17T04:05:58.025Z",
-  "lastActivity": "2026-05-17T06:08:17.883Z",
+  "sessionStarted": "2026-05-18T04:33:16.431Z",
+  "lastActivity": "2026-05-18T04:48:41.626Z",
   "filesChangedThisSession": [
-    "easylive_app/pubspec.yaml",
-    "easylive_app/lib/views/admin/jasa/jasa_management_view.dart",
     "git\\scm0\\input",
-    "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
-    "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
-    "easylive_app/lib/main.dart",
-    "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
-    "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
-    "easylive_app/lib/views/admin/profile/app_settings_view.dart",
-    "easylive_app/lib/views/admin/profile/help_support_view.dart",
-    "easylive_app/lib/controllers/auth_controller.dart"
+    "easylive_app/lib/main.dart"
   ],
-  "totalEditsThisSession": 69,
+  "totalEditsThisSession": 41,
   "decisions": [],
   "warnings": [
     {
       "type": "stale",
-      "message": "Session resumed after 47 min break. Previous session: 1 files changed.",
-      "timestamp": "2026-05-17T04:05:58.025Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 3428 chars replaced with 3295 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-17T05:13:10.851Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 3295 chars replaced with 3428 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-17T05:13:21.206Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 3428 chars replaced with 3295 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-17T05:13:34.567Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 11256 chars replaced with 13716 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-17T05:20:08.924Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/main.dart: 13716 chars replaced with 13700 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-17T05:20:15.017Z"
+      "message": "Session resumed after 1177 min break. Previous session: 2 files changed.",
+      "timestamp": "2026-05-18T04:33:16.431Z"
     }
   ],
   "prdItems": null,

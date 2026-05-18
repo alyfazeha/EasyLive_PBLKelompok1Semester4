@@ -1,0 +1,329 @@
+{
+  "id": "conv-1779007621638-a4kg1p",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-17T06:18:06.050Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 33 messages, 11 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/controllers/auth_controller.dart",
+    "easylive_app/lib/main.dart",
+    "easylive_app/test/widget_test.dart",
+    "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+    "easylive_app/lib/controllers/user/edit_profile_controller.dart",
+    "easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+    "easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+    "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+    "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+    "easylive_app/run.bat",
+    "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 33,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/auth_controller.dart",
+      "timestamp": "2026-05-17T06:18:06.050Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/auth_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/auth_controller.dart",
+      "timestamp": "2026-05-17T06:28:58.957Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/auth_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:36:58.658Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:37:51.378Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/test/widget_test.dart",
+      "timestamp": "2026-05-17T06:38:20.480Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/test/widget_test.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:45:11.596Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:47:07.199Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/test/widget_test.dart",
+      "timestamp": "2026-05-17T06:49:19.587Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/test/widget_test.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:51:32.854Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:51:45.640Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:53:14.846Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:53:52.100Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T06:55:07.770Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/auth_controller.dart",
+      "timestamp": "2026-05-17T07:06:06.126Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/auth_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+      "timestamp": "2026-05-17T07:06:06.556Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T07:06:06.964Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T07:07:51.537Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "timestamp": "2026-05-17T07:07:51.908Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/user/edit_profile_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+      "timestamp": "2026-05-17T07:07:52.232Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/user/profile/edit_profile_form.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "timestamp": "2026-05-17T07:11:12.765Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/user/edit_profile_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+      "timestamp": "2026-05-17T07:11:13.113Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/widgets/user/profile/edit_profile_form.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+      "timestamp": "2026-05-17T07:12:47.680Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/booking_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+      "timestamp": "2026-05-17T07:12:47.990Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "timestamp": "2026-05-17T07:12:48.352Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/user/edit_profile_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+      "timestamp": "2026-05-17T07:13:47.461Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "timestamp": "2026-05-17T07:13:47.751Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/user/edit_profile_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-17T07:16:53.451Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+      "timestamp": "2026-05-17T07:16:53.952Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+      "timestamp": "2026-05-17T07:16:54.330Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/booking_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+      "timestamp": "2026-05-17T07:16:54.687Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+      "timestamp": "2026-05-17T07:16:55.052Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/run.bat",
+      "timestamp": "2026-05-17T07:40:23.873Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/run.bat"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+      "timestamp": "2026-05-17T07:41:18.313Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+      }
+    }
+  ]
+}

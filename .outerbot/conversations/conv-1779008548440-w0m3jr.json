@@ -1,0 +1,28 @@
+{
+  "id": "conv-1779008548440-w0m3jr",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-17T09:02:28.440Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 1,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart",
+      "timestamp": "2026-05-17T08:54:55.477Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+      }
+    }
+  ]
+}

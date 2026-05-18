@@ -1,5 +1,97 @@
 [
   {
+    "id": "conv-1779078796407-7ryxck",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-17T08:54:55.477Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779008548440-w0m3jr",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-17T09:02:28.440Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779007621638-a4kg1p",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-17T06:18:06.050Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 33 messages, 11 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/auth_controller.dart",
+      "easylive_app/lib/main.dart",
+      "easylive_app/test/widget_test.dart",
+      "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+      "easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+      "easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+      "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+      "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+      "easylive_app/run.bat",
+      "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779003779783-qqjvbp",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-17T07:42:59.783Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/auth_controller.dart",
+      "easylive_app/lib/main.dart",
+      "easylive_app/test/widget_test.dart",
+      "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+      "easylive_app/lib/controllers/user/edit_profile_controller.dart",
+      "easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+      "easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+      "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+      "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+      "easylive_app/run.bat",
+      "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
     "id": "conv-1778998436097-m2kdsq",
     "project": "EasyLive_PBLKelompok1Semester4",
     "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",

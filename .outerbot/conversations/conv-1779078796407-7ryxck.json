@@ -1,0 +1,31 @@
+{
+  "id": "conv-1779078796407-7ryxck",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-17T08:54:55.477Z",
+  "topic": "Development session (recovered)",
+  "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [
+    "recovered",
+    "auto-save"
+  ],
+  "messageCount": 1,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart",
+      "timestamp": "2026-05-17T08:54:55.477Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+      }
+    }
+  ]
+}
