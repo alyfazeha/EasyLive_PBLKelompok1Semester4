@@ -1,0 +1,104 @@
+{
+  "id": "conv-1779082247982-xhoofn",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-18T05:30:47.982Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/main.dart",
+    "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+    "hs_err_pid33004.log",
+    "TODO.md",
+    "easylive_app/run.bat"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 9,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-18T04:41:51.371Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-18T04:42:09.568Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-18T04:42:26.010Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-18T04:46:08.020Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/main.dart",
+      "timestamp": "2026-05-18T04:46:23.161Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/main.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File deleted: CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+      "timestamp": "2026-05-18T05:29:32.334Z",
+      "metadata": {
+        "tool": "Delete",
+        "file": "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File deleted: hs_err_pid33004.log",
+      "timestamp": "2026-05-18T05:29:38.555Z",
+      "metadata": {
+        "tool": "Delete",
+        "file": "hs_err_pid33004.log"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File deleted: TODO.md",
+      "timestamp": "2026-05-18T05:29:44.799Z",
+      "metadata": {
+        "tool": "Delete",
+        "file": "TODO.md"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File deleted: easylive_app/run.bat",
+      "timestamp": "2026-05-18T05:29:58.066Z",
+      "metadata": {
+        "tool": "Delete",
+        "file": "easylive_app/run.bat"
+      }
+    }
+  ]
+}
