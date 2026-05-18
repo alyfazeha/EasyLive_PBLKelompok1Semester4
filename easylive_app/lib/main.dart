@@ -5,9 +5,11 @@ import 'controllers/user/favorite_controller.dart';
 import 'models/user/history_model.dart' as user_history;
 
 import 'models/user/history_model.dart';
+import 'models/admin/history_model.dart' as admin_history;
 import 'models/pemilikKos/dashboard_model.dart';
 import 'models/pemilikJasa/notifikasi_model.dart';
 import 'models/admin/notifikasi/notifikasi_model.dart';
+import 'models/admin/history_model.dart';
 import 'models/user/kos_model.dart';
 
 import 'views/auth/login_view.dart';
@@ -51,6 +53,7 @@ import 'views/pemilikJasa/profile/profile_view.dart' as jasa_profile;
 
 import 'views/admin/dashboard/dashboard_view.dart';
 import 'views/admin/history/history_view.dart';
+import 'views/admin/history/history_detail_view.dart';
 import 'views/admin/jasa/jasa_management_view.dart';
 import 'views/admin/kos/kos_approval_view.dart';
 import 'views/admin/notifikasi/notifikasi_detail_view.dart';
@@ -181,7 +184,10 @@ class MyApp extends StatelessWidget {
         );
 
       case '/pemilik_kos/profile':
-        return _noAnimation(const pemilik_kos_profile.PemilikKosProfileView(), settings);
+        return _noAnimation(
+          const pemilik_kos_profile.PemilikKosProfileView(),
+          settings,
+        );
 
       // Profile menu (Pemilik Kos)
       case '/pemilik_kos/edit_profile':
@@ -256,6 +262,14 @@ class MyApp extends StatelessWidget {
 
       case '/admin/history':
         return _noAnimation(const AdminHistoryView(), settings);
+
+      case '/admin/history/detail':
+        final historyItem =
+            settings.arguments as admin_history.HistoryItemModel;
+        return _noAnimation(
+          AdminHistoryDetailView(historyItem: historyItem),
+          settings,
+        );
 
       case '/admin/jasa':
         return _noAnimation(const AdminJasaManagementView(), settings);
