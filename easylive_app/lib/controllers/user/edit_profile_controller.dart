@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class EditProfileController {
   String name = "Alyfa Zahra";
   String email = "alyfa@gmail.com";
@@ -10,6 +12,8 @@ class EditProfileController {
   String birthdate = ""; // yyyy-MM-dd
   String gender = "";
   String address = "";
+
+  final _supabase = Supabase.instance.client;
 
   /// Validasi email
   bool isValidEmail(String email) {
@@ -42,20 +46,40 @@ class EditProfileController {
     return null;
   }
 
-  void updateProfile({
+  Future<void> updateProfile({
     required String newName,
     required String newEmail,
     required String newRole,
     required String newPassword,
     String? newImagePath,
-  }) {
+  }) async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) throw Exception("User not logged in");
+
+    // Update data di tabel profiles Supabase
+    await _supabase.from('profiles').update({
+      'full_name': newName,
+      'email': newEmail,
+      'role': newRole,
+      'phone': phone,
+      'birth_date': birthdate,
+      'gender': gender,
+      'address': address,
+    }).eq('id_profile', user.id);
+
+    // 2. Update Auth (Email & Password jika ada perubahan)
+    if (newPassword.isNotEmpty) {
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword, email: newEmail),
+      );
+    }
+
+    // Update local state
     name = newName;
     email = newEmail;
     role = newRole;
     password = newPassword;
-    if (newImagePath != null) {
-      imagePath = newImagePath;
-    }
+    if (newImagePath != null) imagePath = newImagePath;
 
     print("Profile updated: name=$name, email=$email, role=$role");
   }

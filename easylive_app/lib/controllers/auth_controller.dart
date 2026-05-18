@@ -9,7 +9,6 @@ class AuthController {
     required String password,
   }) async {
     try {
-      // LOGIN KE SUPABASE AUTH
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
@@ -24,7 +23,6 @@ class AuthController {
         };
       }
 
-      // AMBIL DATA PROFILE (hanya dilakukan kalau auth sukses)
       final userData = await _supabase
           .from('profiles')
           .select()
@@ -40,13 +38,12 @@ class AuthController {
     } catch (e) {
       return {
         'success': false,
-        // tampilkan detail error auth/supabase apa adanya
-        'message': 'Auth error: $e',
+        'message': _formatSupabaseAuthError(e),
       };
     }
   }
 
- /// REGISTER
+  /// REGISTER
   static Future<Map<String, dynamic>> register({
     required String email,
     required String password,
@@ -60,24 +57,20 @@ class AuthController {
     required String address,
   }) async {
     try {
-
-      // VALIDASI PASSWORD MINIMAL 6 KARAKTER
       if (password.length < 6) {
         return {
           'success': false,
-          'message': 'Password harus minimal 6 karakter.'
+          'message': 'Password harus minimal 6 karakter.',
         };
       }
 
-      // VALIDASI KONFIRMASI PASSWORD
       if (password != confirmPassword) {
         return {
           'success': false,
-          'message': 'Password tidak cocok.'
+          'message': 'Password tidak cocok.',
         };
       }
 
-      // REGISTER KE SUPABASE AUTH
       final AuthResponse res = await _supabase.auth.signUp(
         email: email,
         password: password,
@@ -85,12 +78,7 @@ class AuthController {
 
       final String? userId = res.user?.id;
 
-      // JIKA AUTH BERHASIL
       if (userId != null) {
-
-        // INSERT DATA KE TABEL PROFILES
-        // Catatan: jangan simpan password plaintext ke database.
-        // Supabase Auth sudah menangani password.
         await _supabase.from('profiles').insert({
           'id_profile': userId,
           'username': username,
@@ -103,44 +91,38 @@ class AuthController {
           'address': address,
         });
 
-        
         return {
           'success': true,
-          'message': 'Akun berhasil dibuat. Silakan login.'
+          'message': 'Akun berhasil dibuat. Silakan login.',
         };
       }
 
       return {
         'success': false,
-        'message': 'Gagal membuat akun autentikasi.'
+        'message': 'Gagal membuat akun autentikasi.',
       };
-
     } catch (e) {
-
       final errorMessage = e.toString().toLowerCase();
 
-      // RATE LIMIT
       if (errorMessage.contains('429')) {
         return {
           'success': false,
-          'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.'
+          'message': 'Terlalu banyak percobaan registrasi. Coba lagi nanti.',
         };
       }
 
-      // EMAIL SUDAH TERDAFTAR
       if (errorMessage.contains('user already registered') ||
           errorMessage.contains('email already registered') ||
           errorMessage.contains('unique_violation')) {
-
         return {
           'success': false,
-          'message': 'Email sudah terdaftar. Silakan login.'
+          'message': 'Email sudah terdaftar. Silakan login.',
         };
       }
 
       return {
         'success': false,
-        'message': 'Terjadi kesalahan: $e'
+        'message': _formatSupabaseAuthError(e),
       };
     }
   }
@@ -156,5 +138,12 @@ class AuthController {
         .eq('email', email)
         .maybeSingle();
     return userData?['role'];
+  }
+
+  static String _formatSupabaseAuthError(Object e) {
+    if (e is AuthException) {
+      return e.message;
+    }
+    return 'Auth error: $e';
   }
 }
