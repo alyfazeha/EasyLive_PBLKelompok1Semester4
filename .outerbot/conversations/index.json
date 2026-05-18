@@ -1,6 +1,51 @@
 {
   "conversations": [
     {
+      "id": "conv-1779082273878-88e8oz",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-18T04:41:51.371Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 9 messages, 5 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/main.dart",
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+        "hs_err_pid33004.log",
+        "TODO.md",
+        "easylive_app/run.bat"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 9
+    },
+    {
+      "id": "conv-1779082247982-xhoofn",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-18T05:30:47.982Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/main.dart",
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+        "hs_err_pid33004.log",
+        "TODO.md",
+        "easylive_app/run.bat"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 9
+    },
+    {
       "id": "conv-1779078796407-7ryxck",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
@@ -1173,5 +1218,5 @@
       "messageCount": 6
     }
   ],
-  "lastUpdated": "2026-05-18T04:33:16.408Z"
+  "lastUpdated": "2026-05-18T05:31:13.878Z"
 }
