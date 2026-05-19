@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
 import '../../../controllers/admin/notifikasi/notifikasi_settings_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/common/back_button_widget.dart';
@@ -199,8 +200,24 @@ class _AdminNotificationSettingsViewState extends State<AdminNotificationSetting
             ),
           ),
         ],
+=======
+class AdminNotificationSettingsView extends StatelessWidget {
+  const AdminNotificationSettingsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Admin Notification Settings',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+>>>>>>> rafi
       ),
     );
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> rafi

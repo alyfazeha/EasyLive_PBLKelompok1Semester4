@@ -1,48 +1,19 @@
 {
   "conversations": [
     {
-      "id": "conv-1778936257260-0zygq8",
+      "id": "conv-1779082273878-88e8oz",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
-      "timestamp": "2026-05-16T11:29:26.144Z",
-      "topic": "Development session",
-      "summary": "Session before 51 min idle. 6 messages.",
-      "decisions": [],
-      "filesModified": [
-        "easylive_app/lib/main.dart",
-        "easylive_app/lib/views/pemilikJasa/dashboard/pembayaran_detail_view.dart"
-      ],
-      "codeChanges": [],
-      "currentWork": null,
-      "waitingOn": null,
-      "tags": [
-        "auto-finalized"
-      ],
-      "messageCount": 6
-    },
-    {
-      "id": "conv-1778926376189-x8q071",
-      "project": "EasyLive_PBLKelompok1Semester4",
-      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
-      "timestamp": "2026-05-15T18:06:14.657Z",
+      "timestamp": "2026-05-18T04:41:51.371Z",
       "topic": "Development session (recovered)",
-      "summary": "Recovered from unexpected shutdown. 19 messages, 14 files tracked.",
+      "summary": "Recovered from unexpected shutdown. 9 messages, 5 files tracked.",
       "decisions": [],
       "filesModified": [
-        "easylive_app/lib/views/admin/profile/profile_information_view.dart",
         "easylive_app/lib/main.dart",
-        "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
-        "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
-        "easylive_app/lib/views/admin/history/history_view.dart",
-        "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
-        "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
-        "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
-        "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
-        "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
-        "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
-        "easylive_app/lib/views/admin/kos/detail_approvalKos.dart",
-        "easylive_app/lib/controllers/admin/approvalKos_detail_controller.dart",
-        "easylive_app/lib/controllers/admin/kos/approvalKos_detail_controller.dart"
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+        "hs_err_pid33004.log",
+        "TODO.md",
+        "easylive_app/run.bat"
       ],
       "codeChanges": [],
       "currentWork": null,
@@ -51,37 +22,255 @@
         "recovered",
         "auto-save"
       ],
-      "messageCount": 19
+      "messageCount": 9
     },
     {
-      "id": "conv-1778926347129-038z3j",
+      "id": "conv-1779082247982-xhoofn",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
-      "timestamp": "2026-05-16T10:12:27.129Z",
+      "timestamp": "2026-05-18T05:30:47.982Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/main.dart",
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt",
+        "hs_err_pid33004.log",
+        "TODO.md",
+        "easylive_app/run.bat"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 9
+    },
+    {
+      "id": "conv-1779078796407-7ryxck",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T08:54:55.477Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 1
+    },
+    {
+      "id": "conv-1779008548440-w0m3jr",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T09:02:28.440Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/pemilikKos/notifikasi_detail_controller.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 1
+    },
+    {
+      "id": "conv-1779007621638-a4kg1p",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T06:18:06.050Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 33 messages, 11 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/auth_controller.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/test/widget_test.dart",
+        "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+        "easylive_app/lib/controllers/user/edit_profile_controller.dart",
+        "easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+        "easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+        "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+        "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+        "easylive_app/run.bat",
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 33
+    },
+    {
+      "id": "conv-1779003779783-qqjvbp",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T07:42:59.783Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/auth_controller.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/test/widget_test.dart",
+        "easylive_app/lib/controllers/pemilikKos/dashboard_controller.dart",
+        "easylive_app/lib/controllers/user/edit_profile_controller.dart",
+        "easylive_app/lib/widgets/user/profile/edit_profile_form.dart",
+        "easylive_app/lib/controllers/pemilikKos/booking_controller.dart",
+        "easylive_app/lib/controllers/pemilikKos/homeKos_controller.dart",
+        "easylive_app/lib/controllers/pemilikKos/notifikasi_controller.dart",
+        "easylive_app/run.bat",
+        "CARA_MENDAPATKAN_SUPABASE_CREDENTIALS.txt"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 33
+    },
+    {
+      "id": "conv-1778998436097-m2kdsq",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T06:03:48.083Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 2 messages, 2 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/auth_controller.dart",
+        "easylive_app/lib/main.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 2
+    },
+    {
+      "id": "conv-1778998415605-ienyso",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T06:13:35.605Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/controllers/auth_controller.dart",
+        "easylive_app/lib/main.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 2
+    },
+    {
+      "id": "conv-1778996272754-ag7m88",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T04:18:13.684Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 14 messages, 9 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/pubspec.yaml",
+        "easylive_app/lib/views/admin/jasa/jasa_management_view.dart",
+        "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+        "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+        "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+        "easylive_app/lib/views/admin/profile/app_settings_view.dart",
+        "easylive_app/lib/views/admin/profile/help_support_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 14
+    },
+    {
+      "id": "conv-1778996222654-pt6qe0",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-17T05:37:02.654Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/pubspec.yaml",
+        "easylive_app/lib/views/admin/jasa/jasa_management_view.dart",
+        "easylive_app/lib/widgets/pemilikJasa/dashboard/dashboard_header.dart",
+        "easylive_app/lib/widgets/pemilikJasa/home/dashboard_widgets.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/admin/notifikasi/notification_settings_view.dart",
+        "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+        "easylive_app/lib/views/admin/profile/app_settings_view.dart",
+        "easylive_app/lib/views/admin/profile/help_support_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 14
+    },
+    {
+      "id": "conv-1778987879207-xxwzxl",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-15T18:06:14.657Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 5 messages, 3 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+        "easylive_app/lib/main.dart",
+        "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 5
+    },
+    {
+      "id": "conv-1778943571505-ehc0ej",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-16T14:59:31.505Z",
       "topic": "Extension deactivated",
       "summary": null,
       "decisions": [],
       "filesModified": [
         "easylive_app/lib/views/admin/profile/profile_information_view.dart",
         "easylive_app/lib/main.dart",
-        "easylive_app/lib/views/admin/profile/admin_profile_view.dart",
-        "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
-        "easylive_app/lib/views/admin/history/history_view.dart",
-        "easylive_app/lib/widgets/admin/dashboard/navbar_button.dart",
-        "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
-        "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
-        "easylive_app/lib/views/admin/notifikasi/notifikasi_view.dart",
-        "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
-        "easylive_app/lib/views/admin/kos/reject_reason_approvalKos_view.dart",
-        "easylive_app/lib/views/admin/kos/detail_approvalKos.dart",
-        "easylive_app/lib/controllers/admin/approvalKos_detail_controller.dart",
-        "easylive_app/lib/controllers/admin/kos/approvalKos_detail_controller.dart"
+        "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
       ],
       "codeChanges": [],
       "currentWork": null,
       "waitingOn": null,
       "tags": [],
-      "messageCount": 19
+      "messageCount": 5
     },
     {
       "id": "conv-1778867053666-jqr8hm",
@@ -1029,5 +1218,5 @@
       "messageCount": 6
     }
   ],
-  "lastUpdated": "2026-05-16T12:57:37.260Z"
+  "lastUpdated": "2026-05-18T05:31:13.878Z"
 }
