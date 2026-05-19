@@ -14,7 +14,11 @@ class PemilikJasaHomeView extends StatelessWidget {
     } else if (index == 3) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
     } else if (index == 4) {
-      Navigator.pushNamed(context, '/profile');
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa/profile');
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+    } else if (index == 2) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa');
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/color.dart';
-import '../../user/profile/profile_menu_item.dart';
+import '../../../../widgets/pemilikKos/profile/profile_menu_item.dart';
 
 class PemilikJasaProfileMenuSection extends StatelessWidget {
   const PemilikJasaProfileMenuSection({super.key});
@@ -53,28 +53,28 @@ class PemilikJasaProfileMenuSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-
-            ProfileMenuItem(
+            PemilikKosProfileMenuItem(
               icon: Icons.dashboard,
               title: 'Dashboard',
               subtitle: 'Kelola data dan pembayaran',
-              onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/dashboard'),
+              onTap: () =>
+                  Navigator.pushNamed(context, '/pemilik_jasa/dashboard'),
             ),
             const SizedBox(height: 12),
-
-            ProfileMenuItem(
+            PemilikKosProfileMenuItem(
               icon: Icons.notifications,
               title: 'Notifikasi',
               subtitle: 'Info dan update terbaru',
-              onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
+              onTap: () =>
+                  Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
             ),
             const SizedBox(height: 12),
-
-            ProfileMenuItem(
+            PemilikKosProfileMenuItem(
               icon: Icons.person,
               title: 'Profil',
               subtitle: 'Data pemilik jasa',
-              onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/profile'),
+              onTap: () =>
+                  Navigator.pushNamed(context, '/pemilik_jasa/profile'),
             ),
           ],
         ),

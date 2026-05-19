@@ -262,8 +262,12 @@ class DetailBookingView extends StatelessWidget {
                 context,
                 '/pemilik_jasa/dashboard',
               );
+            } else if (index == 1) {
+              Navigator.pushReplacementNamed(context, '/pemilik_jasa');
             } else if (index == 2) {
-              Navigator.pushReplacementNamed(context, '/pemilik_jasa/home');
+              Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+            } else if (index == 4) {
+              Navigator.pushReplacementNamed(context, '/pemilik_jasa/profile');
             }
           },
         ),

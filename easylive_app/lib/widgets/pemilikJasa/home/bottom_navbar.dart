@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/color.dart';
 
-/// Index mapping:
-/// 0 = Dashboard
-/// 1 = Jasa (owner jasa)
-/// 2 = Home (fab circle center)
-/// 3 = Bookings
-/// 4 = Profile
 class PemilikJasaBottomNav extends StatelessWidget {
   final int currentIndex;
   final Function(int)? onNavigate;
@@ -21,8 +14,8 @@ class PemilikJasaBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-      height: 62,
+      margin: const EdgeInsets.fromLTRB(14, 0, 14, 0),
+      height: 64,
       decoration: BoxDecoration(
         color: AppColors.yellow,
         borderRadius: BorderRadius.circular(28),
@@ -108,7 +101,7 @@ class _BottomNavItem extends StatelessWidget {
         : AppColors.darkBlue.withValues(alpha: 0.62);
 
     return SizedBox(
-      width: 72,
+      width: 58,
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,

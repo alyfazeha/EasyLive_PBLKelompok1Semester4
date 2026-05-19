@@ -15,12 +15,14 @@ class PemilikJasaDashboardView extends StatelessWidget {
   void _handleNavigation(BuildContext context, int index) {
     if (index == 0) return;
 
-    if (index == 2) {
+    if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+    } else if (index == 2) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa');
     } else if (index == 3) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
     } else if (index == 4) {
-      Navigator.pushNamed(context, '/profile');
+      Navigator.pushReplacementNamed(context, '/pemilik_jasa/profile');
     }
   }
 

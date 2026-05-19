@@ -1,17 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-- [x] Tambahkan header biru pada halaman detail booking pemilik jasa (easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart)
-- [ ] Pastikan teks/ikon tetap terlihat jelas dan tidak mengganggu konten yang ada
-- [x] Jalankan analisis/tes Flutter (flutter analyze / flutter test) jika tersedia
-=======
-=======
->>>>>>> ailsa
-# TODO
+- [ ] Kirim plan perubahan (khusus KostCard di easylive_app/lib/widgets/user/kosPage/kos_card.dart)
+- [x] Update KostCard agar responsif di HP: constrain lebar, pakai LayoutBuilder, dan skalakan ukuran (image/spacing/font)
+- [x] Rapikan overflow: ubah Text style jadi lebih adaptif dan gunakan FittedBox/softWrap bila perlu
+- [ ] Jalankan `flutter analyze` dan (opsional) build/run untuk cek error
 
-- [ ] Ambil pemahaman awal: cek implementasi halaman `pemilik_jasa/detail_booking` (done: sudah dibaca file view + controller + model).
-- [ ] Susun plan perubahan UI sesuai yang diinginkan user (butuh detail keinginan perubahan).
-<<<<<<< HEAD
->>>>>>> rafi
-=======
->>>>>>> ailsa
 

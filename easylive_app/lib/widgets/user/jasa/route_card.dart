@@ -489,91 +489,117 @@ class UserJasaRouteCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          Row(
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(5, (index) {
-                    final date = selectedDate.add(Duration(days: index - 2));
-                    final isSelected =
-                        date.year == selectedDate.year &&
-                        date.month == selectedDate.month &&
-                        date.day == selectedDate.day;
-                    return GestureDetector(
-                      onTap: () => onDateChanged(date),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? const Color(0xFFD1DDE6)
-                                  : Colors.transparent,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Text(
-                              '${date.day}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.darkBlue,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Responsive khusus bagian departure
+              final isNarrow = constraints.maxWidth < 360;
+
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(5, (index) {
+                        final date = selectedDate.add(
+                          Duration(days: index - 2),
+                        );
+                        final isSelected =
+                            date.year == selectedDate.year &&
+                            date.month == selectedDate.month &&
+                            date.day == selectedDate.day;
+
+                        return GestureDetector(
+                          onTap: () => onDateChanged(date),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: isNarrow ? 32 : 35,
+                                height: isNarrow ? 32 : 35,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? const Color(0xFFD1DDE6)
+                                      : Colors.transparent,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Text(
+                                  '${date.day}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.darkBlue,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 5),
+                              Text(
+                                DateFormat('E').format(date).toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: isNarrow ? 9 : 10,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
+                        );
+                      }),
+                    ),
+                  ),
+
+                  // garis pemisah disembunyikan saat sempit biar tidak overflow
+                  if (!isNarrow)
+                    Container(
+                      height: 40,
+                      width: 1.5,
+                      color: Colors.grey[300],
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
+                    ),
+
+                  InkWell(
+                    onTap: () => _showDatePicker(context),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: isNarrow ? 8 : 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                DateFormat(
+                                  'MMM',
+                                ).format(selectedDate).toUpperCase(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: isNarrow ? 14 : 16,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.amber,
+                                size: isNarrow ? 18 : 20,
+                              ),
+                            ],
+                          ),
                           Text(
-                            DateFormat('E').format(date).toUpperCase(),
+                            DateFormat('yyyy').format(selectedDate),
                             style: TextStyle(
-                              fontSize: 10,
-                              color: isSelected ? Colors.black : Colors.grey,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                              fontWeight: FontWeight.bold,
+                              fontSize: isNarrow ? 14 : 16,
                             ),
                           ),
                         ],
                       ),
-                    );
-                  }),
-                ),
-              ),
-              Container(
-                height: 40,
-                width: 1.5,
-                color: Colors.grey[300],
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-              ),
-              InkWell(
-                onTap: () => _showDatePicker(context),
-                borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          DateFormat('MMM').format(selectedDate).toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const Icon(Icons.arrow_drop_down, color: Colors.amber),
-                      ],
                     ),
-                    Text(
-                      DateFormat('yyyy').format(selectedDate),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
