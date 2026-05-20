@@ -5,6 +5,7 @@ class PemilikKosProfileController extends ChangeNotifier {
   String userName = '';
   String userEmail = '';
   String userImage = '';
+  String role = '';
   bool isLoading = false;
 
   final supabase = Supabase.instance.client;
@@ -27,13 +28,14 @@ class PemilikKosProfileController extends ChangeNotifier {
 
       final res = await supabase
           .from('profiles')
-          .select('username, email, image_path')
+          .select('username, email, photo, role') // ← photo bukan image_path
           .eq('id_profile', user.id)
           .single();
 
       userName = res['username'] ?? 'Pemilik Kos';
       userEmail = res['email'] ?? '-';
-      userImage = res['image_path'] ?? '';
+      userImage = res['photo'] ?? ''; // ← photo bukan image_path
+      role = res['role'] ?? '';
     } catch (e) {
       debugPrint('Error loading profile: $e');
     }
@@ -42,7 +44,15 @@ class PemilikKosProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Validasi & update password
+  Future<void> logout() async {
+    await supabase.auth.signOut();
+    userName = '';
+    userEmail = '';
+    userImage = '';
+    role = '';
+    notifyListeners();
+  }
+
   Future<String?> updatePassword({
     required String currentPassword,
     required String newPassword,
@@ -61,7 +71,6 @@ class PemilikKosProfileController extends ChangeNotifier {
     }
 
     try {
-      // 1️⃣ Validasi password saat ini dengan re-login
       final user = supabase.auth.currentUser;
       if (user == null) return 'User tidak login';
 
@@ -70,12 +79,11 @@ class PemilikKosProfileController extends ChangeNotifier {
         password: currentPassword,
       );
 
-      // 2️⃣ Update password
       await supabase.auth.updateUser(
         UserAttributes(password: newPassword),
       );
 
-      return null; // null = sukses
+      return null;
     } on AuthException catch (e) {
       if (e.message.contains('Invalid login credentials')) {
         return 'Password saat ini salah';
