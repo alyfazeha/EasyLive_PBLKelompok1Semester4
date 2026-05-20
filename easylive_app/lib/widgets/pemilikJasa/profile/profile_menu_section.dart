@@ -55,26 +55,18 @@ class PemilikJasaProfileMenuSection extends StatelessWidget {
             const SizedBox(height: 15),
             PemilikKosProfileMenuItem(
               icon: Icons.dashboard,
-              title: 'Dashboard',
+              title: 'Edit Profile',
               subtitle: 'Kelola data dan pembayaran',
               onTap: () =>
-                  Navigator.pushNamed(context, '/pemilik_jasa/dashboard'),
+                  Navigator.pushNamed(context, '/pemilik_jasa/edit_profile'),
             ),
             const SizedBox(height: 12),
             PemilikKosProfileMenuItem(
-              icon: Icons.notifications,
-              title: 'Notifikasi',
-              subtitle: 'Info dan update terbaru',
+              icon: Icons.security,
+              title: 'Keamanan',
+              subtitle: 'Password dan keamanan akun',
               onTap: () =>
-                  Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
-            ),
-            const SizedBox(height: 12),
-            PemilikKosProfileMenuItem(
-              icon: Icons.person,
-              title: 'Profil',
-              subtitle: 'Data pemilik jasa',
-              onTap: () =>
-                  Navigator.pushNamed(context, '/pemilik_jasa/profile'),
+                  Navigator.pushNamed(context, '/pemilik_jasa/security'),
             ),
           ],
         ),

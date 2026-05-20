@@ -1,6 +1,5 @@
-- [ ] Kirim plan perubahan (khusus KostCard di easylive_app/lib/widgets/user/kosPage/kos_card.dart)
-- [x] Update KostCard agar responsif di HP: constrain lebar, pakai LayoutBuilder, dan skalakan ukuran (image/spacing/font)
-- [x] Rapikan overflow: ubah Text style jadi lebih adaptif dan gunakan FittedBox/softWrap bila perlu
-- [ ] Jalankan `flutter analyze` dan (opsional) build/run untuk cek error
-
+- [ ] Menganalisis error utama pada kode (terutama conflict merge/duplicate block)
+- [ ] Menyusun edit plan yang sesuai permintaan: jangan ubah struktur, hanya perbaiki error
+- [ ] Menghapus marker merge konflik (<<<<<<<, =======, >>>>>>>) dan menyelaraskan imports/route yang duplikat agar compile
+- [ ] Menjalankan build/analyze Flutter untuk memastikan tidak ada error compile baru
 

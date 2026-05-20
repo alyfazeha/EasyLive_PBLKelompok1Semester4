@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/color.dart';
 
 class PemilikJasaBottomNav extends StatelessWidget {
@@ -34,27 +35,15 @@ class PemilikJasaBottomNav extends StatelessWidget {
                 onTap: () => onNavigate?.call(0),
               ),
               _BottomNavItem(
-                icon: Icons.inventory_2_outlined,
-                label: 'Jasa',
-                active: currentIndex == 1,
-                onTap: () => onNavigate?.call(1),
-              ),
-              _BottomNavItem(
                 icon: Icons.bookmark_border_rounded,
                 label: 'Bookings',
                 active: currentIndex == 3,
                 onTap: () => onNavigate?.call(3),
               ),
-              _BottomNavItem(
-                icon: Icons.person_outline,
-                label: 'Profile',
-                active: currentIndex == 4,
-                onTap: () => onNavigate?.call(4),
-              ),
             ],
           ),
 
-          /// Center FAB (Home)
+          // Center FAB (Home)
           Positioned(
             top: -18,
             child: GestureDetector(

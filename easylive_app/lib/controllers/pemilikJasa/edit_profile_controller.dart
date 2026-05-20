@@ -4,23 +4,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class EditProfileController extends ChangeNotifier {
-  String name = '';
-  String email = '';
-  String role = '';
-  String imagePath = '';
+import '../../models/pemilikJasa/edit_profile_model.dart';
 
-  // fields that edit_profile_view.dart expects
+class PemilikJasaEditProfileController extends ChangeNotifier {
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  String username = '';
+  String email = '';
   String phone = '';
   String birthdate = '';
   String gender = '';
   String address = '';
+  String imagePath = '';
 
   bool isLoading = false;
 
-  final SupabaseClient _supabase = Supabase.instance.client;
-
-  EditProfileController() {
+  PemilikJasaEditProfileController() {
     loadData();
   }
 
@@ -36,24 +35,23 @@ class EditProfileController extends ChangeNotifier {
         return;
       }
 
+      // Asumsi struktur tabel sama seperti EditProfileController user:
+      // id_profile diisi dengan user.id
       final res = await _supabase
           .from('profiles')
-          .select(
-            'username, email, phone, full_name, birth_date, gender, address, photo, role',
-          )
+          .select('username, email, phone, birth_date, gender, address, photo')
           .eq('id_profile', user.id)
           .single();
 
-      name = res['username'] ?? '';
-      email = res['email'] ?? '';
-      phone = res['phone'] ?? '';
-      birthdate = res['birth_date'] ?? '';
-      gender = res['gender'] ?? '';
-      address = res['address'] ?? '';
-      imagePath = res['photo'] ?? '';
-      role = res['role'] ?? '';
+      username = (res['username'] ?? '') as String;
+      email = (res['email'] ?? '') as String;
+      phone = (res['phone'] ?? '') as String;
+      birthdate = (res['birth_date'] ?? '') as String;
+      gender = (res['gender'] ?? '') as String;
+      address = (res['address'] ?? '') as String;
+      imagePath = (res['photo'] ?? '') as String;
     } catch (e) {
-      debugPrint('Error loading profile: $e');
+      debugPrint('Error loading pemilik jasa edit profile: $e');
     }
 
     isLoading = false;
@@ -70,15 +68,15 @@ class EditProfileController extends ChangeNotifier {
     return emailRegex.hasMatch(value);
   }
 
-  String? validate({required String newName, required String newEmail}) {
-    if (newName.trim().isEmpty) return 'Name cannot be empty';
+  String? validate({required String newUsername, required String newEmail}) {
+    if (newUsername.trim().isEmpty) return 'Name cannot be empty';
     if (newEmail.trim().isEmpty) return 'Email cannot be empty';
     if (!isValidEmail(newEmail.trim())) return 'Invalid email format';
     return null;
   }
 
   Future<void> updateProfile({
-    required String newName,
+    required String newUsername,
     required String newEmail,
     required String newPhone,
     required String newBirthdate,
@@ -91,13 +89,10 @@ class EditProfileController extends ChangeNotifier {
 
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) {
-        throw Exception('User tidak login');
-      }
+      if (user == null) throw Exception('User tidak login');
 
       String? photoUrl;
 
-      // upload photo if any
       if (newImagePath != null && newImagePath.isNotEmpty) {
         final file = File(newImagePath);
         final fileName =
@@ -119,7 +114,7 @@ class EditProfileController extends ChangeNotifier {
       await _supabase
           .from('profiles')
           .update({
-            'username': newName,
+            'username': newUsername,
             'email': newEmail,
             'phone': newPhone,
             'birth_date': newBirthdate.isNotEmpty ? newBirthdate : null,
@@ -129,23 +124,32 @@ class EditProfileController extends ChangeNotifier {
           })
           .eq('id_profile', user.id);
 
-      name = newName;
+      username = newUsername;
       email = newEmail;
       phone = newPhone;
       birthdate = newBirthdate;
       gender = newGender;
       address = newAddress;
-      if (photoUrl != null) {
-        imagePath = photoUrl;
-      }
 
-      notifyListeners();
+      if (photoUrl != null) imagePath = photoUrl;
     } catch (e) {
-      debugPrint('Error update profile: $e');
+      debugPrint('Error update pemilik jasa edit profile: $e');
       rethrow;
     } finally {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  PemilikJasaEditProfileModel toModel() {
+    return PemilikJasaEditProfileModel(
+      username: username,
+      email: email,
+      phone: phone,
+      birthdate: birthdate,
+      gender: gender,
+      address: address,
+      imagePath: imagePath,
+    );
   }
 }

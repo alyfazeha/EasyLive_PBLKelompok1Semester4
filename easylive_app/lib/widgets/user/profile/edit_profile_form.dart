@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../../controllers/user/edit_profile_controller.dart';
 import '../../../core/color.dart';
 import 'edit_profile_field.dart';
@@ -26,6 +27,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
   late TextEditingController birthdateController;
   late TextEditingController genderController;
   late TextEditingController addressController;
+
   bool _isLoading = false;
 
   @override
@@ -34,7 +36,9 @@ class _EditProfileFormState extends State<EditProfileForm> {
     nameController = TextEditingController(text: widget.controller.name);
     emailController = TextEditingController(text: widget.controller.email);
     phoneController = TextEditingController(text: widget.controller.phone);
-    birthdateController = TextEditingController(text: widget.controller.birthdate);
+    birthdateController = TextEditingController(
+      text: widget.controller.birthdate,
+    );
     genderController = TextEditingController(text: widget.controller.gender);
     addressController = TextEditingController(text: widget.controller.address);
 
@@ -67,21 +71,19 @@ class _EditProfileFormState extends State<EditProfileForm> {
   }
 
   Future<void> _save() async {
-<<<<<<< HEAD
-=======
-    // samakan field yang ada di register
+    // keep controller fields in sync
     widget.controller.phone = phoneController.text;
     widget.controller.birthdate = birthdateController.text;
     widget.controller.gender = genderController.text;
     widget.controller.address = addressController.text;
 
->>>>>>> rafi
     final error = widget.controller.validate(
       newName: nameController.text,
       newEmail: emailController.text,
     );
 
     if (error != null) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error), backgroundColor: Colors.red),
       );
@@ -90,53 +92,36 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
     setState(() => _isLoading = true);
 
-<<<<<<< HEAD
-    final updateError = await widget.controller.updateProfile(
-      newName: nameController.text,
-      newEmail: emailController.text,
-      newPhone: phoneController.text,
-      newBirthdate: birthdateController.text,
-      newGender: genderController.text,
-      newAddress: addressController.text,
-      newImagePath: widget.selectedImage?.path, // ← path foto lokal
-    );
-
-    setState(() => _isLoading = false);
-
-    if (updateError != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(updateError), backgroundColor: Colors.red),
+    try {
+      await widget.controller.updateProfile(
+        newName: nameController.text,
+        newEmail: emailController.text,
+        newPhone: phoneController.text,
+        newBirthdate: birthdateController.text,
+        newGender: genderController.text,
+        newAddress: addressController.text,
+        newImagePath: widget.selectedImage?.path,
       );
-    } else {
+
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Profile berhasil diupdate'),
           backgroundColor: Colors.green,
         ),
       );
+
       if (mounted) Navigator.pop(context);
-=======
-    try {
-      await widget.controller.updateProfile(
-        newName: nameController.text,
-        newEmail: emailController.text,
-        newRole: roleController.text,
-        newPassword: passwordController.text,
-        newImagePath: widget.selectedImage?.path,
-      );
-      
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Profile berhasil diupdate"), backgroundColor: Colors.green),
-      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Gagal update: $e"), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Gagal update: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
->>>>>>> rafi
     }
   }
 
@@ -231,7 +216,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   controller: addressController,
                   icon: Icons.location_on_outlined,
                 ),
-                // ← field password dihapus
               ],
             ),
           ),

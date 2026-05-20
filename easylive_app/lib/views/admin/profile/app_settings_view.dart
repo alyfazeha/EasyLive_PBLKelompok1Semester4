@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-<<<<<<< HEAD
 import '../../../controllers/admin/app_settings/app_settings_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/common/back_button_widget.dart';
@@ -193,24 +192,7 @@ class _AdminAppSettingsViewState extends State<AdminAppSettingsView> {
             ),
           ),
         ],
-=======
-class AdminAppSettingsView extends StatelessWidget {
-  const AdminAppSettingsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Admin App Settings',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
->>>>>>> rafi
       ),
     );
   }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> rafi

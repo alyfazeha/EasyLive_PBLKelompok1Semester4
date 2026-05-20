@@ -382,16 +382,14 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
       ),
 
       bottomNavigationBar: PemilikJasaBottomNav(
+        // Booking hanya aktif di sisi right (index 3)
         currentIndex: 3,
         onNavigate: (index) {
+          // 0 = Dashboard, 3 = Booking
           if (index == 0) {
             Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
-          } else if (index == 1) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-          } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/profile');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
           }
         },
       ),

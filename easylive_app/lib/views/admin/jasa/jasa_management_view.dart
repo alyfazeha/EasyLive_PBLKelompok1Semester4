@@ -22,51 +22,30 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
     _JasaItem(
       title: 'Jasa Pindah',
       subtitle: 'EasyMove Reguler',
-<<<<<<< HEAD
       submittedDate: '12 Mei 2026',
-      status: 'Pending',
-      imageAsset: 'assets/images/jasa_icon_motor.png',
-=======
       status: 'pending',
-      imageAsset: 'assets/images/kos1.jpg',
->>>>>>> rafi
+      imageAsset: 'assets/images/jasa_icon_motor.png',
     ),
     _JasaItem(
       title: 'Laundry',
       subtitle: 'Bersih Laundry',
-<<<<<<< HEAD
       submittedDate: '10 Mei 2026',
-      status: 'Pending',
-      imageAsset: 'assets/images/jasa_icon_laundry.png',
-=======
       status: 'pending',
-      imageAsset: 'assets/images/kos2.jpg',
->>>>>>> rafi
+      imageAsset: 'assets/images/jasa_icon_laundry.png',
     ),
     _JasaItem(
       title: 'Cleaning Service',
       subtitle: 'Bersih Bersih Cleaning',
-<<<<<<< HEAD
       submittedDate: '08 Mei 2026',
-      status: 'Approved',
-      imageAsset: 'assets/images/jasa_icon_cleaning.png',
-=======
       status: 'pending',
-      imageAsset: 'assets/images/kos3.jpg',
->>>>>>> rafi
+      imageAsset: 'assets/images/jasa_icon_cleaning.png',
     ),
     _JasaItem(
       title: 'Transport',
       subtitle: 'Prima Transport',
-<<<<<<< HEAD
       submittedDate: '05 Mei 2026',
-      status: 'Rejected',
-      imageAsset: 'assets/images/jasa_icon_transport.png',
-      rejectionReason: 'Data kendaraan dan dokumen layanan belum lengkap.',
-=======
       status: 'pending',
-      imageAsset: 'assets/images/kamarKos.jpg',
->>>>>>> rafi
+      imageAsset: 'assets/images/jasa_icon_transport.png',
     ),
   ];
 
@@ -88,7 +67,7 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
         if (current.title == item.title && current.subtitle == item.subtitle) {
           return current.copyWith(
             status: status,
-            rejectionReason: status == 'Rejected'
+            rejectionReason: status.toLowerCase() == 'rejected'
                 ? current.rejectionReason
                 : '',
           );
@@ -102,10 +81,7 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
     setState(() {
       _items = _items.map((current) {
         if (current.title == item.title && current.subtitle == item.subtitle) {
-          return current.copyWith(
-            status: 'Rejected',
-            rejectionReason: reason,
-          );
+          return current.copyWith(status: 'rejected', rejectionReason: reason);
         }
         return current;
       }).toList();
@@ -256,7 +232,7 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
 
                               if (result is Map &&
                                   result['status'] == 'approved') {
-                                _updateStatus(item, 'Approved');
+                                _updateStatus(item, 'approved');
                                 if (!context.mounted) return;
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

@@ -1,19 +1,23 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../controllers/user/edit_profile_controller.dart';
+
+import '../../../controllers/pemilikJasa/edit_profile_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/profile/edit_profile_field.dart';
 
-class EditProfileView extends StatefulWidget {
-  const EditProfileView({super.key});
+class PemilikJasaEditProfileView extends StatefulWidget {
+  const PemilikJasaEditProfileView({super.key});
 
   @override
-  State<EditProfileView> createState() => _EditProfileViewState();
+  State<PemilikJasaEditProfileView> createState() =>
+      _PemilikJasaEditProfileViewState();
 }
 
-class _EditProfileViewState extends State<EditProfileView> {
-  late EditProfileController controller;
+class _PemilikJasaEditProfileViewState
+    extends State<PemilikJasaEditProfileView> {
+  late PemilikJasaEditProfileController controller;
   XFile? selectedImage;
 
   late TextEditingController nameController;
@@ -30,7 +34,8 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   void initState() {
     super.initState();
-    controller = EditProfileController();
+    controller = PemilikJasaEditProfileController();
+
     nameController = TextEditingController();
     emailController = TextEditingController();
     phoneController = TextEditingController();
@@ -42,7 +47,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     controller.addListener(() {
       if (!controller.isLoading) {
         setState(() {
-          nameController.text = controller.name;
+          nameController.text = controller.username;
           emailController.text = controller.email;
           phoneController.text = controller.phone;
           birthdateController.text = controller.birthdate;
@@ -76,7 +81,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   Future<void> _save() async {
     final error = controller.validate(
-      newName: nameController.text,
+      newUsername: nameController.text,
       newEmail: emailController.text,
     );
 
@@ -91,7 +96,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
     try {
       await controller.updateProfile(
-        newName: nameController.text,
+        newUsername: nameController.text,
         newEmail: emailController.text,
         newPhone: phoneController.text,
         newBirthdate: birthdateController.text,
@@ -124,7 +129,6 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    // Tentukan foto yang ditampilkan
     ImageProvider? photoProvider;
     if (selectedImage != null) {
       photoProvider = FileImage(File(selectedImage!.path));
@@ -211,7 +215,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                               radius: 52,
                               backgroundColor: Colors.white,
                               backgroundImage: photoProvider,
-                              // ← fallback ke asset jika tidak ada foto
                               child: photoProvider == null
                                   ? const Icon(
                                       Icons.person_rounded,
@@ -327,7 +330,6 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   ),
                                 ),
                                 const SizedBox(height: 18),
-                                // ← dropdown role dihapus
                                 EditProfileField(
                                   label: 'Nama',
                                   controller: nameController,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-<<<<<<< HEAD
 import '../../../controllers/admin/profile/change_password_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/common/back_button_widget.dart';
@@ -301,21 +300,3 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
     );
   }
 }
-
-=======
-class UbahPasswordAdminView extends StatelessWidget {
-  const UbahPasswordAdminView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Ubah Password Admin',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
->>>>>>> rafi
