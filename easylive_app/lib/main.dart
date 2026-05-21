@@ -37,6 +37,7 @@ import 'views/pemilikKos/booking/detail_booking_view.dart'
 import 'views/pemilikKos/profile/security_view.dart';
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikKos/profile/profile_view.dart' as pemilik_kos_profile;
+import 'views/pemilikJasa/profile/security_view.dart';
 import 'views/pemilikJasa/home/home_view.dart';
 
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
@@ -184,6 +185,9 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_jasa/edit_profile':
         return _noAnimation(const PemilikJasaEditProfileView(), settings);
+
+      case '/pemilik_jasa/security':
+        return _noAnimation(const PemilikJasaSecurityView(), settings);
 
       case '/pemilik_kos/favorite':
         return _noAnimation(const FavoriteView(), settings);

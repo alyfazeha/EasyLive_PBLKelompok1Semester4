@@ -27,14 +27,14 @@ class _AdminJasaManagementViewState extends State<AdminJasaManagementView> {
       imageAsset: 'assets/images/jasa_icon_motor.png',
     ),
     _JasaItem(
-      title: 'Laundry',
+      title: 'EasyMove',
       subtitle: 'Bersih Laundry',
       submittedDate: '10 Mei 2026',
       status: 'pending',
       imageAsset: 'assets/images/jasa_icon_laundry.png',
     ),
     _JasaItem(
-      title: 'Cleaning Service',
+      title: 'Pindahan Gampang',
       subtitle: 'Bersih Bersih Cleaning',
       submittedDate: '08 Mei 2026',
       status: 'pending',

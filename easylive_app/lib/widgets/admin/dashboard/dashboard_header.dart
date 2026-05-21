@@ -15,9 +15,17 @@ class AdminHeader extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: [
-          const Icon(Icons.menu, color: Colors.white, size: 28),
-          const SizedBox(width: 16),
+       children: [
+        const CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.person,
+            color: Color(0xFF243447),
+            size: 24,
+          ),
+        ),
+        const SizedBox(width: 16),
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
