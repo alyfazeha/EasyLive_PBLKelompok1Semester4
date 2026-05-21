@@ -1,4 +1,21 @@
 {
+  "id": "conv-1779374668571-woz03f",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-21T14:44:28.571Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/main.dart",
+    "easylive_app/test/widget_test.dart",
+    "easylive_app/pubspec.yaml"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 3,
   "messages": [
     {
       "type": "tool",
@@ -27,13 +44,5 @@
         "file": "easylive_app/pubspec.yaml"
       }
     }
-  ],
-  "filesModified": [
-    "easylive_app/lib/main.dart",
-    "easylive_app/test/widget_test.dart",
-    "easylive_app/pubspec.yaml"
-  ],
-  "decisions": [],
-  "startTime": "2026-05-18T05:55:54.305Z",
-  "lastWriteTime": "2026-05-18T05:57:12.603Z"
+  ]
 }

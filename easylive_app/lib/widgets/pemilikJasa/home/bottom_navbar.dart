@@ -20,6 +20,7 @@ class PemilikJasaBottomNav extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.yellow,
         borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: Colors.black12),
       ),
       child: Stack(
         clipBehavior: Clip.none,

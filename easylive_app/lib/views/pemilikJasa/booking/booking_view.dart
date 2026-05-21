@@ -387,9 +387,15 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         onNavigate: (index) {
           // 0 = Dashboard, 3 = Booking
           if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/dashboard',
+            );
           } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/booking',
+            );
           }
         },
       ),

@@ -29,9 +29,14 @@
 
   <title>easylive_app</title>
   <link rel="manifest" href="manifest.json">
-  
-  
+
+  <!-- Avoid external fonts (e.g. Roboto from fonts.gstatic.com) on Flutter Web -->
+  <style>
+    body { font-family: 'Montserrat', sans-serif; }
+  </style>
+
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
   <style id="splash-screen-style">
     html {
       height: 100%
