@@ -1,6 +1,104 @@
 {
   "conversations": [
     {
+      "id": "conv-1779385489012-o3g5hm",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-21T15:25:58.578Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 72 messages, 11 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/widgets/pemilikKos/home/dashboard_widgets.dart",
+        "easylive_app/web/index.html",
+        "easylive_app/lib/views/pemilikKos/home/home_view.dart",
+        "easylive_app/lib/views/pemilikKos/booking/booking_view.dart",
+        "easylive_app/lib/views/pemilikKos/home/detailKamar_view.dart",
+        "easylive_app/lib/views/pemilikKos/booking/detail_booking_view.dart",
+        "easylive_app/lib/views/pemilikJasa/home/home_view.dart",
+        "easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart",
+        "easylive_app/lib/widgets/pemilikJasa/home/bottom_navbar.dart",
+        "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+        "easylive_app/lib/views/pemilikJasa/booking/booking_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 72
+    },
+    {
+      "id": "conv-1779385460396-x1o6ys",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-21T17:44:20.396Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/widgets/pemilikKos/home/dashboard_widgets.dart",
+        "easylive_app/web/index.html",
+        "easylive_app/lib/views/pemilikKos/home/home_view.dart",
+        "easylive_app/lib/views/pemilikKos/booking/booking_view.dart",
+        "easylive_app/lib/views/pemilikKos/home/detailKamar_view.dart",
+        "easylive_app/lib/views/pemilikKos/booking/detail_booking_view.dart",
+        "easylive_app/lib/views/pemilikJasa/home/home_view.dart",
+        "easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart",
+        "easylive_app/lib/widgets/pemilikJasa/home/bottom_navbar.dart",
+        "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
+        "easylive_app/lib/views/pemilikJasa/booking/booking_view.dart"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 72
+    },
+    {
+      "id": "conv-1779374771097-3baegm",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-18T05:55:54.305Z",
+      "topic": "Development session (recovered)",
+      "summary": "Recovered from unexpected shutdown. 3 messages, 3 files tracked.",
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/main.dart",
+        "easylive_app/test/widget_test.dart",
+        "easylive_app/pubspec.yaml"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [
+        "recovered",
+        "auto-save"
+      ],
+      "messageCount": 3
+    },
+    {
+      "id": "conv-1779374668571-woz03f",
+      "project": "EasyLive_PBLKelompok1Semester4",
+      "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+      "timestamp": "2026-05-21T14:44:28.571Z",
+      "topic": "Extension deactivated",
+      "summary": null,
+      "decisions": [],
+      "filesModified": [
+        "easylive_app/lib/main.dart",
+        "easylive_app/test/widget_test.dart",
+        "easylive_app/pubspec.yaml"
+      ],
+      "codeChanges": [],
+      "currentWork": null,
+      "waitingOn": null,
+      "tags": [],
+      "messageCount": 3
+    },
+    {
       "id": "conv-1779082273878-88e8oz",
       "project": "EasyLive_PBLKelompok1Semester4",
       "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
@@ -1218,5 +1316,5 @@
       "messageCount": 6
     }
   ],
-  "lastUpdated": "2026-05-18T05:31:13.878Z"
+  "lastUpdated": "2026-05-21T17:44:49.013Z"
 }

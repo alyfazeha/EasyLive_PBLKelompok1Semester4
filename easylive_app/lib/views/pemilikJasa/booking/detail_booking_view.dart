@@ -211,7 +211,10 @@ class DetailBookingView extends StatelessWidget {
                                   ),
                                   child: Column(
                                     children: [
-                                      _buildDetailRow('Kost', booking.jasaName),
+                                      _buildDetailRow(
+                                        'Kost',
+                                        booking.jasaName,
+                                      ),
                                       const SizedBox(height: 12),
                                       _buildDetailRow(
                                         'Kamar',
@@ -251,6 +254,8 @@ class DetailBookingView extends StatelessWidget {
       ),
 
       // BOTTOM NAVBAR
+      // Tujuan: bagian belakang/area di bawah navbar putih,
+      // tapi widget navbar-nya tetap styling aslinya (kuning/FAB, dll).
       bottomNavigationBar: Container(
         color: Colors.white,
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
@@ -321,3 +326,4 @@ class DetailBookingView extends StatelessWidget {
     );
   }
 }
+
