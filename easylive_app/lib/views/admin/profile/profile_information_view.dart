@@ -119,7 +119,8 @@ class _AdminProfileInformationViewState
                           size: 18,
                           color: _navy,
                         ),
-                        onPressed: () => Navigator.maybePop(context),
+                        onPressed: () => Navigator.pushReplacementNamed(context, '/admin'),
+
                       ),
                     ),
                     const SizedBox(width: 10),

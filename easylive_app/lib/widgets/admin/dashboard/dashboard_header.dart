@@ -6,7 +6,7 @@ class AdminHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 50, 20, 25),
+padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
       decoration: const BoxDecoration(
         color: Color(0xFF243447),
         borderRadius: BorderRadius.only(

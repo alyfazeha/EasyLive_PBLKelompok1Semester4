@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../controllers/pemilikKos/booking_controller.dart';
-import '../../../core/color.dart';
 import '../../../widgets/pemilikKos/booking/booking_card.dart';
 import '../../../widgets/pemilikKos/booking/searching.dart';
 import '../../../widgets/pemilikKos/booking/filtering.dart';
@@ -11,19 +10,16 @@ class OwnerBookingView extends StatefulWidget {
   const OwnerBookingView({super.key});
 
   @override
-  State<OwnerBookingView> createState() =>
-      _OwnerBookingViewState();
+  State<OwnerBookingView> createState() => _OwnerBookingViewState();
 }
 
-class _OwnerBookingViewState
-    extends State<OwnerBookingView> {
+class _OwnerBookingViewState extends State<OwnerBookingView> {
   late BookingController controller;
 
   @override
   void initState() {
     super.initState();
-    controller =
-        BookingController(); // fresh tiap buka page
+    controller = BookingController(); // fresh tiap buka page
   }
 
   @override
@@ -51,31 +47,20 @@ class _OwnerBookingViewState
     return ChangeNotifierProvider.value(
       value: controller,
       child: Scaffold(
-        // WARNA HEADER & FOOTER
-        backgroundColor: const Color.fromRGBO(
-          45,
-          62,
-          80,
-          1,
-        ),
+        // pisahkan: HEADER vs FOOTER agar bisa diubah manual
+        backgroundColor: Colors.white,
 
         body: Column(
           children: [
-            /// HEADER BIRU
+            /// HEADER
             Container(
               padding: EdgeInsets.fromLTRB(
                 16,
-                MediaQuery.of(context).padding.top +
-                    18,
+                MediaQuery.of(context).padding.top + 18,
                 16,
                 24,
               ),
-              color: const Color.fromRGBO(
-                45,
-                62,
-                80,
-                1,
-              ),
+              color: Colors.white, // ubah warna header di sini
               child: Row(
                 children: [
                   GestureDetector(
@@ -83,8 +68,7 @@ class _OwnerBookingViewState
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Navigator
-                            .pushReplacementNamed(
+                        Navigator.pushReplacementNamed(
                           context,
                           '/pemilik_kos',
                         );
@@ -92,26 +76,24 @@ class _OwnerBookingViewState
                     },
                     child: const Icon(
                       Icons.arrow_back_rounded,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
-
                   const SizedBox(width: 10),
-
                   const Text(
-                    "Booking",
+                    'Booking',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ],
               ),
             ),
 
-            /// TENGAH PUTIH
+            /// CONTENT
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -127,40 +109,21 @@ class _OwnerBookingViewState
                     return Column(
                       children: [
                         Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(
-                            17,
-                            17,
-                            17,
-                            0,
-                          ),
+                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
                           child: Column(
                             children: [
                               /// SEARCH
                               SearchBarWidget(
-                                onChanged: (value) =>
-                                    ctrl.setSearch(
-                                  value,
-                                ),
+                                onChanged: (value) => ctrl.setSearch(value),
                               ),
-
-                              const SizedBox(
-                                height: 12,
-                              ),
+                              const SizedBox(height: 12),
 
                               /// FILTER
                               BookingFilter(
-                                selectedFilter:
-                                    ctrl.selectedFilter,
-                                onChanged: (value) =>
-                                    ctrl.setFilter(
-                                  value,
-                                ),
+                                selectedFilter: ctrl.selectedFilter,
+                                onChanged: (value) => ctrl.setFilter(value),
                               ),
-
-                              const SizedBox(
-                                height: 14,
-                              ),
+                              const SizedBox(height: 14),
                             ],
                           ),
                         ),
@@ -169,43 +132,27 @@ class _OwnerBookingViewState
                         Expanded(
                           child: ctrl.isLoading
                               ? const Center(
-                                  child:
-                                      CircularProgressIndicator(),
+                                  child: CircularProgressIndicator(),
                                 )
-                              : ctrl.filteredList
-                                      .isEmpty
+                              : ctrl.filteredList.isEmpty
                                   ? const Center(
                                       child: Text(
                                         'Belum ada booking',
-                                        style:
-                                            TextStyle(
-                                          fontFamily:
-                                              'Montserrat',
-                                          color: Colors
-                                              .black45,
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Colors.black45,
                                         ),
                                       ),
                                     )
                                   : ListView.builder(
-                                      padding:
-                                          const EdgeInsets
-                                              .symmetric(
-                                        horizontal:
-                                            16,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
                                       ),
-                                      itemCount: ctrl
-                                          .filteredList
-                                          .length,
-                                      itemBuilder:
-                                          (context,
-                                              index) {
+                                      itemCount: ctrl.filteredList.length,
+                                      itemBuilder: (context, index) {
                                         return BookingCard(
-                                          booking:
-                                              ctrl.filteredList[
-                                                  index],
-                                          onRefresh:
-                                              () => ctrl
-                                                  .refresh(),
+                                          booking: ctrl.filteredList[index],
+                                          onRefresh: () => ctrl.refresh(),
                                         );
                                       },
                                     ),
@@ -219,12 +166,11 @@ class _OwnerBookingViewState
           ],
         ),
 
-        /// FOOTER TERPISAH
+        /// FOOTER / BOTTOM NAV
         bottomNavigationBar: Container(
-          color: Colors.white,
+          color: Colors.white, // ubah warna footer di sini (jangan ubah header)
           padding: EdgeInsets.only(
-            bottom:
-                MediaQuery.of(context).padding.bottom,
+            bottom: MediaQuery.of(context).padding.bottom,
           ),
           child: OwnerBottomNav(
             currentIndex: 3,
@@ -235,3 +181,4 @@ class _OwnerBookingViewState
     );
   }
 }
+

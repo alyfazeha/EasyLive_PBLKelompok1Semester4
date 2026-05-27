@@ -23,17 +23,23 @@ class AuthController {
         };
       }
 
+      // Jangan pakai `.single()` supaya login tidak gagal total kalau row
+      // `profiles` belum ada / tidak match.
       final userData = await _supabase
           .from('profiles')
           .select()
           .eq('id_profile', user.id)
-          .single();
+          .maybeSingle();
+
+      final role = (userData?['role'] ?? 'user').toString();
 
       return {
         'success': true,
-        'message': 'Login as ${userData['role']} successful',
-        'role': userData['role'] ?? 'user',
-        'userData': userData,
+        'message': userData == null
+            ? 'Login successful (profiles row not found)'
+            : 'Login as $role successful',
+        'role': role,
+        'userData': userData ?? <String, dynamic>{},
       };
     } catch (e) {
       return {
@@ -147,3 +153,4 @@ class AuthController {
     return 'Auth error: $e';
   }
 }
+

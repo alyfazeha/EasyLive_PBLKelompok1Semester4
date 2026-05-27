@@ -2,74 +2,18 @@
   "currentTask": null,
   "taskStatus": null,
   "blockedBy": null,
-  "sessionStarted": "2026-05-21T14:47:21.377Z",
-  "lastActivity": "2026-05-21T18:08:40.033Z",
+  "sessionStarted": "2026-05-27T13:06:06.945Z",
+  "lastActivity": "2026-05-27T13:16:25.615Z",
   "filesChangedThisSession": [
-    "git\\scm0\\input",
-    "easylive_app/lib/widgets/pemilikKos/home/dashboard_widgets.dart",
-    "easylive_app/web/index.html",
-    "easylive_app/lib/views/pemilikKos/home/home_view.dart",
-    "easylive_app/lib/views/pemilikKos/booking/booking_view.dart",
-    "easylive_app/lib/views/pemilikKos/home/detailKamar_view.dart",
-    "easylive_app/lib/views/pemilikKos/booking/detail_booking_view.dart",
-    "easylive_app/lib/views/pemilikJasa/home/home_view.dart",
-    "easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart",
-    "easylive_app/lib/widgets/pemilikJasa/home/bottom_navbar.dart",
-    "easylive_app/lib/views/pemilikJasa/booking/detail_booking_view.dart",
-    "easylive_app/lib/views/pemilikJasa/booking/booking_view.dart"
+    "git\\scm0\\input"
   ],
-  "totalEditsThisSession": 537,
+  "totalEditsThisSession": 2,
   "decisions": [],
   "warnings": [
     {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 4260 chars replaced with 4403 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:46:00.860Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 4403 chars replaced with 7861 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:50:04.147Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 7861 chars replaced with 7193 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:50:45.375Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 7193 chars replaced with 6562 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:51:38.120Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 6562 chars replaced with 7193 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:51:41.699Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 7193 chars replaced with 7861 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:51:42.004Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 7861 chars replaced with 4403 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:51:44.029Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 4403 chars replaced with 4480 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:53:24.669Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/widgets/pemilikKos/home/bottom_navbar.dart: 4480 chars replaced with 4403 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T16:54:37.622Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/lib/views/pemilikKos/booking/booking_view.dart: 7981 chars replaced with 7986 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-21T17:32:06.779Z"
+      "type": "stale",
+      "message": "Session resumed after 2663 min break. Previous session: 11 files changed.",
+      "timestamp": "2026-05-27T13:06:06.945Z"
     }
   ],
   "prdItems": null,

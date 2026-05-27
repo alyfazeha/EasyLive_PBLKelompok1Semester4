@@ -91,12 +91,19 @@ class _AdminHistoryViewState extends State<AdminHistoryView> {
             padding: const EdgeInsets.only(top: 10),
             child: Row(
               children: [
-                const BackButtonWidget(
-                  backgroundColor: Color(0xFFF6BE00),
-                  iconColor: Color(0xFF243447),
+                BackButtonWidget(
+                  backgroundColor: const Color(0xFFF6BE00),
+                  iconColor: const Color(0xFF243447),
                   size: 42,
                   iconSize: 18,
                   borderRadius: 12,
+                  onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/admin',
+                    (route) => false,
+                  );
+                },
                 ),
 
                 const SizedBox(width: 12),

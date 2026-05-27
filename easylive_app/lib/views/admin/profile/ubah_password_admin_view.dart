@@ -130,7 +130,8 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                           size: 44,
                           iconSize: 20,
                           borderRadius: 12,
-                          onPressed: () => Navigator.maybePop(context),
+                          onPressed: () => Navigator.pushReplacementNamed(context, '/admin'),
+
                         ),
                       ),
                       const SizedBox(height: 12),

@@ -1,0 +1,38 @@
+{
+  "id": "conv-1779696132714-d7f6fw",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-25T08:02:12.714Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+    "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 2,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/profile_information_view.dart",
+      "timestamp": "2026-05-25T07:51:31.841Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/profile_information_view.dart"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart",
+      "timestamp": "2026-05-25T07:52:08.326Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart"
+      }
+    }
+  ]
+}

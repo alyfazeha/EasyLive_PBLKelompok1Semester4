@@ -128,7 +128,13 @@ class _ApprovalViewState extends State<ApprovalView> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: IconButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/admin',
+                            (route) => false,
+                          );
+                        },
                         icon: const Icon(
                           Icons.arrow_back_ios_new,
                           size: 18,

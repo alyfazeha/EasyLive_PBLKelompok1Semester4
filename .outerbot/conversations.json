@@ -1,5 +1,368 @@
 [
   {
+    "id": "conv-1779887166911-xgsc2c",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T16:34:10.199Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 7 messages, 2 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/auth_controller.dart",
+      "easylive_app/web/index.html"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779727348867-tegx52",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T16:42:28.867Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/controllers/auth_controller.dart",
+      "easylive_app/web/index.html"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779726782256-an1mn8",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T16:22:41.193Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 3 messages, 1 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikKos/booking/booking_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779726762768-s9zbkf",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T16:32:42.768Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikKos/booking/booking_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779725748326-kuppg0",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T15:55:33.281Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 18 messages, 2 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+      "easylive_app/lib/views/pemilikKos/booking/booking_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779725721838-nht1vd",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T16:15:21.838Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+      "easylive_app/lib/views/pemilikKos/booking/booking_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779724426272-hlg09p",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T15:12:11.773Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 27 messages, 4 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/jasa/detail_jasa_view.dart",
+      "easylive_app/lib/widgets/pemilikJasa/home/detailJasa.dart",
+      "easylive_app/lib/views/pemilikJasa/home/detailJasa_view.dart",
+      "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779721191902-y4mp5l",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T14:30:11.474Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 11 messages, 3 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/User/jasa/detail_jasa_user_view.dart",
+      "easylive_app/lib/controllers/pemilikJasa/detail_jasa_controller.dart",
+      "easylive_app/lib/views/admin/jasa/detail_jasa_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779721139044-swd30i",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T14:58:59.044Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/User/jasa/detail_jasa_user_view.dart",
+      "easylive_app/lib/controllers/pemilikJasa/detail_jasa_controller.dart",
+      "easylive_app/lib/views/admin/jasa/detail_jasa_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779719149361-bi5pep",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T13:50:55.865Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 14 messages, 3 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
+      "easylive_app/lib/views/User/jasa/detail_jasa_user_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779719123783-aj11m2",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T14:25:23.783Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/dashboard/dashboard_view.dart",
+      "easylive_app/lib/widgets/admin/dashboard/dashboard_header.dart",
+      "easylive_app/lib/views/User/jasa/detail_jasa_user_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779701522059-zvnv9q",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T08:05:18.715Z",
+    "topic": "Development session",
+    "summary": "Session before 36 min idle. 10 messages.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/history/history_detail_view.dart",
+      "easylive_app/lib/views/admin/history/history_view.dart",
+      "easylive_app/lib/views/admin/jasa/jasa_management_view.dart",
+      "easylive_app/lib/views/admin/kos/kos_approval_view.dart",
+      "easylive_app/lib/views/admin/profile/admin_profile_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779696159490-93emfj",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T07:51:31.841Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 2 messages, 2 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+      "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779696132714-d7f6fw",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T08:02:12.714Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/profile/profile_information_view.dart",
+      "easylive_app/lib/views/admin/profile/ubah_password_admin_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779695288908-xp6gw1",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T07:42:34.128Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 1 messages, 1 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/history/history_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779695259112-v3icjb",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-25T07:47:39.112Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/lib/views/admin/history/history_view.dart"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779693749578-pruxsm",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-21T18:08:18.334Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 10 messages, 10 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "hs_err_pid10300.log",
+      "hs_err_pid17156.log",
+      "hs_err_pid33996.log",
+      "hs_err_pid35736.log",
+      "hs_err_pid36180.log",
+      "TODO.md",
+      "replay_pid35736.log",
+      "replay_pid33996.log",
+      "replay_pid17156.log",
+      "replay_pid10300.log"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779387179917-uvphsx",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-21T18:12:59.917Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "hs_err_pid10300.log",
+      "hs_err_pid17156.log",
+      "hs_err_pid33996.log",
+      "hs_err_pid35736.log",
+      "hs_err_pid36180.log",
+      "TODO.md",
+      "replay_pid35736.log",
+      "replay_pid33996.log",
+      "replay_pid17156.log",
+      "replay_pid10300.log"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
     "id": "conv-1779385489012-o3g5hm",
     "project": "EasyLive_PBLKelompok1Semester4",
     "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",

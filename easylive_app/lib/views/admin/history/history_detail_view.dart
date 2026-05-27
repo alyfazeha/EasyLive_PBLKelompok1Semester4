@@ -38,11 +38,8 @@ class AdminHistoryDetailView extends StatelessWidget {
               ),
               // Back dari detail history -> kembali ke halaman admin/history (jangan logout)
               onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                  return;
-                }
-                Navigator.pushNamed(context, '/admin/history');
+                // Kembalikan ke dashboard admin
+                Navigator.pushReplacementNamed(context, '/admin');
               },
             ),
           ),
