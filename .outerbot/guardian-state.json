@@ -1,0 +1,31 @@
+{
+  "currentTask": null,
+  "taskStatus": null,
+  "blockedBy": null,
+  "sessionStarted": "2026-05-27T15:06:05.692Z",
+  "lastActivity": "2026-05-27T15:51:51.996Z",
+  "filesChangedThisSession": [
+    "git\\scm0\\input",
+    "easylive_app/pubspec.yaml",
+    "extension-output-Dart-Code.dart-code-#4-dart (easylive_app)"
+  ],
+  "totalEditsThisSession": 11,
+  "decisions": [],
+  "warnings": [
+    {
+      "type": "stale",
+      "message": "Session resumed after 45 min break. Previous session: 1 files changed.",
+      "timestamp": "2026-05-27T15:06:05.693Z"
+    },
+    {
+      "type": "rewrite",
+      "message": "Large overwrite in easylive_app/pubspec.yaml: 1255 chars replaced with 1311 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-27T15:51:49.492Z"
+    }
+  ],
+  "prdItems": null,
+  "lastCompactionNote": null,
+  "criticalContext": [],
+  "lastAIAction": null,
+  "lastAIFile": null
+}

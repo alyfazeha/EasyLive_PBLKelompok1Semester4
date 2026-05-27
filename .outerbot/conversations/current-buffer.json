@@ -1,0 +1,37 @@
+{
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:46:49.384Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:47:11.054Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:51:50.996Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    }
+  ],
+  "filesModified": [
+    "easylive_app/pubspec.yaml"
+  ],
+  "decisions": [],
+  "startTime": "2026-05-27T15:46:49.384Z",
+  "lastWriteTime": "2026-05-27T15:51:50.996Z"
+}
