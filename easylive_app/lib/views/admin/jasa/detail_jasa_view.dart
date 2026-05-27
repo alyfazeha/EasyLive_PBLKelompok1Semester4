@@ -241,62 +241,75 @@ class AdminJasaDetailView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 30),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () async {
-                                final reason = await Navigator.push<String>(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => RejectReasonJasaView(
-                                      serviceName: businessName,
+
+                      // Bottom action buttons (fixed width, no Expanded to avoid ParentDataWidget conflicts)
+                      Builder(
+                        builder: (context) {
+                          final halfWidth =
+                              (MediaQuery.of(context).size.width - 40 - 12) /
+                                  2; // subtract padding approx + spacing
+                          return Row(
+                            children: [
+                              SizedBox(
+                                width: halfWidth,
+                                child: OutlinedButton(
+                                  onPressed: () async {
+                                    final reason =
+                                        await Navigator.push<String>(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => RejectReasonJasaView(
+                                          serviceName: businessName,
+                                        ),
+                                      ),
+                                    );
+
+                                    if (reason == null ||
+                                        reason.trim().isEmpty) {
+                                      return;
+                                    }
+
+                                    if (!context.mounted) return;
+                                    Navigator.pop(context, {
+                                      'status': 'rejected',
+                                      'reason': reason,
+                                    });
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(color: Colors.red),
+                                    foregroundColor: Colors.red,
+                                    minimumSize: const Size(0, 48),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
-                                );
-
-                                if (reason == null || reason.trim().isEmpty) {
-                                  return;
-                                }
-
-                                if (!context.mounted) return;
-                                Navigator.pop(context, {
-                                  'status': 'rejected',
-                                  'reason': reason,
-                                });
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Colors.red),
-                                foregroundColor: Colors.red,
-                                minimumSize: const Size(0, 48),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  child: const Text('Reject'),
                                 ),
                               ),
-                              child: const Text('Reject'),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context, {
-                                  'status': 'approved',
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFF4C430),
-                                foregroundColor: Colors.black87,
-                                elevation: 0,
-                                minimumSize: const Size(0, 48),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                              const SizedBox(width: 12),
+                              SizedBox(
+                                width: halfWidth,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context, {
+                                      'status': 'approved',
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFF4C430),
+                                    foregroundColor: Colors.black87,
+                                    elevation: 0,
+                                    minimumSize: const Size(0, 48),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text('Approve'),
                                 ),
                               ),
-                              child: const Text('Approve'),
-                            ),
-                          ),
-                        ],
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -370,7 +383,8 @@ class _JasaPhotoGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visiblePhotos = photos.where((photo) => photo.trim().isNotEmpty).toList();
+    final visiblePhotos =
+        photos.where((photo) => photo.trim().isNotEmpty).toList();
 
     if (visiblePhotos.isEmpty) {
       return const Text(
@@ -449,3 +463,4 @@ class _JasaStatusStyle {
     required this.foreground,
   });
 }
+

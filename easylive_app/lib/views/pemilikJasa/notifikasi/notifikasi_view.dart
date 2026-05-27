@@ -10,7 +10,8 @@ class OwnerJasaNotificationView extends StatefulWidget {
   const OwnerJasaNotificationView({super.key});
 
   @override
-  State<OwnerJasaNotificationView> createState() => _OwnerJasaNotificationViewState();
+  State<OwnerJasaNotificationView> createState() =>
+      _OwnerJasaNotificationViewState();
 }
 
 class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
@@ -42,7 +43,7 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.darkBlue,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -51,7 +52,6 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
               height: 66,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.centerLeft,
-              color: AppColors.primary,
               child: Row(
                 children: [
                   InkWell(
@@ -96,41 +96,54 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
 
                     return Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
-                          child: OwnerJasaNotificationFilterTabs(
-                            showUnreadOnly: controller.showUnreadOnly,
-                            totalCount: controller.totalCount,
-                            unreadCount: controller.unreadCount,
-                            onShowAll: controller.showAll,
-                            onShowUnread: controller.showUnread,
-                          ),
-                        ),
                         Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.fromLTRB(
-                              18,
-                              55,
-                              18,
-                              110,
-                            ),
-                            itemCount: notifications.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/pemilik_jasa/notifikasi/detail',
-                                    arguments: notifications[index],
-                                  );
-                                },
-                                borderRadius: BorderRadius.circular(12),
-                                child: OwnerJasaNotificationCard(
-                                  notification: notifications[index],
+                          child: notifications.isEmpty
+                              ? const Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.notifications_off_outlined,
+                                        size: 40,
+                                        color: Colors.black26,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Belum ada notifikasi',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black38,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    18,
+                                    55,
+                                    18,
+                                    110,
+                                  ),
+                                  itemCount: notifications.length,
+                                  itemBuilder: (context, index) {
+                                    final notification = notifications[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/pemilik_jasa/notifikasi/detail',
+                                          arguments: notification,
+                                        );
+                                      },
+                                      child: OwnerJasaNotificationCard(
+                                        notification: notification,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
                         ),
                       ],
                     );
@@ -143,12 +156,8 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
       ),
       bottomNavigationBar: Container(
         color: Colors.white,
-        child: PemilikJasaBottomNav(
-          currentIndex: 2,
-          onNavigate: _navigateTo,
-        ),
+        child: PemilikJasaBottomNav(currentIndex: 2, onNavigate: _navigateTo),
       ),
     );
   }
 }
-

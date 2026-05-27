@@ -49,10 +49,11 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: Column(
+            child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _HeaderImage(
+
                       vehicle: widget.vehicle,
                       isFavorite: _isFavorite,
                       onFavorite: () =>
@@ -318,7 +319,13 @@ class _HeaderImage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Image.asset(vehicle.image, fit: BoxFit.contain),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Image.asset(vehicle.image),
+                ),
+              ),
             ),
           ),
         ],

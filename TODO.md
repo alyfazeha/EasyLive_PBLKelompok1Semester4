@@ -1,5 +1,8 @@
-- [ ] Menganalisis error utama pada kode (terutama conflict merge/duplicate block)
-- [ ] Menyusun edit plan yang sesuai permintaan: jangan ubah struktur, hanya perbaiki error
-- [ ] Menghapus marker merge konflik (<<<<<<<, =======, >>>>>>>) dan menyelaraskan imports/route yang duplikat agar compile
-- [ ] Menjalankan build/analyze Flutter untuk memastikan tidak ada error compile baru
+# TODO - Samakan Detail Notifikasi PemilikJasa vs PemilikKos
+
+## Rencana Perubahan
+1. [ ] Samakan UI `DetailInfoCard` pemilikJasa dengan versi pemilikKos (urutan & kondisi sama persis).
+2. [ ] Pastikan `DetailOwnerJasaNotificationView` menampilkan `RejectionReasonCard` ketika `OwnerNotificationType.rejected` dan `rejectionReason` berisi teks alasan (bukan '').
+3. [ ] Samakan `ActionButtons` pemilikJasa dengan versi pemilikKos (style & struktur persis).
+4. [ ] Jalankan `flutter analyze` / build untuk memastikan tidak ada error kompilasi.
 

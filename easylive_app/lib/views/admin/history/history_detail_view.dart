@@ -25,10 +25,10 @@ class AdminHistoryDetailView extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.only(left: 12),
           child: Container(
-             margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF6BE00),
-                borderRadius: BorderRadius.circular(14),
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF6BE00),
+              borderRadius: BorderRadius.circular(14),
             ),
             child: IconButton(
               icon: const Icon(
@@ -36,7 +36,11 @@ class AdminHistoryDetailView extends StatelessWidget {
                 color: Colors.white,
                 size: 20,
               ),
-              onPressed: () => Navigator.pop(context),
+              // Back dari detail history -> kembali ke halaman admin/history (jangan logout)
+              onPressed: () {
+                // Kembalikan ke dashboard admin
+                Navigator.pushReplacementNamed(context, '/admin');
+              },
             ),
           ),
         ),
@@ -63,9 +67,7 @@ class AdminHistoryDetailView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AdminHistoryDetailHeaderCard(
-                    data: data,
-                  ),
+                  AdminHistoryDetailHeaderCard(data: data),
                   const SizedBox(height: 28),
                   const Text(
                     'Detail',
@@ -99,11 +101,12 @@ class AdminHistoryDetailView extends StatelessWidget {
           }
 
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Menu ini belum tersedia untuk Admin')),
+            const SnackBar(
+              content: Text('Menu ini belum tersedia untuk Admin'),
+            ),
           );
         },
       ),
     );
   }
 }
-

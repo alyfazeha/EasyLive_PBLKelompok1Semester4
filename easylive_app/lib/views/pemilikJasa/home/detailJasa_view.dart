@@ -19,12 +19,14 @@ class DetailJasaView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
+        top: false,
         child: Column(
+
           children: [
             // Header (dibuat serupa dengan halaman detail pembayaran pemilik jasa)
             Container(
-              height: 66,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+height: 100,
+padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               color: AppColors.primary,
               child: Row(
                 children: [

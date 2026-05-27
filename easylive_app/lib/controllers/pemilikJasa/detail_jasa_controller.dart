@@ -18,7 +18,7 @@ class DetailJasaController {
           'assets/images/mobilBox-BackgroundRemover.jpg',
         ],
         specifications: [
-          'Kapasitas maksimal 700 kg',
+          'simal 700 kg',
           'Bak tertutup',
           'Cocok untuk barang besar',
           'Area layanan Malang',
@@ -39,7 +39,7 @@ class DetailJasaController {
         'assets/images/pickup-removed.png',
       ],
       specifications: [
-        'Kapasitas maksimal 200 kg',
+        'simal 200 kg',
         'Bak terbuka',
         'Cocok untuk pindahan ringan',
         'Area layanan Malang',

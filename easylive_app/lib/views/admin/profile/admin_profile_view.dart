@@ -95,7 +95,13 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                           size: 44,
                           iconSize: 20,
                           borderRadius: 12,
-                          onPressed: () => Navigator.maybePop(context),
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/admin',
+                              (route) => false,
+                            );
+                          },
                         ),
                       ),
 
