@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../controllers/pemilikKos/booking_controller.dart';
+import '../../../core/color.dart';
 import '../../../widgets/pemilikKos/booking/booking_card.dart';
 import '../../../widgets/pemilikKos/booking/searching.dart';
 import '../../../widgets/pemilikKos/booking/filtering.dart';
@@ -48,122 +49,126 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
       value: controller,
       child: Scaffold(
         // pisahkan: HEADER vs FOOTER agar bisa diubah manual
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.darkBlue,
 
-        body: Column(
-          children: [
-            /// HEADER
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                16,
-                MediaQuery.of(context).padding.top + 18,
-                16,
-                24,
-              ),
-              color: Colors.white, // ubah warna header di sini
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/pemilik_kos',
-                        );
-                      }
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: Colors.black,
+        body: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              /// HEADER
+              Container(
+                height: 66,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            '/pemilik_kos',
+                          );
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(18),
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.white,
+                          size: 27,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Booking',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Booking',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            /// CONTENT
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    topRight: Radius.circular(14),
-                  ),
+                  ],
                 ),
-                child: Consumer<BookingController>(
-                  builder: (context, ctrl, _) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
-                          child: Column(
-                            children: [
-                              /// SEARCH
-                              SearchBarWidget(
-                                onChanged: (value) => ctrl.setSearch(value),
-                              ),
-                              const SizedBox(height: 12),
+              ),
 
-                              /// FILTER
-                              BookingFilter(
-                                selectedFilter: ctrl.selectedFilter,
-                                onChanged: (value) => ctrl.setFilter(value),
-                              ),
-                              const SizedBox(height: 14),
-                            ],
+              /// CONTENT
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(14),
+                      topRight: Radius.circular(14),
+                    ),
+                  ),
+                  child: Consumer<BookingController>(
+                    builder: (context, ctrl, _) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
+                            child: Column(
+                              children: [
+                                /// SEARCH
+                                SearchBarWidget(
+                                  onChanged: (value) => ctrl.setSearch(value),
+                                ),
+                                const SizedBox(height: 12),
+
+                                /// FILTER
+                                BookingFilter(
+                                  selectedFilter: ctrl.selectedFilter,
+                                  onChanged: (value) => ctrl.setFilter(value),
+                                ),
+                                const SizedBox(height: 14),
+                              ],
+                            ),
                           ),
-                        ),
 
-                        /// LIST
-                        Expanded(
-                          child: ctrl.isLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : ctrl.filteredList.isEmpty
-                                  ? const Center(
-                                      child: Text(
-                                        'Belum ada booking',
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Colors.black45,
+                          /// LIST
+                          Expanded(
+                            child: ctrl.isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : ctrl.filteredList.isEmpty
+                                    ? const Center(
+                                        child: Text(
+                                          'Belum ada booking',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.black45,
+                                          ),
                                         ),
+                                      )
+                                    : ListView.builder(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
+                                        itemCount: ctrl.filteredList.length,
+                                        itemBuilder: (context, index) {
+                                          return BookingCard(
+                                            booking: ctrl.filteredList[index],
+                                            onRefresh: () => ctrl.refresh(),
+                                          );
+                                        },
                                       ),
-                                    )
-                                  : ListView.builder(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                      ),
-                                      itemCount: ctrl.filteredList.length,
-                                      itemBuilder: (context, index) {
-                                        return BookingCard(
-                                          booking: ctrl.filteredList[index],
-                                          onRefresh: () => ctrl.refresh(),
-                                        );
-                                      },
-                                    ),
-                        ),
-                      ],
-                    );
-                  },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
 
         /// FOOTER / BOTTOM NAV

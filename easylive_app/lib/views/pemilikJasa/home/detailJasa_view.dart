@@ -23,10 +23,10 @@ class DetailJasaView extends StatelessWidget {
         child: Column(
 
           children: [
-            // Header (dibuat serupa dengan halaman detail pembayaran pemilik jasa)
+            
             Container(
-height: 100,
-padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              height: 100,
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
               color: AppColors.primary,
               child: Row(
                 children: [

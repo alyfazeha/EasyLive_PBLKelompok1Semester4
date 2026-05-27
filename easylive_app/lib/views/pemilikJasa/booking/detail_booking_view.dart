@@ -17,15 +17,21 @@ class DetailBookingView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: false,
         child: Column(
           children: [
             // HEADER
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                MediaQuery.of(context).padding.top + 30,
+                20,
+                20,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.darkBlue,
                 borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(30),
+                  bottom: Radius.circular(24),
                 ),
               ),
               child: Row(

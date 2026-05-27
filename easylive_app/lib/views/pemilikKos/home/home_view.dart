@@ -16,7 +16,7 @@ class _PemilikKosHomeViewState extends State<PemilikKosHomeView> {
   @override
   void initState() {
     super.initState();
-    _controller = PemilikKosController(); // fresh tiap login
+    _controller = PemilikKosController(); 
   }
 
   @override

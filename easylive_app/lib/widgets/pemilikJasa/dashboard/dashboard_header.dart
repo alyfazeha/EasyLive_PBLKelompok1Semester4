@@ -19,7 +19,12 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 22),
+      padding: EdgeInsets.fromLTRB(
+        18,
+        MediaQuery.of(context).padding.top + 16,
+        18,
+        22,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.darkBlue,
         borderRadius: BorderRadius.only(

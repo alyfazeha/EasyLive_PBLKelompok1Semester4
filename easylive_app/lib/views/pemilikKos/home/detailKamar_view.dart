@@ -45,8 +45,7 @@ class _DetailKostViewState extends State<DetailKostView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      // agar header memenuhi sampai atas device
+      
       extendBodyBehindAppBar: true,
 
       body: Column(

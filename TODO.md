@@ -1,8 +1,6 @@
-# TODO - Samakan Detail Notifikasi PemilikJasa vs PemilikKos
-
-## Rencana Perubahan
-1. [ ] Samakan UI `DetailInfoCard` pemilikJasa dengan versi pemilikKos (urutan & kondisi sama persis).
-2. [ ] Pastikan `DetailOwnerJasaNotificationView` menampilkan `RejectionReasonCard` ketika `OwnerNotificationType.rejected` dan `rejectionReason` berisi teks alasan (bukan '').
-3. [ ] Samakan `ActionButtons` pemilikJasa dengan versi pemilikKos (style & struktur persis).
-4. [ ] Jalankan `flutter analyze` / build untuk memastikan tidak ada error kompilasi.
+- [ ] Explore existing bottom navbar implementations (pemilik Kos vs pemilik Jasa)
+- [ ] Create edit plan to make navbar pemilik jasa “floating” like pemilik kos
+- [ ] Implement UI changes in `easylive_app/lib/widgets/pemilikJasa/home/bottom_navbar.dart`
+- [ ] Verify no layout regressions in pemilik jasa pages using the navbar
+- [ ] Run flutter analyze / build (if available) to ensure compilation
 

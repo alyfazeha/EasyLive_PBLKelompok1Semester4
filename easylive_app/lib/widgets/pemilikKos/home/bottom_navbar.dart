@@ -22,7 +22,7 @@ class OwnerBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
 
       child: SafeArea(
         top: false,
@@ -37,7 +37,7 @@ class OwnerBottomNav extends StatelessWidget {
           height: 64,
 
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.yellow,
 
             borderRadius: BorderRadius.circular(
               28,

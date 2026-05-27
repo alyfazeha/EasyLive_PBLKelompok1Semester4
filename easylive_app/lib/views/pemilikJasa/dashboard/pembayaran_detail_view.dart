@@ -72,7 +72,7 @@ class PemilikJasaPembayaranDetailView extends StatelessWidget {
           // Header (disamakan seperti Pemilik Kos)
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(20, 50, 20, 24),
+            padding: const EdgeInsets.fromLTRB(20, 80, 20, 24),
             decoration: const BoxDecoration(
               color: AppColors.darkBlue,
               borderRadius: BorderRadius.only(
