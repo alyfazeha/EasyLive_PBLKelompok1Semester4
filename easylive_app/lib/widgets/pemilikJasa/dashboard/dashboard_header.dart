@@ -178,17 +178,6 @@ class _DashboardStatItem extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              const SizedBox(height: 2),
-              const Text(
-                'Lihat semua',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 7,
-                  color: Colors.white54,
-                ),
-              ),
             ],
           ),
         ),

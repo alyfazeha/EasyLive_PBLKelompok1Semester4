@@ -178,14 +178,20 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.darkBlue,
+      backgroundColor: Colors.white,
 
       body: SafeArea(
         child: Column(
           children: [
             // HEADER
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              decoration: BoxDecoration(
+                color: AppColors.darkBlue,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(24),
+                ),
+              ),
               child: Row(
                 children: [
                   GestureDetector(
@@ -220,7 +226,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                     ),
                   ),
 
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 20),
 
                   const Expanded(
                     child: Text(
@@ -237,144 +243,178 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
               ),
             ),
 
-            // SEARCH
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: TextField(
-                            controller: _searchController,
-                            onChanged: _updateSearch,
-                            decoration: const InputDecoration(
-                              hintText: 'Cari Pernyewaan...',
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 12,
-                              ),
-                              hintStyle: TextStyle(color: Colors.grey),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // FILTER CHIP
-                  AnimatedBuilder(
-                    animation: _bookingController,
-                    builder: (context, _) {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          children: [
-                            _filterChip(
-                              label: 'All',
-                              active:
-                                  _bookingController.selectedFilter == 'semua',
-                              onTap: () =>
-                                  _bookingController.setFilter('semua'),
-                            ),
-
-                            const SizedBox(width: 10),
-
-                            _filterChip(
-                              label: 'Pending',
-                              active:
-                                  _bookingController.selectedFilter ==
-                                  'pending',
-                              onTap: () =>
-                                  _bookingController.setFilter('pending'),
-                            ),
-
-                            const SizedBox(width: 10),
-
-                            _filterChip(
-                              label: 'Aktif',
-                              active:
-                                  _bookingController.selectedFilter == 'aktif',
-                              onTap: () =>
-                                  _bookingController.setFilter('aktif'),
-                            ),
-
-                            const SizedBox(width: 10),
-
-                            _filterChip(
-                              label: 'Selesai',
-                              active:
-                                  _bookingController.selectedFilter ==
-                                  'selesai',
-                              onTap: () =>
-                                  _bookingController.setFilter('selesai'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-            // BOOKING LIST
+            // CONTENT AREA
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: _bookingController.filteredList.isEmpty
-                    ? Center(
-                        child: Text(
-                          'Tidak ada booking',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            color: Colors.grey[600],
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    // SEARCH
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                      width: 1.2,
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    controller: _searchController,
+                                    onChanged: _updateSearch,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Cari Penyewaan...',
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 12,
+                                      ),
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                    style: const TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      )
-                    : AnimatedBuilder(
-                        animation: _bookingController,
-                        builder: (context, _) {
-                          final list = _bookingController.filteredList;
 
-                          return ListView.builder(
-                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              final booking = list[index];
+                          const SizedBox(height: 10),
 
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/pemilik_jasa/detail_booking',
-                                    arguments: booking.nama,
-                                  );
-                                },
-                                child: _buildBookingCard(booking),
+                          // FILTER CHIP
+                          AnimatedBuilder(
+                            animation: _bookingController,
+                            builder: (context, _) {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                child: Row(
+                                  children: [
+                                    _filterChip(
+                                      label: 'All',
+                                      active:
+                                          _bookingController.selectedFilter ==
+                                          'semua',
+                                      onTap: () {
+                                        _bookingController.setFilter('semua');
+                                      },
+                                    ),
+
+                                    const SizedBox(width: 35),
+
+                                    _filterChip(
+                                      label: 'Pending',
+                                      active:
+                                          _bookingController.selectedFilter ==
+                                          'pending',
+                                      onTap: () {
+                                        _bookingController.setFilter('pending');
+                                      },
+                                    ),
+
+                                    const SizedBox(width: 35),
+
+                                    _filterChip(
+                                      label: 'Aktif',
+                                      active:
+                                          _bookingController.selectedFilter ==
+                                          'aktif',
+                                      onTap: () {
+                                        _bookingController.setFilter('aktif');
+                                      },
+                                    ),
+
+                                    const SizedBox(width: 35),
+
+                                    _filterChip(
+                                      label: 'Selesai',
+                                      active:
+                                          _bookingController.selectedFilter ==
+                                          'selesai',
+                                      onTap: () {
+                                        _bookingController.setFilter('selesai');
+                                      },
+                                    ),
+                                  ],
+                                ),
                               );
                             },
-                          );
-                        },
+                          ),
+                        ],
                       ),
+                    ),
+
+                    // BOOKING LIST
+                    Expanded(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
+                        ),
+                        child: AnimatedBuilder(
+                          animation: _bookingController,
+                          builder: (context, _) {
+                            final list = _bookingController.filteredList;
+
+                            if (list.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  'Tidak ada booking',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 16,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return ListView.builder(
+                              padding: const EdgeInsets.fromLTRB(
+                                16,
+                                16,
+                                16,
+                                100,
+                              ),
+                              itemCount: list.length,
+                              itemBuilder: (context, index) {
+                                final booking = list[index];
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/pemilik_jasa/detail_booking',
+                                      arguments: booking.nama,
+                                    );
+                                  },
+                                  child: _buildBookingCard(booking),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -382,20 +422,12 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
       ),
 
       bottomNavigationBar: PemilikJasaBottomNav(
-        // Booking hanya aktif di sisi right (index 3)
         currentIndex: 3,
         onNavigate: (index) {
-          // 0 = Dashboard, 3 = Booking
           if (index == 0) {
-            Navigator.pushReplacementNamed(
-              context,
-              '/pemilik_jasa/dashboard',
-            );
+            Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
           } else if (index == 3) {
-            Navigator.pushReplacementNamed(
-              context,
-              '/pemilik_jasa/booking',
-            );
+            Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
           }
         },
       ),
