@@ -2,29 +2,25 @@
   "currentTask": null,
   "taskStatus": null,
   "blockedBy": null,
-  "sessionStarted": "2026-05-27T13:06:06.945Z",
-  "lastActivity": "2026-05-27T13:28:52.863Z",
+  "sessionStarted": "2026-05-27T15:06:05.692Z",
+  "lastActivity": "2026-05-27T15:51:51.996Z",
   "filesChangedThisSession": [
     "git\\scm0\\input",
-    "easylive_app/web/index.html"
+    "easylive_app/pubspec.yaml",
+    "extension-output-Dart-Code.dart-code-#4-dart (easylive_app)"
   ],
-  "totalEditsThisSession": 6,
+  "totalEditsThisSession": 11,
   "decisions": [],
   "warnings": [
     {
       "type": "stale",
-      "message": "Session resumed after 2663 min break. Previous session: 11 files changed.",
-      "timestamp": "2026-05-27T13:06:06.945Z"
+      "message": "Session resumed after 45 min break. Previous session: 1 files changed.",
+      "timestamp": "2026-05-27T15:06:05.693Z"
     },
     {
       "type": "rewrite",
-      "message": "Large overwrite in easylive_app/web/index.html: 3516 chars replaced with 3275 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-27T13:26:08.296Z"
-    },
-    {
-      "type": "rewrite",
-      "message": "Large overwrite in easylive_app/web/index.html: 3275 chars replaced with 3516 chars. Verify this wasn't an unintended rewrite.",
-      "timestamp": "2026-05-27T13:28:17.287Z"
+      "message": "Large overwrite in easylive_app/pubspec.yaml: 1255 chars replaced with 1311 chars. Verify this wasn't an unintended rewrite.",
+      "timestamp": "2026-05-27T15:51:49.492Z"
     }
   ],
   "prdItems": null,
