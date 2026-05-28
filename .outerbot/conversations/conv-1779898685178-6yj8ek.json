@@ -1,0 +1,46 @@
+{
+  "id": "conv-1779898685178-6yj8ek",
+  "project": "EasyLive_PBLKelompok1Semester4",
+  "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+  "timestamp": "2026-05-27T16:18:05.178Z",
+  "topic": "Extension deactivated",
+  "summary": null,
+  "decisions": [],
+  "filesModified": [
+    "easylive_app/pubspec.yaml"
+  ],
+  "codeChanges": [],
+  "currentWork": null,
+  "waitingOn": null,
+  "tags": [],
+  "messageCount": 3,
+  "messages": [
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:46:49.384Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:47:11.054Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    },
+    {
+      "type": "tool",
+      "content": "File modified: easylive_app/pubspec.yaml",
+      "timestamp": "2026-05-27T15:51:50.996Z",
+      "metadata": {
+        "tool": "Edit",
+        "file": "easylive_app/pubspec.yaml"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "conv-1779926919058-3a8gef",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-27T15:46:49.384Z",
+    "topic": "Development session (recovered)",
+    "summary": "Recovered from unexpected shutdown. 3 messages, 1 files tracked.",
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/pubspec.yaml"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  },
+  {
+    "id": "conv-1779898685178-6yj8ek",
+    "project": "EasyLive_PBLKelompok1Semester4",
+    "projectPath": "c:\\Users\\Ahmad Rafi\\EasyLive_PBLKelompok1Semester4",
+    "timestamp": "2026-05-27T16:18:05.178Z",
+    "topic": "Extension deactivated",
+    "summary": null,
+    "detailedSummary": null,
+    "keyPhrases": [],
+    "components": [],
+    "files": [
+      "easylive_app/pubspec.yaml"
+    ],
+    "features": [],
+    "decisions": [],
+    "technologies": [],
+    "patterns": []
+  }
+]
