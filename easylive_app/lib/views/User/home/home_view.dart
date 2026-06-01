@@ -211,12 +211,13 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 15),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+                const SizedBox(height: 20),
+                Text(
                 'Hi $name,',
                 style: const TextStyle(
                   fontFamily: 'Montserrat',

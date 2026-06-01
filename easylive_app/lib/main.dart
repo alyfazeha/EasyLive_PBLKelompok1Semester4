@@ -65,8 +65,6 @@ import 'views/admin/profile/ubah_password_admin_view.dart';
 import 'views/admin/profile/app_settings_view.dart';
 import 'views/admin/profile/help_support_view.dart';
 
-import 'views/splash/splash_view.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -94,7 +92,7 @@ class MyApp extends StatelessWidget {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _noAnimation(const SplashScreen(), settings);
+        return _noAnimation(const LoginView(), settings);
       case '/login':
         return _noAnimation(const LoginView(), settings);
       case '/register':
