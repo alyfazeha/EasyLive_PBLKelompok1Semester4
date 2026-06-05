@@ -76,6 +76,7 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
                       index: index,
                       controller: controller,
                       context: context,
+                      onUpdate: () => setState(() {}),
                     );
                   }),
                 ),

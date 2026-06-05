@@ -232,9 +232,9 @@ class MyApp extends StatelessWidget {
         );
 
       case '/pemilik_jasa/detail_jasa':
-        final vehicleName = settings.arguments as String? ?? 'Pickup';
+        final idJasa = settings.arguments as String? ?? '';
         return _noAnimation(
-          owner_jasa_detail.DetailJasaView(vehicleName: vehicleName),
+          owner_jasa_detail.DetailJasaView(idJasa: idJasa),
           settings,
         );
 

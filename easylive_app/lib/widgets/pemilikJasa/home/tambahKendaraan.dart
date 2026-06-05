@@ -130,17 +130,14 @@ class TambahKendaraanWidget {
     required int index,
     required TambahKendaraanController controller,
     required BuildContext context,
+    required VoidCallback onUpdate, // ← tambah parameter ini
   }) {
     final hasPhoto = index < controller.selectedPhotosBytes.length &&
-        index < controller.selectedPhotos.length &&
-        controller.selectedPhotosBytes.length > index &&
         controller.selectedPhotosBytes[index].isNotEmpty;
 
     return InkWell(
       onTap: () async {
         final picker = ImagePicker();
-
-        // sederhanakan: pilih dari gallery
         final XFile? picked = await picker.pickImage(
           source: ImageSource.gallery,
           maxWidth: 1600,
@@ -158,10 +155,7 @@ class TambahKendaraanWidget {
           file: file,
         );
 
-        if (context.mounted) {
-          // minta rebuild parent
-          Navigator.of(context).pop();
-        }
+        onUpdate(); // ← panggil setState dari view
       },
       child: Container(
         margin: const EdgeInsets.only(right: 8),

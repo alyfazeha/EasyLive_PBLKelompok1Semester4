@@ -97,20 +97,21 @@ class TambahKendaraanController {
       }
 
       await supabase.from('jasa').insert({
-        'owner_id': user.id,
-        'nama_kendaraan': namaKendaraan.text,
-        'nomor_hp': nomorHp.text,
-        'tipe_kendaraan': tipeKendaraan,
-        'alamat': alamat.text,
-        'kecamatan': kecamatan.text,
-        'kota': kota.text,
-        'nomor_plat': nomorPlat.text,
-        'kapasitas': kapasitas.text,
-        'harga_sewa': double.tryParse(harga.text) ?? 0,
-        'deskripsi': deskripsi.text,
-        'status': 'pending',
-        'gambar': fotoUrls,
-      });
+      'owner_id': user.id,
+      'nama_jasa': namaKendaraan.text,        // ← nama kolom di DDL
+      'tipe_mobil': tipeKendaraan,            // ← nama kolom di DDL
+      'price_km': double.tryParse(harga.text) ?? 0, // ← nama kolom di DDL
+      'price_mobil': 0,                       // ← wajib isi karena NOT NULL
+      'alamat': alamat.text,
+      'kecamatan': kecamatan.text,
+      'kota': kota.text,
+      'nomor_plat': nomorPlat.text,
+      'kapasitas': kapasitas.text,
+      'nomor_hp': nomorHp.text,
+      'deskripsi': deskripsi.text,
+      'status': 'pending',
+      'gambar': fotoUrls,
+    });
 
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
