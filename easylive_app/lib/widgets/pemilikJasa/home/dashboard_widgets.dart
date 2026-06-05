@@ -8,6 +8,7 @@ import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
 import 'bottom_navbar.dart';
 
 class PemilikJasaHomeFrame extends StatefulWidget {
+  final String ownerName; // ← tambah
   final int totalVehicles;
   final int availableVehicles;
   final String totalIncome;
@@ -15,9 +16,12 @@ class PemilikJasaHomeFrame extends StatefulWidget {
   final String availableRatio;
   final List<OwnerVehicle> vehicles;
   final Function(int)? onNavigate;
+  final VoidCallback? onRefresh; // ← tambah
+  final Future<void> Function(String)? onDeleteJasa; // ← tambah
 
   const PemilikJasaHomeFrame({
     super.key,
+    required this.ownerName, // ← tambah
     required this.totalVehicles,
     required this.availableVehicles,
     required this.totalIncome,
@@ -25,6 +29,8 @@ class PemilikJasaHomeFrame extends StatefulWidget {
     required this.availableRatio,
     required this.vehicles,
     this.onNavigate,
+    this.onRefresh,
+    this.onDeleteJasa,
   });
 
   @override
@@ -53,6 +59,7 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
         Column(
           children: [
             PemilikJasaHeader(
+              ownerName: widget.ownerName, // ← tambah
               totalVehicles: widget.totalVehicles,
               availableVehicles: widget.availableVehicles,
             ),
@@ -126,11 +133,11 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
                             Navigator.pushNamed(
                               context,
                               '/pemilik_jasa/detail_jasa',
-                              arguments: vehicle.name,
+                              arguments: vehicle.idJasa, // ← ganti dari vehicle.name
                             );
                           },
-                          onEdit: () {
-                            Navigator.push(
+                          onEdit: () async {
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EditKendaraanView(
@@ -139,6 +146,9 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
                                 ),
                               ),
                             );
+                            if (result == true) {
+                              widget.onRefresh?.call();
+                            }
                           },
                           onDelete: () {
                             showDialog(
@@ -154,24 +164,34 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
                                     child: const Text('Batal'),
                                   ),
                                   TextButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Navigator.pop(ctx);
-                                      setState(() {
-                                        // update daftar kendaraan (mock): hapus item yang dipilih
-                                        final updated = List<OwnerVehicle>.from(widget.vehicles)
-                                          ..removeWhere((e) => e.name == vehicle.name);
-                                        widget.vehicles
-                                          ..clear()
-                                          ..addAll(updated);
-                                      });
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            '${vehicle.name} berhasil dihapus',
-                                          ),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
+                                      try {
+                                        await widget.onDeleteJasa
+                                            ?.call(vehicle.idJasa);
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                '${vehicle.name} berhasil dihapus',
+                                              ),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        }
+                                      } catch (e) {
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text('Gagal hapus: $e'),
+                                            ),
+                                          );
+                                        }
+                                      }
                                     },
                                     child: const Text(
                                       'Hapus',
@@ -200,13 +220,14 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
   }
 }
 
-
 class PemilikJasaHeader extends StatelessWidget {
+  final String ownerName; // ← tambah
   final int totalVehicles;
   final int availableVehicles;
 
   const PemilikJasaHeader({
     super.key,
+    required this.ownerName, // ← tambah
     required this.totalVehicles,
     required this.availableVehicles,
   });
@@ -230,13 +251,16 @@ class PemilikJasaHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
-                onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/profile'),
+                onTap: () =>
+                    Navigator.pushNamed(context, '/pemilik_jasa/profile'),
                 borderRadius: BorderRadius.circular(999),
                 child: CircleAvatar(
                   radius: 22,
                   child: ClipOval(
                     child: Image(
-                      image: NetworkImage('https://i.pravatar.cc/120?img=12'),
+                      image: const NetworkImage(
+                        'https://i.pravatar.cc/120?img=12',
+                      ),
                       width: 44,
                       height: 44,
                       fit: BoxFit.cover,
@@ -253,21 +277,21 @@ class PemilikJasaHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hi, Rafi',
-                      style: TextStyle(
+                      'Hi, $ownerName', // ← dari Supabase
+                      style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 3),
-                    Text.rich(
+                    const SizedBox(height: 3),
+                    const Text.rich(
                       TextSpan(
                         text: 'Welcome to ',
                         children: [
@@ -287,7 +311,8 @@ class PemilikJasaHeader extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () => Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
+                onTap: () =>
+                    Navigator.pushNamed(context, '/pemilik_jasa/notifikasi'),
                 borderRadius: BorderRadius.circular(18),
                 child: const Padding(
                   padding: EdgeInsets.all(2),
@@ -327,7 +352,6 @@ class PemilikJasaSearchPanel extends StatefulWidget {
 
   const PemilikJasaSearchPanel({super.key, this.onChanged});
 
-
   @override
   State<PemilikJasaSearchPanel> createState() => _PemilikJasaSearchPanelState();
 }
@@ -340,7 +364,6 @@ class _PemilikJasaSearchPanelState extends State<PemilikJasaSearchPanel> {
     _controller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -362,18 +385,20 @@ class _PemilikJasaSearchPanelState extends State<PemilikJasaSearchPanel> {
         children: [
           TextField(
             controller: _controller,
-onChanged: (value) {
-              debugPrint('PemilikJasaHome search: $value');
+            onChanged: (value) {
               widget.onChanged?.call(value);
             },
             decoration: InputDecoration(
               hintText: 'Search....',
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 12,
                 color: Colors.black45,
               ),
-              prefixIcon: Icon(Icons.search_rounded, color: AppColors.darkBlue),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: AppColors.darkBlue,
+              ),
               filled: true,
               fillColor: Colors.transparent,
               border: OutlineInputBorder(
@@ -386,9 +411,13 @@ onChanged: (value) {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: AppColors.darkBlue, width: 1.5),
+                borderSide:
+                    const BorderSide(color: AppColors.darkBlue, width: 1.5),
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 13,
+                vertical: 12,
+              ),
             ),
             style: const TextStyle(
               fontFamily: 'Montserrat',
@@ -401,7 +430,9 @@ onChanged: (value) {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TambahKendaraanView()),
+                MaterialPageRoute(
+                  builder: (context) => TambahKendaraanView(),
+                ),
               );
             },
             icon: const Icon(Icons.add_rounded, size: 23),
@@ -410,10 +441,7 @@ onChanged: (value) {
               backgroundColor: AppColors.yellow,
               foregroundColor: AppColors.darkBlue,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -444,7 +472,6 @@ class OwnerVehicleCard extends StatelessWidget {
     this.onDelete,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -466,126 +493,137 @@ class OwnerVehicleCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          SizedBox(
-            width: 126,
-            height: 88,
-            child: Image.asset(vehicle.image, fit: BoxFit.contain),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        vehicle.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.darkBlue,
+            SizedBox(
+              width: 126,
+              height: 88,
+              // ← gambar dynamic: network atau asset
+              child: vehicle.isNetworkImage
+                  ? Image.network(
+                      vehicle.image,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => Image.asset(
+                        'assets/images/pickup-removed.png',
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : Image.asset(vehicle.image, fit: BoxFit.contain),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          vehicle.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.darkBlue,
+                          ),
                         ),
                       ),
-                    ),
-                    _StatusBadge(
-                      label: vehicle.status,
-                      color: vehicle.statusColor,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      size: 10,
+                      _StatusBadge(
+                        label: vehicle.status,
+                        color: vehicle.statusColor,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on_outlined,
+                        size: 10,
+                        color: Colors.black38,
+                      ),
+                      const SizedBox(width: 3),
+                      Expanded(
+                        child: Text(
+                          vehicle.address,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 7.5,
+                            color: Colors.black38,
+                            height: 1.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 5,
+                    children: [
+                      _MiniInfo(
+                        icon: Icons.inventory_2_outlined,
+                        label: vehicle.capacity,
+                        color: Colors.black54,
+                      ),
+                      _MiniInfo(
+                        icon: Icons.circle,
+                        label: vehicle.availability,
+                        color: const Color(0xFF31B75D),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Pendapatan',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 7.5,
                       color: Colors.black38,
                     ),
-                    const SizedBox(width: 3),
-                    Expanded(
-                      child: Text(
-                        vehicle.address,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 7.5,
-                          color: Colors.black38,
-                          height: 1.2,
-                        ),
-                      ),
+                  ),
+                  Text(
+                    vehicle.income,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 7),
+            Column(
+              children: [
+                _ActionButton(
+                  icon: Icons.edit_outlined,
+                  label: 'Edit',
+                  onTap: onEdit,
                 ),
                 const SizedBox(height: 6),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 5,
-                  children: [
-                    _MiniInfo(
-                      icon: Icons.inventory_2_outlined,
-                      label: vehicle.capacity,
-                      color: Colors.black54,
-                    ),
-                    _MiniInfo(
-                      icon: Icons.circle,
-                      label: vehicle.availability,
-                      color: const Color(0xFF31B75D),
-                    ),
-                  ],
+                _ActionButton(
+                  icon: Icons.delete_outline_rounded,
+                  label: 'Hapus',
+                  color: AppColors.red,
+                  onTap: onDelete,
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Pendapatan',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 7.5,
-                    color: Colors.black38,
-                  ),
-                ),
-                Text(
-                  vehicle.income,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                  ),
+                const SizedBox(height: 6),
+                _ActionButton(
+                  icon: Icons.visibility_outlined,
+                  label: 'Detail',
+                  onTap: onDetail,
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 7),
-          Column(
-            children: [
-              _ActionButton(
-                icon: Icons.edit_outlined,
-                label: 'Edit',
-                onTap: onEdit,
-              ),
-              const SizedBox(height: 6),
-              _ActionButton(
-                icon: Icons.delete_outline_rounded,
-                label: 'Hapus',
-                color: AppColors.red,
-                onTap: onDelete,
-              ),
-              const SizedBox(height: 6),
-              _ActionButton(
-                icon: Icons.visibility_outlined,
-                label: 'Detail',
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }
@@ -767,7 +805,6 @@ class _SummaryCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-
         ],
       ),
     );
