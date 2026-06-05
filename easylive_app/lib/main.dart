@@ -37,6 +37,7 @@ import 'views/pemilikKos/booking/detail_booking_view.dart'
 import 'views/pemilikKos/profile/security_view.dart';
 import 'views/pemilikKos/notifikasi/notifikasi_view.dart';
 import 'views/pemilikKos/profile/profile_view.dart' as pemilik_kos_profile;
+import 'views/pemilikJasa/profile/security_view.dart';
 import 'views/pemilikJasa/home/home_view.dart';
 
 import 'views/pemilikJasa/home/detailJasa_view.dart' as owner_jasa_detail;
@@ -63,8 +64,6 @@ import 'views/admin/profile/profile_information_view.dart';
 import 'views/admin/profile/ubah_password_admin_view.dart';
 import 'views/admin/profile/app_settings_view.dart';
 import 'views/admin/profile/help_support_view.dart';
-
-import 'views/splash/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +92,7 @@ class MyApp extends StatelessWidget {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _noAnimation(const SplashScreen(), settings);
+        return _noAnimation(const LoginView(), settings);
       case '/login':
         return _noAnimation(const LoginView(), settings);
       case '/register':
@@ -184,6 +183,9 @@ class MyApp extends StatelessWidget {
 
       case '/pemilik_jasa/edit_profile':
         return _noAnimation(const PemilikJasaEditProfileView(), settings);
+
+      case '/pemilik_jasa/security':
+        return _noAnimation(const PemilikJasaSecurityView(), settings);
 
       case '/pemilik_kos/favorite':
         return _noAnimation(const FavoriteView(), settings);

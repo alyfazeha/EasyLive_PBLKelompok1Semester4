@@ -19,7 +19,12 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 22),
+      padding: EdgeInsets.fromLTRB(
+        18,
+        MediaQuery.of(context).padding.top + 16,
+        18,
+        22,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.darkBlue,
         borderRadius: BorderRadius.only(
@@ -176,17 +181,6 @@ class _DashboardStatItem extends StatelessWidget {
                   fontSize: 11,
                   color: Colors.white,
                   fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Lihat semua',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 7,
-                  color: Colors.white54,
                 ),
               ),
             ],

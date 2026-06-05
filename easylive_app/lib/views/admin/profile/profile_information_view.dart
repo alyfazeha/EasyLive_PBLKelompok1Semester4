@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AdminProfileInformationView extends StatefulWidget {
   const AdminProfileInformationView({super.key});
@@ -16,20 +17,21 @@ class _AdminProfileInformationViewState
   static const _navy = Color(0xFF243447);
   static const _yellow = Color(0xFFF6BE00);
 
-  final _fullNameController = TextEditingController(text: 'Budi Santoso');
-  final _emailController = TextEditingController(text: 'admin@easyjasa.com');
-  final _phoneController = TextEditingController(text: '0821 4373 888789');
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
 
-  final _roleOptions = const ['Super Admin', 'Admin Jasa', 'Admin Kos'];
-  String _roleValue = 'Super Admin';
+  // Match check constraint di tabel profiles:
+  // role hanya boleh salah satu: user, kos, jasa, admin
+  final _roleOptions = const ['user', 'kos', 'jasa', 'admin'];
 
-  final _addressController = TextEditingController(
-    text: 'Jl. Merdeka No. 10, Jakarta, Indonesia',
-  );
+  String _roleValue = 'user';
 
-  final _bioController = TextEditingController(
-    text: 'Administrator of Kost & Jasa Management System',
-  );
+  final _addressController = TextEditingController();
+  // bio tidak ada di tabel profiles saat ini
+  // final _bioController = TextEditingController();
+
+  bool _isLoading = true;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,12 +39,64 @@ class _AdminProfileInformationViewState
   File? _pickedProfilePhoto;
 
   @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    try {
+      final supabase = Supabase.instance.client;
+      final user = supabase.auth.currentUser;
+      if (user == null) {
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final res = await supabase
+          .from('profiles')
+          .select('full_name, username, email, phone, role, address, photo')
+          .eq('id_profile', user.id)
+          .maybeSingle();
+
+      final data = res ?? <String, dynamic>{};
+      final fullName = (data['full_name'] ?? '').toString();
+      final username = (data['username'] ?? '').toString();
+      final email = (data['email'] ?? '').toString();
+      final phone = (data['phone'] ?? '').toString();
+      final role = (data['role'] ?? '').toString();
+      final address = (data['address'] ?? '').toString();
+      // bio tidak ada di tabel profiles saat ini
+      // final bio = (data['bio'] ?? '').toString();
+
+      if (!mounted) return;
+      setState(() {
+        _fullNameController.text = fullName.isNotEmpty ? fullName : username;
+        _emailController.text = email;
+        _phoneController.text = phone;
+
+        final normalizedRole = role.isNotEmpty ? role : 'Super Admin';
+        _roleValue = _roleOptions.contains(normalizedRole)
+            ? normalizedRole
+            : 'user';
+
+        _addressController.text = address;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+    }
+  }
+
+  @override
   void dispose() {
     _fullNameController.dispose();
+
     _emailController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
-    _bioController.dispose();
     super.dispose();
   }
 
@@ -72,17 +126,92 @@ class _AdminProfileInformationViewState
 
     if (!formState.validate()) return;
 
-    final hasPhoto = _pickedProfilePhoto != null;
+    final supabase = Supabase.instance.client;
+    final user = supabase.auth.currentUser;
+    if (user == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sesi login tidak ditemukan')),
+      );
+      return;
+    }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          hasPhoto
-              ? 'Profil berhasil diperbarui (foto profile diperbarui)'
-              : 'Profil berhasil diperbarui',
+    final newFullName = _fullNameController.text.trim();
+    final newEmail = _emailController.text.trim();
+    final newPhone = _phoneController.text.trim();
+    final newRole = _roleValue.trim();
+
+    // Supabase check constraint mengharuskan role hanya boleh nilai tertentu.
+    final validRole = _roleOptions.contains(newRole) ? newRole : 'user';
+
+    final newAddress = _addressController.text.trim();
+    // bio belum tersedia di tabel profiles
+    // final newBio = _bioController.text.trim();
+
+    String? newPhotoUrl;
+
+    // upload foto jika ada
+    if (_pickedProfilePhoto != null) {
+      final fileName =
+          'admin-profile-${user.id}-${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+      try {
+        await supabase.storage
+            .from('profile-images')
+            .uploadBinary(fileName, await _pickedProfilePhoto!.readAsBytes());
+
+        newPhotoUrl = supabase.storage
+            .from('profile-images')
+            .getPublicUrl(fileName);
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Gagal upload foto: $e')));
+        return;
+      }
+    }
+
+    try {
+      final updateMap = <String, dynamic>{
+        'full_name': newFullName,
+        'email': newEmail,
+        'phone': newPhone,
+        'role': validRole,
+
+        'address': newAddress,
+
+        // 'bio': newBio,
+      };
+      if (newPhotoUrl != null) {
+        updateMap['photo'] = newPhotoUrl;
+      }
+
+      await supabase
+          .from('profiles')
+          .update(updateMap)
+          .eq('id_profile', user.id);
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            newPhotoUrl != null
+                ? 'Profil berhasil diperbarui (foto profile diperbarui)'
+                : 'Profil berhasil diperbarui',
+          ),
         ),
-      ),
-    );
+      );
+
+      setState(() {
+        _pickedProfilePhoto = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal menyimpan perubahan: $e')));
+    }
   }
 
   @override
@@ -119,7 +248,8 @@ class _AdminProfileInformationViewState
                           size: 18,
                           color: _navy,
                         ),
-                        onPressed: () => Navigator.maybePop(context),
+                        onPressed: () =>
+                            Navigator.pushReplacementNamed(context, '/admin'),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -348,17 +478,6 @@ class _AdminProfileInformationViewState
                                 },
                               ),
                               const SizedBox(height: 12),
-                              _ProfileField(
-                                label: 'Bio',
-                                hintText: 'Bio',
-                                controller: _bioController,
-                                maxLines: 3,
-                                validator: (v) {
-                                  final value = (v ?? '').trim();
-                                  if (value.isEmpty) return 'Bio wajib diisi';
-                                  return null;
-                                },
-                              ),
 
                               const SizedBox(height: 18),
 

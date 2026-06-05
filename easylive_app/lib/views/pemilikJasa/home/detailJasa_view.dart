@@ -43,11 +43,13 @@ class _DetailJasaViewState extends State<DetailJasaView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
+        top: false,
         child: Column(
+
           children: [
             Container(
-              height: 66,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              height: 100,
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
               color: AppColors.primary,
               child: Row(
                 children: [

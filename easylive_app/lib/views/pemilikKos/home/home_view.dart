@@ -16,7 +16,7 @@ class _PemilikKosHomeViewState extends State<PemilikKosHomeView> {
   @override
   void initState() {
     super.initState();
-    _controller = PemilikKosController(); // fresh tiap login
+    _controller = PemilikKosController(); 
   }
 
   @override
@@ -41,7 +41,7 @@ class _PemilikKosHomeViewState extends State<PemilikKosHomeView> {
     return ChangeNotifierProvider.value(
       value: _controller,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor:const Color.fromRGBO(45, 62, 80, 1),
         body: SafeArea(
           child: OwnerDashboardFrame(
             onNavigate: (index) => _handleNavigation(context, index),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../controllers/auth_controller.dart';
+
 import '../../../widgets/common/back_button_widget.dart';
 
 import '../../../widgets/admin/dashboard/navbar_button.dart';
@@ -15,6 +17,51 @@ class AdminProfileView extends StatefulWidget {
 class _AdminProfileViewState extends State<AdminProfileView> {
   static const _navy = Color(0xFF243447);
   static const _yellow = Color(0xFFF6BE00);
+
+  bool _isLoading = true;
+  String _fullNameOrUsername = '';
+  String _email = '';
+  String _roleLabel = '';
+  String _photoUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    try {
+      final supabase = Supabase.instance.client;
+      final user = supabase.auth.currentUser;
+      if (user == null) return;
+
+      final res = await supabase
+          .from('profiles')
+          .select('full_name, username, email, role, photo')
+          .eq('id_profile', user.id)
+          .maybeSingle();
+
+      final data = res ?? <String, dynamic>{};
+      final fullName = (data['full_name'] ?? '').toString();
+      final username = (data['username'] ?? '').toString();
+      final email = (data['email'] ?? '').toString();
+      final role = (data['role'] ?? '').toString();
+      final photo = (data['photo'] ?? '').toString();
+
+      if (!mounted) return;
+      setState(() {
+        _fullNameOrUsername = fullName.isNotEmpty ? fullName : username;
+        _email = email;
+        _roleLabel = role;
+        _photoUrl = photo;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+    }
+  }
 
   Future<void> _logout() async {
     await AuthController.logout();
@@ -95,7 +142,13 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                           size: 44,
                           iconSize: 20,
                           borderRadius: 12,
-                          onPressed: () => Navigator.maybePop(context),
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/admin',
+                              (route) => false,
+                            );
+                          },
                         ),
                       ),
 
@@ -124,10 +177,28 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                 ),
                                 color: const Color(0xFFF2F2F2),
                               ),
-                              child: const Icon(
-                                Icons.person,
-                                size: 30,
-                                color: _navy,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: _photoUrl.isNotEmpty
+                                    ? Image.network(
+                                        _photoUrl,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, __, ___) =>
+                                            const Center(
+                                              child: Icon(
+                                                Icons.person,
+                                                size: 30,
+                                                color: _navy,
+                                              ),
+                                            ),
+                                      )
+                                    : const Center(
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 30,
+                                          color: _navy,
+                                        ),
+                                      ),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -135,18 +206,24 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Budi Santoso',
-                                    style: TextStyle(
+                                  Text(
+                                    _isLoading
+                                        ? '...'
+                                        : (_fullNameOrUsername.isNotEmpty
+                                              ? _fullNameOrUsername
+                                              : 'Admin'),
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w900,
                                       color: _navy,
                                     ),
                                   ),
                                   const SizedBox(height: 4),
-                                  const Text(
-                                    'admin@easyjasa.com',
-                                    style: TextStyle(
+                                  Text(
+                                    _isLoading
+                                        ? '...'
+                                        : (_email.isNotEmpty ? _email : '-'),
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w700,
@@ -165,9 +242,13 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                         color: _yellow.withOpacity(0.65),
                                       ),
                                     ),
-                                    child: const Text(
-                                      'Super Admin',
-                                      style: TextStyle(
+                                    child: Text(
+                                      _isLoading
+                                          ? '...'
+                                          : (_roleLabel.isNotEmpty
+                                                ? _roleLabel
+                                                : 'Super Admin'),
+                                      style: const TextStyle(
                                         color: _navy,
                                         fontWeight: FontWeight.w900,
                                         fontSize: 12,

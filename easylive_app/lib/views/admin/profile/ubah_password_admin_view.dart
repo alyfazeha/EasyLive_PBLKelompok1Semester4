@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../controllers/admin/profile/change_password_controller.dart';
+
 import '../../../core/color.dart';
 import '../../../widgets/common/back_button_widget.dart';
 import '../../../widgets/admin/dashboard/navbar_button.dart';
@@ -14,13 +16,35 @@ class UbahPasswordAdminView extends StatefulWidget {
 
 class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'admin@easyjasa.com');
+  // Diisi otomatis dari Supabase agar sesuai user yang login.
+  final _emailController = TextEditingController();
+
   final _currentPassController = TextEditingController();
   final _newPassController = TextEditingController();
   final _confirmPassController = TextEditingController();
 
   final _controller = ChangeAdminPasswordController();
   bool _isSubmitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEmailFromSupabase();
+  }
+
+  Future<void> _loadEmailFromSupabase() async {
+    try {
+      final supabase = Supabase.instance.client;
+      final user = supabase.auth.currentUser;
+      final email = user?.email ?? '';
+      if (!mounted) return;
+      if (email.isNotEmpty) {
+        _emailController.text = email;
+      }
+    } catch (_) {
+      // fallback: email tetap kosong, user bisa edit bila diperlukan
+    }
+  }
 
   @override
   void dispose() {
@@ -56,10 +80,7 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-          backgroundColor: AppColors.red,
-        ),
+        SnackBar(content: Text(e.toString()), backgroundColor: AppColors.red),
       );
     } finally {
       if (!mounted) return;
@@ -77,7 +98,10 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
                     const SizedBox(width: 44, height: 44),
@@ -97,7 +121,8 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                     ),
                     const SizedBox(width: 10),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(context, '/admin/notifikasi'),
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/admin/notifikasi'),
                       borderRadius: BorderRadius.circular(14),
                       child: Container(
                         width: 44,
@@ -106,7 +131,10 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: const Icon(Icons.notifications, color: Color(0xFF243447)),
+                        child: const Icon(
+                          Icons.notifications,
+                          color: Color(0xFF243447),
+                        ),
                       ),
                     ),
                   ],
@@ -118,7 +146,9 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                   padding: const EdgeInsets.all(16),
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(28),
+                    ),
                   ),
                   child: Column(
                     children: [
@@ -130,7 +160,8 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                           size: 44,
                           iconSize: 20,
                           borderRadius: 12,
-                          onPressed: () => Navigator.maybePop(context),
+                          onPressed: () =>
+                              Navigator.pushReplacementNamed(context, '/admin'),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -166,13 +197,17 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                                         decoration: InputDecoration(
                                           labelText: 'Email',
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                         ),
                                         validator: (v) {
                                           final value = (v ?? '').trim();
-                                          if (value.isEmpty) return 'Email wajib diisi';
-                                          if (!value.contains('@')) return 'Email tidak valid';
+                                          if (value.isEmpty)
+                                            return 'Email wajib diisi';
+                                          if (!value.contains('@'))
+                                            return 'Email tidak valid';
                                           return null;
                                         },
                                       ),
@@ -183,12 +218,15 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                                         decoration: InputDecoration(
                                           labelText: 'Password Saat Ini',
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                         ),
                                         validator: (v) {
                                           final value = (v ?? '').trim();
-                                          if (value.isEmpty) return 'Password saat ini wajib diisi';
+                                          if (value.isEmpty)
+                                            return 'Password saat ini wajib diisi';
                                           return null;
                                         },
                                       ),
@@ -199,12 +237,15 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                                         decoration: InputDecoration(
                                           labelText: 'Password Baru',
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                         ),
                                         validator: (v) {
                                           final value = (v ?? '').trim();
-                                          if (value.isEmpty) return 'Password baru wajib diisi';
+                                          if (value.isEmpty)
+                                            return 'Password baru wajib diisi';
                                           if (value.length < 6) {
                                             return 'Password minimal 6 karakter';
                                           }
@@ -218,13 +259,17 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                                         decoration: InputDecoration(
                                           labelText: 'Konfirmasi Password Baru',
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                         ),
                                         validator: (v) {
                                           final value = (v ?? '').trim();
-                                          if (value.isEmpty) return 'Konfirmasi password wajib diisi';
-                                          if (value != _newPassController.text.trim()) {
+                                          if (value.isEmpty)
+                                            return 'Konfirmasi password wajib diisi';
+                                          if (value !=
+                                              _newPassController.text.trim()) {
                                             return 'Konfirmasi password tidak cocok';
                                           }
                                           return null;
@@ -235,20 +280,30 @@ class _UbahPasswordAdminViewState extends State<UbahPasswordAdminView> {
                                         width: double.infinity,
                                         height: 50,
                                         child: ElevatedButton(
-                                          onPressed: _isSubmitting ? null : _submit,
+                                          onPressed: _isSubmitting
+                                              ? null
+                                              : _submit,
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFFF6BE00),
-                                            foregroundColor: const Color(0xFF243447),
+                                            backgroundColor: const Color(
+                                              0xFFF6BE00,
+                                            ),
+                                            foregroundColor: const Color(
+                                              0xFF243447,
+                                            ),
                                             elevation: 0,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(14),
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
                                             ),
                                           ),
                                           child: _isSubmitting
                                               ? const SizedBox(
                                                   height: 18,
                                                   width: 18,
-                                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                      ),
                                                 )
                                               : const Text(
                                                   'Simpan Perubahan',

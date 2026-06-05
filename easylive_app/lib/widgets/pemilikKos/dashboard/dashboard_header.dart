@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/color.dart';
 
 class DashboardHeader extends StatelessWidget {
   final String ownerName;
@@ -20,7 +21,7 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 60, 16, 24),
       decoration: const BoxDecoration(
         color: Color(0xff2c3e50),
         borderRadius: BorderRadius.only(
@@ -37,23 +38,44 @@ class DashboardHeader extends StatelessWidget {
               Row(
                 children: [
                   const CircleAvatar(
-                    radius: 18,
-                    backgroundColor: Colors.white24,
-                    child: Icon(Icons.person, color: Colors.white),
+                    radius: 21,
+                    backgroundColor: AppColors.yellow,
+                    child: Icon(
+                      Icons.person_rounded,
+                      color: AppColors.darkBlue,
+                      size: 28,
+                    ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Hi, $ownerName', // ← dari Supabase
-                        style: const TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                      const Text(
-                        "Welcome to EasyLive!",
-                        style: TextStyle(
+                        style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      const Text.rich(
+                        TextSpan(
+                          text: 'Welcome to ',
+                          children: [
+                            TextSpan(
+                              text: 'EasyLive !',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
+                          color: Colors.white,
                         ),
                       ),
                     ],

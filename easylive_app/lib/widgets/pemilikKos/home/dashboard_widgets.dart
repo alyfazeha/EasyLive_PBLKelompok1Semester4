@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/color.dart';
 import '../../../controllers/pemilikKos/homeKos_controller.dart';
 import '../../../views/pemilikKos/home/editKamar_view.dart';
@@ -685,108 +684,112 @@ class OwnerKosCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 7),
-              Column(
-                children: [
-                  _ActionButton(
-                    icon: Icons.edit_outlined,
-                    label: 'Edit',
-                    onTap: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              EditKamarView(idKost: idKost), // ← kirim idKost
-                        ),
-                      );
-                      // Refresh home kalau edit berhasil
-                      if (result == true && context.mounted) {
-                        context.read<PemilikKosController>().refresh();
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 6),
-                  _ActionButton(
-                    icon: Icons.delete_outline_rounded,
-                    label: 'Hapus',
-                    color: AppColors.red,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text(
-                            "Hapus Kost?",
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.darkBlue,
-                            ),
+              // Bikin kolom tombol punya lebar tetap supaya Row tidak overflow
+              SizedBox(
+                width: 58,
+                child: Column(
+                  children: [
+                    _ActionButton(
+                      icon: Icons.edit_outlined,
+                      label: 'Edit',
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EditKamarView(idKost: idKost), // ← kirim idKost
                           ),
-                          content: Text(
-                            "Apakah Anda yakin ingin menghapus kost ini? Data yang dihapus tidak dapat dikembalikan.",
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 13,
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(ctx),
-                              child: Text(
-                                "Batal",
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.grey,
-                                ),
+                        );
+                        // Refresh home kalau edit berhasil
+                        if (result == true && context.mounted) {
+                          context.read<PemilikKosController>().refresh();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _ActionButton(
+                      icon: Icons.delete_outline_rounded,
+                      label: 'Hapus',
+                      color: AppColors.red,
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text(
+                              "Hapus Kost?",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w900,
+                                color: const Color.fromRGBO(45, 62, 80, 1),
                               ),
                             ),
-                            TextButton(
-                              onPressed: () async {
-                                Navigator.pop(ctx); // tutup dialog dulu
-
-                                try {
-                                  // Panggil deleteKost dari controller
-                                  await context
-                                      .read<PemilikKosController>()
-                                      .deleteKost(
-                                        idKost,
-                                      ); // ← idKost dari parameter card
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Kost berhasil dihapus"),
-                                      backgroundColor: AppColors.darkBlue,
-                                    ),
-                                  );
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Gagal menghapus kost: $e"),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "Hapus",
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.red,
-                                ),
+                            content: Text(
+                              "Apakah Anda yakin ingin menghapus kost ini? Data yang dihapus tidak dapat dikembalikan.",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 6),
-                  _ActionButton(
-                    icon: Icons.visibility_outlined,
-                    label: 'Detail',
-                    onTap: openDetail,
-                  ),
-                ],
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(ctx),
+                                child: Text(
+                                  "Batal",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.pop(ctx); // tutup dialog dulu
+
+                                  try {
+                                    // Panggil deleteKost dari controller
+                                    await context
+                                        .read<PemilikKosController>()
+                                        .deleteKost(
+                                          idKost,
+                                        ); // ← idKost dari parameter card
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Kost berhasil dihapus"),
+                                        backgroundColor: AppColors.darkBlue,
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Gagal menghapus kost: $e"),
+                                        backgroundColor: AppColors.red,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  "Hapus",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.red,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _ActionButton(
+                      icon: Icons.visibility_outlined,
+                      label: 'Detail',
+                      onTap: openDetail,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

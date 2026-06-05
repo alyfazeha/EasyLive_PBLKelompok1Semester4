@@ -13,7 +13,7 @@ class DetailKostWidget extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
@@ -21,7 +21,7 @@ class DetailKostWidget extends StatelessWidget {
             child: ListView(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 15),
+                  margin: const EdgeInsets.only(top: 1),
                   child: SizedBox(
                     height: 180,
                     child: PageView.builder(

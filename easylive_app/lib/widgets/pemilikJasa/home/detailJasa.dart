@@ -189,8 +189,30 @@ class DetailJasaWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: jasa.specifications.isEmpty
+                  ? [
+                      _buildFacilityChip(
+                        '-',
+                        Icons.check_circle_outline_rounded,
+                      ),
+                    ]
+                  : jasa.specifications
+                      .map(
+                        (s) => _buildFacilityChip(
+                          s,
+                          Icons.check_circle_outline_rounded,
+                        ),
+                      )
+                      .toList(),
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
@@ -238,7 +260,14 @@ Widget _buildChip(String text, IconData icon) {
       children: [
         Icon(icon, size: 14, color: AppColors.darkBlue),
         const SizedBox(width: 4),
-        Text(text, style: const TextStyle(fontSize: 12)),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ),
       ],
     ),
   );

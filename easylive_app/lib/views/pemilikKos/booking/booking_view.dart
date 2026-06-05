@@ -31,9 +31,15 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
 
   void _navigateTo(int index) {
     if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos/dashboard',
+      );
     } else if (index == 2) {
-      Navigator.pushReplacementNamed(context, '/pemilik_kos');
+      Navigator.pushReplacementNamed(
+        context,
+        '/pemilik_kos',
+      );
     }
   }
 
@@ -42,36 +48,48 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
     return ChangeNotifierProvider.value(
       value: controller,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        // pisahkan: HEADER vs FOOTER agar bisa diubah manual
+        backgroundColor: AppColors.darkBlue,
+
         body: SafeArea(
+          bottom: false,
           child: Column(
             children: [
-              /// HEADER — tidak diubah
+              /// HEADER
               Container(
-                padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
-                decoration: const BoxDecoration(color: AppColors.darkBlue),
+                height: 66,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.centerLeft,
                 child: Row(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         } else {
-                          Navigator.pushReplacementNamed(context, '/pemilik_kos');
+                          Navigator.pushReplacementNamed(
+                            context,
+                            '/pemilik_kos',
+                          );
                         }
                       },
-                      child: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.white,
+                          size: 27,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 8),
                     const Text(
-                      "Booking",
+                      'Booking',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
                         color: Colors.white,
                       ),
                     ),
@@ -102,7 +120,6 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
                                 SearchBarWidget(
                                   onChanged: (value) => ctrl.setSearch(value),
                                 ),
-
                                 const SizedBox(height: 12),
 
                                 /// FILTER
@@ -110,7 +127,6 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
                                   selectedFilter: ctrl.selectedFilter,
                                   onChanged: (value) => ctrl.setFilter(value),
                                 ),
-
                                 const SizedBox(height: 14),
                               ],
                             ),
@@ -119,7 +135,9 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
                           /// LIST
                           Expanded(
                             child: ctrl.isLoading
-                                ? const Center(child: CircularProgressIndicator())
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
                                 : ctrl.filteredList.isEmpty
                                     ? const Center(
                                         child: Text(
@@ -131,7 +149,9 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
                                         ),
                                       )
                                     : ListView.builder(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
                                         itemCount: ctrl.filteredList.length,
                                         itemBuilder: (context, index) {
                                           return BookingCard(
@@ -150,11 +170,20 @@ class _OwnerBookingViewState extends State<OwnerBookingView> {
             ],
           ),
         ),
-        bottomNavigationBar: OwnerBottomNav(
-          currentIndex: 3,
-          onNavigate: _navigateTo,
+
+        /// FOOTER / BOTTOM NAV
+        bottomNavigationBar: Container(
+          color: Colors.white, // ubah warna footer di sini (jangan ubah header)
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom,
+          ),
+          child: OwnerBottomNav(
+            currentIndex: 3,
+            onNavigate: _navigateTo,
+          ),
         ),
       ),
     );
   }
 }
+

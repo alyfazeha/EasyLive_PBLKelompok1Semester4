@@ -199,7 +199,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
-                      height: 260,
+                      height: 225,
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
                         itemCount: pendingActions.length,
@@ -228,7 +228,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 2),
                     AdminDashboardSectionHeader(
                       title: 'Recent Activity',
                       actionLabel: 'History',
