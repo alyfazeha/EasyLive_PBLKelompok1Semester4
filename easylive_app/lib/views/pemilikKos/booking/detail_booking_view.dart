@@ -178,6 +178,7 @@ class _DetailBookingViewState extends State<DetailBookingView> {
 
                       final booking = ctrl.booking!;
                       final isPending = booking.bookingStatus == 'Pending';
+                      final isAktif = booking.bookingStatus == 'Aktif';
                       final isLunas = booking.paymentStatus == 'Lunas';
 
                       return SingleChildScrollView(
@@ -229,10 +230,9 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                             ],
 
                             // Tombol konfirmasi & tolak (hanya jika pending)
+                            // Tombol konfirmasi & tolak (hanya jika pending)
                             if (isPending) ...[
                               const SizedBox(height: 24),
-
-                              // Tombol Konfirmasi — hanya muncul jika sudah Lunas
                               if (isLunas)
                                 SizedBox(
                                   width: double.infinity,
@@ -244,8 +244,7 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                     ),
-                                    onPressed: () =>
-                                        ctrl.konfirmasi(context),
+                                    onPressed: () => ctrl.konfirmasi(context),
                                     child: const Text(
                                       'Konfirmasi Booking',
                                       style: TextStyle(
@@ -256,10 +255,7 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                                     ),
                                   ),
                                 ),
-
                               const SizedBox(height: 10),
-
-                              // Tombol Tolak — selalu muncul jika pending
                               SizedBox(
                                 width: double.infinity,
                                 height: 48,
@@ -277,6 +273,32 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.w800,
                                       color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+
+                            // ← tambah ini
+                            if (isAktif) ...[
+                              const SizedBox(height: 24),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 48,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF4D82FF),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  onPressed: () => ctrl.selesai(context),
+                                  child: const Text(
+                                    'Tandai Selesai',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
