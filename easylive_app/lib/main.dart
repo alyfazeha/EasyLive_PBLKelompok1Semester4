@@ -225,9 +225,9 @@ class MyApp extends StatelessWidget {
         );
 
       case '/pemilik_jasa/detail_booking':
-        final tenantName = settings.arguments as String? ?? 'Budi Santoso';
+        final idBooking = settings.arguments as String? ?? '';
         return _noAnimation(
-          pemilik_jasa_detail_booking.DetailBookingView(tenantName: tenantName),
+          pemilik_jasa_detail_booking.DetailBookingView(idBooking: idBooking),
           settings,
         );
 
