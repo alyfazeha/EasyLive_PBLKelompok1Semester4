@@ -103,7 +103,7 @@ class PemilikJasaEditProfileController extends ChangeNotifier {
             .uploadBinary(
               fileName,
               await file.readAsBytes(),
-              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+              fileOptions: const FileOptions(contentType: 'image/*'),
             );
 
         photoUrl = _supabase.storage

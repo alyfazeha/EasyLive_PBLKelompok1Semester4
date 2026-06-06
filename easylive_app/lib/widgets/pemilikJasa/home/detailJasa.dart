@@ -7,6 +7,84 @@ class DetailJasaWidget extends StatelessWidget {
 
   const DetailJasaWidget({super.key, required this.jasa});
 
+  Widget _buildChip(String text, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: AppColors.darkBlue),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFacilityChip(String text, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.yellow.withOpacity(0.15),
+        border: Border.all(color: AppColors.yellow),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: AppColors.darkBlue),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.darkBlue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: AppColors.darkBlue),
+        const SizedBox(width: 8),
+        Text(
+          '$label: ',
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: AppColors.darkBlue,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -18,8 +96,7 @@ class DetailJasaWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(25)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,9 +111,7 @@ class DetailJasaWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.grey.shade300,
-                                  ),
+                                  border: Border.all(color: Colors.grey.shade300),
                                 ),
                                 child: const Center(
                                   child: Column(
@@ -71,24 +146,19 @@ class DetailJasaWidget extends StatelessWidget {
                                         ? Image.network(
                                             path,
                                             fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    Container(
+                                            errorBuilder: (context, error, stackTrace) =>
+                                                Container(
                                               color: Colors.grey.shade100,
                                               child: const Center(
                                                 child: Icon(
-                                                  Icons
-                                                      .image_not_supported_outlined,
+                                                  Icons.image_not_supported_outlined,
                                                   size: 48,
                                                   color: Colors.black26,
                                                 ),
                                               ),
                                             ),
                                           )
-                                        : Image.asset(
-                                            path,
-                                            fit: BoxFit.cover,
-                                          ),
+                                        : Image.asset(path, fit: BoxFit.cover),
                                   );
                                 },
                               ),
@@ -122,18 +192,9 @@ class DetailJasaWidget extends StatelessWidget {
                       runSpacing: 8,
                       children: [
                         _buildChip(jasa.price, Icons.attach_money_rounded),
-                        _buildChip(
-                          jasa.tipeMobil,
-                          Icons.directions_car_rounded,
-                        ),
-                        _buildChip(
-                          jasa.kapasitas,
-                          Icons.inventory_2_outlined,
-                        ),
-                        _buildChip(
-                          jasa.nomorPlat,
-                          Icons.confirmation_number_outlined,
-                        ),
+                        _buildChip(jasa.tipeMobil, Icons.directions_car_rounded),
+                        _buildChip(jasa.kapasitas, Icons.inventory_2_outlined),
+                        _buildChip(jasa.nomorPlat, Icons.confirmation_number_outlined),
                       ],
                     ),
 
@@ -154,6 +215,30 @@ class DetailJasaWidget extends StatelessWidget {
                       jasa.description,
                       style: const TextStyle(color: Colors.grey),
                     ),
+
+                    const SizedBox(height: 20),
+
+                    // INFORMASI KENDARAAN
+                    const Text(
+                      'Informasi Kendaraan',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColors.darkBlue,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        _buildFacilityChip(jasa.tipeMobil, Icons.directions_car_rounded),
+                        _buildFacilityChip(jasa.kapasitas, Icons.inventory_2_outlined),
+                        _buildFacilityChip(jasa.nomorPlat, Icons.confirmation_number_outlined),
+                      ],
+                    ),
+
                     const SizedBox(height: 20),
 
                     // INFO KONTAK
@@ -167,108 +252,19 @@ class DetailJasaWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    _buildInfoRow(
-                      Icons.phone_outlined,
-                      'Nomor HP',
-                      jasa.nomorHp,
-                    ),
+                    _buildInfoRow(Icons.phone_outlined, 'Nomor HP', jasa.nomorHp),
                     const SizedBox(height: 8),
-                    _buildInfoRow(
-                      Icons.location_on_outlined,
-                      'Kecamatan',
-                      jasa.kecamatan,
-                    ),
+                    _buildInfoRow(Icons.location_on_outlined, 'Kecamatan', jasa.kecamatan),
                     const SizedBox(height: 8),
-                    _buildInfoRow(
-                      Icons.location_city_outlined,
-                      'Kota',
-                      jasa.kota,
-                    ),
+                    _buildInfoRow(Icons.location_city_outlined, 'Kota', jasa.kota),
                     const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: jasa.specifications.isEmpty
-                  ? [
-                      _buildFacilityChip(
-                        '-',
-                        Icons.check_circle_outline_rounded,
-                      ),
-                    ]
-                  : jasa.specifications
-                      .map(
-                        (s) => _buildFacilityChip(
-                          s,
-                          Icons.check_circle_outline_rounded,
-                        ),
-                      )
-                      .toList(),
-            ),
-
-            const SizedBox(height: 20),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: AppColors.darkBlue),
-        const SizedBox(width: 8),
-        Text(
-          '$label: ',
-          style: const TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: AppColors.darkBlue,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 12,
-              color: Colors.black54,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-Widget _buildChip(String text, IconData icon) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-    decoration: BoxDecoration(
-      color: Colors.grey[200],
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 14, color: AppColors.darkBlue),
-        const SizedBox(width: 4),
-        Expanded(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 12),
-          ),
-        ),
-      ],
-    ),
-  );
 }
