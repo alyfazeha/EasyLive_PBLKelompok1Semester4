@@ -9,7 +9,7 @@ import './editKendaraan_view.dart';
 class DetailJasaView extends StatefulWidget {
   final String idJasa;
 
-  DetailJasaView({super.key, required this.idJasa});
+  const DetailJasaView({super.key, required this.idJasa});
 
   @override
   State<DetailJasaView> createState() => _DetailJasaViewState();
@@ -43,13 +43,11 @@ class _DetailJasaViewState extends State<DetailJasaView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
-        top: false,
         child: Column(
-
           children: [
             Container(
-              height: 100,
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+              height: 66,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               color: AppColors.primary,
               child: Row(
                 children: [
@@ -83,8 +81,9 @@ class _DetailJasaViewState extends State<DetailJasaView> {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                EditKendaraanView(jasa: jasa!),
+                            builder: (context) => EditKendaraanView(
+                              idJasa: jasa!.idJasa, // ← kirim idJasa
+                            ),
                           ),
                         );
                         if (result == true) {

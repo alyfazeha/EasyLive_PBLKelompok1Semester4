@@ -141,8 +141,7 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EditKendaraanView(
-                                  jasa: DetailJasaController()
-                                      .getJasaDetail(vehicle.name),
+                                  idJasa: vehicle.idJasa, // ← kirim idJasa
                                 ),
                               ),
                             );

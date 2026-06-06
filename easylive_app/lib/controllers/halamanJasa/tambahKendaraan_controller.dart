@@ -88,7 +88,7 @@ class TambahKendaraanController {
         await supabase.storage.from('jasa-images').uploadBinary(
               fileName,
               bytes,
-              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+              fileOptions: const FileOptions(contentType: 'image/*'),
             );
 
         final publicUrl =

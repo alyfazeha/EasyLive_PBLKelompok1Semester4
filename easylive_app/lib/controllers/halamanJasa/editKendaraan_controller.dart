@@ -1,9 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../models/halamanJasa/kendaraan_model.dart';
-import '../../models/pemilikJasa/detail_jasa_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditKendaraanController {
-  // Text controllers for form fields
   TextEditingController namaKendaraan = TextEditingController();
   TextEditingController nomorHp = TextEditingController();
   TextEditingController alamat = TextEditingController();
@@ -15,68 +14,99 @@ class EditKendaraanController {
   TextEditingController deskripsi = TextEditingController();
 
   String tipeKendaraan = '';
+  List<String> existingPhotos = [];
 
-  // Load existing kendaraan data from DetailJasa
-  void loadKendaraanDataFromJasa(DetailJasa jasa) {
-    // Set text field values from DetailJasa
-    namaKendaraan.text = jasa.name;
-    nomorHp.text = ''; // Not in DetailJasa
-    alamat.text = jasa.address;
-    kapasitas.text = jasa.totalVehicle.toString();
-    harga.text = jasa.price;
-    deskripsi.text = jasa.description;
+  final supabase = Supabase.instance.client;
 
-    // Determine tipe kendaraan from name
-    tipeKendaraan = _determineTipeKendaraan(jasa.name);
+  Future<void> loadFromSupabase(String idJasa) async {
+    try {
+      final res = await supabase
+          .from('jasa')
+          .select()
+          .eq('id_jasa', int.parse(idJasa))
+          .single();
 
-    // Parse address to get kecamatan and kota
-    if (jasa.address.contains(',')) {
-      final parts = jasa.address.split(',');
-      if (parts.length >= 2) {
-        kecamatan.text = parts[0].trim();
-        kota.text = parts.sublist(1).join(',').trim();
-      }
-    } else {
-      kecamatan.text = jasa.address;
-      kota.text = '';
+      namaKendaraan.text = res['nama_jasa'] ?? '';
+      nomorHp.text = res['nomor_hp'] ?? '';
+      alamat.text = res['alamat'] ?? '';
+      kecamatan.text = res['kecamatan'] ?? '';
+      kota.text = res['kota'] ?? '';
+      nomorPlat.text = res['nomor_plat'] ?? '';
+      kapasitas.text = res['kapasitas'] ?? '';
+      harga.text = res['price_km'].toString();
+      deskripsi.text = res['deskripsi'] ?? '';
+      tipeKendaraan = res['tipe_mobil'] ?? '';
+
+      existingPhotos = (res['gambar'] as List?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [];
+    } catch (e) {
+      debugPrint('Error loading jasa: $e');
     }
   }
 
-  // Load existing kendaraan data from KendaraanModel
-  void loadKendaraanData(KendaraanModel kendaraan) {
-    // Set text field values
-    namaKendaraan.text = kendaraan.namaKendaraan;
-    nomorHp.text = kendaraan.nomorHp;
-    alamat.text = kendaraan.alamat;
-    kecamatan.text = kendaraan.kecamatan;
-    kota.text = kendaraan.kota;
-    nomorPlat.text = kendaraan.nomorPlat;
-    kapasitas.text = kendaraan.kapasitas;
-    harga.text = kendaraan.harga;
-    deskripsi.text = kendaraan.deskripsi;
-    tipeKendaraan = kendaraan.tipeKendaraan;
-  }
+  Future<void> simpanData(
+    BuildContext context,
+    String idJasa, {
+    List<File> newPhotos = const [],
+  }) async {
+    try {
+      // Ambil hanya existing photos yang masih ada (tidak dikosongkan)
+      List<String> fotoUrls =
+          existingPhotos.where((e) => e.isNotEmpty).toList();
 
-  // Helper to determine tipe kendaraan from name
-  String _determineTipeKendaraan(String name) {
-    final lower = name.toLowerCase();
-    if (lower.contains('truck')) return 'Truk';
-    if (lower.contains('motor')) return 'Motor';
-    if (lower.contains('pickup')) return 'Mobil';
-    return '';
-  }
+      // Upload foto baru ke bucket jasa-images
+      for (int i = 0; i < newPhotos.length; i++) {
+        final file = newPhotos[i];
+        final fileName =
+            'jasa_${idJasa}_${i}_${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-  void simpanData(BuildContext context) {
-    // Demo: print data and show success
-    print("Nama Kendaraan: ${namaKendaraan.text}");
-    print("Nomor Plat: ${nomorPlat.text}");
-    print("Tipe Kendaraan: $tipeKendaraan");
+        await supabase.storage.from('jasa-images').uploadBinary(
+              fileName,
+              await file.readAsBytes(),
+              fileOptions: const FileOptions(contentType: 'image/*'),
+            );
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Data has been successfully updated")));
+        final publicUrl =
+            supabase.storage.from('jasa-images').getPublicUrl(fileName);
+        fotoUrls.add(publicUrl);
+      }
 
-    // Navigate back to dashboard after save
-    Navigator.pop(context);
+      // Batasi max 3 foto
+      if (fotoUrls.length > 3) {
+        fotoUrls = fotoUrls.sublist(0, 3);
+      }
+
+      await supabase.from('jasa').update({
+        'nama_jasa': namaKendaraan.text,
+        'nomor_hp': nomorHp.text,
+        'tipe_mobil': tipeKendaraan,
+        'alamat': alamat.text,
+        'kecamatan': kecamatan.text,
+        'kota': kota.text,
+        'nomor_plat': nomorPlat.text,
+        'kapasitas': kapasitas.text,
+        'price_km': double.tryParse(harga.text) ?? 0,
+        'deskripsi': deskripsi.text,
+        'gambar': fotoUrls,
+      }).eq('id_jasa', int.parse(idJasa));
+
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Data berhasil diperbarui'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.pop(context, true);
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memperbarui: $e')),
+      );
+    }
   }
 }

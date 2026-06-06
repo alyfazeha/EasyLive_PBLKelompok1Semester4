@@ -58,7 +58,7 @@ class TambahDataController {
         await supabase.storage.from('kost-images').uploadBinary(
               fileName,
               bytes,
-              fileOptions: const FileOptions(contentType: 'image/jpeg'),
+              fileOptions: const FileOptions(contentType: 'image/*'),
             );
 
         final publicUrl =
