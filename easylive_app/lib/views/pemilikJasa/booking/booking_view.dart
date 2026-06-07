@@ -450,6 +450,11 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
               context,
               '/pemilik_jasa/booking',
             );
+          }else if (index == 2) {
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa',
+            );
           }
         },
       ),

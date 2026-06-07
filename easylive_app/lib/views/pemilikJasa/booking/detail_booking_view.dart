@@ -36,62 +36,7 @@ class _DetailBookingViewState extends State<DetailBookingView> {
     }
   }
 
-  Future<void> _showTolakDialog() async {
-    final alasanController = TextEditingController();
 
-    await showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text(
-          'Alasan Penolakan',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w900,
-            color: AppColors.darkBlue,
-          ),
-        ),
-        content: TextField(
-          controller: alasanController,
-          maxLines: 3,
-          decoration: InputDecoration(
-            hintText: 'Masukkan alasan penolakan...',
-            hintStyle: const TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 12,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text(
-              'Batal',
-              style: TextStyle(fontFamily: 'Montserrat', color: Colors.grey),
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              final alasan = alasanController.text.trim();
-              if (alasan.isEmpty) return;
-              Navigator.pop(ctx);
-              await controller.tolak(context, alasan);
-            },
-            child: const Text(
-              'Tolak',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w700,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -303,45 +248,6 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                               ],
                             ),
                           ),
-
-                          // ALASAN PENOLAKAN
-                          if (booking.bookingStatus == 'Ditolak' &&
-                              booking.alasanPenolakan.isNotEmpty) ...[
-                            const SizedBox(height: 16),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                color: Colors.red.shade50,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.red.shade200),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Alasan Penolakan',
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    booking.alasanPenolakan,
-                                    style: const TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 11,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-
                           // TOMBOL AKSI - PENDING
                           if (isPending) ...[
                             const SizedBox(height: 24),
@@ -372,13 +278,13 @@ class _DetailBookingViewState extends State<DetailBookingView> {
                               width: double.infinity,
                               height: 48,
                               child: OutlinedButton(
+                                onPressed: () => ctrl.tolak(context),
                                 style: OutlinedButton.styleFrom(
                                   side: const BorderSide(color: Colors.red),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: _showTolakDialog,
                                 child: const Text(
                                   'Tolak Booking',
                                   style: TextStyle(

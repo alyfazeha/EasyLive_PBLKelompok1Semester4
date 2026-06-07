@@ -9,7 +9,6 @@ class DetailBookingJasaModel {
   final String totalBayar;
   final String paymentStatus;
   final String bookingStatus;
-  final String alasanPenolakan;
   final String tanggal;
 
   const DetailBookingJasaModel({
@@ -23,7 +22,6 @@ class DetailBookingJasaModel {
     required this.totalBayar,
     required this.paymentStatus,
     required this.bookingStatus,
-    required this.alasanPenolakan,
     required this.tanggal,
   });
 }

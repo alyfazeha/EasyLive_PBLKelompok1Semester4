@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../../controllers/pemilikJasa/notifikasi_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 import '../../../widgets/pemilikJasa/notifikasi/notifikasi_card.dart';
-import '../../../widgets/pemilikJasa/notifikasi/notifikasi_filter_tabs.dart';
 
 class OwnerJasaNotificationView extends StatefulWidget {
   const OwnerJasaNotificationView({super.key});
@@ -14,9 +12,15 @@ class OwnerJasaNotificationView extends StatefulWidget {
       _OwnerJasaNotificationViewState();
 }
 
-class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
-  final OwnerJasaNotificationController controller =
-      OwnerJasaNotificationController();
+class _OwnerJasaNotificationViewState
+    extends State<OwnerJasaNotificationView> {
+  late OwnerJasaNotificationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = OwnerJasaNotificationController();
+  }
 
   @override
   void dispose() {
@@ -25,7 +29,6 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
   }
 
   void _navigateTo(int index) {
-    // Navbar pemilik jasa: kiri=dashboard, tengah=home, kanan=booking
     if (index == 0) {
       Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
     } else if (index == 2) {
@@ -36,7 +39,6 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
   }
 
   void _goBack() {
-    // Pastikan tidak ada background biru di belakang konten
     Navigator.pushReplacementNamed(context, '/pemilik_jasa');
   }
 
@@ -92,6 +94,12 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
                 child: AnimatedBuilder(
                   animation: controller,
                   builder: (context, _) {
+                    if (controller.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
                     final notifications = controller.notifications;
 
                     return Column(
@@ -123,7 +131,7 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
                               : ListView.builder(
                                   padding: const EdgeInsets.fromLTRB(
                                     18,
-                                    55,
+                                    16,
                                     18,
                                     110,
                                   ),
@@ -156,7 +164,10 @@ class _OwnerJasaNotificationViewState extends State<OwnerJasaNotificationView> {
       ),
       bottomNavigationBar: Container(
         color: Colors.white,
-        child: PemilikJasaBottomNav(currentIndex: 2, onNavigate: _navigateTo),
+        child: PemilikJasaBottomNav(
+          currentIndex: 2,
+          onNavigate: _navigateTo,
+        ),
       ),
     );
   }

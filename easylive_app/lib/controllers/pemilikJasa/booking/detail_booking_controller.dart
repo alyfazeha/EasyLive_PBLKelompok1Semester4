@@ -18,7 +18,6 @@ class DetailBookingJasaController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // 1️⃣ Ambil booking jasa
       final bookingRes = await supabase
           .from('booking_jasa')
           .select(
@@ -27,21 +26,18 @@ class DetailBookingJasaController extends ChangeNotifier {
           .eq('id_booking_jasa', int.parse(idBooking))
           .single();
 
-      // 2️⃣ Ambil data jasa
       final jasaRes = await supabase
           .from('jasa')
           .select('nama_jasa, price_km')
           .eq('id_jasa', bookingRes['id_jasa'] as int)
           .single();
 
-      // 3️⃣ Ambil data penyewa
       final profileRes = await supabase
           .from('profiles')
           .select('username, phone, email')
           .eq('id_profile', bookingRes['id_profile'] as String)
           .single();
 
-      // 4️⃣ Cek status pembayaran
       final paymentRes = await supabase
           .from('payments')
           .select('status')
@@ -53,7 +49,6 @@ class DetailBookingJasaController extends ChangeNotifier {
               ? 'Lunas'
               : 'Belum Lunas';
 
-      // 5️⃣ Format status booking
       final statusRaw = bookingRes['status_pesanan'] as String? ?? '';
       String bookingStatus;
       switch (statusRaw) {
@@ -73,7 +68,6 @@ class DetailBookingJasaController extends ChangeNotifier {
           bookingStatus = statusRaw;
       }
 
-      // 6️⃣ Format tanggal
       final tanggal = bookingRes['tanggal'];
       final bulan = bookingRes['bulan'];
       String tanggalStr = '-';
@@ -90,13 +84,11 @@ class DetailBookingJasaController extends ChangeNotifier {
         phone: profileRes['phone'] ?? '-',
         email: profileRes['email'] ?? '-',
         jasaName: jasaRes['nama_jasa'] ?? '-',
-        titikPenjemputan:
-            bookingRes['titik_penjemputan'] as String? ?? '-',
+        titikPenjemputan: bookingRes['titik_penjemputan'] as String? ?? '-',
         titikTujuan: bookingRes['titik_tujuan'] as String? ?? '-',
         totalBayar: 'Rp ${_formatHarga(totalBayar)}',
         paymentStatus: paymentStatus,
         bookingStatus: bookingStatus,
-        alasanPenolakan: '',
         tanggal: tanggalStr,
       );
     } catch (e) {
@@ -125,7 +117,6 @@ class DetailBookingJasaController extends ChangeNotifier {
         totalBayar: booking!.totalBayar,
         paymentStatus: booking!.paymentStatus,
         bookingStatus: 'Aktif',
-        alasanPenolakan: '',
         tanggal: booking!.tanggal,
       );
       notifyListeners();
@@ -142,7 +133,7 @@ class DetailBookingJasaController extends ChangeNotifier {
     }
   }
 
-  Future<void> tolak(BuildContext context, String alasan) async {
+  Future<void> tolak(BuildContext context) async {
     try {
       await supabase
           .from('booking_jasa')
@@ -160,7 +151,6 @@ class DetailBookingJasaController extends ChangeNotifier {
         totalBayar: booking!.totalBayar,
         paymentStatus: booking!.paymentStatus,
         bookingStatus: 'Ditolak',
-        alasanPenolakan: alasan,
         tanggal: booking!.tanggal,
       );
       notifyListeners();
@@ -195,7 +185,6 @@ class DetailBookingJasaController extends ChangeNotifier {
         totalBayar: booking!.totalBayar,
         paymentStatus: booking!.paymentStatus,
         bookingStatus: 'Selesai',
-        alasanPenolakan: '',
         tanggal: booking!.tanggal,
       );
       notifyListeners();
