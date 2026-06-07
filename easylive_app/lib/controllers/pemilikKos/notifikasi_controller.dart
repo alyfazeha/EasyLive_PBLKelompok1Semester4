@@ -95,68 +95,104 @@ class OwnerNotificationController extends ChangeNotifier {
         }
       }
 
-      // 2️⃣ Booking kos yang menunggu konfirmasi
-      final kostIds = kostNames.keys.toList();
+      // 2️⃣ Ambil SEMUA kost (termasuk pending) untuk booking & payment
+      final allKostRes = await supabase
+          .from('kost')
+          .select('id_kost, nama_kost')
+          .eq('owner_id', user.id);
 
-      if (kostIds.isNotEmpty) {
+      final Map<int, String> allKostNames = {
+        for (var k in (allKostRes as List))
+          (k['id_kost'] as int): (k['nama_kost'] as String? ?? '-')
+      };
+
+      final allKostIds = allKostNames.keys.toList();
+
+      if (allKostIds.isNotEmpty) {
+        // 3️⃣ Booking menunggu yang sudah bayar
         final bookingRes = await supabase
             .from('booking_kos')
             .select('id_booking_kost, id_kost, id_profile, status_pesanan, tanggal_checkin')
-            .inFilter('id_kost', kostIds)
+            .inFilter('id_kost', allKostIds)
             .eq('status_pesanan', 'menunggu')
             .order('id_booking_kost', ascending: false);
 
-        final profileIds = (bookingRes as List)
+        final bookingResIds = (bookingRes as List)
+            .map((b) => b['id_booking_kost'] as int)
+            .toList();
+
+        // Cek mana yang sudah settlement
+        Set<int> paidBookingIds = {};
+        if (bookingResIds.isNotEmpty) {
+          final paidRes = await supabase
+              .from('payments')
+              .select('id_booking_kost')
+              .inFilter('id_booking_kost', bookingResIds)
+              .eq('status', 'settlement');
+
+          paidBookingIds = {
+            for (var p in (paidRes as List))
+              p['id_booking_kost'] as int
+          };
+        }
+
+        // Ambil nama penyewa
+        final profileIds = bookingRes
             .map((b) => b['id_profile'] as String?)
             .where((id) => id != null)
             .toSet()
             .toList();
 
+        Map<String, Map<String, dynamic>> profileDetails = {};
         if (profileIds.isNotEmpty) {
-          final profileResDetail = await supabase
+          final profileRes = await supabase
               .from('profiles')
               .select('id_profile, username, email, phone')
               .inFilter('id_profile', profileIds);
 
-          final Map<String, Map<String, dynamic>> profileDetails = {
-            for (var p in (profileResDetail as List))
+          profileDetails = {
+            for (var p in (profileRes as List))
               (p['id_profile'] as String): p
           };
-
-          for (var b in bookingRes) {
-            final idBooking = b['id_booking_kost'].toString();
-            final idKost = b['id_kost'] as int;
-            final idProfile = b['id_profile'] as String? ?? '';
-            final profile = profileDetails[idProfile];
-            final nama = profile?['username'] ?? '-';
-            final email = profile?['email'] ?? '-';
-            final phone = profile?['phone'] ?? '-';
-            final namaKost = kostNames[idKost] ?? '-';
-            final tanggalCheckin = b['tanggal_checkin'] as String? ?? '-';
-
-            result.add(OwnerNotification(
-              id: 'booking_$idBooking',
-              title: 'Booking Baru',
-              description: 'Ada booking baru dari $nama\ndi $namaKost',
-              time: '',
-              type: OwnerNotificationType.booking,
-              property: namaKost,
-              checkIn: tanggalCheckin,
-              checkOut: '-',
-              paymentMethod: '-',
-              rejectionReason: '-',
-              applicantName: nama,
-              applicantEmail: email,
-              applicantPhone: phone,
-            ));
-          }
         }
 
-        // 3️⃣ Payments settlement
+        for (var b in bookingRes) {
+          final idBooking = b['id_booking_kost'] as int;
+
+          // ← hanya tampilkan yang sudah bayar
+          if (!paidBookingIds.contains(idBooking)) continue;
+
+          final idKost = b['id_kost'] as int;
+          final idProfile = b['id_profile'] as String? ?? '';
+          final profile = profileDetails[idProfile];
+          final nama = profile?['username'] ?? '-';
+          final email = profile?['email'] ?? '-';
+          final phone = profile?['phone'] ?? '-';
+          final namaKost = allKostNames[idKost] ?? '-';
+          final tanggalCheckin = b['tanggal_checkin'] as String? ?? '-';
+
+          result.add(OwnerNotification(
+            id: 'booking_$idBooking',
+            title: 'Booking Baru',
+            description: 'Ada booking baru dari $nama\ndi $namaKost',
+            time: '',
+            type: OwnerNotificationType.booking,
+            property: namaKost,
+            checkIn: tanggalCheckin,
+            checkOut: '-',
+            paymentMethod: '-',
+            rejectionReason: '-',
+            applicantName: nama,
+            applicantEmail: email,
+            applicantPhone: phone,
+          ));
+        }
+
+        // 4️⃣ Payments settlement — semua booking
         final allBookingRes = await supabase
             .from('booking_kos')
-            .select('id_booking_kost, id_profile, tanggal_checkin, id_kost') // ← tambah id_kost
-            .inFilter('id_kost', kostIds);
+            .select('id_booking_kost, id_profile, tanggal_checkin, id_kost')
+            .inFilter('id_kost', allKostIds);
 
         final bookingIds = (allBookingRes as List)
             .map((b) => b['id_booking_kost'] as int)
@@ -196,15 +232,16 @@ class OwnerNotificationController extends ChangeNotifier {
           for (var p in (paymentRes as List)) {
             final idPayment = p['id_payments'].toString();
             final idBooking = p['id_booking_kost'] as int;
-            final grossAmount = (p['gross_amount'] as num?)?.toDouble() ?? 0;
+            final grossAmount =
+                (p['gross_amount'] as num?)?.toDouble() ?? 0;
             final paymentType = p['payment_type'] as String? ?? '-';
             final booking = bookingDetails[idBooking];
             final idProfile = booking?['id_profile'] as String? ?? '';
-            final tanggalCheckin = booking?['tanggal_checkin'] as String? ?? '-';
-            final idKost = booking?['id_kost'] as int?; // ← ambil id_kost
-            final namaKost = idKost != null
-                ? (kostNames[idKost] ?? '-')
-                : '-'; // ← ambil nama kost
+            final tanggalCheckin =
+                booking?['tanggal_checkin'] as String? ?? '-';
+            final idKost = booking?['id_kost'] as int?;
+            final namaKost =
+                idKost != null ? (allKostNames[idKost] ?? '-') : '-';
             final profile = allProfileDetails[idProfile];
             final nama = profile?['username'] ?? '-';
             final email = profile?['email'] ?? '-';
@@ -217,7 +254,7 @@ class OwnerNotificationController extends ChangeNotifier {
                   'Pembayaran dari $nama\nsebesar Rp ${_formatHarga(grossAmount)}',
               time: '',
               type: OwnerNotificationType.payment,
-              property: namaKost, // ← sekarang nama kost yang benar
+              property: namaKost,
               checkIn: tanggalCheckin,
               checkOut: '-',
               paymentMethod: paymentType,
