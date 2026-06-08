@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/admin/kos_controller.dart';
 import '../../../models/admin/kos_model.dart';
+
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/kos/approval_card.dart';
 import '../../../widgets/admin/kos/approval_tab_filter.dart';
@@ -26,10 +27,21 @@ class _ApprovalViewState extends State<ApprovalView> {
   int selectedTabIndex = 0;
   List<ApprovalModel> allRequests = [];
 
+  bool _loading = true;
+
   @override
   void initState() {
     super.initState();
-    allRequests = _controller.getApprovalRequests();
+    _loadApprovals();
+  }
+
+  Future<void> _loadApprovals() async {
+    final data = await _controller.getApprovalRequests();
+    if (!mounted) return;
+    setState(() {
+      allRequests = data;
+      _loading = false;
+    });
   }
 
   // Filter data berdasarkan tab yang dipilih
@@ -205,7 +217,9 @@ class _ApprovalViewState extends State<ApprovalView> {
 
           // ================= CONTENT =================
           Expanded(
-            child: filteredRequests.isEmpty
+            child: _loading
+                ? const Center(child: CircularProgressIndicator())
+                : filteredRequests.isEmpty
                 ? const Center(
                     child: Text(
                       'No approval requests found.',
@@ -217,6 +231,7 @@ class _ApprovalViewState extends State<ApprovalView> {
                     children: [
                       const Text(
                         'Kost Owner Request',
+
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
