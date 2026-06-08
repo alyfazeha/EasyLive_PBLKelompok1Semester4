@@ -1,19 +1,105 @@
 // detail_approvalKos.dart
 import 'package:flutter/material.dart';
+
+import '../../../controllers/admin/approvalKos_detail_controller.dart';
+import '../../../models/admin/approvalKos_model.dart';
 import '../../../models/admin/kos_model.dart';
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/kos/detail_info.dart';
 import '../../../widgets/admin/kos/photo_gallery.dart';
 import 'reject_reason_approvalKos_view.dart';
 
-class ApprovalDetailView extends StatelessWidget {
+class ApprovalDetailView extends StatefulWidget {
   final ApprovalModel approval;
 
   const ApprovalDetailView({super.key, required this.approval});
 
   @override
+  State<ApprovalDetailView> createState() => _ApprovalDetailViewState();
+}
+
+class _ApprovalDetailViewState extends State<ApprovalDetailView> {
+  final ApprovalDetailController controller = ApprovalDetailController();
+
+  ApprovalDetailModel? detail;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDetail();
+  }
+
+  Future<void> _fetchDetail() async {
+    setState(() => isLoading = true);
+    final res = await controller.getApprovalDetail(widget.approval.id);
+    if (!mounted) return;
+    setState(() {
+      detail = res;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _handleApprove() async {
+    try {
+      await controller.approveKost(widget.approval.id);
+      if (!mounted) return;
+      await _fetchDetail();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Kost berhasil di-approve'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal approve: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleReject() async {
+    final reason = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => RejectReasonApprovalKosView(
+          kostId: widget.approval.id,
+          propertyName: widget.approval.propertyName,
+        ),
+      ),
+    );
+
+    if (reason == null || reason.trim().isEmpty) return;
+
+    try {
+      await controller.rejectKost(widget.approval.id, reason);
+      if (!mounted) return;
+      await _fetchDetail();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Kost berhasil direject'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal reject: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final rejectionReason = approval.rejectionReason?.trim() ?? '';
+    final rejectionReason = detail?.rejectionReason?.trim() ?? '';
+    final status = (detail?.status ?? widget.approval.status).toLowerCase();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
@@ -78,230 +164,226 @@ class ApprovalDetailView extends StatelessWidget {
           Expanded(
             child: Transform.translate(
               offset: const Offset(0, -50),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // PROFILE
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundImage: NetworkImage(approval.imageUrl),
-                            onBackgroundImageError: (_, __) {},
-                            child: approval.imageUrl.isEmpty
-                                ? const Icon(Icons.person)
-                                : null,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : (detail == null)
+                  ? const Center(child: Text('Data tidak ditemukan'))
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.08),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // PROFILE
+                            Row(
                               children: [
-                                Text(
-                                  approval.name,
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
+                                CircleAvatar(
+                                  radius: 24,
+                                  backgroundImage: NetworkImage(
+                                    detail!.profileImage,
+                                  ),
+                                  onBackgroundImageError: (_, __) {},
+                                  child: detail!.profileImage.isEmpty
+                                      ? const Icon(Icons.person)
+                                      : null,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        detail!.ownerName,
+                                        style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const Text(
+                                        'Kost Owner',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const Text(
-                                  'Kost Owner',
-                                  style: TextStyle(color: Colors.grey),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF3CD),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    detail!.status,
+                                    style: const TextStyle(
+                                      color: Color(0xFFE0A800),
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFFF3CD),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              approval.status,
-                              style: const TextStyle(
-                                color: Color(0xFFE0A800),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
+
+                            const SizedBox(height: 30),
+
+                            // BUSINESS DETAILS
+                            const Text(
+                              'Business Details',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
 
-                      const SizedBox(height: 30),
+                            const SizedBox(height: 16),
 
-                      // BUSINESS DETAILS
-                      const Text(
-                        'Business Details',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      DetailInfoRow(
-                        label: 'Business Name',
-                        value: approval.propertyName,
-                      ),
-                      const DetailInfoRow(
-                        label: 'Phone Number',
-                        value: '081234567890',
-                      ),
-                      const DetailInfoRow(
-                        label: 'Email',
-                        value: 'owner@example.com',
-                      ),
-                      const DetailInfoRow(
-                        label: 'Address',
-                        value: 'Jl. Soekarno Hatta No. 10, Malang',
-                      ),
-                      const DetailInfoRow(
-                        label: 'Description',
-                        value: 'Kost nyaman, bersih, dan dekat kampus.',
-                      ),
-
-                      if (approval.status.toLowerCase() == 'rejected' &&
-                          rejectionReason.isNotEmpty) ...[
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Rejection Reason',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFF2F2),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: const Color(0xFFFFD0D0),
+                            DetailInfoRow(
+                              label: 'Business Name',
+                              value: detail!.businessName,
                             ),
-                          ),
-                          child: Text(
-                            rejectionReason,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black87,
-                              height: 1.4,
+                            DetailInfoRow(
+                              label: 'Phone Number',
+                              value: detail!.phoneNumber,
                             ),
-                          ),
-                        ),
-                      ],
+                            DetailInfoRow(label: 'Email', value: detail!.email),
+                            DetailInfoRow(
+                              label: 'Address',
+                              value: detail!.address,
+                            ),
+                            DetailInfoRow(
+                              label: 'Description',
+                              value: detail!.description,
+                            ),
 
-                      const SizedBox(height: 30),
-
-                      // PHOTOS
-                      const Text(
-                        'Photos',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Tampilkan 3 foto lokal untuk menghindari http request failed.
-                      // Sesuaikan dengan nama aset yang tersedia.
-                      PhotoGallery(
-                        photos: [
-                          'assets/images/kamarKos.jpg',
-                          'assets/images/kos1.jpg',
-                          'assets/images/kos2.jpg',
-                        ],
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      // BUTTONS
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () async {
-                                // Buka halaman input alasan reject
-                                final reason = await Navigator.push<String>(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => RejectReasonApprovalKosView(
-                                      kostId: approval.id,
-                                      propertyName: approval.propertyName,
+                            if (status == 'ditolak' ||
+                                status == 'rejected') ...[
+                              if (rejectionReason.isNotEmpty) ...[
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'Rejection Reason',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(14),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF2F2),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: const Color(0xFFFFD0D0),
                                     ),
                                   ),
-                                );
-
-                                if (reason == null || reason.trim().isEmpty) {
-                                  return;
-                                }
-
-                                if (!context.mounted) return;
-                                Navigator.pop(context, {
-                                  'status': 'rejected',
-                                  'reason': reason,
-                                });
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Colors.red),
-                                foregroundColor: Colors.red,
-                                minimumSize: const Size(0, 48),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  child: Text(
+                                    rejectionReason,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black87,
+                                      height: 1.4,
+                                    ),
+                                  ),
                                 ),
+                              ],
+                            ],
+
+                            const SizedBox(height: 30),
+
+                            // PHOTOS
+                            const Text(
+                              'Photos',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              child: const Text('Reject'),
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context, {
-                                  'status': 'approved',
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFF4C430),
-                                foregroundColor: Colors.black87,
-                                elevation: 0,
-                                minimumSize: const Size(0, 48),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+
+                            const SizedBox(height: 12),
+
+                            (detail!.photos.isNotEmpty)
+                                ? PhotoGallery(photos: detail!.photos)
+                                : Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(14),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF8F8F8),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Tidak ada gambar untuk kost ini.',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ),
+
+                            const SizedBox(height: 30),
+
+                            // BUTTONS
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: OutlinedButton(
+                                    onPressed: status == 'pending'
+                                        ? _handleReject
+                                        : null,
+                                    style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(color: Colors.red),
+                                      foregroundColor: Colors.red,
+                                      minimumSize: const Size(0, 48),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Text('Reject'),
+                                  ),
                                 ),
-                              ),
-                              child: const Text('Approve'),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: status == 'pending'
+                                        ? _handleApprove
+                                        : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFF4C430),
+                                      foregroundColor: Colors.black87,
+                                      elevation: 0,
+                                      minimumSize: const Size(0, 48),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Text('Approve'),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ),
           ),
         ],
