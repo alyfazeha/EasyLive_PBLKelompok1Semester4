@@ -126,6 +126,42 @@ class DetailBookingController extends ChangeNotifier {
     }
   }
 
+  Future<void> selesai(BuildContext context) async {
+  try {
+    await supabase
+        .from('booking_kos')
+        .update({'status_pesanan': 'selesai'})
+        .eq('id_booking_kost', int.parse(idBooking));
+
+    booking = DetailBookingModel(
+      idBooking: booking!.idBooking,
+      tenantName: booking!.tenantName,
+      phone: booking!.phone,
+      email: booking!.email,
+      kosName: booking!.kosName,
+      checkInDate: booking!.checkInDate,
+      monthlyPrice: booking!.monthlyPrice,
+      paymentStatus: booking!.paymentStatus,
+      bookingStatus: 'Selesai',
+      alasanPenolakan: booking!.alasanPenolakan,
+    );
+    notifyListeners();
+
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Booking berhasil diselesaikan'),
+        backgroundColor: Color(0xFF4D82FF),
+      ),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Gagal: $e')),
+    );
+  }
+}
+
   // Tolak booking dengan alasan
   Future<void> tolak(BuildContext context, String alasan) async {
     try {

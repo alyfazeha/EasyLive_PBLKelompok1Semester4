@@ -1,24 +1,27 @@
-class DetailBookingModel {
+class DetailBookingJasaModel {
+  final String idBooking;
   final String tenantName;
   final String phone;
   final String email;
   final String jasaName;
-  final String kendaraanName;
-  final String checkInDate;
-  final String monthlyPrice;
+  final String titikPenjemputan;
+  final String titikTujuan;
+  final String totalBayar;
   final String paymentStatus;
   final String bookingStatus;
+  final String tanggal;
 
-  const DetailBookingModel({
+  const DetailBookingJasaModel({
+    required this.idBooking,
     required this.tenantName,
     required this.phone,
     required this.email,
     required this.jasaName,
-    required this.kendaraanName,
-    required this.checkInDate,
-    required this.monthlyPrice,
+    required this.titikPenjemputan,
+    required this.titikTujuan,
+    required this.totalBayar,
     required this.paymentStatus,
     required this.bookingStatus,
+    required this.tanggal,
   });
 }
-

@@ -1,49 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/pemilikJasa/detail_jasa_model.dart';
 
 class DetailJasaController {
-  DetailJasa getJasaDetail(String vehicleName) {
-    final isTruck = vehicleName.toLowerCase().contains('truck');
+  final supabase = Supabase.instance.client;
 
-    if (isTruck) {
-      return DetailJasa(
-        name: 'Truck',
-        address: 'Jalan Cengger Ayam Dalam III, No 24 Lowokwaru Malang',
-        totalVehicle: 5,
-        availableVehicle: 5,
-        price: 'Rp 10.000 / km',
-        description:
-            'Truck pindahan dengan kapasitas besar untuk mengangkut barang rumah, kos, atau kebutuhan logistik yang lebih banyak dalam satu perjalanan.',
-        images: [
-          'assets/images/mobilBox-BackgroundRemover.jpg',
-          'assets/images/mobilBox-BackgroundRemover.jpg',
-        ],
-        specifications: [
-          'simal 700 kg',
-          'Bak tertutup',
-          'Cocok untuk barang besar',
-          'Area layanan Malang',
-        ],
-      );
-    }
+  // Masih dipakai oleh EditKendaraanView lama — akan diganti nanti
+  DetailJasa getJasaDetail(String vehicleName) {
+    return DetailJasa(
+      idJasa: '',
+      name: vehicleName,
+      address: '-',
+      kecamatan: '-',
+      kota: '-',
+      nomorHp: '-',
+      nomorPlat: '-',
+      kapasitas: '-',
+      tipeMobil: '-',
+      totalVehicle: 0,
+      price: '-',
+      description: '-',
+      images: [],
+      status: 'pending',
+    );
+  }
+
+  Future<DetailJasa> getJasaDetailById(String idJasa) async {
+    final res = await supabase
+        .from('jasa')
+        .select()
+        .eq('id_jasa', int.parse(idJasa))
+        .single();
+
+    final gambar = (res['gambar'] as List?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+
+    final hargaKm = (res['price_km'] as num?)?.toDouble() ?? 0;
 
     return DetailJasa(
-      name: 'Pickup',
-      address: 'Jalan Cengger Ayam Dalam III, No 24 Lowokwaru Malang',
-      totalVehicle: 10,
-      availableVehicle: 1,
-      price: 'Rp 8.000 / km',
-      description:
-          'Pickup praktis untuk pindahan ringan, pengiriman barang kos, perabot kecil, dan kebutuhan angkut cepat di area Malang.',
-      images: [
-        'assets/images/pickup-removed.png',
-        'assets/images/pickup-removed.png',
-      ],
-      specifications: [
-        'simal 200 kg',
-        'Bak terbuka',
-        'Cocok untuk pindahan ringan',
-        'Area layanan Malang',
-      ],
+      idJasa: res['id_jasa'].toString(),
+      name: res['nama_jasa'] ?? '-',
+      address: res['alamat'] ?? '-',
+      kecamatan: res['kecamatan'] ?? '-',
+      kota: res['kota'] ?? '-',
+      nomorHp: res['nomor_hp'] ?? '-',
+      nomorPlat: res['nomor_plat'] ?? '-',
+      kapasitas: res['kapasitas'] ?? '-',
+      tipeMobil: res['tipe_mobil'] ?? '-',
+      totalVehicle: 0,
+      price: 'Rp ${_formatHarga(hargaKm)} / km',
+      description: res['deskripsi'] ?? '-',
+      images: gambar,
+      status: res['status'] ?? 'pending',
     );
+  }
+
+  String _formatHarga(double harga) {
+    return harga
+        .toInt()
+        .toString()
+        .replaceAllMapped(
+          RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]}.',
+        );
   }
 }

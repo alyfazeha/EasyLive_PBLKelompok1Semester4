@@ -1,32 +1,53 @@
 import 'package:flutter/material.dart';
-
 import '../../../controllers/pemilikJasa/detail_jasa_controller.dart';
+import '../../../models/pemilikJasa/detail_jasa_model.dart';
 import '../../../core/color.dart';
 import '../../../widgets/pemilikJasa/home/detailJasa.dart';
 import '../../../widgets/pemilikJasa/home/bottom_navbar.dart';
 import './editKendaraan_view.dart';
 
-class DetailJasaView extends StatelessWidget {
-  final String vehicleName;
-  final DetailJasaController controller = DetailJasaController();
+class DetailJasaView extends StatefulWidget {
+  final String idJasa;
 
-  DetailJasaView({super.key, this.vehicleName = 'Pickup'});
+  const DetailJasaView({super.key, required this.idJasa});
+
+  @override
+  State<DetailJasaView> createState() => _DetailJasaViewState();
+}
+
+class _DetailJasaViewState extends State<DetailJasaView> {
+  final controller = DetailJasaController();
+  DetailJasa? jasa;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final data = await controller.getJasaDetailById(widget.idJasa);
+      setState(() {
+        jasa = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final jasa = controller.getJasaDetail(vehicleName);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
-        top: false,
         child: Column(
-
           children: [
-            
             Container(
-              height: 100,
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+              height: 66,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               color: AppColors.primary,
               child: Row(
                 children: [
@@ -54,34 +75,47 @@ class DetailJasaView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // tombol edit seperti sebelumnya
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditKendaraanView(jasa: jasa),
+                  if (jasa != null)
+                    InkWell(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditKendaraanView(
+                              idJasa: jasa!.idJasa, // ← kirim idJasa
+                            ),
+                          ),
+                        );
+                        if (result == true) {
+                          _loadData(); // refresh setelah edit
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.yellow.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      );
-                    },
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.yellow.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.edit_outlined,
-                        color: Colors.white,
-                        size: 20,
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
-            Expanded(child: DetailJasaWidget(jasa: jasa)),
+            isLoading
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                : jasa == null
+                    ? const Expanded(
+                        child: Center(child: Text('Gagal memuat data')),
+                      )
+                    : Expanded(child: DetailJasaWidget(jasa: jasa!)),
           ],
         ),
       ),
@@ -89,23 +123,18 @@ class DetailJasaView extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PemilikJasaBottomNav(
-                currentIndex: 2,
-                onNavigate: (index) {
-                  if (index == 0) {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      '/pemilik_jasa/dashboard',
-                    );
-                  } else if (index == 2) {
-                    Navigator.pushReplacementNamed(context, '/pemilik_jasa');
-                  }
-                },
-              ),
-            ],
+          child: PemilikJasaBottomNav(
+            currentIndex: 2,
+            onNavigate: (index) {
+              if (index == 0) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/pemilik_jasa/dashboard',
+                );
+              } else if (index == 2) {
+                Navigator.pushReplacementNamed(context, '/pemilik_jasa');
+              }
+            },
           ),
         ),
       ),

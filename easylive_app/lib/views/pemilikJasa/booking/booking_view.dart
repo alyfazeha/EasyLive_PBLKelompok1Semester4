@@ -14,7 +14,6 @@ class PemilikJasaBookingView extends StatefulWidget {
 
 class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   final TextEditingController _searchController = TextEditingController();
-
   late OwnerJasaBookingController _bookingController;
 
   @override
@@ -26,6 +25,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   @override
   void dispose() {
     _searchController.dispose();
+    _bookingController.dispose();
     super.dispose();
   }
 
@@ -39,12 +39,9 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
     required VoidCallback onTap,
   }) {
     final Color textColor = active ? AppColors.darkBlue : Colors.white;
-
     final Color bgColor = active ? Colors.white : AppColors.darkBlue;
-
-    final Color borderColor = active
-        ? AppColors.darkBlue
-        : Colors.grey.shade300;
+    final Color borderColor =
+        active ? AppColors.darkBlue : Colors.grey.shade300;
 
     return InkWell(
       onTap: onTap,
@@ -70,7 +67,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   }
 
   Widget _buildBookingCard(Booking booking) {
-    String statusText = 'ACTIVE';
+    String statusText = 'Pending';
     Color statusBgColor = AppColors.yellow;
 
     switch (booking.status) {
@@ -78,17 +75,18 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         statusText = 'Pending';
         statusBgColor = AppColors.yellow;
         break;
-
       case 'aktif':
         statusText = 'Aktif';
         statusBgColor = const Color(0xFF31B75D);
         break;
-
       case 'selesai':
         statusText = 'Selesai';
         statusBgColor = Colors.grey.shade400;
         break;
-
+      case 'ditolak':
+        statusText = 'Ditolak';
+        statusBgColor = Colors.red;
+        break;
       default:
         statusText = booking.status;
         statusBgColor = AppColors.yellow;
@@ -107,15 +105,26 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage:
-                booking.profileImage != null && booking.profileImage!.isNotEmpty
-                ? NetworkImage(booking.profileImage!)
-                : null,
             backgroundColor: AppColors.lightGrey,
-            onBackgroundImageError: (exception, stackTrace) {},
-            child: booking.profileImage == null || booking.profileImage!.isEmpty
-                ? const Icon(Icons.person, size: 18, color: AppColors.darkBlue)
-                : null,
+            child: booking.profileImage != null && booking.profileImage!.isNotEmpty
+                ? ClipOval(
+                    child: Image.network(
+                      booking.profileImage!,
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.person,
+                        size: 18,
+                        color: AppColors.darkBlue,
+                      ),
+                    ),
+                  )
+                : const Icon(
+                    Icons.person,
+                    size: 18,
+                    color: AppColors.darkBlue,
+                  ),
           ),
 
           const SizedBox(width: 12),
@@ -135,9 +144,18 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-
+                const SizedBox(height: 2),
+                Text(
+                  booking.kendaraan,
+                  style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 11,
+                    color: Colors.black45,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const SizedBox(height: 4),
-
                 Text(
                   '${booking.tanggal} • ${booking.jam}',
                   style: const TextStyle(
@@ -164,7 +182,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                 fontFamily: 'Montserrat',
                 fontSize: 10,
                 fontWeight: FontWeight.w900,
-                color: statusText.toLowerCase().contains('pending')
+                color: booking.status == 'pending'
                     ? AppColors.darkBlue
                     : Colors.white,
               ),
@@ -179,7 +197,6 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         top: false,
         child: Column(
@@ -231,9 +248,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 20),
-
                   const Expanded(
                     child: Text(
                       'Booking',
@@ -255,7 +270,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    // SEARCH
+                    // SEARCH & FILTER
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -302,7 +317,7 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
 
                           const SizedBox(height: 10),
 
-                          // FILTER CHIP
+                          // FILTER CHIPS
                           AnimatedBuilder(
                             animation: _bookingController,
                             builder: (context, _) {
@@ -316,45 +331,35 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                                       active:
                                           _bookingController.selectedFilter ==
                                           'semua',
-                                      onTap: () {
-                                        _bookingController.setFilter('semua');
-                                      },
+                                      onTap: () =>
+                                          _bookingController.setFilter('semua'),
                                     ),
-
                                     const SizedBox(width: 35),
-
                                     _filterChip(
                                       label: 'Pending',
                                       active:
                                           _bookingController.selectedFilter ==
                                           'pending',
-                                      onTap: () {
-                                        _bookingController.setFilter('pending');
-                                      },
+                                      onTap: () => _bookingController
+                                          .setFilter('pending'),
                                     ),
-
                                     const SizedBox(width: 35),
-
                                     _filterChip(
                                       label: 'Aktif',
                                       active:
                                           _bookingController.selectedFilter ==
                                           'aktif',
-                                      onTap: () {
-                                        _bookingController.setFilter('aktif');
-                                      },
+                                      onTap: () =>
+                                          _bookingController.setFilter('aktif'),
                                     ),
-
                                     const SizedBox(width: 35),
-
                                     _filterChip(
                                       label: 'Selesai',
                                       active:
                                           _bookingController.selectedFilter ==
                                           'selesai',
-                                      onTap: () {
-                                        _bookingController.setFilter('selesai');
-                                      },
+                                      onTap: () => _bookingController
+                                          .setFilter('selesai'),
                                     ),
                                   ],
                                 ),
@@ -377,6 +382,12 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                         child: AnimatedBuilder(
                           animation: _bookingController,
                           builder: (context, _) {
+                            if (_bookingController.isLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
                             final list = _bookingController.filteredList;
 
                             if (list.isEmpty) {
@@ -402,13 +413,12 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
                               itemCount: list.length,
                               itemBuilder: (context, index) {
                                 final booking = list[index];
-
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
                                       '/pemilik_jasa/detail_booking',
-                                      arguments: booking.nama,
+                                      arguments: booking.idBooking, // ← kirim idBooking bukan nama
                                     );
                                   },
                                   child: _buildBookingCard(booking),
@@ -431,9 +441,20 @@ class _PemilikJasaBookingViewState extends State<PemilikJasaBookingView> {
         currentIndex: 3,
         onNavigate: (index) {
           if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/dashboard');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/dashboard',
+            );
           } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/pemilik_jasa/booking');
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa/booking',
+            );
+          }else if (index == 2) {
+            Navigator.pushReplacementNamed(
+              context,
+              '/pemilik_jasa',
+            );
           }
         },
       ),

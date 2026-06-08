@@ -1,61 +1,216 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/pemilikJasa/detail_booking_model.dart';
 
 class DetailBookingJasaController extends ChangeNotifier {
-  final String tenantName;
+  final String idBooking;
+  DetailBookingJasaModel? booking;
+  bool isLoading = false;
 
-  DetailBookingJasaController({required this.tenantName});
+  final supabase = Supabase.instance.client;
 
-  DetailBookingModel get booking {
-    return _bookings[tenantName] ?? _bookings.values.first;
+  DetailBookingJasaController({required this.idBooking}) {
+    loadData();
   }
 
-  static final Map<String, DetailBookingModel> _bookings = {
-    'Budi Santoso': DetailBookingModel(
-      tenantName: 'Budi Santoso',
-      phone: '0838 7198 3300',
-      email: 'hamdirafi310@gmail.com',
-      jasaName: 'Jasa Pickup - BOX',
-      kendaraanName: 'Pickup - BOX',
-      checkInDate: '01 Mei 2026',
-      monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
-      bookingStatus: 'Aktif',
-    ),
-    'Andi Wijaya': DetailBookingModel(
-      tenantName: 'Andi Wijaya',
-      phone: '0812 4455 1199',
-      email: 'andiwijaya@gmail.com',
-      jasaName: 'Jasa Pickup - BOX',
-      kendaraanName: 'Pickup - BOX',
-      checkInDate: '03 Mei 2026',
-      monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
-      bookingStatus: 'Aktif',
-    ),
-    'Siti Aminah': DetailBookingModel(
-      tenantName: 'Siti Aminah',
-      phone: '0821 7788 2211',
-      email: 'sitiaminah@gmail.com',
-      jasaName: 'Jasa Pickup - BOX',
-      kendaraanName: 'Pickup - BOX',
-      checkInDate: '05 Mei 2026',
-      monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
-      bookingStatus: 'Aktif',
-    ),
-    'Rudi Hartono': DetailBookingModel(
-      tenantName: 'Rudi Hartono',
-      phone: '0857 6400 1122',
-      email: 'rudihartono@gmail.com',
-      jasaName: 'Jasa Pickup - BOX',
-      kendaraanName: 'Pickup - BOX',
-      checkInDate: '08 Mei 2026',
-      monthlyPrice: 'Rp 1.500.000',
-      paymentStatus: 'Lunas',
-      bookingStatus: 'Selesai',
-    ),
-  };
-}
+  Future<void> loadData() async {
+    isLoading = true;
+    notifyListeners();
 
+    try {
+      final bookingRes = await supabase
+          .from('booking_jasa')
+          .select(
+            'id_booking_jasa, id_jasa, id_profile, total_bayar, tanggal, bulan, titik_penjemputan, titik_tujuan, status_pesanan',
+          )
+          .eq('id_booking_jasa', int.parse(idBooking))
+          .single();
+
+      final jasaRes = await supabase
+          .from('jasa')
+          .select('nama_jasa, price_km')
+          .eq('id_jasa', bookingRes['id_jasa'] as int)
+          .single();
+
+      final profileRes = await supabase
+          .from('profiles')
+          .select('username, phone, email')
+          .eq('id_profile', bookingRes['id_profile'] as String)
+          .single();
+
+      final paymentRes = await supabase
+          .from('payments')
+          .select('status')
+          .eq('id_booking_jasa', int.parse(idBooking))
+          .maybeSingle();
+
+      final paymentStatus =
+          paymentRes != null && paymentRes['status'] == 'settlement'
+              ? 'Lunas'
+              : 'Belum Lunas';
+
+      final statusRaw = bookingRes['status_pesanan'] as String? ?? '';
+      String bookingStatus;
+      switch (statusRaw) {
+        case 'menunggu':
+          bookingStatus = 'Pending';
+          break;
+        case 'dikonfirmasi':
+          bookingStatus = 'Aktif';
+          break;
+        case 'ditolak':
+          bookingStatus = 'Ditolak';
+          break;
+        case 'selesai':
+          bookingStatus = 'Selesai';
+          break;
+        default:
+          bookingStatus = statusRaw;
+      }
+
+      final tanggal = bookingRes['tanggal'];
+      final bulan = bookingRes['bulan'];
+      String tanggalStr = '-';
+      if (tanggal != null && bulan != null) {
+        tanggalStr = '$tanggal/${bulan.toString().padLeft(2, '0')}';
+      }
+
+      final totalBayar =
+          (bookingRes['total_bayar'] as num?)?.toDouble() ?? 0;
+
+      booking = DetailBookingJasaModel(
+        idBooking: idBooking,
+        tenantName: profileRes['username'] ?? '-',
+        phone: profileRes['phone'] ?? '-',
+        email: profileRes['email'] ?? '-',
+        jasaName: jasaRes['nama_jasa'] ?? '-',
+        titikPenjemputan: bookingRes['titik_penjemputan'] as String? ?? '-',
+        titikTujuan: bookingRes['titik_tujuan'] as String? ?? '-',
+        totalBayar: 'Rp ${_formatHarga(totalBayar)}',
+        paymentStatus: paymentStatus,
+        bookingStatus: bookingStatus,
+        tanggal: tanggalStr,
+      );
+    } catch (e) {
+      debugPrint('Error loading detail booking jasa: $e');
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> konfirmasi(BuildContext context) async {
+    try {
+      await supabase
+          .from('booking_jasa')
+          .update({'status_pesanan': 'dikonfirmasi'})
+          .eq('id_booking_jasa', int.parse(idBooking));
+
+      booking = DetailBookingJasaModel(
+        idBooking: booking!.idBooking,
+        tenantName: booking!.tenantName,
+        phone: booking!.phone,
+        email: booking!.email,
+        jasaName: booking!.jasaName,
+        titikPenjemputan: booking!.titikPenjemputan,
+        titikTujuan: booking!.titikTujuan,
+        totalBayar: booking!.totalBayar,
+        paymentStatus: booking!.paymentStatus,
+        bookingStatus: 'Aktif',
+        tanggal: booking!.tanggal,
+      );
+      notifyListeners();
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Booking berhasil dikonfirmasi')),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal konfirmasi: $e')),
+      );
+    }
+  }
+
+  Future<void> tolak(BuildContext context) async {
+    try {
+      await supabase
+          .from('booking_jasa')
+          .update({'status_pesanan': 'ditolak'})
+          .eq('id_booking_jasa', int.parse(idBooking));
+
+      booking = DetailBookingJasaModel(
+        idBooking: booking!.idBooking,
+        tenantName: booking!.tenantName,
+        phone: booking!.phone,
+        email: booking!.email,
+        jasaName: booking!.jasaName,
+        titikPenjemputan: booking!.titikPenjemputan,
+        titikTujuan: booking!.titikTujuan,
+        totalBayar: booking!.totalBayar,
+        paymentStatus: booking!.paymentStatus,
+        bookingStatus: 'Ditolak',
+        tanggal: booking!.tanggal,
+      );
+      notifyListeners();
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Booking berhasil ditolak')),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal menolak: $e')),
+      );
+    }
+  }
+
+  Future<void> selesai(BuildContext context) async {
+    try {
+      await supabase
+          .from('booking_jasa')
+          .update({'status_pesanan': 'selesai'})
+          .eq('id_booking_jasa', int.parse(idBooking));
+
+      booking = DetailBookingJasaModel(
+        idBooking: booking!.idBooking,
+        tenantName: booking!.tenantName,
+        phone: booking!.phone,
+        email: booking!.email,
+        jasaName: booking!.jasaName,
+        titikPenjemputan: booking!.titikPenjemputan,
+        titikTujuan: booking!.titikTujuan,
+        totalBayar: booking!.totalBayar,
+        paymentStatus: booking!.paymentStatus,
+        bookingStatus: 'Selesai',
+        tanggal: booking!.tanggal,
+      );
+      notifyListeners();
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Booking berhasil diselesaikan'),
+          backgroundColor: Color(0xFF4D82FF),
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal: $e')),
+      );
+    }
+  }
+
+  String _formatHarga(double harga) {
+    return harga
+        .toInt()
+        .toString()
+        .replaceAllMapped(
+          RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]}.',
+        );
+  }
+}
