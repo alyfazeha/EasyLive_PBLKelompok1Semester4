@@ -22,6 +22,7 @@ class ApprovalDetailController {
             kota,
             deskripsi,
             status,
+            alasan_tolak,
             gambar,
             owner:profiles!owner_id (
               full_name,
@@ -49,7 +50,7 @@ class ApprovalDetailController {
       return ApprovalDetailModel(
         ownerName: owner?['full_name']?.toString() ?? 'Unknown Owner',
         ownerRole: 'Kost Owner',
-        status: response['status']?.toString() ?? 'Pending',
+        status: response['status']?.toString() ?? 'pending',
         profileImage: defaultAvatar,
         businessName: response['nama_kost']?.toString() ?? '-',
         phoneNumber: response['nomor_hp']?.toString() ?? '-',
@@ -60,6 +61,9 @@ class ApprovalDetailController {
             '${response['kota'] ?? ''}',
         description: response['deskripsi']?.toString() ?? '-',
         photos: photos,
+        rejectionReason: response['alasan_tolak'] == null
+            ? null
+            : response['alasan_tolak'].toString(),
       );
     } catch (e) {
       print('Error getApprovalDetail: $e');
@@ -71,15 +75,20 @@ class ApprovalDetailController {
   Future<void> approveKost(String kostId) async {
     await supabase
         .from('kost')
-        .update({'status': 'approved'})
+        .update({'status': 'aktif', 'alasan_tolak': null})
         .eq('id_kost', kostId);
   }
 
   /// Reject kost
-  Future<void> rejectKost(String kostId) async {
+  Future<void> rejectKost(String kostId, String rejectionReason) async {
+    final reason = rejectionReason.trim();
+    if (reason.isEmpty) {
+      throw Exception('Alasan menolak wajib diisi.');
+    }
+
     await supabase
         .from('kost')
-        .update({'status': 'rejected'})
+        .update({'status': 'ditolak', 'alasan_tolak': reason})
         .eq('id_kost', kostId);
   }
 }

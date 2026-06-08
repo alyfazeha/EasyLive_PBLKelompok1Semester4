@@ -24,6 +24,13 @@ class _ApprovalViewState extends State<ApprovalView> {
 
   final List<String> tabs = ['All', 'Pending', 'Approved', 'Rejected'];
 
+  String _tabToDbStatus(int tabIndex) {
+    if (tabIndex == 2) return 'aktif';
+    if (tabIndex == 3) return 'ditolak';
+    if (tabIndex == 1) return 'pending';
+    return '';
+  }
+
   int selectedTabIndex = 0;
   List<ApprovalModel> allRequests = [];
 
@@ -50,10 +57,9 @@ class _ApprovalViewState extends State<ApprovalView> {
       return allRequests;
     }
 
-    final selectedStatus = tabs[selectedTabIndex];
-
+    final selectedDbStatus = _tabToDbStatus(selectedTabIndex);
     return allRequests.where((request) {
-      return request.status.toLowerCase() == selectedStatus.toLowerCase();
+      return request.status.toLowerCase() == selectedDbStatus.toLowerCase();
     }).toList();
   }
 
@@ -67,7 +73,7 @@ class _ApprovalViewState extends State<ApprovalView> {
             name: r.name,
             propertyName: r.propertyName,
             submittedDate: r.submittedDate,
-            status: 'Approved',
+            status: 'aktif',
             imageUrl: r.imageUrl,
             rejectionReason: null,
           );
@@ -91,7 +97,7 @@ class _ApprovalViewState extends State<ApprovalView> {
             name: r.name,
             propertyName: r.propertyName,
             submittedDate: r.submittedDate,
-            status: 'Rejected',
+            status: 'ditolak',
             imageUrl: r.imageUrl,
             rejectionReason: reason,
           );
