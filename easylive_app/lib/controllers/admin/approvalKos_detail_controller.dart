@@ -26,7 +26,8 @@ class ApprovalDetailController {
             gambar,
             owner:profiles!owner_id (
               full_name,
-              email
+              email,
+              photo
             )
           ''')
           .eq('id_kost', kostId)
@@ -47,11 +48,17 @@ class ApprovalDetailController {
       const String defaultAvatar =
           'https://ui-avatars.com/api/?name=Owner&background=243B55&color=ffffff';
 
+      final profilePhotoUrl =
+          owner?['photo']?.toString().trim();
+      final resolvedProfileImage =
+          (profilePhotoUrl ?? '').isNotEmpty ? profilePhotoUrl! : defaultAvatar;
+
       return ApprovalDetailModel(
         ownerName: owner?['full_name']?.toString() ?? 'Unknown Owner',
         ownerRole: 'Kost Owner',
         status: response['status']?.toString() ?? 'pending',
-        profileImage: defaultAvatar,
+        profileImage: resolvedProfileImage,
+
         businessName: response['nama_kost']?.toString() ?? '-',
         phoneNumber: response['nomor_hp']?.toString() ?? '-',
         email: owner?['email']?.toString() ?? '-',

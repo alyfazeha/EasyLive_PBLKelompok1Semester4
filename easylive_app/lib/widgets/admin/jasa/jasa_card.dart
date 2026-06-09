@@ -148,6 +148,18 @@ class _JasaCardImage extends StatelessWidget {
       return _placeholder();
     }
 
+    final isNetwork = path.startsWith('http://') || path.startsWith('https://');
+
+    if (isNetwork) {
+      return Image.network(
+        path,
+        width: 48,
+        height: 48,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _placeholder(),
+      );
+    }
+
     return Image.asset(
       path,
       width: 48,
@@ -163,7 +175,7 @@ class _JasaCardImage extends StatelessWidget {
       height: 48,
       color: const Color(0xFFEAF0F7),
       child: const Icon(
-        Icons.miscellaneous_services,
+        Icons.person,
         color: Color(0xFF243447),
         size: 22,
       ),
@@ -180,3 +192,4 @@ class _JasaStatusStyle {
     required this.foreground,
   });
 }
+

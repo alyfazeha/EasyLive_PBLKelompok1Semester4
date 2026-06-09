@@ -116,38 +116,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 14),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF6BE00),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      dashboard.weeklyRevenue,
-                                      style: const TextStyle(
-                                        color: Color(0xFF243447),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    const Text(
-                                      'Minggu ini',
-                                      style: TextStyle(
-                                        color: Color(0xFF243447),
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -268,41 +236,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                 ),
                               );
                             },
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        AdminDashboardSectionHeader(
-                          title: 'Recent Activity',
-                          actionLabel: 'History',
-                          onActionTap: () =>
-                              Navigator.pushNamed(context, '/admin/history'),
-                        ),
-                        const SizedBox(height: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: const Color(0xFFE8EEF5)),
-                          ),
-                          child: Column(
-                            children: List.generate(recentActivities.length, (
-                              index,
-                            ) {
-                              final activity = recentActivities[index];
-                              return AdminActivityTile(
-                                title: activity.title,
-                                subtitle: activity.subtitle,
-                                time: activity.time,
-                                onTap: () => Navigator.pushNamed(
-                                  context,
-                                  activity.routeName,
-                                ),
-                              );
-                            }),
                           ),
                         ),
                       ],

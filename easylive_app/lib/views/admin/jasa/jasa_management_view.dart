@@ -1,5 +1,9 @@
+// views/admin/jasa/admin_jasa_management_view.dart
+
 import 'package:flutter/material.dart';
 
+import '../../../controllers/admin/approval_jasa_controller.dart';
+import '../../../models/admin/approval_jasa_model.dart';
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 import '../../../widgets/admin/jasa/jasa_card.dart';
 import '../../../widgets/admin/kos/approval_tab_filter.dart';
@@ -16,86 +20,114 @@ class AdminJasaManagementView extends StatefulWidget {
 
 class _AdminJasaManagementViewState
     extends State<AdminJasaManagementView> {
-  final List<String> tabs = ['All', 'Pending', 'Approved', 'Rejected'];
+  final ApprovalJasaController _controller =
+      ApprovalJasaController();
+
+  // Tab label → status value di Supabase
+  // 'All' = null (tidak filter), lainnya sesuai status kolom
+  final List<String> tabs = [
+    'All',
+    'Pending',
+    'Approved',
+    'Rejected',
+  ];
+
+  // Map tab label ke nilai status Supabase
+  final Map<String, String?> _tabToStatus = {
+    'All': null,
+    'Pending': 'pending',
+    'Approved': 'aktif',
+    'Rejected': 'ditolak',
+  };
 
   int selectedTabIndex = 0;
 
-  List<_JasaItem> _items = const [
-    _JasaItem(
-      title: 'Jasa Pindah',
-      subtitle: 'EasyMove Reguler',
-      submittedDate: '12 Mei 2026',
-      status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_motor.png',
-    ),
-    _JasaItem(
-      title: 'EasyMove',
-      subtitle: 'Bersih Laundry',
-      submittedDate: '10 Mei 2026',
-      status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_laundry.png',
-    ),
-    _JasaItem(
-      title: 'Pindahan Gampang',
-      subtitle: 'Bersih Bersih Cleaning',
-      submittedDate: '08 Mei 2026',
-      status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_cleaning.png',
-    ),
-    _JasaItem(
-      title: 'Transport',
-      subtitle: 'Prima Transport',
-      submittedDate: '05 Mei 2026',
-      status: 'pending',
-      imageAsset: 'assets/images/jasa_icon_transport.png',
-    ),
-  ];
+  List<ApprovalJasaModel> _items = [];
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  List<_JasaItem> get filteredRequests {
-    if (selectedTabIndex == 0) {
-      return _items;
-    }
-
-    final selectedStatus = tabs[selectedTabIndex];
-
-    return _items.where((item) {
-      return item.status.toLowerCase() ==
-          selectedStatus.toLowerCase();
-    }).toList();
+  @override
+  void initState() {
+    super.initState();
+    _fetchJasa();
   }
 
-  void _updateStatus(_JasaItem item, String status) {
+  /// Fetch dari Supabase sesuai tab aktif
+  Future<void> _fetchJasa() async {
     setState(() {
-      _items = _items.map((current) {
-        if (current.title == item.title &&
-            current.subtitle == item.subtitle) {
-          return current.copyWith(
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    final selectedTab = tabs[selectedTabIndex];
+    final statusFilter = _tabToStatus[selectedTab];
+
+    final result = await _controller.getJasaList(
+      statusFilter: statusFilter,
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _items = result;
+      _isLoading = false;
+    });
+  }
+
+  void _onTabChanged(int index) {
+    setState(() => selectedTabIndex = index);
+    _fetchJasa();
+  }
+
+  // ─── STATUS UPDATE LOKAL (optimistic) ──────────────────────────────────────
+
+  void _updateLocalStatus(String idJasa, String status,
+      {String? rejectionReason}) {
+    setState(() {
+      _items = _items.map((item) {
+        if (item.idJasa == idJasa) {
+          // Rebuild dengan field baru menggunakan fromMap tidak ideal karena
+          // kita tidak punya raw map — buat copyWith manual via factory helper.
+          return _copyWithStatus(
+            item,
             status: status,
-            rejectionReason:
-                status.toLowerCase() == 'rejected'
-                    ? current.rejectionReason
-                    : '',
+            rejectionReason: rejectionReason,
           );
         }
-        return current;
+        return item;
       }).toList();
     });
   }
 
-  void _rejectWithReason(_JasaItem item, String reason) {
-    setState(() {
-      _items = _items.map((current) {
-        if (current.title == item.title &&
-            current.subtitle == item.subtitle) {
-          return current.copyWith(
-            status: 'rejected',
-            rejectionReason: reason,
-          );
-        }
-        return current;
-      }).toList();
-    });
+  /// Helper copyWith karena model tidak auto-generate copyWith
+  ApprovalJasaModel _copyWithStatus(
+    ApprovalJasaModel item, {
+    required String status,
+    String? rejectionReason,
+  }) {
+    return ApprovalJasaModel(
+      idJasa: item.idJasa,
+      namaJasa: item.namaJasa,
+      tipeMobil: item.tipeMobil,
+      priceMobil: item.priceMobil,
+      priceKm: item.priceKm,
+      gambar: item.gambar,
+      status: status,
+      alamat: item.alamat,
+      kecamatan: item.kecamatan,
+      kota: item.kota,
+      nomorHp: item.nomorHp,
+      nomorPlat: item.nomorPlat,
+      kapasitas: item.kapasitas,
+      deskripsi: item.deskripsi,
+      rejectionReason: rejectionReason ?? item.rejectionReason,
+      ownerName: item.ownerName,
+      ownerEmail: item.ownerEmail,
+      ownerProfileImage: item.ownerProfileImage,
+    );
   }
+
+  // ─── BUILD ─────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -103,277 +135,36 @@ class _AdminJasaManagementViewState
       canPop: false,
       onPopInvoked: (didPop) {
         if (didPop) return;
-
         Navigator.pushReplacementNamed(context, '/admin');
       },
-
       child: Scaffold(
         backgroundColor: const Color(0xFFF3F3F3),
-
         body: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(
-                top: 50,
-                left: 20,
-                right: 20,
-                bottom: 20,
-              ),
-              decoration: const BoxDecoration(
-                color: Color(0xFF243B55),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(28),
-                  bottomRight: Radius.circular(28),
-                ),
-              ),
-
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      BackButtonWidget(
-                        backgroundColor:
-                            const Color(0xFFF6BE00),
-                        iconColor: const Color(0xFF243447),
-                        size: 42,
-                        iconSize: 18,
-                        borderRadius: 12,
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/admin',
-                            (route) => false,
-                          );
-                        },
-                      ),
-
-                      const Text(
-                        'Jasa Management',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/admin/notifikasi',
-                          );
-                        },
-                        borderRadius:
-                            BorderRadius.circular(18),
-
-                        child: Stack(
-                          children: [
-                            const Icon(
-                              Icons.notifications_none,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-
-                            Positioned(
-                              right: 0,
-                              top: 0,
-
-                              child: Container(
-                                width: 16,
-                                height: 16,
-                                decoration:
-                                    const BoxDecoration(
-                                  color: Colors.amber,
-                                  shape: BoxShape.circle,
-                                ),
-
-                                alignment: Alignment.center,
-
-                                child: const Text(
-                                  '9',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight:
-                                        FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  ApprovalTabFilter(
-                    tabs: tabs,
-                    selectedIndex: selectedTabIndex,
-                    onTap: (index) {
-                      setState(() {
-                        selectedTabIndex = index;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: filteredRequests.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No jasa requests found.',
-                        style:
-                            TextStyle(color: Colors.grey),
-                      ),
-                    )
-                  : ListView(
-                      padding: const EdgeInsets.all(20),
-
-                      children: [
-                        const Text(
-                          'Jasa Owner Request',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF2C3E50),
-                          ),
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        ...filteredRequests.map(
-                          (item) => Padding(
-                            padding:
-                                const EdgeInsets.only(
-                              bottom: 16,
-                            ),
-
-                            child: JasaCard(
-                              title: item.title,
-                              subtitle: item.subtitle,
-                              submittedDate:
-                                  item.submittedDate,
-                              status: item.status,
-                              imageAsset:
-                                  item.imageAsset,
-
-                              onTap: () async {
-                                final result =
-                                    await Navigator.push(
-                                  context,
-
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        AdminJasaDetailView(
-                                      title: item.title,
-                                      subtitle:
-                                          item.subtitle,
-                                      submittedDate:
-                                          item.submittedDate,
-                                      status: item.status,
-                                      imageAsset:
-                                          item.imageAsset,
-                                      rejectionReason:
-                                          item.rejectionReason,
-                                    ),
-                                  ),
-                                );
-
-                                if (result is Map &&
-                                    result['status'] ==
-                                        'approved') {
-                                  _updateStatus(
-                                    item,
-                                    'approved',
-                                  );
-
-                                  if (!context.mounted) {
-                                    return;
-                                  }
-
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '${item.subtitle} approved',
-                                      ),
-                                    ),
-                                  );
-                                } else if (result
-                                        is Map &&
-                                    result['status'] ==
-                                        'rejected') {
-                                  _rejectWithReason(
-                                    item,
-                                    result['reason']
-                                            ?.toString() ??
-                                        '',
-                                  );
-
-                                  if (!context.mounted) {
-                                    return;
-                                  }
-
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '${item.subtitle} rejected',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-            ),
+            _buildHeader(),
+            Expanded(child: _buildBody()),
           ],
         ),
-
         bottomNavigationBar: AdminBottomNavbar(
           selectedIndex: 3,
-
           onItemTapped: (index) {
             switch (index) {
               case 0:
-                Navigator.pushReplacementNamed(
-                  context,
-                  '/admin',
-                );
+                Navigator.pushReplacementNamed(context, '/admin');
                 return;
-
               case 1:
                 Navigator.pushReplacementNamed(
-                  context,
-                  '/admin/history',
-                );
+                    context, '/admin/history');
                 return;
-
               case 2:
                 Navigator.pushReplacementNamed(
-                  context,
-                  '/admin/kos',
-                );
+                    context, '/admin/kos');
                 return;
-
               case 3:
                 return;
-
               case 4:
                 Navigator.pushReplacementNamed(
-                  context,
-                  '/admin/profile',
-                );
+                    context, '/admin/profile');
                 return;
             }
           },
@@ -381,42 +172,208 @@ class _AdminJasaManagementViewState
       ),
     );
   }
-}
 
-class _JasaItem {
-  final String title;
-  final String subtitle;
-  final String submittedDate;
-  final String status;
-  final String imageAsset;
-  final String rejectionReason;
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 50,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      decoration: const BoxDecoration(
+        color: Color(0xFF243B55),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BackButtonWidget(
+                backgroundColor: const Color(0xFFF6BE00),
+                iconColor: const Color(0xFF243447),
+                size: 42,
+                iconSize: 18,
+                borderRadius: 12,
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/admin',
+                    (route) => false,
+                  );
+                },
+              ),
+              const Text(
+                'Jasa Management',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              InkWell(
+                onTap: () => Navigator.pushNamed(
+                    context, '/admin/notifikasi'),
+                borderRadius: BorderRadius.circular(18),
+                child: Stack(
+                  children: [
+                    const Icon(
+                      Icons.notifications_none,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: 16,
+                        height: 16,
+                        decoration: const BoxDecoration(
+                          color: Colors.amber,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          '9',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ApprovalTabFilter(
+            tabs: tabs,
+            selectedIndex: selectedTabIndex,
+            onTap: _onTabChanged,
+          ),
+        ],
+      ),
+    );
+  }
 
-  const _JasaItem({
-    required this.title,
-    required this.subtitle,
-    required this.submittedDate,
-    required this.status,
-    required this.imageAsset,
-    this.rejectionReason = '',
-  });
+  Widget _buildBody() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF243B55),
+        ),
+      );
+    }
 
-  _JasaItem copyWith({
-    String? title,
-    String? subtitle,
-    String? submittedDate,
-    String? status,
-    String? imageAsset,
-    String? rejectionReason,
-  }) {
-    return _JasaItem(
-      title: title ?? this.title,
-      subtitle: subtitle ?? this.subtitle,
-      submittedDate:
-          submittedDate ?? this.submittedDate,
-      status: status ?? this.status,
-      imageAsset: imageAsset ?? this.imageAsset,
-      rejectionReason:
-          rejectionReason ?? this.rejectionReason,
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _errorMessage!,
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _fetchJasa,
+              child: const Text('Coba Lagi'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_items.isEmpty) {
+      return const Center(
+        child: Text(
+          'Tidak ada data jasa.',
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: _fetchJasa,
+      color: const Color(0xFF243B55),
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          const Text(
+            'Jasa Owner Request',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2C3E50),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ..._items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: JasaCard(
+                title: item.ownerName,
+                subtitle: item.namaJasa,
+                submittedDate: item.fullAddress,
+                status: item.status,
+                // Tampilkan gambar pertama jika ada, fallback ke asset default
+                imageAsset: item.ownerProfileImage.trim().isNotEmpty
+                    ? item.ownerProfileImage
+                    : 'assets/images/jasa_icon_motor.png',
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => AdminJasaDetailView(
+                        idJasa: item.idJasa,
+                      ),
+                    ),
+                  );
+
+                  if (result is Map) {
+                    if (result['status'] == 'approved') {
+                      _updateLocalStatus(item.idJasa, 'aktif');
+
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('${item.namaJasa} disetujui'),
+                        ),
+                      );
+                    } else if (result['status'] == 'rejected') {
+                      _updateLocalStatus(
+                        item.idJasa,
+                        'ditolak',
+                        rejectionReason:
+                            result['reason']?.toString() ?? '',
+                      );
+
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('${item.namaJasa} ditolak'),
+                        ),
+                      );
+                    }
+                  }
+
+                  // Refresh untuk sinkronisasi penuh
+                  _fetchJasa();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,20 +1,17 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../models/admin/kos_model.dart';
 
 class ApprovalController {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  /// Ambil daftar approval kost dari Supabase (sesuai DDL yang kamu berikan).
-  ///
-  /// DDL kost: id_kost, owner_id, nama_kost, status, alasan_tolak, gambar (text[])
-  ///
-  /// Catatan: untuk daftar owner (full_name/username) kita join ke tabel `profiles`.
+  static const String defaultAvatar =
+      'https://ui-avatars.com/api/?name=Owner&background=243B55&color=ffffff';
+
   Future<List<ApprovalModel>> getApprovalRequests() async {
     final res = await _supabase
         .from('kost')
         .select(
-          'id_kost, nama_kost, status, alasan_tolak, gambar, owner_id, profiles!inner(full_name, username)',
+          'id_kost, nama_kost, status, alasan_tolak, gambar, owner_id, profiles!inner(full_name, username, photo)',
         )
         .order('id_kost', ascending: false)
         .limit(50);
@@ -29,13 +26,14 @@ class ApprovalController {
           ? null
           : item['alasan_tolak'].toString();
 
-      // owner name dari join
       final profile = item['profiles'] as Map<String, dynamic>?;
       final fullName = (profile?['full_name'] ?? '').toString();
       final username = (profile?['username'] ?? '').toString();
       final ownerName = fullName.isNotEmpty ? fullName : username;
 
-      // gambar = text[]; ambil item pertama sebagai cover
+      // ← fix: fallback ke defaultAvatar
+      final profilePhotoUrl = (profile?['photo'] ?? '').toString().trim();
+
       final gambar = item['gambar'];
       String imageUrl = '';
       if (gambar is List && gambar.isNotEmpty) {
@@ -54,6 +52,9 @@ class ApprovalController {
           submittedDate: '',
           status: status,
           imageUrl: imageUrl,
+          profilePhotoUrl: profilePhotoUrl.isNotEmpty // ← fix
+              ? profilePhotoUrl
+              : defaultAvatar,
           rejectionReason:
               (status.toLowerCase() == 'ditolak' ||
                   status.toLowerCase() == 'rejected')
@@ -66,8 +67,6 @@ class ApprovalController {
     return approvals;
   }
 
-  /// Backward compatibility untuk halaman yang masih memanggil sink.
-  /// Jangan dipakai untuk logic utama.
   List<ApprovalModel> getApprovalRequestsSyncFallback() {
     return const [];
   }
