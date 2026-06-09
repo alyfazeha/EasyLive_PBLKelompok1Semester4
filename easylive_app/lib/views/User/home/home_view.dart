@@ -19,6 +19,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   bool _showAll = false;
+  bool _loading = true;
+  List<KostModel> _kostList = [];
+
   final PageController _recommendedController = PageController(
     viewportFraction: 0.88,
   );
@@ -28,16 +31,38 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
+    _loadKostList();
+  }
+
+  Future<void> _loadKostList() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final kostList = await HomeController.fetchKostList(limit: 50);
+
+    if (!mounted) return;
+    setState(() {
+      _kostList = kostList;
+      _loading = false;
+      _currentRecommended = 0;
+      _showAll = false;
+    });
+
     _startRecommendedAutoPlay();
   }
 
   void _startRecommendedAutoPlay() {
-    _recommendedTimer = Timer.periodic(const Duration(seconds: 4), (_) {
-      final kostList = HomeController.getKostList();
-      final sliderCount = kostList.length > 3 ? 3 : kostList.length;
-      if (!_recommendedController.hasClients || sliderCount <= 1) return;
+    _recommendedTimer?.cancel();
 
-      final nextPage = (_currentRecommended + 1) % sliderCount;
+    final sliderCount = _kostList.length > 3 ? 3 : _kostList.length;
+    if (!_recommendedController.hasClients || sliderCount <= 1) return;
+
+    _recommendedTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      final sliderItemsCount = _kostList.length > 3 ? 3 : _kostList.length;
+      if (!_recommendedController.hasClients || sliderItemsCount <= 1) return;
+
+      final nextPage = (_currentRecommended + 1) % sliderItemsCount;
       _recommendedController.animateToPage(
         nextPage,
         duration: const Duration(milliseconds: 650),
@@ -56,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final String userName = HomeController.getUserName();
-    final List<KostModel> kostList = HomeController.getKostList();
+    final List<KostModel> kostList = _kostList;
 
     int displayCount = _showAll
         ? kostList.length
@@ -91,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
                   child: _buildHeader(userName),
                 ),
-                if (kostList.isNotEmpty)
+                if (!_loading && kostList.isNotEmpty)
                   Positioned(
                     left: 0,
                     right: 0,
@@ -123,13 +148,16 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  kostList.isEmpty
+                  _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : kostList.isEmpty
                       ? const Center(child: Text("No Data Available"))
                       : GridView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: displayCount,
+
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -216,8 +244,8 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                const SizedBox(height: 20),
-                Text(
+              const SizedBox(height: 20),
+              Text(
                 'Hi $name,',
                 style: const TextStyle(
                   fontFamily: 'Montserrat',
@@ -375,11 +403,20 @@ class _RecommendedCard extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Image.asset(
+          child: Image.network(
             kost.image,
             width: double.infinity,
-            height: double.infinity,
+            height: 130,
             fit: BoxFit.cover,
+
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                'assets/images/kos1.jpg',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+              );
+            },
           ),
         ),
       ),
@@ -490,16 +527,19 @@ class _KostGridCardState extends State<_KostGridCard> {
               padding: const EdgeInsets.all(10.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.asset(
+                child: Image.network(
                   widget.kost.image,
                   height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    height: 100,
-                    color: AppColors.lightGreyAlt,
-                    child: const Icon(Icons.broken_image),
-                  ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/images/kos1.jpg',
+                      height: 100,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),
