@@ -406,7 +406,8 @@ class _RecommendedCard extends StatelessWidget {
           child: Image.network(
             kost.image,
             width: double.infinity,
-            height: 130,
+            height: 182,
+
             fit: BoxFit.cover,
 
             errorBuilder: (context, error, stackTrace) {

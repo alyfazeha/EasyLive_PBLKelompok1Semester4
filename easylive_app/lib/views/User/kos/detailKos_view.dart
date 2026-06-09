@@ -188,7 +188,11 @@ class _DetailKosViewState extends State<DetailKosView> {
   }
 
   Widget _buildHeaderImage() {
-    final imagePath = widget.kost.detailImage ?? 'assets/images/kamarKos.jpg';
+    // Supabase simpan url di `gambar` (text[]). Kalau ada, pakai.
+    final imagePath =
+        widget.kost.detailImage ??
+        widget.kost.image ??
+        'assets/images/kamarKos.jpg';
     final heroTag = 'kos_image_${widget.kost.name}';
 
     return _KosHeader(
@@ -414,11 +418,19 @@ class _KosHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   child: Hero(
                     tag: heroTag,
-                    child: Image.asset(
+                    child: Image.network(
                       imagePath,
                       width: double.infinity,
                       height: double.infinity,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/kamarKos.jpg',
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),
