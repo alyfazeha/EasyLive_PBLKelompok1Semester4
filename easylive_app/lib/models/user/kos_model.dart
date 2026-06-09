@@ -4,7 +4,7 @@ class KostModel {
   final String image;
   final int? price;   
   final String? loc;  
-
+ 
   // Field tambahan untuk Detail
   final String? description;
   final List<String>? specifications;
