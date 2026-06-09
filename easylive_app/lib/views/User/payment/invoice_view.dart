@@ -34,8 +34,10 @@ class _InvoiceViewState extends State<InvoiceView> {
   Widget build(BuildContext context) {
     final double subtotal =
         double.tryParse(widget.kost.price.toString()) ?? 0.0;
-    final double pajak25 = subtotal * 0.25;
-    final double totalAll = subtotal + pajak25;
+
+    // biaya layanan fixed: 25.000 per transaksi (per kos)
+    const double biayaLayanan = 25000.0;
+    final double totalAll = subtotal + biayaLayanan;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -69,7 +71,8 @@ class _InvoiceViewState extends State<InvoiceView> {
                     child: Column(
                       children: [
                         _buildPriceRow("order subtotal", subtotal),
-                        _buildPriceRow("pajak 25%", pajak25),
+                        _buildPriceRow("biaya layanan", biayaLayanan),
+
                         const Divider(height: 30, color: AppColors.primary),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
