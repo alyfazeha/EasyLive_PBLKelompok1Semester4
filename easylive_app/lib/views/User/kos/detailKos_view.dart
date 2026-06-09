@@ -16,6 +16,47 @@ class DetailKosView extends StatefulWidget {
 class _DetailKosViewState extends State<DetailKosView> {
   bool _isFavorite = true;
 
+  String _normalizeKostType(String kostType) {
+    final normalized = kostType.trim().toLowerCase();
+
+    if (normalized == 'putra') return 'Putra';
+    if (normalized == 'putri') return 'Putri';
+    if (normalized == 'campur') return 'Campur';
+
+    return kostType.trim();
+  }
+
+  Widget _buildKostMetaRow({
+    required String? kostType,
+    required int? emptyRooms,
+  }) {
+    final safeKostType = kostType?.trim();
+    final safeEmpty = emptyRooms;
+
+    final metaItems = <Widget>[
+      Expanded(
+        child: _MetaColumn(
+          label: 'Tipe Kos',
+          value: (safeKostType == null || safeKostType.isEmpty)
+              ? 'Belum tersedia'
+              : _normalizeKostType(safeKostType),
+        ),
+      ),
+      const SizedBox(width: 14),
+      Expanded(
+        child: _MetaColumn(
+          label: 'Kamar Kosong',
+          value: safeEmpty == null ? 'Belum tersedia' : '$safeEmpty Kosong',
+        ),
+      ),
+    ];
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: metaItems,
+    );
+  }
+
   String _formatPrice(int price) {
     String priceStr = price.toString();
     String result = '';
@@ -51,8 +92,12 @@ class _DetailKosViewState extends State<DetailKosView> {
     final specifications = widget.kost.specifications ?? [];
     final facilities = widget.kost.facilities ?? [];
     final availableRooms = widget.kost.availableRooms ?? 0;
+    final emptyRooms = widget.kost.emptyRooms;
     final price = widget.kost.price ?? 0;
     final description = widget.kost.description ?? 'No description available';
+
+    final kecamatan = widget.kost.kecamatan;
+    final kota = widget.kost.kota;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
@@ -105,8 +150,16 @@ class _DetailKosViewState extends State<DetailKosView> {
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
-                                  widget.kost.address,
-                                  maxLines: 1,
+                                  [
+                                    if (widget.kost.address.isNotEmpty)
+                                      widget.kost.address,
+                                    if (kecamatan != null &&
+                                        kecamatan.isNotEmpty)
+                                      'Kec. $kecamatan',
+                                    if (kota != null && kota.isNotEmpty)
+                                      '$kota',
+                                  ].join(' • '),
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontFamily: 'Montserrat',
@@ -118,6 +171,7 @@ class _DetailKosViewState extends State<DetailKosView> {
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 14),
                           Row(
                             children: [
@@ -143,6 +197,14 @@ class _DetailKosViewState extends State<DetailKosView> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 14),
+
+                          // Pemanggilan fungsi yang sudah ringkas di sini:
+                          _buildKostMetaRow(
+                            kostType: widget.kost.kostType,
+                            emptyRooms: emptyRooms,
+                          ),
+
                           const SizedBox(height: 18),
                           const Divider(color: Color(0xFFE0E6EC), height: 1),
                           const SizedBox(height: 18),
@@ -186,6 +248,8 @@ class _DetailKosViewState extends State<DetailKosView> {
       ),
     );
   }
+
+  // ... sisanya ke bawah tetap sama (_buildHeaderImage, _buildSpecifications, dll)
 
   Widget _buildHeaderImage() {
     // Supabase simpan url di `gambar` (text[]). Kalau ada, pakai.
@@ -502,6 +566,43 @@ class _AvailabilityBadge extends StatelessWidget {
           fontWeight: FontWeight.w900,
         ),
       ),
+    );
+  }
+}
+
+class _MetaColumn extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _MetaColumn({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+            color: Color(0xFF657384),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 14,
+            color: AppColors.darkBlue,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ],
     );
   }
 }

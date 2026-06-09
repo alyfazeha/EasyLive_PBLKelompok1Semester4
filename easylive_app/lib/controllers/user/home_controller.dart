@@ -22,7 +22,8 @@ class HomeController {
     final res = await supabase
         .from('kost')
         .select(
-          'id_kost, nama_kost, harga, gambar, deskripsi, alamat, fasilitas, jumlah_kamar, status',
+          // TAMBAHKAN kolom kamar_kosong, tipe_kost, kecamatan, kota di akhir string select ini:
+          'id_kost, nama_kost, harga, gambar, deskripsi, alamat, fasilitas, jumlah_kamar, status, kamar_kosong, tipe_kost, kecamatan, kota',
         )
         .eq('status', 'aktif')
         .order('id_kost', ascending: false)
@@ -37,7 +38,6 @@ class HomeController {
         final first = gambar.first;
         final candidate = first?.toString().trim();
         if (candidate != null && candidate.isNotEmpty) {
-          // Supabase berisi URL. Kalau masih ada kemungkinan null/"", fallback.
           imageUrl = candidate;
         }
       } else if (gambar is String) {
@@ -70,16 +70,37 @@ class HomeController {
         }
       }
 
+      final loc = (item['loc'] ?? '').toString();
+      final kecamatan = (item['kecamatan'] ?? '').toString();
+      final kota = (item['kota'] ?? '').toString();
+
+      final emptyRoomsRaw = item['kamar_kosong'];
+      int? emptyRooms;
+      if (emptyRoomsRaw != null) {
+        if (emptyRoomsRaw is num) {
+          emptyRooms = emptyRoomsRaw.toInt();
+        } else {
+          emptyRooms = int.tryParse(emptyRoomsRaw.toString());
+        }
+      }
+
+      final kostType = (item['tipe_kost'] ?? '').toString();
+
       return KostModel(
         name: (item['nama_kost'] ?? '').toString(),
         address: (item['alamat'] ?? '').toString(),
         image: imageUrl,
         price: price,
+        loc: loc.isEmpty ? null : loc,
+        kecamatan: kecamatan.isEmpty ? null : kecamatan,
+        kota: kota.isEmpty ? null : kota,
+        availableRooms: availableRooms,
+        emptyRooms: emptyRooms,
+        kostType: kostType.isEmpty ? null : kostType,
         description: (item['deskripsi'] ?? '').toString().isEmpty
             ? null
             : (item['deskripsi'] ?? '').toString(),
         facilities: facilities,
-        availableRooms: availableRooms,
       );
     }).toList();
   }
