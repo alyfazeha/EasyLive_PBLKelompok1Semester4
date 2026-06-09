@@ -24,9 +24,13 @@ class PersonalInfoView extends StatefulWidget {
 class _PersonalInfoViewState extends State<PersonalInfoView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _ktpController = TextEditingController();
+
   final TextEditingController _detailBarangController = TextEditingController();
   final TextEditingController _catatanController = TextEditingController();
+
+  // Untuk kolom booking_kos.tanggal_checkin
+  DateTime? _selectedCheckinDate;
+
   bool _isAgreed = false;
   bool _isFormValid = false;
 
@@ -43,7 +47,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
         _isFormValid =
             _nameController.text.isNotEmpty &&
             _phoneController.text.isNotEmpty &&
-            _ktpController.text.isNotEmpty &&
+            _selectedCheckinDate != null &&
             _isAgreed;
       });
     }
@@ -78,13 +82,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                     isPhone: true,
                   ),
                   const SizedBox(height: 15),
-                  if (!widget.isJasa)
-                    _buildInputField(
-                      "Nomor KTP",
-                      Icons.credit_card_outlined,
-                      _ktpController,
-                      isPhone: true,
-                    ),
+
                   if (widget.isJasa) ...[
                     _buildInputField(
                       "Detail Barang",
@@ -98,6 +96,13 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       _catatanController,
                     ),
                   ],
+
+                  // Untuk kolom booking_kos.tanggal_checkin (hanya mode kost)
+                  if (!widget.isJasa) ...[
+                    const SizedBox(height: 15),
+                    _buildCheckinDatePicker(),
+                  ],
+
                   const SizedBox(height: 30),
                   if (widget.isJasa &&
                       widget.fromLocation != null &&
@@ -383,6 +388,52 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCheckinDatePicker() {
+    final theme = Theme.of(context);
+    final formatted = _selectedCheckinDate == null
+        ? 'Pilih tanggal'
+        : '${_selectedCheckinDate!.day}/${_selectedCheckinDate!.month}/${_selectedCheckinDate!.year}';
+
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.secondary,
+        borderRadius: BorderRadius.circular(35),
+        border: Border.all(color: AppColors.primary, width: 1.2),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Icon(Icons.calendar_today_outlined, color: AppColors.primary),
+        title: Text(
+          formatted,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        trailing: const Icon(Icons.arrow_drop_down, color: AppColors.primary),
+        onTap: () async {
+          final now = DateTime.now();
+          final initial = _selectedCheckinDate ?? now;
+
+          final picked = await showDatePicker(
+            context: context,
+            initialDate: initial,
+            firstDate: DateTime(now.year - 1),
+            lastDate: DateTime(now.year + 3),
+          );
+
+          if (picked == null) return;
+
+          setState(() {
+            _selectedCheckinDate = picked;
+          });
+          _checkValidation();
+        },
+      ),
     );
   }
 
