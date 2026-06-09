@@ -85,7 +85,16 @@ class ApprovalCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(approval.imageUrl),
+                  backgroundColor: const Color(0xFFEAF0F7),
+                  backgroundImage: (approval.profilePhotoUrl ?? '').isNotEmpty
+                      ? NetworkImage(approval.profilePhotoUrl!)
+                      : null,
+                  child: (approval.profilePhotoUrl ?? '').isEmpty
+                      ? const Icon(
+                          Icons.person,
+                          color: Color(0xFF243447),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 12),
 

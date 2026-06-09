@@ -6,6 +6,9 @@ class ApprovalModel {
   final String status;
   final String imageUrl;
 
+  // Avatar profile owner (ambil dari public.profiles.photo)
+  final String? profilePhotoUrl;
+
   /// Persist dari Supabase kolom `alasan_tolak` (khusus kasus Rejected)
   final String? rejectionReason;
 
@@ -16,6 +19,7 @@ class ApprovalModel {
     required this.submittedDate,
     required this.status,
     required this.imageUrl,
+    this.profilePhotoUrl,
     this.rejectionReason,
   });
 }
