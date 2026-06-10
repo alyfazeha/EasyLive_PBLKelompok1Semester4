@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 enum AdminNotificationType {
   kostApproval,
   jasaApproval,
-  payment,
-  report,
-  system,
 }
 
 class AdminNotification {
@@ -17,6 +14,7 @@ class AdminNotification {
   final bool isRead;
   final String? targetName;
   final String? actionLabel;
+  final String? ownerName; // ← tambah ini
 
   const AdminNotification({
     required this.id,
@@ -27,6 +25,7 @@ class AdminNotification {
     this.isRead = false,
     this.targetName,
     this.actionLabel,
+    this.ownerName, // ← tambah ini
   });
 
   AdminNotification copyWith({bool? isRead}) {
@@ -39,6 +38,7 @@ class AdminNotification {
       isRead: isRead ?? this.isRead,
       targetName: targetName,
       actionLabel: actionLabel,
+      ownerName: ownerName,
     );
   }
 
@@ -48,12 +48,6 @@ class AdminNotification {
         return Icons.home_work_outlined;
       case AdminNotificationType.jasaApproval:
         return Icons.miscellaneous_services_outlined;
-      case AdminNotificationType.payment:
-        return Icons.payments_outlined;
-      case AdminNotificationType.report:
-        return Icons.report_problem_outlined;
-      case AdminNotificationType.system:
-        return Icons.admin_panel_settings_outlined;
     }
   }
 
@@ -63,12 +57,6 @@ class AdminNotification {
         return const Color(0xFF2F80ED);
       case AdminNotificationType.jasaApproval:
         return const Color(0xFF7B61FF);
-      case AdminNotificationType.payment:
-        return const Color(0xFF0C7A3D);
-      case AdminNotificationType.report:
-        return const Color(0xFFE4251B);
-      case AdminNotificationType.system:
-        return const Color(0xFFFF7A21);
     }
   }
 }
