@@ -103,11 +103,19 @@ class _KostCardState extends State<KostCard> {
                       borderRadius: BorderRadius.circular(20),
                       child: Hero(
                         tag: 'kos_image_${widget.kost.name}_${widget.index}',
-                        child: Image.asset(
+                        child: Image.network(
                           widget.kost.image,
                           height: imageHeight,
                           width: double.infinity,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/kos1.jpg',
+                              height: imageHeight,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
                       ),
                     ),

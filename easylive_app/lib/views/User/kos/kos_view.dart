@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../controllers/user/home_controller.dart';
-import '../../../controllers/user/kos_controller.dart';
+
 import '../../../widgets/user/home/bottom_navbar.dart';
+
 import '../../../models/user/kos_model.dart';
 import '../../../widgets/user/kosPage/kos_card.dart';
 import '../kos/detailKos_view.dart';
@@ -24,10 +25,37 @@ class _KosViewState extends State<KosView> {
   String? _selectedLocation;
   RangeValues? _selectedPrice;
 
+  bool _isLoading = false;
+  String? _errorMessage;
+
   @override
   void initState() {
     super.initState();
-    _allKostList = KostController.getAllKost();
+    _loadKost();
+  }
+
+  Future<void> _loadKost() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final result = await HomeController.fetchKostList();
+      setState(() {
+        _allKostList = result;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -167,7 +195,7 @@ class _KosViewState extends State<KosView> {
                     hintText: "Search",
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
-                      onPressed: _openFilter, 
+                      onPressed: _openFilter,
                       icon: const Icon(Icons.filter_alt_rounded),
                     ),
                     border: OutlineInputBorder(
@@ -187,9 +215,9 @@ class _KosViewState extends State<KosView> {
           const Text(
             'See All Kost',
             style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 14,
-            color: AppColors.darkBlue,
+              fontFamily: 'Montserrat',
+              fontSize: 14,
+              color: AppColors.darkBlue,
             ),
           ),
 
@@ -198,37 +226,47 @@ class _KosViewState extends State<KosView> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _filteredKostList.isEmpty
-                  ? const Center(child: Text('No kos found'))
-                  : GridView.builder(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      itemCount: _filteredKostList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 14,
-                            childAspectRatio: 0.82,
-                          ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => DetailKosView(
-                                  kost: _filteredKostList[index],
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : (_errorMessage != null)
+                  ? Center(
+                      child: Text(
+                        _errorMessage!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    )
+                  : (_filteredKostList.isEmpty
+                        ? const Center(child: Text('No kos found'))
+                        : GridView.builder(
+                            padding: const EdgeInsets.only(bottom: 100),
+                            itemCount: _filteredKostList.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 14,
+                                  childAspectRatio: 0.82,
                                 ),
-                              ),
-                            );
-                          },
-                          child: KostCard(
-                            kost: _filteredKostList[index],
-                            index: index,
-                          ),
-                        );
-                      },
-                    ),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => DetailKosView(
+                                        kost: _filteredKostList[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: KostCard(
+                                  kost: _filteredKostList[index],
+                                  index: index,
+                                ),
+                              );
+                            },
+                          )),
             ),
           ),
         ],
