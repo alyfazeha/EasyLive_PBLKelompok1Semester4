@@ -4,6 +4,7 @@ import '../../../controllers/user/home_controller.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../widgets/user/home/item_card.dart';
+import '../../../widgets/user/kosPage/kos_card.dart';
 import '../../../views/User/kos/kos_view.dart';
 import '../../../views/User/jasa/jasa_view.dart';
 import '../../../views/User/notification/notification_view.dart';
@@ -175,7 +176,10 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               );
                             },
-                            child: ItemCard(kost: kostList[index]),
+                            child: KostCard(
+                              kost: kostList[index],
+                              index: index,
+                            ),
                           ),
                         ),
                   const SizedBox(height: 30),
