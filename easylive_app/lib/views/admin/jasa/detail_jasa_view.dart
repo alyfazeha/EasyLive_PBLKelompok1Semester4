@@ -285,19 +285,9 @@ class _AdminJasaDetailViewState extends State<AdminJasaDetailView> {
                                   ),
                                 if (_detail!.kapasitas != null)
                                   DetailInfoRow(
-                                    label: 'Kapasitas',
+                                    label: 'Kapasitas per kg',
                                     value: _detail!.kapasitas!,
                                   ),
-                                DetailInfoRow(
-                                  label: 'Harga / Km',
-                                  value:
-                                      'Rp ${_detail!.priceKm.toStringAsFixed(0)}',
-                                ),
-                                DetailInfoRow(
-                                  label: 'Harga Mobil',
-                                  value:
-                                      'Rp ${_detail!.priceMobil.toStringAsFixed(0)}',
-                                ),
                                 DetailInfoRow(
                                   label: 'Description',
                                   value: _detail!.deskripsi ?? '-',

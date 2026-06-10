@@ -50,7 +50,7 @@ class DetailJasaController {
       kapasitas: res['kapasitas'] ?? '-',
       tipeMobil: res['tipe_mobil'] ?? '-',
       totalVehicle: 0,
-      price: 'Rp ${_formatHarga(hargaKm)} / km',
+      price: 'Rp ${_formatHarga(hargaKm)}',
       description: res['deskripsi'] ?? '-',
       images: gambar,
       status: res['status'] ?? 'pending',

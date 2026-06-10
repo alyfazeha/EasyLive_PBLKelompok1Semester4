@@ -28,7 +28,7 @@ class PemilikJasaDashboardController extends ChangeNotifier {
         return;
       }
 
-      // 1️⃣ Ambil nama owner
+      // 1. Nama owner
       final profileRes = await supabase
           .from('profiles')
           .select('username')
@@ -36,7 +36,7 @@ class PemilikJasaDashboardController extends ChangeNotifier {
           .single();
       ownerName = profileRes['username'] ?? 'Pemilik Jasa';
 
-      // 2️⃣ Ambil semua jasa milik owner
+      // 2. Semua jasa milik owner
       final jasaRes = await supabase
           .from('jasa')
           .select('id_jasa, nama_jasa, status, tipe_mobil')
@@ -56,7 +56,7 @@ class PemilikJasaDashboardController extends ChangeNotifier {
       };
       final jasaIds = jasaNames.keys.toList();
 
-      // 3️⃣ Booking baru (menunggu)
+      // 3. Booking baru (menunggu)
       int newBookings = 0;
       if (jasaIds.isNotEmpty) {
         final bookingBaruRes = await supabase
@@ -67,14 +67,17 @@ class PemilikJasaDashboardController extends ChangeNotifier {
         newBookings = (bookingBaruRes as List).length;
       }
 
-      // 4️⃣ Total pendapatan + riwayat pembayaran
+      // 4. Revenue + riwayat pembayaran
       double totalRevenue = 0;
       List<JasaPaymentHistory> paymentList = [];
 
       if (jasaIds.isNotEmpty) {
+        // Ambil semua booking jasa milik owner beserta status_pesanan
         final allBookingRes = await supabase
             .from('booking_jasa')
-            .select('id_booking_jasa, id_jasa, id_profile, tanggal, bulan, titik_penjemputan')
+            .select(
+              'id_booking_jasa, id_jasa, id_profile, tanggal, bulan, titik_penjemputan, status_pesanan',
+            )
             .inFilter('id_jasa', jasaIds);
 
         final bookingIds = (allBookingRes as List)
@@ -108,17 +111,25 @@ class PemilikJasaDashboardController extends ChangeNotifier {
         if (bookingIds.isNotEmpty) {
           final paymentRes = await supabase
               .from('payments')
-              .select('id_payments, id_booking_jasa, gross_amount, payment_type, id_transaction')
+              .select(
+                'id_payments, id_booking_jasa, gross_amount, payment_type, id_transaction',
+              )
               .inFilter('id_booking_jasa', bookingIds)
               .eq('status', 'settlement');
 
           for (var p in (paymentRes as List)) {
             final idBooking = p['id_booking_jasa'] as int;
+            final booking = bookingDetails[idBooking];
+
+            // Skip booking yang ditolak — uang harusnya direfund
+            final statusPesanan =
+                booking?['status_pesanan'] as String? ?? '';
+            if (statusPesanan == 'ditolak') continue;
+
             final grossAmount =
                 (p['gross_amount'] as num?)?.toDouble() ?? 0;
             final paymentType = p['payment_type'] as String? ?? '-';
             final idTransaction = p['id_transaction'] as String? ?? '-';
-            final booking = bookingDetails[idBooking];
             final idProfile = booking?['id_profile'] as String? ?? '';
             final idJasa = booking?['id_jasa'] as int?;
             final tanggal = booking?['tanggal'];

@@ -193,7 +193,7 @@ class DetailJasaWidget extends StatelessWidget {
                       children: [
                         _buildChip(jasa.price, Icons.attach_money_rounded),
                         _buildChip(jasa.tipeMobil, Icons.directions_car_rounded),
-                        _buildChip(jasa.kapasitas, Icons.inventory_2_outlined),
+                        _buildChip('${jasa.kapasitas} kg', Icons.inventory_2_outlined),
                         _buildChip(jasa.nomorPlat, Icons.confirmation_number_outlined),
                       ],
                     ),
@@ -234,7 +234,7 @@ class DetailJasaWidget extends StatelessWidget {
                       runSpacing: 10,
                       children: [
                         _buildFacilityChip(jasa.tipeMobil, Icons.directions_car_rounded),
-                        _buildFacilityChip(jasa.kapasitas, Icons.inventory_2_outlined),
+                        _buildFacilityChip('${jasa.kapasitas} kg', Icons.inventory_2_outlined),
                         _buildFacilityChip(jasa.nomorPlat, Icons.confirmation_number_outlined),
                       ],
                     ),
