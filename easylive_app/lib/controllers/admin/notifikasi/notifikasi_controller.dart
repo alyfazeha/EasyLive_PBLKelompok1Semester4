@@ -1,41 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/admin/notifikasi/notifikasi_model.dart';
 
 class AdminNotificationController extends ChangeNotifier {
-  bool showUnreadOnly = false;
   bool isLoading = false;
 
   final List<AdminNotification> _notifications = [];
+  final supabase = Supabase.instance.client;
 
   AdminNotificationController() {
     loadData();
   }
 
-  List<AdminNotification> get notifications {
-    if (showUnreadOnly) {
-      return _notifications.where((item) => !item.isRead).toList();
-    }
-    return List.unmodifiable(_notifications);
-  }
-
+  List<AdminNotification> get notifications => List.unmodifiable(_notifications);
   int get totalCount => _notifications.length;
-  int get unreadCount => _notifications.where((item) => !item.isRead).length;
-
-  void showAll() {
-    showUnreadOnly = false;
-    notifyListeners();
-  }
-
-  void showUnread() {
-    showUnreadOnly = true;
-    notifyListeners();
-  }
 
   void markAsRead(String id) {
     final index = _notifications.indexWhere((item) => item.id == id);
     if (index == -1 || _notifications[index].isRead) return;
-
     _notifications[index] = _notifications[index].copyWith(isRead: true);
     notifyListeners();
   }
@@ -44,58 +26,63 @@ class AdminNotificationController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    await Future<void>.delayed(const Duration(milliseconds: 250));
+    try {
+      final List<AdminNotification> result = [];
 
-    _notifications
-      ..clear()
-      ..addAll(const [
-        AdminNotification(
-          id: 'kost_pending_1',
+      // ── KOST pending + owner name ──────────────────────────────────────
+      final kostRes = await supabase
+          .from('kost')
+          .select('id_kost, nama_kost, owner_id, profiles(username)')
+          .eq('status', 'pending')
+          .order('id_kost', ascending: false);
+
+      for (var k in (kostRes as List)) {
+        final idKost = k['id_kost'].toString();
+        final namaKost = k['nama_kost'] as String? ?? '-';
+        final ownerName = (k['profiles'] as Map?)?['username'] as String? ?? '-';
+
+        result.add(AdminNotification(
+          id: 'kost_pending_$idKost',
           title: 'Pengajuan Kost Baru',
-          description: 'Comfort Living Kost menunggu verifikasi admin.',
-          time: 'Baru saja',
+          description: '$namaKost menunggu verifikasi admin.',
+          time: '',
           type: AdminNotificationType.kostApproval,
-          targetName: 'Comfort Living Kost',
+          targetName: namaKost,
           actionLabel: 'Cek approval kost',
-        ),
-        AdminNotification(
-          id: 'jasa_pending_1',
+          ownerName: ownerName,
+        ));
+      }
+
+      // ── JASA pending + owner name ──────────────────────────────────────
+      final jasaRes = await supabase
+          .from('jasa')
+          .select('id_jasa, nama_jasa, owner_id, profiles(username)')
+          .eq('status', 'pending')
+          .order('id_jasa', ascending: false);
+
+      for (var j in (jasaRes as List)) {
+        final idJasa = j['id_jasa'].toString();
+        final namaJasa = j['nama_jasa'] as String? ?? '-';
+        final ownerName = (j['profiles'] as Map?)?['username'] as String? ?? '-';
+
+        result.add(AdminNotification(
+          id: 'jasa_pending_$idJasa',
           title: 'Pengajuan Jasa Baru',
-          description: 'EasyMove Reguler mengirim data layanan baru.',
-          time: '12 menit lalu',
+          description: '$namaJasa menunggu verifikasi admin.',
+          time: '',
           type: AdminNotificationType.jasaApproval,
-          targetName: 'EasyMove Reguler',
-          actionLabel: 'Cek jasa',
-        ),
-        AdminNotification(
-          id: 'payment_settlement_1',
-          title: 'Pembayaran Masuk',
-          description: 'Pembayaran booking kost berhasil diterima sistem.',
-          time: '1 jam lalu',
-          type: AdminNotificationType.payment,
-          targetName: 'Booking Kost',
-          actionLabel: 'Lihat history',
-        ),
-        AdminNotification(
-          id: 'report_user_1',
-          title: 'Laporan Pengguna',
-          description: 'Ada laporan baru terkait data kos yang perlu ditinjau.',
-          time: 'Kemarin',
-          type: AdminNotificationType.report,
-          isRead: true,
-          targetName: 'Laporan Data Kos',
-          actionLabel: 'Lihat laporan',
-        ),
-        AdminNotification(
-          id: 'system_review_1',
-          title: 'Ringkasan Sistem',
-          description: '8 notifikasi aktif dan 24 approval menunggu tindakan.',
-          time: '2 hari lalu',
-          type: AdminNotificationType.system,
-          isRead: true,
-          actionLabel: 'Lihat dashboard',
-        ),
-      ]);
+          targetName: namaJasa,
+          actionLabel: 'Cek approval jasa',
+          ownerName: ownerName,
+        ));
+      }
+
+      _notifications
+        ..clear()
+        ..addAll(result);
+    } catch (e) {
+      debugPrint('Error loading admin notifikasi: $e');
+    }
 
     isLoading = false;
     notifyListeners();

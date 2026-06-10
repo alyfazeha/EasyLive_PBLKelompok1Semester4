@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../../../controllers/admin/notifikasi/notifikasi_controller.dart';
 import '../../../widgets/admin/notifikasi/notifikasi_card.dart';
 import '../../../widgets/admin/notifikasi/notifikasi_empty_state.dart';
-import '../../../widgets/admin/notifikasi/notifikasi_filter_tabs.dart';
 import 'notifikasi_detail_view.dart';
-import 'notification_settings_view.dart';
-
-
 
 class AdminNotificationView extends StatefulWidget {
-
   const AdminNotificationView({super.key});
 
   @override
@@ -36,9 +30,7 @@ class _AdminNotificationViewState extends State<AdminNotificationView> {
 
   void _handleTap(int index) {
     final notification = controller.notifications[index];
-    final id = notification.id;
-    controller.markAsRead(id);
-
+    controller.markAsRead(notification.id);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -107,39 +99,19 @@ class _AdminNotificationViewState extends State<AdminNotificationView> {
 
                     final notifications = controller.notifications;
 
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(17, 17, 17, 0),
-                          child: AdminNotificationFilterTabs(
-                            showUnreadOnly: controller.showUnreadOnly,
-                            totalCount: controller.totalCount,
-                            unreadCount: controller.unreadCount,
-                            onShowAll: controller.showAll,
-                            onShowUnread: controller.showUnread,
-                          ),
-                        ),
-                        Expanded(
-                          child: notifications.isEmpty
-                              ? const AdminNotificationEmptyState()
-                              : ListView.builder(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    18,
-                                    28,
-                                    18,
-                                    28,
-                                  ),
-                                  itemCount: notifications.length,
-                                  itemBuilder: (context, index) {
-                                    final notification = notifications[index];
-                                    return AdminNotificationCard(
-                                      notification: notification,
-                                      onTap: () => _handleTap(index),
-                                    );
-                                  },
-                                ),
-                        ),
-                      ],
+                    if (notifications.isEmpty) {
+                      return const AdminNotificationEmptyState();
+                    }
+
+                    return ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(18, 28, 18, 28),
+                      itemCount: notifications.length,
+                      itemBuilder: (context, index) {
+                        return AdminNotificationCard(
+                          notification: notifications[index],
+                          onTap: () => _handleTap(index),
+                        );
+                      },
                     );
                   },
                 ),
