@@ -92,7 +92,7 @@ class _ItemCardState extends State<ItemCard> {
                   padding: const EdgeInsets.all(9),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.kost.image,
                       height: imageHeight,
                       width: double.infinity,

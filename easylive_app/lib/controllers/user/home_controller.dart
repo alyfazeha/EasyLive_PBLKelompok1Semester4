@@ -38,11 +38,48 @@ class HomeController {
         final first = gambar.first;
         final candidate = first?.toString().trim();
         if (candidate != null && candidate.isNotEmpty) {
-          imageUrl = candidate;
+          // Beberapa data dari Supabase bisa tersimpan sebagai URL yang sudah di-encode (bahkan double-encoded).
+          // Contoh yang muncul di log: "assets/https%253A//...".
+          // Decode berulang sampai menjadi URL yang valid.
+          String decoded = candidate;
+          for (var i = 0; i < 3; i++) {
+            try {
+              decoded = Uri.decodeComponent(decoded);
+            } catch (_) {
+              // ignore
+            }
+          }
+
+          // Jika masih ada prefix "assets/" yang ikut kebawa, buang.
+          if (decoded.startsWith('assets/')) {
+            decoded = decoded.substring('assets/'.length);
+          }
+
+          imageUrl = decoded;
         }
       } else if (gambar is String) {
         final candidate = gambar.trim();
-        if (candidate.isNotEmpty) imageUrl = candidate;
+        if (candidate.isNotEmpty) {
+          String decoded = candidate;
+          for (var i = 0; i < 3; i++) {
+            try {
+              decoded = Uri.decodeComponent(decoded);
+            } catch (_) {
+              // ignore
+            }
+          }
+
+          if (decoded.startsWith('assets/')) {
+            decoded = decoded.substring('assets/'.length);
+          }
+
+          // Pastikan hanya URL http/https yang dipakai
+          if (decoded.startsWith('http://') || decoded.startsWith('https://')) {
+            imageUrl = decoded;
+          } else {
+            imageUrl = _defaultImage;
+          }
+        }
       }
 
       final priceRaw = item['harga'];
