@@ -20,7 +20,9 @@ class DetailKostView extends StatefulWidget {
 class _DetailKostViewState extends State<DetailKostView> {
   final controller = KostController();
   Kost? kost;
+  List<Map<String, dynamic>> reviews = [];
   bool isLoading = true;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -29,15 +31,24 @@ class _DetailKostViewState extends State<DetailKostView> {
   }
 
   Future<void> _loadDetail() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
     try {
       final data = await controller.getKostDetail(widget.idKost);
-
+      final rev = await controller.getReviewsByKostId(widget.idKost);
       setState(() {
         kost = data;
+        reviews = rev;
         isLoading = false;
       });
     } catch (e) {
-      setState(() => isLoading = false);
+      print('ERROR _loadDetail: $e');
+      setState(() {
+        isLoading = false;
+        errorMessage = e.toString();
+      });
     }
   }
 
@@ -45,12 +56,10 @@ class _DetailKostViewState extends State<DetailKostView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
       extendBodyBehindAppBar: true,
-
       body: Column(
         children: [
-          // HEADER
+          // ── HEADER ────────────────────────────────────────────────────────
           Container(
             width: double.infinity,
             padding: EdgeInsets.only(
@@ -72,22 +81,21 @@ class _DetailKostViewState extends State<DetailKostView> {
                       BoxShadow(
                         color: AppColors.black.withOpacity(0.1),
                         blurRadius: 6,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
                   child: InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_rounded,
                       color: AppColors.darkBlue,
                       size: 22,
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
-
-                Text(
+                const SizedBox(width: 10),
+                const Text(
                   "Detail Kost",
                   style: TextStyle(
                     color: AppColors.background,
@@ -95,53 +103,71 @@ class _DetailKostViewState extends State<DetailKostView> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-
-                Spacer(),
-
-                Icon(
-                  Icons.more_vert,
-                  color: AppColors.background,
-                ),
+                const Spacer(),
+                const Icon(Icons.more_vert, color: AppColors.background),
               ],
             ),
           ),
 
-          // BODY
+          // ── BODY ──────────────────────────────────────────────────────────
           Expanded(
             child: isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : kost == null
-                    ? const Center(
-                        child: Text("Gagal memuat data"),
+                ? const Center(child: CircularProgressIndicator())
+                : errorMessage != null
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.error_outline,
+                                  size: 48, color: Colors.red),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Gagal memuat data',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                errorMessage!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton.icon(
+                                onPressed: _loadDetail,
+                                icon: const Icon(Icons.refresh),
+                                label: const Text('Coba Lagi'),
+                              ),
+                            ],
+                          ),
+                        ),
                       )
-                    : DetailKostWidget(kost: kost!),
+                    : kost == null
+                        ? const Center(child: Text('Data tidak ditemukan'))
+                        : DetailKostWidget(kost: kost!, reviews: reviews),
           ),
         ],
       ),
 
-      // FOOTER PUTIH
+      // ── FOOTER ────────────────────────────────────────────────────────────
       bottomNavigationBar: Container(
         color: Colors.white,
         child: OwnerBottomNav(
           currentIndex: 2,
           onNavigate: (index) {
             if (index == 0) {
-              Navigator.pushReplacementNamed(
-                context,
-                '/pemilik_kos/dashboard',
-              );
+              Navigator.pushReplacementNamed(context, '/pemilik_kos/dashboard');
             } else if (index == 2) {
-              Navigator.pushReplacementNamed(
-                context,
-                '/pemilik_kos',
-              );
+              Navigator.pushReplacementNamed(context, '/pemilik_kos');
             } else if (index == 3) {
-              Navigator.pushReplacementNamed(
-                context,
-                '/pemilik_kos/history',
-              );
+              Navigator.pushReplacementNamed(context, '/pemilik_kos/history');
             }
           },
         ),

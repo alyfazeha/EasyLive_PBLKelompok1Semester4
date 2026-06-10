@@ -18,6 +18,7 @@ class DetailJasaView extends StatefulWidget {
 class _DetailJasaViewState extends State<DetailJasaView> {
   final controller = DetailJasaController();
   DetailJasa? jasa;
+  List<Map<String, dynamic>> reviews = [];
   bool isLoading = true;
 
   @override
@@ -29,8 +30,10 @@ class _DetailJasaViewState extends State<DetailJasaView> {
   Future<void> _loadData() async {
     try {
       final data = await controller.getJasaDetailById(widget.idJasa);
+      final rev = await controller.getReviewsByJasaId(widget.idJasa);
       setState(() {
         jasa = data;
+        reviews = rev;
         isLoading = false;
       });
     } catch (e) {
@@ -82,12 +85,12 @@ class _DetailJasaViewState extends State<DetailJasaView> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => EditKendaraanView(
-                              idJasa: jasa!.idJasa, // ← kirim idJasa
+                              idJasa: jasa!.idJasa,
                             ),
                           ),
                         );
                         if (result == true) {
-                          _loadData(); // refresh setelah edit
+                          _loadData();
                         }
                       },
                       borderRadius: BorderRadius.circular(12),
@@ -115,7 +118,12 @@ class _DetailJasaViewState extends State<DetailJasaView> {
                     ? const Expanded(
                         child: Center(child: Text('Gagal memuat data')),
                       )
-                    : Expanded(child: DetailJasaWidget(jasa: jasa!)),
+                    : Expanded(
+                        child: DetailJasaWidget(
+                          jasa: jasa!,
+                          reviews: reviews,
+                        ),
+                      ),
           ],
         ),
       ),
