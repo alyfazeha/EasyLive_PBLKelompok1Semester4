@@ -87,6 +87,7 @@ class HomeController {
       final kostType = (item['tipe_kost'] ?? '').toString();
 
       return KostModel(
+        id: item['id_kost'] as int?,
         name: (item['nama_kost'] ?? '').toString(),
         address: (item['alamat'] ?? '').toString(),
         image: imageUrl,

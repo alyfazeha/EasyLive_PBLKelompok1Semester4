@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/payment/invoice_widgets.dart';
-import 'qrisPayment_view.dart';
+import '../../../services/duitku_service.dart';
+import 'duitku_webview.dart';
 
 class InvoiceView extends StatefulWidget {
   final KostModel kost;
+  final String namaPemesan;     // dari PersonalInfoView
+  final String nomorHP;          // dari PersonalInfoView
+  final DateTime tanggalCheckin; // dari PersonalInfoView
 
-  const InvoiceView({super.key, required this.kost});
+  const InvoiceView({
+    super.key,
+    required this.kost,
+    required this.namaPemesan,
+    required this.nomorHP,
+    required this.tanggalCheckin,
+  });
 
   @override
   State<InvoiceView> createState() => _InvoiceViewState();
@@ -15,27 +25,67 @@ class InvoiceView extends StatefulWidget {
 
 class _InvoiceViewState extends State<InvoiceView> {
   bool _isPaymentMethodSelected = false;
+  bool _isLoading = false;
 
   String _formatPrice(int price) {
     String priceStr = price.toString();
     String result = '';
     int count = 0;
     for (int i = priceStr.length - 1; i >= 0; i--) {
-      if (count > 0 && count % 3 == 0) {
-        result = '.$result';
-      }
+      if (count > 0 && count % 3 == 0) result = '.$result';
       result = priceStr[i] + result;
       count++;
     }
     return result;
   }
 
+  // ──────────────────────────────────────────────────
+  // Tombol "Payment" ditekan → buat booking + invoice
+  // ──────────────────────────────────────────────────
+  Future<void> _handlePayment(int total) async {
+    if (!_isPaymentMethodSelected) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      final result = await DuitkuService.createBookingAndInvoice(
+        idKost: widget.kost.id!, // pastikan KostModel punya field id
+        namaKost: widget.kost.name,
+        hargaKost: widget.kost.price ?? 0,
+        namaPemesan: widget.namaPemesan,
+        nomorHP: widget.nomorHP,
+        tanggalCheckin: widget.tanggalCheckin,
+      );
+
+      if (!mounted) return;
+
+      // Buka WebView halaman pembayaran Duitku
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DuitkuWebView(
+            paymentUrl: result['paymentUrl'],
+            reference: result['reference'],
+            idBookingKost: result['idBookingKost'],
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal memproses pembayaran: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double subtotal =
-        double.tryParse(widget.kost.price.toString()) ?? 0.0;
-
-    // biaya layanan fixed: 25.000 per transaksi (per kos)
+    final double subtotal = (widget.kost.price ?? 0).toDouble();
     const double biayaLayanan = 25000.0;
     final double totalAll = subtotal + biayaLayanan;
 
@@ -72,7 +122,6 @@ class _InvoiceViewState extends State<InvoiceView> {
                       children: [
                         _buildPriceRow("order subtotal", subtotal),
                         _buildPriceRow("biaya layanan", biayaLayanan),
-
                         const Divider(height: 30, color: AppColors.primary),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,12 +157,12 @@ class _InvoiceViewState extends State<InvoiceView> {
                     ),
                   ),
                   const SizedBox(height: 10),
+
+                  // Pilihan QRIS
                   InkWell(
-                    onTap: () {
-                      setState(() {
-                        _isPaymentMethodSelected = !_isPaymentMethodSelected;
-                      });
-                    },
+                    onTap: () => setState(
+                      () => _isPaymentMethodSelected = !_isPaymentMethodSelected,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -145,7 +194,7 @@ class _InvoiceViewState extends State<InvoiceView> {
                           ),
                           const SizedBox(width: 12),
                           const Text(
-                            "QRIS",
+                            "QRIS / Semua Metode",
                             style: TextStyle(
                               color: AppColors.primary,
                               fontWeight: FontWeight.w600,
@@ -183,10 +232,7 @@ class _InvoiceViewState extends State<InvoiceView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(color: Colors.black54, fontSize: 14),
-          ),
+          Text(label, style: const TextStyle(color: Colors.black54, fontSize: 14)),
           Text(
             "Rp ${_formatPrice(amount.toInt())},-",
             style: const TextStyle(
@@ -260,16 +306,8 @@ class _InvoiceViewState extends State<InvoiceView> {
               ),
             ),
             ElevatedButton(
-              onPressed: _isPaymentMethodSelected
-                  ? () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              QrisPaymentView(kost: widget.kost),
-                        ),
-                      );
-                    }
+              onPressed: (_isPaymentMethodSelected && !_isLoading)
+                  ? () => _handlePayment(total)
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.yellow,
@@ -279,15 +317,21 @@ class _InvoiceViewState extends State<InvoiceView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 35,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
               ),
-              child: const Text(
-                "Payment",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              child: _isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text(
+                      "Payment",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
             ),
           ],
         ),

@@ -70,7 +70,8 @@ void main() async {
 
   await Supabase.initialize(
     url: 'https://tcxpimjgyutkcsdfhwbg.supabase.co',
-    anonKey: 'sb_publishable_QBW63CEkf5bh3CdBvDkdgg_wShXq-Ku',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHBpbWpneXV0a2NzZGZod2JnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0NDc5ODgsImV4cCI6MjA5MzAyMzk4OH0.DzARTJGPKdiSHwWv_-8WVfR_8qgLSP1ifrpwCmyXuWU',
   );
 
   await FavoriteController.init();
@@ -123,8 +124,16 @@ class MyApp extends StatelessWidget {
         }
 
       case '/invoice':
-        final kost = settings.arguments as KostModel;
-        return _noAnimation(InvoiceView(kost: kost), settings);
+        final args = settings.arguments as Map<String, dynamic>;
+        return _noAnimation(
+          InvoiceView(
+            kost: args['kost'] as KostModel,
+            namaPemesan: args['namaPemesan'] as String,
+            nomorHP: args['nomorHP'] as String,
+            tanggalCheckin: args['tanggalCheckin'] as DateTime,
+          ),
+          settings,
+        );
 
       case '/payment':
         final kost = settings.arguments as KostModel;
