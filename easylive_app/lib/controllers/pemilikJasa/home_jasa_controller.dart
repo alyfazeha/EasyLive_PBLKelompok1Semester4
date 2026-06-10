@@ -32,7 +32,7 @@ class PemilikJasaHomeController extends ChangeNotifier {
         return;
       }
 
-      // 1️⃣ Ambil nama owner
+      // 1. Ambil nama owner
       final profileRes = await supabase
           .from('profiles')
           .select('username')
@@ -41,7 +41,7 @@ class PemilikJasaHomeController extends ChangeNotifier {
 
       ownerName = profileRes['username'] ?? 'Pemilik Jasa';
 
-      // 2️⃣ Ambil semua jasa milik owner
+      // 2. Ambil semua jasa milik owner
       final jasaRes = await supabase
           .from('jasa')
           .select()
@@ -88,14 +88,14 @@ class PemilikJasaHomeController extends ChangeNotifier {
           image: image,
           address: j['alamat'] ?? '-',
           capacity: j['kapasitas'] ?? '-',
-          availability: '-',
-          income: 'Rp ${_formatHarga(hargaKm)} / km',
+          availability: 'Ada',
+          income: 'Rp ${_formatHarga(hargaKm)}',
           status: statusLabel,
           statusColor: statusColor,
         );
       }).toList();
 
-      // 3️⃣ Ambil booking baru (menunggu)
+      // 3. Ambil booking baru (menunggu)
       if (jasaRes.isNotEmpty) {
         final jasaIds = jasaRes
             .map((j) => j['id_jasa'] as int)
@@ -109,13 +109,14 @@ class PemilikJasaHomeController extends ChangeNotifier {
 
         newBookings = (bookingRes as List).length;
 
-        // 4️⃣ Total pendapatan
+        // 4. Total pendapatan (skip booking ditolak)
         final allBookingRes = await supabase
             .from('booking_jasa')
-            .select('id_booking_jasa')
+            .select('id_booking_jasa, status_pesanan')
             .inFilter('id_jasa', jasaIds);
 
         final bookingIds = (allBookingRes as List)
+            .where((b) => b['status_pesanan'] != 'ditolak')
             .map((b) => b['id_booking_jasa'] as int)
             .toList();
 

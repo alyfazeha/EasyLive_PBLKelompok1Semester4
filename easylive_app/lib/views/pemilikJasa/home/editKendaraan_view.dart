@@ -225,12 +225,12 @@ class _EditKendaraanViewState extends State<EditKendaraanView> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: EditKendaraanWidget.inputField(
-                                'Kapasitas', controller.kapasitas),
+                                'Kapasitas/kg', controller.kapasitas),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: EditKendaraanWidget.inputField(
-                                'Harga/km', controller.harga),
+                                'Harga Sewa', controller.harga),
                           ),
                         ],
                       ),

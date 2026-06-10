@@ -232,18 +232,6 @@ class _AdminJasaManagementViewState
                       child: Container(
                         width: 16,
                         height: 16,
-                        decoration: const BoxDecoration(
-                          color: Colors.amber,
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          '9',
-                          style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                       ),
                     ),
                   ],

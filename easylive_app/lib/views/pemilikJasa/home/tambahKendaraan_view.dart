@@ -163,7 +163,7 @@ class _TambahKendaraanViewState extends State<TambahKendaraanView> {
                     SizedBox(width: 8),
                     Expanded(
                       child: TambahKendaraanWidget.inputField(
-                        "Kapasitas",
+                        "Kapasitas/kg",
                         controller.kapasitas,
                       ),
                     ),
