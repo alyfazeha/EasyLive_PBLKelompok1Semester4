@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import '../../../controllers/admin/history_detail_controller.dart';
 import '../../../models/admin/history_model.dart';
+import '../../../models/admin/history_detail_model.dart';
 import '../../../widgets/admin/history/history_detail_header_card.dart';
 import '../../../widgets/admin/history/history_detail_info_card.dart';
 import '../../../widgets/admin/dashboard/navbar_button.dart';
 
-class AdminHistoryDetailView extends StatelessWidget {
+class AdminHistoryDetailView extends StatefulWidget {
   final HistoryItemModel historyItem;
 
   const AdminHistoryDetailView({super.key, required this.historyItem});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = AdminHistoryDetailController(historyItem: historyItem);
-    final data = controller.historyDetail;
+  State<AdminHistoryDetailView> createState() =>
+      _AdminHistoryDetailViewState();
+}
 
+class _AdminHistoryDetailViewState extends State<AdminHistoryDetailView> {
+  late AdminHistoryDetailController controller;
+  AdminHistoryDetailModel? data;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AdminHistoryDetailController(historyItem: widget.historyItem);
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final result = await controller.loadDetail();
+    setState(() {
+      data = result;
+      isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
@@ -36,9 +60,7 @@ class AdminHistoryDetailView extends StatelessWidget {
                 color: Colors.white,
                 size: 20,
               ),
-              // Back dari detail history -> kembali ke halaman admin/history (jangan logout)
               onPressed: () {
-                // Kembalikan ke dashboard admin
                 Navigator.pushReplacementNamed(context, '/admin');
               },
             ),
@@ -54,39 +76,45 @@ class AdminHistoryDetailView extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFFF7F7F7),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AdminHistoryDetailHeaderCard(data: data),
-                  const SizedBox(height: 28),
-                  const Text(
-                    'Detail',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF2F4157),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : data == null
+              ? const Center(child: Text('Gagal memuat data'))
+              : SafeArea(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFF7F7F7),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(30),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AdminHistoryDetailHeaderCard(data: data!),
+                            const SizedBox(height: 28),
+                            const Text(
+                              'Detail',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF2F4157),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            HistoryDetailInfoCard(data: data!),
+                            const SizedBox(height: 40),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  HistoryDetailInfoCard(data: data),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+                ),
       bottomNavigationBar: AdminBottomNavbar(
         selectedIndex: 0,
         onItemTapped: (index) {
@@ -99,12 +127,6 @@ class AdminHistoryDetailView extends StatelessWidget {
             Navigator.pushNamed(context, '/admin/home');
             return;
           }
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Menu ini belum tersedia untuk Admin'),
-            ),
-          );
         },
       ),
     );

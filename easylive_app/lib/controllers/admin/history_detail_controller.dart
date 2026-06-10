@@ -1,126 +1,122 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/admin/history_detail_model.dart';
 import '../../models/admin/history_model.dart';
 
 class AdminHistoryDetailController {
   final HistoryItemModel historyItem;
+  final supabase = Supabase.instance.client;
 
-  late final AdminHistoryDetailModel historyDetail;
+  AdminHistoryDetailController({required this.historyItem});
 
-  AdminHistoryDetailController({
-    required HistoryItemModel historyItem,
-  }) : historyItem = historyItem {
-    historyDetail = _mapFromHistoryItem(historyItem);
+  Future<AdminHistoryDetailModel> loadDetail() async {
+    try {
+      if (historyItem.type == 'kos') {
+        return await _loadKosDetail();
+      } else {
+        return await _loadJasaDetail();
+      }
+    } catch (e) {
+      debugPrint('Error loading history detail: $e');
+      return _fallback();
+    }
   }
 
-  AdminHistoryDetailModel _mapFromHistoryItem(HistoryItemModel item) {
-    final lowerTitle = item.title.toLowerCase();
+  Future<AdminHistoryDetailModel> _loadKosDetail() async {
+    final res = await supabase
+        .from('kost')
+        .select('id_kost, nama_kost, status, alasan_tolak, profiles!inner(username, full_name)')
+        .eq('id_kost', int.parse(historyItem.id))
+        .single();
 
-    AdminHistoryType type;
-    if (lowerTitle.contains('disetujui') && lowerTitle.contains('kos')) {
-      type = AdminHistoryType.kosApproved;
-    } else if (lowerTitle.contains('ditolak') && lowerTitle.contains('kos')) {
-      type = AdminHistoryType.kosRejected;
-    } else if (lowerTitle.contains('disetujui') &&
-        (lowerTitle.contains('jasa') || lowerTitle.contains('laundry'))) {
-      type = AdminHistoryType.jasaApproved;
-    } else if (lowerTitle.contains('ditolak') &&
-        (lowerTitle.contains('jasa') || lowerTitle.contains('laundry'))) {
-      type = AdminHistoryType.jasaRejected;
-    } else {
-      type = AdminHistoryType.laporanCreated;
-    }
+    final status = res['status'] as String;
+    final namaKost = res['nama_kost'] ?? '-';
+    final alasan = res['alasan_tolak'] as String?;
+    final profile = res['profiles'] as Map<String, dynamic>?;
+    final fullName = (profile?['full_name'] ?? '').toString();
+    final username = (profile?['username'] ?? '').toString();
+    final ownerName = fullName.isNotEmpty ? fullName : username;
 
-    final status = getStatusLabel(type);
+    final type = status == 'aktif'
+        ? AdminHistoryType.kosApproved
+        : AdminHistoryType.kosRejected;
+
     return AdminHistoryDetailModel(
-      title: item.title,
-      subtitle: item.subtitle,
-      date: item.date,
+      title: status == 'aktif'
+          ? 'Kos "$namaKost" disetujui'
+          : 'Kos "$namaKost" ditolak',
+      subtitle: 'Pemilik: $ownerName',
+      date: '-',
       type: type,
-      pihak: 'Admin',
-      kategori: type.toString().split('.').last,
-      objek: item.title,
-      status: status,
-      alasanPenolakan: type == AdminHistoryType.kosRejected ||
-              type == AdminHistoryType.jasaRejected
-          ? 'Tidak memenuhi persyaratan.'
-          : null,
-      idDokumen: null,
-      icon: getHeaderIcon(type),
-      iconColor: getHeaderIconColor(type),
+      pihak: ownerName,
+      kategori: 'Kos',
+      objek: namaKost,
+      status: status == 'aktif' ? 'Disetujui' : 'Ditolak',
+      alasanPenolakan: alasan,
+      idDokumen: res['id_kost'].toString(),
+      icon: status == 'aktif'
+          ? Icons.check_circle_rounded
+          : Icons.cancel_rounded,
+      iconColor: status == 'aktif'
+          ? const Color(0xFF0C7A3D)
+          : const Color(0xFFE4251B),
     );
   }
 
-  Color getStatusColor(AdminHistoryType type) {
-    switch (type) {
-      case AdminHistoryType.kosApproved:
-      case AdminHistoryType.jasaApproved:
-        return const Color(0xFF0C7A3D);
-      case AdminHistoryType.kosRejected:
-      case AdminHistoryType.jasaRejected:
-        return const Color(0xFFE4251B);
-      case AdminHistoryType.laporanCreated:
-      default:
-        return const Color(0xFF2F80ED);
-    }
+  Future<AdminHistoryDetailModel> _loadJasaDetail() async {
+    final res = await supabase
+        .from('jasa')
+        .select('id_jasa, nama_jasa, status, tipe_mobil, alamat, profiles!inner(username, full_name)')
+        .eq('id_jasa', int.parse(historyItem.id))
+        .single();
+
+    final status = res['status'] as String;
+    final namaJasa = res['nama_jasa'] ?? '-';
+    final profile = res['profiles'] as Map<String, dynamic>?;
+    final fullName = (profile?['full_name'] ?? '').toString();
+    final username = (profile?['username'] ?? '').toString();
+    final ownerName = fullName.isNotEmpty ? fullName : username;
+
+    final type = status == 'aktif'
+        ? AdminHistoryType.jasaApproved
+        : AdminHistoryType.jasaRejected;
+
+    return AdminHistoryDetailModel(
+      title: status == 'aktif'
+          ? 'Jasa "$namaJasa" disetujui'
+          : 'Jasa "$namaJasa" ditolak',
+      subtitle: 'Pemilik: $ownerName',
+      date: '-',
+      type: type,
+      pihak: ownerName,
+      kategori: 'Jasa',
+      objek: namaJasa,
+      status: status == 'aktif' ? 'Disetujui' : 'Ditolak',
+      alasanPenolakan: null,
+      idDokumen: res['id_jasa'].toString(),
+      icon: status == 'aktif'
+          ? Icons.check_circle_rounded
+          : Icons.cancel_rounded,
+      iconColor: status == 'aktif'
+          ? const Color(0xFF0C7A3D)
+          : const Color(0xFFE4251B),
+    );
   }
 
-  String getStatusLabel(AdminHistoryType type) {
-    switch (type) {
-      case AdminHistoryType.kosApproved:
-        return 'Disetujui';
-      case AdminHistoryType.kosRejected:
-        return 'Ditolak';
-      case AdminHistoryType.jasaApproved:
-        return 'Disetujui';
-      case AdminHistoryType.jasaRejected:
-        return 'Ditolak';
-      case AdminHistoryType.laporanCreated:
-      default:
-        return 'Dibuat';
-    }
-  }
-
-  IconData getHeaderIcon(AdminHistoryType type) {
-    switch (type) {
-      case AdminHistoryType.kosApproved:
-      case AdminHistoryType.jasaApproved:
-        return Icons.check_circle_rounded;
-      case AdminHistoryType.kosRejected:
-      case AdminHistoryType.jasaRejected:
-        return Icons.cancel_rounded;
-      case AdminHistoryType.laporanCreated:
-      default:
-        return Icons.bar_chart;
-    }
-  }
-
-  Color getHeaderBgColor(AdminHistoryType type) {
-    switch (type) {
-      case AdminHistoryType.kosApproved:
-      case AdminHistoryType.jasaApproved:
-        return const Color(0xFFE8F8EE);
-      case AdminHistoryType.kosRejected:
-      case AdminHistoryType.jasaRejected:
-        return const Color(0xFFFFEBEB);
-      case AdminHistoryType.laporanCreated:
-      default:
-        return const Color(0xFFEBF3FF);
-    }
-  }
-
-  Color getHeaderIconColor(AdminHistoryType type) {
-    switch (type) {
-      case AdminHistoryType.kosApproved:
-      case AdminHistoryType.jasaApproved:
-        return const Color(0xFF0C7A3D);
-      case AdminHistoryType.kosRejected:
-      case AdminHistoryType.jasaRejected:
-        return const Color(0xFFE4251B);
-      case AdminHistoryType.laporanCreated:
-      default:
-        return const Color(0xFF2F80ED);
-    }
+  AdminHistoryDetailModel _fallback() {
+    return AdminHistoryDetailModel(
+      title: historyItem.title,
+      subtitle: historyItem.subtitle,
+      date: historyItem.date,
+      type: AdminHistoryType.laporanCreated,
+      pihak: '-',
+      kategori: historyItem.type,
+      objek: '-',
+      status: historyItem.status,
+      alasanPenolakan: null,
+      idDokumen: null,
+      icon: Icons.info_outline,
+      iconColor: const Color(0xFF2F80ED),
+    );
   }
 }
