@@ -1,4 +1,5 @@
 class KostModel {
+  final int? id;
   final String name;
   final String address;
   final String image;
@@ -19,6 +20,7 @@ class KostModel {
   detailImage; // Optional, bisa digunakan untuk identifikasi unik jika diperlukan
 
   KostModel({
+    this.id,
     required this.name,
     required this.address,
     required this.image,

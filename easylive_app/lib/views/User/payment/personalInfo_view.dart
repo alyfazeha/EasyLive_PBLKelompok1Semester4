@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/payment/personal_info_widgets.dart';
+import '../payment/invoice_view.dart'; 
 
 class PersonalInfoView extends StatefulWidget {
   final KostModel kost;
@@ -139,10 +140,6 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                 color: AppColors.yellow,
               ),
             ),
-            const Text(
-              "Tell us about yourself",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
           ],
         ),
       ],
@@ -267,10 +264,17 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               ElevatedButton(
                 onPressed: () {
                   if (_isFormValid) {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      '/invoice',
-                      arguments: widget.kost,
+                      MaterialPageRoute(
+                        builder: (_) => InvoiceView(
+                          kost: widget.kost,
+                          namaPemesan: _nameController.text,
+                          nomorHP: _phoneController.text,
+                          // Menggunakan tanggal hari ini sebagai fallback karena mode Jasa tidak menginput tanggal checkin
+                          tanggalCheckin: _selectedCheckinDate ?? DateTime.now(), 
+                        ),
+                      ),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -350,10 +354,16 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                 ElevatedButton(
                   onPressed: () {
                     if (_isFormValid) {
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        '/invoice',
-                        arguments: widget.kost,
+                        MaterialPageRoute(
+                          builder: (_) => InvoiceView(
+                            kost: widget.kost,
+                            namaPemesan: _nameController.text,
+                            nomorHP: _phoneController.text,
+                            tanggalCheckin: _selectedCheckinDate!,
+                          ),
+                        ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -406,7 +416,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
-        leading: Icon(Icons.calendar_today_outlined, color: AppColors.primary),
+        leading: const Icon(Icons.calendar_today_outlined, color: AppColors.primary),
         title: Text(
           formatted,
           style: theme.textTheme.bodyMedium?.copyWith(
