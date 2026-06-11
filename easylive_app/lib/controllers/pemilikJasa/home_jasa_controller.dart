@@ -5,6 +5,7 @@ import '../../models/pemilikJasa/vehicle_model.dart';
 class PemilikJasaHomeController extends ChangeNotifier {
   bool isLoading = false;
   String ownerName = '';
+  String userImage = '';
   int totalVehicles = 0;
   int availableVehicles = 0;
   double totalIncome = 0;
@@ -34,12 +35,13 @@ class PemilikJasaHomeController extends ChangeNotifier {
 
       // 1. Ambil nama owner
       final profileRes = await supabase
-          .from('profiles')
-          .select('username')
+.from('profiles')
+          .select('username, photo')
           .eq('id_profile', user.id)
           .single();
 
       ownerName = profileRes['username'] ?? 'Pemilik Jasa';
+      userImage = profileRes['photo'] ?? '';
 
       // 2. Ambil semua jasa milik owner
       final jasaRes = await supabase

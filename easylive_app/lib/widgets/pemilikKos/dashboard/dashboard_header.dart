@@ -7,6 +7,7 @@ class DashboardHeader extends StatelessWidget {
   final int kamarTersedia;
   final int bookingBaru;
   final String pendapatan;
+  final String userImage; // ← tambah
 
   const DashboardHeader({
     super.key,
@@ -15,10 +16,13 @@ class DashboardHeader extends StatelessWidget {
     required this.kamarTersedia,
     required this.bookingBaru,
     required this.pendapatan,
+    this.userImage = '', // ← default kosong
   });
 
   @override
   Widget build(BuildContext context) {
+    final hasPhoto = userImage.isNotEmpty && userImage.startsWith('http');
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 60, 16, 24),
@@ -37,21 +41,30 @@ class DashboardHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const CircleAvatar(
+                  // ← foto dari Supabase atau icon default
+                  CircleAvatar(
                     radius: 21,
                     backgroundColor: AppColors.yellow,
-                    child: Icon(
-                      Icons.person_rounded,
-                      color: AppColors.darkBlue,
-                      size: 28,
-                    ),
+                    backgroundImage: hasPhoto
+                        ? NetworkImage(userImage)
+                        : null,
+                    onBackgroundImageError: hasPhoto
+                        ? (_, __) {}
+                        : null,
+                    child: !hasPhoto
+                        ? const Icon(
+                            Icons.person_rounded,
+                            color: AppColors.darkBlue,
+                            size: 28,
+                          )
+                        : null,
                   ),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hi, $ownerName', // ← dari Supabase
+                        'Hi, $ownerName',
                         style: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 18,
@@ -66,9 +79,7 @@ class DashboardHeader extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: 'EasyLive !',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w900),
                             ),
                           ],
                         ),
@@ -92,9 +103,7 @@ class DashboardHeader extends StatelessWidget {
                     Positioned(
                       right: 0,
                       top: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(3),
-                      ),
+                      child: Container(padding: const EdgeInsets.all(3)),
                     ),
                   ],
                 ),
@@ -107,21 +116,13 @@ class DashboardHeader extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _statItem(
-                  Icons.home,
-                  "Total Kost",
-                  '$totalKost Kost', // ← dari Supabase
-                  Colors.orange,
-                ),
+                child: _statItem(Icons.home, "Total Kost",
+                    '$totalKost Kost', Colors.orange),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: _statItem(
-                  Icons.bed,
-                  "Kamar Tersedia",
-                  '$kamarTersedia Kamar', // ← dari Supabase
-                  Colors.green,
-                ),
+                child: _statItem(Icons.bed, "Kamar Tersedia",
+                    '$kamarTersedia Kamar', Colors.green),
               ),
             ],
           ),
@@ -131,21 +132,13 @@ class DashboardHeader extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _statItem(
-                  Icons.calendar_today,
-                  "Booking Baru",
-                  '$bookingBaru Booking', // ← dari Supabase
-                  Colors.blue,
-                ),
+                child: _statItem(Icons.calendar_today, "Booking Baru",
+                    '$bookingBaru Booking', Colors.blue),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: _statItem(
-                  Icons.attach_money,
-                  "Pendapatan",
-                  pendapatan, // ← dari Supabase
-                  Colors.purple,
-                ),
+                child: _statItem(Icons.attach_money, "Pendapatan",
+                    pendapatan, Colors.purple),
               ),
             ],
           ),
@@ -175,17 +168,11 @@ class DashboardHeader extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(color: Colors.white70, fontSize: 11),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(title,
+                  style: const TextStyle(color: Colors.white70, fontSize: 11)),
+              Text(value,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
             ],
           ),
         ],

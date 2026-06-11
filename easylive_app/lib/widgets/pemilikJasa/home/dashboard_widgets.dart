@@ -15,6 +15,7 @@ class PemilikJasaHomeFrame extends StatefulWidget {
   final int newBookings;
   final String availableRatio;
   final List<OwnerVehicle> vehicles;
+  final String userImage;
   final Function(int)? onNavigate;
   final VoidCallback? onRefresh; // ← tambah
   final Future<void> Function(String)? onDeleteJasa; // ← tambah
@@ -28,10 +29,12 @@ class PemilikJasaHomeFrame extends StatefulWidget {
     required this.newBookings,
     required this.availableRatio,
     required this.vehicles,
+    this.userImage = '',
     this.onNavigate,
     this.onRefresh,
     this.onDeleteJasa,
   });
+
 
   @override
   State<PemilikJasaHomeFrame> createState() => _PemilikJasaHomeFrameState();
@@ -62,6 +65,7 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
               ownerName: widget.ownerName, // ← tambah
               totalVehicles: widget.totalVehicles,
               availableVehicles: widget.availableVehicles,
+              userImage: widget.userImage,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -220,16 +224,19 @@ class _PemilikJasaHomeFrameState extends State<PemilikJasaHomeFrame> {
 }
 
 class PemilikJasaHeader extends StatelessWidget {
-  final String ownerName; // ← tambah
+  final String ownerName;
   final int totalVehicles;
   final int availableVehicles;
+  final String userImage;
 
   const PemilikJasaHeader({
     super.key,
     required this.ownerName, // ← tambah
     required this.totalVehicles,
     required this.availableVehicles,
+    this.userImage = '',
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -255,24 +262,17 @@ class PemilikJasaHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
                 child: CircleAvatar(
                   radius: 22,
-                  child: ClipOval(
-                    child: Image(
-                      image: const NetworkImage(
-                        'https://i.pravatar.cc/120?img=12',
-                      ),
-                      width: 44,
-                      height: 44,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          'assets/images/logo-easylive.png',
-                          width: 44,
-                          height: 44,
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
+                  backgroundColor: Colors.white24,
+                  backgroundImage: userImage.isNotEmpty && userImage.startsWith('http')
+                      ? NetworkImage(userImage)
+                      : null,
+                  child: userImage.isEmpty
+                      ? const Icon(
+                          Icons.person_rounded,
+                          color: AppColors.yellow,
+                          size: 28,
+                        )
+                      : null,
                 ),
               ),
               const SizedBox(width: 10),

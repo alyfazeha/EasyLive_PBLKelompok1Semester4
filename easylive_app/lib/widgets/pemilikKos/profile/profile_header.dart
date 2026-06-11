@@ -75,16 +75,17 @@ class PemilikKosProfileHeader extends StatelessWidget {
             ),
             child: CircleAvatar(
               radius: 45,
-              backgroundColor: Colors.white24,
-              // ← foto dari Supabase jika ada, fallback ke asset
-              backgroundImage: hasPhoto
-                  ? NetworkImage(controller.userImage)
-                  : const AssetImage('assets/images/logo-easylive.png')
-                      as ImageProvider,
-              onBackgroundImageError: hasPhoto
-                  ? (_, __) {} // silent error, fallback otomatis
+              backgroundColor: AppColors.yellow,
+              backgroundImage: hasPhoto ? NetworkImage(controller.userImage) : null,
+              onBackgroundImageError: hasPhoto ? (_, __) {} : null,
+              // ← icon default Flutter jika tidak ada foto
+              child: !hasPhoto
+                  ? const Icon(
+                      Icons.person_rounded,
+                      color: AppColors.darkBlue,
+                      size: 52,
+                    )
                   : null,
-              child: !hasPhoto ? null : null,
             ),
           ),
           const SizedBox(height: 15),

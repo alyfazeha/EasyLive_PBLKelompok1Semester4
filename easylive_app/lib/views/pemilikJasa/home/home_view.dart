@@ -48,8 +48,10 @@ class _PemilikJasaHomeViewState extends State<PemilikJasaHomeView> {
                 newBookings: ctrl.newBookings,
                 availableRatio: ctrl.availableRatio,
                 vehicles: ctrl.vehicles,
+                userImage: ctrl.userImage,
                 onRefresh: () => ctrl.refresh(),
                 onDeleteJasa: (idJasa) => ctrl.deleteJasa(idJasa),
+
                 onNavigate: (index) {
                   if (index == 0) {
                     Navigator.pushReplacementNamed(

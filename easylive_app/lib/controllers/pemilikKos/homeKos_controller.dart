@@ -30,7 +30,8 @@ class PemilikKosController extends ChangeNotifier {
         newBookings: _model!.newBookings,
         occupiedRooms: _model!.occupiedRooms,
         totalRooms: _model!.totalRooms,
-        kostList: list,
+        kostList: list, 
+        userImage: _model!.userImage,
       );
       notifyListeners();
     }
@@ -68,11 +69,12 @@ class PemilikKosController extends ChangeNotifier {
       // 1️⃣ Ambil nama owner dari tabel profiles
       final profileRes = await supabase
           .from('profiles')
-          .select('username')
+          .select('username, photo')
           .eq('id_profile', user.id)
           .single();
 
       final ownerName = profileRes['username'] ?? 'Pemilik Kos';
+      final userImage = (profileRes['photo'] ?? '')?.toString() ?? '';
 
       // 2️⃣ Ambil semua kost milik owner
       final kostRes = await supabase
@@ -91,6 +93,7 @@ class PemilikKosController extends ChangeNotifier {
         final kamarKosong = (k['kamar_kosong'] as int?) ?? 0;
         final harga = (k['harga'] as num?)?.toDouble() ?? 0;
         final status = (k['status'] as String?) ?? 'pending';
+        
 
         String statusLabel;
         String statusColorHex;
@@ -175,6 +178,7 @@ class PemilikKosController extends ChangeNotifier {
         occupiedRooms: totalTerisi,
         totalRooms: totalKamar,
         kostList: kostList,
+        userImage: userImage,
       );
     } catch (e) {
       debugPrint('Error loading pemilik kos data: $e');

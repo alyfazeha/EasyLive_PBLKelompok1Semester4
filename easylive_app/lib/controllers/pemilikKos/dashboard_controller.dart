@@ -6,6 +6,7 @@ class DashboardController extends ChangeNotifier {
   List<Dashboard> dashboardList = [];
   bool isLoading = false;
   String errorMessage = '';
+  String userImage = '';
 
   String ownerName = '';
   int totalKost = 0;
@@ -37,10 +38,11 @@ class DashboardController extends ChangeNotifier {
 
       final profileRes = await supabase
           .from('profiles')
-          .select('username')
+          .select('username, photo')
           .eq('id_profile', user.id)
           .single();
       ownerName = profileRes['username'] ?? 'Pemilik Kos';
+      userImage = profileRes['photo'] ?? '';
 
       final kostRes = await supabase
           .from('kost')

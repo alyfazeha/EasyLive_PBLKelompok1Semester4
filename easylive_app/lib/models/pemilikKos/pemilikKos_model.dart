@@ -10,6 +10,7 @@ class PemilikKosModel {
   final int occupiedRooms;
   final int totalRooms;
   final List<KostData> kostList;
+  final String userImage;
 
   const PemilikKosModel({
     required this.ownerName,
@@ -21,6 +22,7 @@ class PemilikKosModel {
     required this.occupiedRooms,
     required this.totalRooms,
     required this.kostList,
+    required this.userImage,
   });
 }
 

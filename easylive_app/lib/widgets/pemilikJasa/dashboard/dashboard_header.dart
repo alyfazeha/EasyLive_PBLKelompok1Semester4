@@ -7,13 +7,16 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
   final String ownerName;
   final int notificationCount;
   final List<JasaDashboardStat> stats;
+  final String userImage;
 
   const PemilikJasaDashboardHeader({
     super.key,
     required this.ownerName,
     required this.notificationCount,
     required this.stats,
+    this.userImage = '',
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +43,20 @@ class PemilikJasaDashboardHeader extends StatelessWidget {
               CircleAvatar(
                 radius: 22,
                 backgroundColor: Colors.white24,
-                child: ClipOval(
-                  child: Image.network(
-                    'https://i.pravatar.cc/120?img=12',
-                    width: 44,
-                    height: 44,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Image.asset(
-                      'assets/images/logo-easylive.png',
-                      width: 44,
-                      height: 44,
-                      fit: BoxFit.cover,
-                    ),
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return const SizedBox(
-                        width: 44,
-                        height: 44,
-                      );
-                    },
-                  ),
-                ),
+                backgroundImage:
+                    userImage.isNotEmpty && userImage.startsWith('http')
+                        ? NetworkImage(userImage)
+                        : null,
+                onBackgroundImageError: userImage.isNotEmpty
+                    ? (_, __) {}
+                    : null,
+                child: userImage.isEmpty
+                    ? const Icon(
+                        Icons.person_rounded,
+                        color: AppColors.yellow,
+                        size: 28,
+                      )
+                    : null,
               ),
               const SizedBox(width: 10),
               Expanded(

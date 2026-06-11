@@ -6,9 +6,11 @@ import '../../models/pemilikJasa/dashboard_model.dart';
 class PemilikJasaDashboardController extends ChangeNotifier {
   bool isLoading = false;
   String ownerName = '';
+  String userImage = '';
   int notificationCount = 0;
   List<JasaDashboardStat> stats = [];
   List<JasaPaymentHistory> payments = [];
+
 
   final supabase = Supabase.instance.client;
 
@@ -35,6 +37,7 @@ class PemilikJasaDashboardController extends ChangeNotifier {
           .eq('id_profile', user.id)
           .single();
       ownerName = profileRes['username'] ?? 'Pemilik Jasa';
+      userImage = (profileRes['photo'] ?? '').toString();
 
       // 2. Semua jasa milik owner
       final jasaRes = await supabase
