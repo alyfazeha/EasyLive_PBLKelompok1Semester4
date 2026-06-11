@@ -79,16 +79,17 @@ class BookingDetailView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildInfo('Customer', 'Ahmad Rafi Hamdi'),
+                            _buildInfo('Customer', 'Customer'),
                             _buildInfo('Order', booking.title),
-                            _buildInfo('Date', '09:00, Tuesday, 21 April 2026'),
+                            _buildInfo('Date', booking.date),
 
                             const Text(
                               'Status',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 10),
-                            // Badge Sukses Kuning sesuai mockup
+
+                            // Badge sesuai status booking yang sekarang ditampilkan di list.
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -98,9 +99,11 @@ class BookingDetailView extends StatelessWidget {
                                 color: AppColors.golden,
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: const Text(
-                                'Success',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              child: Text(
+                                booking.status,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],
