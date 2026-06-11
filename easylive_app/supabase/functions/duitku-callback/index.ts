@@ -1,8 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const API_KEY = "c20fb991c4e6c8fe3df137e2e87a3e2f";
+const API_KEY = Deno.env.get("DUITKU_API_KEY")!;
+const MERCHANT_CODE = Deno.env.get("DUITKU_MERCHANT_CODE")!;
 
+// =============================================
+// HELPER: Verifikasi Signature dari Duitku
+// =============================================
 async function verifySignature(
   merchantCode: string,
   amount: string,
@@ -10,9 +14,6 @@ async function verifySignature(
   receivedSignature: string
 ): Promise<boolean> {
   const stringToSign = merchantCode + amount + merchantOrderId;
-  console.log("stringToSign:", stringToSign);
-  console.log("receivedSignature:", receivedSignature);
-
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(API_KEY),
@@ -20,101 +21,66 @@ async function verifySignature(
     false,
     ["sign"]
   );
-  const buffer = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
+  const buffer = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(stringToSign)
+  );
   const expectedSignature = Array.from(new Uint8Array(buffer))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 
-  console.log("expectedSignature:", expectedSignature);
-  console.log("match:", expectedSignature === receivedSignature);
-
   return expectedSignature === receivedSignature;
 }
 
+// =============================================
+// MAIN HANDLER
+// =============================================
 serve(async (req) => {
   try {
-    // Log semua headers yang masuk untuk debug
-    console.log("=== CALLBACK MASUK ===");
-    console.log("Method:", req.method);
-    console.log("URL:", req.url);
+    // Duitku kirim callback sebagai x-www-form-urlencoded
+    const body = await req.formData();
 
-    // Cek content-type — kadang Duitku kirim JSON bukan form
-    const contentType = req.headers.get("content-type") ?? "";
-    console.log("Content-Type:", contentType);
+    const merchantCode   = body.get("merchantCode")?.toString() ?? "";
+    const amount         = body.get("amount")?.toString() ?? "";
+    const merchantOrderId = body.get("merchantOrderId")?.toString() ?? "";
+    const reference      = body.get("reference")?.toString() ?? "";
+    const resultCode     = body.get("resultCode")?.toString() ?? "";
+    const receivedSig    = body.get("signature")?.toString() ?? "";
 
-    let merchantCode = "";
-    let amount = "";
-    let merchantOrderId = "";
-    let reference = "";
-    let resultCode = "";
-    let receivedSig = "";
+    console.log("Callback diterima:", { merchantOrderId, reference, resultCode });
 
-    if (contentType.includes("application/json")) {
-      // Handle JSON format
-      const json = await req.json();
-      console.log("Body JSON:", JSON.stringify(json));
-      merchantCode = json.merchantCode ?? "";
-      amount = json.amount?.toString() ?? "";
-      merchantOrderId = json.merchantOrderId ?? "";
-      reference = json.reference ?? "";
-      resultCode = json.resultCode ?? "";
-      receivedSig = json.signature ?? "";
-    } else {
-      // Handle form-urlencoded format
-      const body = await req.formData();
-      merchantCode = body.get("merchantCode")?.toString() ?? "";
-      amount = body.get("amount")?.toString() ?? "";
-      merchantOrderId = body.get("merchantOrderId")?.toString() ?? "";
-      reference = body.get("reference")?.toString() ?? "";
-      resultCode = body.get("resultCode")?.toString() ?? "";
-      receivedSig = body.get("signature")?.toString() ?? "";
-      console.log("Body form:", { merchantCode, amount, merchantOrderId, reference, resultCode });
+    // Verifikasi signature keamanan
+    const isValid = await verifySignature(merchantCode, amount, merchantOrderId, receivedSig);
+    if (!isValid) {
+      console.error("Signature tidak valid!");
+      return new Response("Forbidden", { status: 403 });
     }
 
-    // SEMENTARA: skip verifikasi signature untuk debug
-    // Aktifkan kembali setelah dipastikan callback masuk dengan benar
-    const SKIP_SIG_VERIFY = true; // ganti false setelah production
-
-    if (!SKIP_SIG_VERIFY) {
-      const isValid = await verifySignature(merchantCode, amount, merchantOrderId, receivedSig);
-      if (!isValid) {
-        console.error("Signature tidak valid!");
-        return new Response("Forbidden", { status: 403 });
-      }
-    } else {
-      // Tetap log untuk monitoring
-      await verifySignature(merchantCode, amount, merchantOrderId, receivedSig);
-    }
-
-    if (!reference) {
-      console.error("Reference kosong, tidak bisa update");
-      return new Response("Bad Request", { status: 400 });
-    }
-
+    // Map resultCode ke status tabel payments
     let newPaymentStatus: string;
     let newBookingStatus: string;
 
     switch (resultCode) {
-      case "00":
+      case "00": // Success
         newPaymentStatus = "settlement";
         newBookingStatus = "dikonfirmasi";
         break;
-      case "02":
+      case "02": // Failed/Canceled
         newPaymentStatus = "cancel";
         newBookingStatus = "ditolak";
         break;
-      default:
+      default: // Pending
         newPaymentStatus = "pending";
         newBookingStatus = "menunggu";
     }
-
-    console.log(`Update reference ${reference} → ${newPaymentStatus}`);
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SERVICE_ROLE_KEY")!
     );
 
+    // Update status di tabel payments
     const { data: payment, error: updatePaymentError } = await supabase
       .from("payments")
       .update({ status: newPaymentStatus })
@@ -123,12 +89,11 @@ serve(async (req) => {
       .single();
 
     if (updatePaymentError) {
-      console.error("Gagal update payments:", JSON.stringify(updatePaymentError));
+      console.error("Gagal update payments:", updatePaymentError);
       return new Response("Error", { status: 500 });
     }
 
-    console.log("Update payments berhasil:", JSON.stringify(payment));
-
+    // Update status di tabel booking_kos
     if (payment?.id_booking_kost) {
       const { error: updateBookingError } = await supabase
         .from("booking_kos")
@@ -136,12 +101,13 @@ serve(async (req) => {
         .eq("id_booking_kost", payment.id_booking_kost);
 
       if (updateBookingError) {
-        console.error("Gagal update booking_kos:", JSON.stringify(updateBookingError));
-      } else {
-        console.log("Update booking_kos berhasil →", newBookingStatus);
+        console.error("Gagal update booking_kos:", updateBookingError);
       }
     }
 
+    console.log(`Transaksi ${reference} diupdate ke: ${newPaymentStatus}`);
+
+    // Duitku butuh response HTTP 200 OK
     return new Response("OK", { status: 200 });
   } catch (e) {
     console.error("Callback error:", e);
