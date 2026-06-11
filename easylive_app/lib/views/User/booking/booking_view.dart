@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../controllers/user/booking_controller.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/booking/booking_card.dart';
+import '../../../models/user/booking_model.dart';
 import '../../../widgets/user/booking/booking_empty_state.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 
@@ -21,13 +22,6 @@ class _BookingViewState extends State<BookingView> {
 
   @override
   Widget build(BuildContext context) {
-    // Memanggil controller dengan filter tipe, status, dan pencarian
-    final filteredBookings = BookingController.getFilteredBookings(
-      selectedType,
-      selectedStatus,
-      searchQuery,
-    );
-
     return Scaffold(
       backgroundColor: AppColors.darkBlue, // Biru Tua Header
       body: SafeArea(
@@ -170,23 +164,39 @@ class _BookingViewState extends State<BookingView> {
 
                     // List Booking
                     Expanded(
-                      child: filteredBookings.isEmpty
-                          ? BookingEmptyState(
+                      child: FutureBuilder<List<Booking>>(
+                        future: BookingController.fetchBookingsForLoggedInUser(
+                          selectedType: selectedType,
+                          selectedStatus: selectedStatus,
+                          searchQuery: searchQuery,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          final bookings = snapshot.data ?? <Booking>[];
+
+                          if (bookings.isEmpty) {
+                            return BookingEmptyState(
                               message: BookingController.getEmptyMessage(
                                 selectedStatus,
                               ),
-                            )
-                          : ListView.builder(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              itemCount: filteredBookings.length,
-                              itemBuilder: (context, index) {
-                                return BookingCard(
-                                  booking: filteredBookings[index],
-                                );
-                              },
-                            ),
+                            );
+                          }
+
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            itemCount: bookings.length,
+                            itemBuilder: (context, index) {
+                              return BookingCard(booking: bookings[index]);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
