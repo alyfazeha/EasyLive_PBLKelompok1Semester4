@@ -336,9 +336,9 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                           builder: (_) => InvoiceView(
                             kost: widget.kost,
                             isJasa: widget.isJasa, // <--- Kirim flag ini
-      fromLocation: widget.fromLocation, // <--- Kirim alamat jemput
-      toLocation: widget.toLocation, // <--- Kirim alamat tujuan
-      jarakKm: 5.0, // <--- Sesuaikan dengan variabel jarak KM aktual kamu
+                            fromLocation: widget.fromLocation, // <--- Kirim alamat jemput
+                            toLocation: widget.toLocation, // <--- Kirim alamat tujuan
+                            jarakKm: 5.0, // <--- Sesuaikan dengan variabel jarak KM aktual kamu
                             namaPemesan: _nameController.text,
                             nomorHP: _phoneController.text,
             
@@ -438,13 +438,9 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
           ),
         ),
         SizedBox(height: 10),
+        Text("1. Longest wait time: 3 months", style: TextStyle(fontSize: 10)),
         Text(
-          "1. Penyewa can move into their new room immediately after payment",
-          style: TextStyle(fontSize: 10),
-        ),
-        Text("2. Longest wait time: 3 months", style: TextStyle(fontSize: 10)),
-        Text(
-          "3. Cancellations are non-refundable",
+          "2. Cancellations are non-refundable",
           style: TextStyle(fontSize: 10),
         ),
       ],
