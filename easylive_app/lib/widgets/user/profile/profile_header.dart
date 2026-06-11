@@ -7,6 +7,9 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final photoUrl = ProfileController.getUserImage();
+    final hasPhoto = ProfileController.hasPhoto();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 38, 20, 22),
@@ -27,6 +30,7 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // ── Tombol Back ─────────────────────────────────────────────────
           Row(
             children: [
               GestureDetector(
@@ -54,7 +58,8 @@ class ProfileHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 15),
-          // Decorative avatar with ring
+
+          // ── Avatar dengan ring kuning ────────────────────────────────────
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -73,12 +78,19 @@ class ProfileHeader extends StatelessWidget {
             child: CircleAvatar(
               radius: 45,
               backgroundColor: Colors.white24,
-              child: const Icon(Icons.person, size: 50, color: Colors.white),
+              // Tampilkan foto dari Supabase jika tersedia
+              backgroundImage: hasPhoto ? NetworkImage(photoUrl) : null,
+              onBackgroundImageError: hasPhoto ? (_, __) {} : null,
+              // Fallback ke icon jika tidak ada foto
+              child: !hasPhoto
+                  ? const Icon(Icons.person, size: 50, color: Colors.white)
+                  : null,
             ),
           ),
 
           const SizedBox(height: 15),
 
+          // ── Nama ─────────────────────────────────────────────────────────
           Text(
             ProfileController.getUserName(),
             style: const TextStyle(
@@ -90,6 +102,7 @@ class ProfileHeader extends StatelessWidget {
 
           const SizedBox(height: 4),
 
+          // ── Email ─────────────────────────────────────────────────────────
           Text(
             ProfileController.getUserEmail(),
             style: const TextStyle(color: Colors.white70, fontSize: 14),
