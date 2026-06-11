@@ -97,12 +97,19 @@ class BookingController {
               ? '-'
               : 'Rp ${totalInt.toString().replaceAllMapped(RegExp(r"\\B(?=(\\d{3})+(?!\\d))"), (m) => '.')}';
 
+          // tanggal_checkin bertipe date (YYYY-MM-DD). Kita tampilkan sebagai string.
+          final tanggal = item['tanggal_checkin'];
+          final dateStr = tanggal == null
+              ? '—'
+              : (tanggal is String ? tanggal : tanggal.toString());
+
           return Booking(
             title: title,
             location: location,
             price: price,
             type: 'Kost',
             status: selectedStatus,
+            date: dateStr,
             rawStatus: item['status_pesanan']?.toString(),
           );
         })

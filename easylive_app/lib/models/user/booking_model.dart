@@ -11,6 +11,9 @@ class Booking {
   /// Di controller kita mapping dari status_pesanan.
   final String status;
 
+  /// Tanggal check-in (dari booking_kos.tanggal_checkin)
+  final String date;
+
   /// Status mentah dari supabase (optional, untuk kebutuhan detail page).
   final String? rawStatus;
 
@@ -20,6 +23,7 @@ class Booking {
     required this.price,
     required this.type,
     required this.status,
+    required this.date,
     this.rawStatus,
   });
 }
