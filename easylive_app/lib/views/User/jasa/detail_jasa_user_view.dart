@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/color.dart';
 import '../../../models/user/kos_model.dart';
-import 'jasa_view.dart';
+import '../../../models/user/jasa_vehicle_model.dart';
+
 import '../../../widgets/user/jasa/route_card.dart';
 
 class DetailJasaUserView extends StatefulWidget {
@@ -49,11 +50,10 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-            child: Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _HeaderImage(
-
                       vehicle: widget.vehicle,
                       isFavorite: _isFavorite,
                       onFavorite: () =>
@@ -323,7 +323,7 @@ class _HeaderImage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24),
                 child: FittedBox(
                   fit: BoxFit.cover,
-                  child: Image.asset(vehicle.image),
+                  child: _ImageByType(image: vehicle.image),
                 ),
               ),
             ),
@@ -394,6 +394,27 @@ class _AvailabilityBadge extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _ImageByType extends StatelessWidget {
+  final String image;
+  const _ImageByType({required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    final isNetwork =
+        image.startsWith('http://') || image.startsWith('https://');
+    if (isNetwork) {
+      return Image.network(
+        image,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            Image.asset('assets/images/pickup-removed.png', fit: BoxFit.cover),
+      );
+    }
+
+    return Image.asset(image, fit: BoxFit.cover);
   }
 }
 
