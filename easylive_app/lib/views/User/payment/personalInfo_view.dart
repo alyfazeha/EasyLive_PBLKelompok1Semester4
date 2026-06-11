@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../core/color.dart';
 import '../../../widgets/user/payment/personal_info_widgets.dart';
-import '../payment/invoice_view.dart'; 
+import '../payment/invoice_view.dart';
 
 class PersonalInfoView extends StatefulWidget {
   final KostModel kost;
@@ -23,17 +24,58 @@ class PersonalInfoView extends StatefulWidget {
 }
 
 class _PersonalInfoViewState extends State<PersonalInfoView> {
+  // Dikunci – hanya untuk menampilkan data dari Supabase
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
-  final TextEditingController _detailBarangController = TextEditingController();
-  final TextEditingController _catatanController = TextEditingController();
-
-  // Untuk kolom booking_kos.tanggal_checkin
+  // Untuk kolom booking_kos.tanggal_checkin (hanya mode kost)
   DateTime? _selectedCheckinDate;
 
   bool _isAgreed = false;
   bool _isFormValid = false;
+  bool _isLoadingProfile = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  /// Ambil data profil user yang sedang login dari tabel `profiles`.
+  Future<void> _loadUserProfile() async {
+    final supabase = Supabase.instance.client;
+    final userId = supabase.auth.currentUser?.id;
+
+    if (userId == null) {
+      setState(() => _isLoadingProfile = false);
+      return;
+    }
+
+    try {
+      final res = await supabase
+          .from('profiles')
+          .select('full_name, phone')
+          .eq('id_profile', userId)
+          .maybeSingle();
+
+      if (res != null) {
+        _nameController.text = (res['full_name'] ?? '').toString();
+        _phoneController.text = (res['phone'] ?? '').toString();
+      }
+    } catch (e) {
+      debugPrint('Error loading profile: $e');
+    } finally {
+      setState(() => _isLoadingProfile = false);
+      _checkValidation();
+    }
+  }
 
   void _checkValidation() {
     if (widget.isJasa) {
@@ -41,7 +83,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
         _isFormValid =
             _nameController.text.isNotEmpty &&
             _phoneController.text.isNotEmpty &&
-            _detailBarangController.text.isNotEmpty;
+            _isAgreed;
       });
     } else {
       setState(() {
@@ -63,56 +105,50 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
           const CustomHeader(),
           const PersonalStepper(),
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildProfileSubHeader(),
-                  const SizedBox(height: 25),
-                  _buildInputField(
-                    widget.isJasa ? "Nama" : "Nama Lengkap",
-                    Icons.person_outline,
-                    _nameController,
-                  ),
-                  const SizedBox(height: 15),
-                  _buildInputField(
-                    "Nomor Telefon",
-                    Icons.phone_android_outlined,
-                    _phoneController,
-                    isPhone: true,
-                  ),
-                  const SizedBox(height: 15),
+            child: _isLoadingProfile
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildProfileSubHeader(),
+                        const SizedBox(height: 25),
 
-                  if (widget.isJasa) ...[
-                    _buildInputField(
-                      "Detail Barang",
-                      Icons.inventory_2_outlined,
-                      _detailBarangController,
+                        // Nama – dikunci, data dari Supabase
+                        _buildLockedField(
+                          widget.isJasa ? "Nama" : "Nama Lengkap",
+                          Icons.person_outline,
+                          _nameController,
+                        ),
+                        const SizedBox(height: 15),
+
+                        // Nomor Telepon – dikunci, data dari Supabase
+                        _buildLockedField(
+                          "Nomor Telepon",
+                          Icons.phone_android_outlined,
+                          _phoneController,
+                        ),
+
+                        // Tanggal check-in (hanya mode kost)
+                        if (!widget.isJasa) ...[
+                          const SizedBox(height: 15),
+                          _buildCheckinDatePicker(),
+                        ],
+
+                        // Rute dari–ke (hanya mode jasa, tanpa label jarak)
+                        if (widget.isJasa &&
+                            widget.fromLocation != null &&
+                            widget.toLocation != null) ...[
+                          const SizedBox(height: 30),
+                          _buildRouteDisplay(),
+                        ],
+
+                        const SizedBox(height: 30),
+                        _buildTerms(),
+                      ],
                     ),
-                    const SizedBox(height: 15),
-                    _buildInputField(
-                      "Catatan Tambahan",
-                      Icons.notes_outlined,
-                      _catatanController,
-                    ),
-                  ],
-
-                  // Untuk kolom booking_kos.tanggal_checkin (hanya mode kost)
-                  if (!widget.isJasa) ...[
-                    const SizedBox(height: 15),
-                    _buildCheckinDatePicker(),
-                  ],
-
-                  const SizedBox(height: 30),
-                  if (widget.isJasa &&
-                      widget.fromLocation != null &&
-                      widget.toLocation != null)
-                    _buildRouteEllipse(),
-                  if (!widget.isJasa) _buildTerms(),
-                ],
-              ),
-            ),
+                  ),
           ),
           _buildFixedBottomArea(),
         ],
@@ -120,38 +156,15 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
     );
   }
 
-  Widget _buildProfileSubHeader() {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: 25,
-          backgroundColor: AppColors.yellow,
-          child: Icon(Icons.person, color: AppColors.primary, size: 30),
-        ),
-        const SizedBox(width: 15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Your Profile",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-                color: AppColors.yellow,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  // ──────────────────────────────────────────────────────────────────────────
+  // Field yang dikunci (read-only)
+  // ──────────────────────────────────────────────────────────────────────────
 
-  Widget _buildInputField(
-    String hint,
+  Widget _buildLockedField(
+    String label,
     IconData icon,
-    TextEditingController controller, {
-    bool isPhone = false,
-  }) {
+    TextEditingController controller,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.secondary,
@@ -160,12 +173,13 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
       ),
       child: TextField(
         controller: controller,
-        keyboardType: isPhone ? TextInputType.phone : TextInputType.text,
-        textInputAction: TextInputAction.next,
-        onChanged: (_) => _checkValidation(),
+        readOnly: true, // Dikunci – tidak bisa diedit
+        style: const TextStyle(color: AppColors.primary),
         decoration: InputDecoration(
-          hintText: hint,
+          hintText: label,
           prefixIcon: Icon(icon, color: AppColors.primary),
+          // Ikon kunci kecil di ujung kanan sebagai penanda visual
+          suffixIcon: const Icon(Icons.lock_outline, color: Colors.grey, size: 18),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(vertical: 17),
         ),
@@ -173,7 +187,11 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
     );
   }
 
-  Widget _buildRouteEllipse() {
+  // ──────────────────────────────────────────────────────────────────────────
+  // Tampilan rute (tanpa label ~5 km)
+  // ──────────────────────────────────────────────────────────────────────────
+
+  Widget _buildRouteDisplay() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
@@ -199,26 +217,20 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          Container(
-            width: 80,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Center(
-              child: Text(
-                "~5 km",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
+          // Garis penghubung sederhana menggantikan label jarak
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              children: [
+                const SizedBox(width: 11),
+                Container(
+                  width: 2,
+                  height: 30,
+                  color: Colors.grey[300],
                 ),
-              ),
+              ],
             ),
           ),
-          const SizedBox(height: 10),
           Row(
             children: [
               const Icon(Icons.location_on, color: Color(0xFFFBC02D)),
@@ -240,74 +252,38 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
     );
   }
 
-  Widget _buildFixedBottomArea() {
-    if (widget.isJasa) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        decoration: const BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        ),
-        child: SafeArea(
-          top: false,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Rp ${widget.kost.price}",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_isFormValid) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => InvoiceView(
-                          kost: widget.kost,
-                          namaPemesan: _nameController.text,
-                          nomorHP: _phoneController.text,
-                          // Menggunakan tanggal hari ini sebagai fallback karena mode Jasa tidak menginput tanggal checkin
-                          tanggalCheckin: _selectedCheckinDate ?? DateTime.now(), 
-                        ),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Mohon lengkapi data terlebih dahulu"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.yellow,
-                  foregroundColor: AppColors.primary,
-                  elevation: 3,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 35,
-                    vertical: 14,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                child: const Text(
-                  "Payment",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+  // ──────────────────────────────────────────────────────────────────────────
+  // Widget-widget lain (tidak berubah dari versi sebelumnya)
+  // ──────────────────────────────────────────────────────────────────────────
 
+  Widget _buildProfileSubHeader() {
+    return Row(
+      children: [
+        const CircleAvatar(
+          radius: 25,
+          backgroundColor: AppColors.yellow,
+          child: Icon(Icons.person, color: AppColors.primary, size: 30),
+        ),
+        const SizedBox(width: 15),
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Your Profile",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppColors.yellow,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFixedBottomArea() {
+    // Checkbox + tombol Payment — berlaku untuk kedua mode (jasa & kost)
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -438,9 +414,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
 
           if (picked == null) return;
 
-          setState(() {
-            _selectedCheckinDate = picked;
-          });
+          setState(() => _selectedCheckinDate = picked);
           _checkValidation();
         },
       ),

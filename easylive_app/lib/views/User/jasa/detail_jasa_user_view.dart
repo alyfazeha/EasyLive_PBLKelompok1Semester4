@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../core/color.dart';
 import '../../../models/user/kos_model.dart';
 import '../../../models/user/jasa_vehicle_model.dart';
-
 import '../../../widgets/user/jasa/route_card.dart';
 
 class DetailJasaUserView extends StatefulWidget {
@@ -31,12 +30,12 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
       price: _priceNumber(widget.vehicle.price),
       description: widget.vehicle.description,
       specifications: widget.vehicle.specifications,
-      availableRooms: widget.vehicle.availableUnits,
+      availableRooms: 1,
     );
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => UserJasaRouteView(kost: selectedKost)),
+      MaterialPageRoute(builder: (_) => JasaRouteView(kost: selectedKost)),
     );
   }
 
@@ -64,6 +63,7 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Nama Jasa + Badge Tipe Mobil
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -82,40 +82,57 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              _AvailabilityBadge(
-                                availableUnits: widget.vehicle.availableUnits,
-                              ),
+                              if (widget.vehicle.specifications.isNotEmpty)
+                                _BadgeLabel(
+                                  label: widget.vehicle.specifications.first,
+                                ),
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.location_on_outlined,
-                                color: AppColors.primary,
-                                size: 18,
-                              ),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                  widget.vehicle.address,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF657384),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+
+                          // Alamat
+                          if (widget.vehicle.address.isNotEmpty)
+                            _IconRow(
+                              icon: Icons.location_on_outlined,
+                              text: widget.vehicle.address,
+                            ),
+
+                          // Kecamatan • Kota
+                          if (widget.vehicle.kecamatan.isNotEmpty ||
+                              widget.vehicle.kota.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            _IconRow(
+                              icon: Icons.map_outlined,
+                              text:
+                                  '${widget.vehicle.kecamatan} • ${widget.vehicle.kota}',
+                            ),
+                          ],
+
+                          // Nomor HP
+                          if (widget.vehicle.nomorHp.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            _IconRow(
+                              icon: Icons.phone_outlined,
+                              text: widget.vehicle.nomorHp,
+                            ),
+                          ],
+
+                          // Nomor Plat
+                          if (widget.vehicle.nomorPlat.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            _IconRow(
+                              icon: Icons.credit_card_outlined,
+                              text: 'Plat: ${widget.vehicle.nomorPlat}',
+                            ),
+                          ],
+
                           const SizedBox(height: 14),
+
+                          // Harga / km
                           Row(
                             children: [
                               const Text(
-                                'Price',
+                                'Harga / km',
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 13,
@@ -136,59 +153,55 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 18),
                           const Divider(color: Color(0xFFE0E6EC), height: 1),
                           const SizedBox(height: 18),
-                          const Text(
-                            'Description',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.darkBlue,
+
+                          // Deskripsi
+                          if (widget.vehicle.description.isNotEmpty) ...[
+                            const Text(
+                              'Deskripsi',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.darkBlue,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            widget.vehicle.description,
-                            style: const TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 13,
-                              color: AppColors.primary,
-                              height: 1.45,
+                            const SizedBox(height: 8),
+                            Text(
+                              widget.vehicle.description,
+                              style: const TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
+                                color: AppColors.primary,
+                                height: 1.45,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Vehicle Specifications',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.darkBlue,
+                            const SizedBox(height: 20),
+                          ],
+
+                          // Spesifikasi Kendaraan (tipe_mobil + kapasitas)
+                          if (widget.vehicle.specifications.isNotEmpty) ...[
+                            const Text(
+                              'Spesifikasi Kendaraan',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.darkBlue,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 9),
-                          widget.vehicle.specifications.isEmpty
-                              ? const Text(
-                                  'No specifications listed',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: AppColors.primary,
-                                    fontSize: 13,
-                                    height: 1.25,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                )
-                              : Column(
-                                  children: widget.vehicle.specifications
-                                      .map(
-                                        (specification) => _SpecificationRow(
-                                          label: specification,
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
+                            const SizedBox(height: 9),
+                            Column(
+                              children: widget.vehicle.specifications
+                                  .map(
+                                    (spec) => _SpecificationRow(label: spec),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -211,7 +224,7 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
                   ),
                 ),
                 child: const Text(
-                  'Select Vehicle',
+                  'Pilih Kendaraan',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 17,
@@ -226,6 +239,10 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
     );
   }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Header Image
+// ─────────────────────────────────────────────────────────────────────────────
 
 class _HeaderImage extends StatelessWidget {
   final JasaVehicle vehicle;
@@ -255,7 +272,8 @@ class _HeaderImage extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [AppColors.darkBlue, Color(0xFF3D5A80)],
               ),
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),
+              borderRadius:
+                  BorderRadius.vertical(bottom: Radius.circular(32)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,15 +294,17 @@ class _HeaderImage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 26),
-                const Text(
-                  'Moving Service',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white70,
+                // Kecamatan • Kota sebagai subtitle header (dari DB)
+                if (vehicle.kecamatan.isNotEmpty || vehicle.kota.isNotEmpty)
+                  Text(
+                    '${vehicle.kecamatan} • ${vehicle.kota}',
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white70,
+                    ),
                   ),
-                ),
                 const SizedBox(height: 6),
                 Text(
                   vehicle.name,
@@ -334,6 +354,10 @@ class _HeaderImage extends StatelessWidget {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Widgets Helper
+// ─────────────────────────────────────────────────────────────────────────────
+
 class _SquareIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
@@ -371,10 +395,9 @@ class _SquareIconButton extends StatelessWidget {
   }
 }
 
-class _AvailabilityBadge extends StatelessWidget {
-  final int availableUnits;
-
-  const _AvailabilityBadge({required this.availableUnits});
+class _BadgeLabel extends StatelessWidget {
+  final String label;
+  const _BadgeLabel({required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -385,7 +408,7 @@ class _AvailabilityBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
-        '$availableUnits Unit',
+        label,
         style: const TextStyle(
           fontFamily: 'Montserrat',
           color: AppColors.darkBlue,
@@ -393,6 +416,35 @@ class _AvailabilityBadge extends StatelessWidget {
           fontWeight: FontWeight.w900,
         ),
       ),
+    );
+  }
+}
+
+class _IconRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const _IconRow({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 18),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: 'Montserrat',
+              color: Color(0xFF657384),
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -413,14 +465,12 @@ class _ImageByType extends StatelessWidget {
             Image.asset('assets/images/pickup-removed.png', fit: BoxFit.cover),
       );
     }
-
     return Image.asset(image, fit: BoxFit.cover);
   }
 }
 
 class _SpecificationRow extends StatelessWidget {
   final String label;
-
   const _SpecificationRow({required this.label});
 
   @override

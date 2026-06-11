@@ -1,17 +1,17 @@
-import 'package:flutter/foundation.dart';
-
-@immutable
 class JasaVehicle {
   final int? id;
-  final String name;
-  final String address;
+  final String name;       // nama_jasa
+  final String address;    // alamat
   final String kecamatan;
   final String kota;
-  final String image;
-  final String price;
-  final String description;
-  final List<String> specifications;
-  final int availableUnits;
+  final String image;      // gambar[0]
+  final String price;      // price_km (formatted)
+  final String description; // deskripsi
+  final List<String> specifications; // tipe_mobil, kapasitas
+  final String nomorHp;    // nomor_hp
+  final String nomorPlat;  // nomor_plat
+  final String? ownerId;   // owner_id
+  final String status;     // status
 
   const JasaVehicle({
     this.id,
@@ -23,6 +23,9 @@ class JasaVehicle {
     required this.price,
     required this.description,
     required this.specifications,
-    required this.availableUnits,
+    required this.nomorHp,
+    required this.nomorPlat,
+    this.ownerId,
+    this.status = 'aktif',
   });
 }
