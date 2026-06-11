@@ -32,17 +32,24 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _loadKostList();
+    _loadData();
   }
 
-  Future<void> _loadKostList() async {
-    setState(() {
-      _loading = true;
-    });
+  /// Fetch profile user & daftar kost secara paralel.
+  Future<void> _loadData() async {
+    if (!mounted) return;
+    setState(() => _loading = true);
 
-    final kostList = await HomeController.fetchKostList(limit: 50);
+    // Jalankan keduanya bersamaan agar lebih cepat
+    final results = await Future.wait([
+      HomeController.fetchUserProfile(),
+      HomeController.fetchKostList(limit: 50),
+    ]);
 
     if (!mounted) return;
+
+    final kostList = results[1] as List<KostModel>;
+
     setState(() {
       _kostList = kostList;
       _loading = false;
@@ -158,7 +165,6 @@ class _HomeViewState extends State<HomeView> {
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: displayCount,
-
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -226,21 +232,36 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  // ─── Header dengan foto & nama dari Supabase ──────────────────────────────
+
   Widget _buildHeader(String name) {
+    final photoUrl = HomeController.getUserPhoto();
+
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/profile');
-          },
-          child: const CircleAvatar(
+          onTap: () => Navigator.pushNamed(context, '/profile'),
+          child: CircleAvatar(
             radius: 26,
             backgroundColor: AppColors.yellow,
-            child: Icon(
-              Icons.person_rounded,
-              color: AppColors.darkBlue,
-              size: 28,
-            ),
+            // Tampilkan foto jika URL tersedia, fallback ke icon
+            backgroundImage:
+                (photoUrl != null && photoUrl.isNotEmpty)
+                    ? NetworkImage(photoUrl)
+                    : null,
+            onBackgroundImageError:
+                (photoUrl != null && photoUrl.isNotEmpty)
+                    ? (_, __) {
+                        // Error handler — Flutter otomatis fallback ke child
+                      }
+                    : null,
+            child: (photoUrl == null || photoUrl.isEmpty)
+                ? const Icon(
+                    Icons.person_rounded,
+                    color: AppColors.darkBlue,
+                    size: 28,
+                  )
+                : null,
           ),
         ),
         const SizedBox(width: 15),
@@ -293,6 +314,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  // ─── Category Section ─────────────────────────────────────────────────────
+
   Widget _buildCategorySection() {
     return Row(
       children: [
@@ -325,6 +348,8 @@ class _HomeViewState extends State<HomeView> {
       ],
     );
   }
+
+  // ─── Recommended Carousel ─────────────────────────────────────────────────
 
   Widget _buildRecommendedCarousel(List<KostModel> kostList) {
     final sliderItems = kostList.take(3).toList();
@@ -381,6 +406,8 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
+// ─── Widget: Recommended Card ───────────────────────────────────────────────
+
 class _RecommendedCard extends StatelessWidget {
   final KostModel kost;
   final VoidCallback onTap;
@@ -411,9 +438,7 @@ class _RecommendedCard extends StatelessWidget {
             kost.image,
             width: double.infinity,
             height: 182,
-
             fit: BoxFit.cover,
-
             errorBuilder: (context, error, stackTrace) {
               return Image.asset(
                 'assets/images/kos1.jpg',
@@ -428,6 +453,8 @@ class _RecommendedCard extends StatelessWidget {
     );
   }
 }
+
+// ─── Widget: Carousel Dot ───────────────────────────────────────────────────
 
 class _CarouselDot extends StatelessWidget {
   final bool active;
@@ -449,8 +476,11 @@ class _CarouselDot extends StatelessWidget {
   }
 }
 
+// ─── Widget: Booking Banner ─────────────────────────────────────────────────
+
 class _BookingBanner extends StatelessWidget {
   const _BookingBanner();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -492,6 +522,8 @@ class _BookingBanner extends StatelessWidget {
     );
   }
 }
+
+// ─── Widget: Kost Grid Card ─────────────────────────────────────────────────
 
 class _KostGridCard extends StatefulWidget {
   final KostModel kost;
@@ -619,6 +651,7 @@ class _KostGridCardState extends State<_KostGridCard> {
                           decoration: BoxDecoration(
                             color: AppColors.golden,
                             borderRadius: BorderRadius.circular(15),
+
                           ),
                           child: Text(
                             formattedPrice,
@@ -653,15 +686,15 @@ class _KostGridCardState extends State<_KostGridCard> {
     String result = '';
     int count = 0;
     for (int i = priceStr.length - 1; i >= 0; i--) {
-      if (count > 0 && count % 3 == 0) {
-        result = '.$result';
-      }
+      if (count > 0 && count % 3 == 0) result = '.$result';
       result = priceStr[i] + result;
       count++;
     }
     return result;
   }
 }
+
+// ─── Widget: Category Button ────────────────────────────────────────────────
 
 class _CategoryBtn extends StatelessWidget {
   final IconData icon;
