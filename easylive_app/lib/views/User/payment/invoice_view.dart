@@ -7,16 +7,25 @@ import 'duitku_webview.dart';
 
 class InvoiceView extends StatefulWidget {
   final KostModel kost;
+  final bool isJasa; // 1. Tambahkan flag ini
+  final String? fromLocation; // 2. Tambahkan untuk data Jasa
+  final String? toLocation; // 3. Tambahkan untuk data Jasa
+  final double? jarakKm; // 4. Tambahkan untuk data Jasa
   final String namaPemesan; // dari PersonalInfoView
   final String nomorHP; // dari PersonalInfoView
-  final DateTime tanggalCheckin; // dari PersonalInfoView
+  final DateTime? tanggalCheckin; // dari PersonalInfoView
 
   const InvoiceView({
     super.key,
     required this.kost,
+    this.isJasa =
+        false, // Default-kan false agar booking kos yang lama tidak error
+    this.fromLocation,
+    this.toLocation,
+    this.jarakKm,
     required this.namaPemesan,
     required this.nomorHP,
-    required this.tanggalCheckin,
+     this.tanggalCheckin,
   });
 
   @override
@@ -43,59 +52,69 @@ class _InvoiceViewState extends State<InvoiceView> {
   // Tombol "Payment" ditekan → buat booking + invoice Kos
   // ──────────────────────────────────────────────────
   Future<void> _handlePayment(int total) async {
-    if (!_isPaymentMethodSelected) return;
+  if (!_isPaymentMethodSelected || _isLoading) return;
 
-    // Proteksi: Jika id null, stop proses sebelum crash!
-    if (widget.kost.id == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Gagal memproses pembayaran: ID properti tidak valid."),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
+  setState(() => _isLoading = true);
 
-    setState(() => _isLoading = true);
+  try {
+    Map<String, dynamic> result;
 
-    try {
-      final result = await DuitkuService.createBookingAndInvoice(
-        idKost: widget.kost.id!,
-        namaKost: widget.kost.name,
-        hargaKost: widget.kost.price ?? 0!,
+    if (widget.isJasa) {
+      // 1. Panggil service khusus Jasa jika isJasa = true
+      result = await DuitkuService.createJasaBookingAndInvoice(
+        idJasa: widget.kost.id ?? 0,
+        namaJasa: widget.kost.name,
+        totalBayar: total, // Menggunakan total keseluruhan yang sudah dihitung
         namaPemesan: widget.namaPemesan,
         nomorHP: widget.nomorHP,
-        tanggalCheckin: widget.tanggalCheckin,
+        titikPenjemputan: widget.fromLocation ?? 'Tidak diketahui',
+        titikTujuan: widget.toLocation ?? 'Tidak diketahui',
+        jarakKm: widget.jarakKm ?? 0.0,
+        tanggal: DateTime.now().day, // Menggunakan tanggal hari ini untuk transaksi jasa
+        month: DateTime.now().month,
       );
-
-      if (!mounted) return;
-
-      // Buka WebView halaman pembayaran Duitku
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => DuitkuWebView(
-            paymentUrl: result['paymentUrl'],
-            reference: result['reference'],
-            idBookingKost: result['idBookingKost'],
-          ),
-        ),
+    } else {
+      // 2. Logika Kos seperti semula
+      result = await DuitkuService.createBookingAndInvoice(
+        idKost: widget.kost.id!,
+        namaKost: widget.kost.name,
+        hargaKost: widget.kost.price!,
+        namaPemesan: widget.namaPemesan,
+        nomorHP: widget.nomorHP,
+        tanggalCheckin: widget.tanggalCheckin!,
       );
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
     }
+
+    if (!mounted) return;
+
+    // Navigasi ke WebView Pembayaran Duitku
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DuitkuWebView(
+          paymentUrl: result['paymentUrl'],
+          reference: result['reference'],
+          idBookingKost: widget.isJasa ? null : result['idBookingKost'],
+          idBookingJasa: widget.isJasa ? result['idBookingJasa'] : null,
+        ),
+      ),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Gagal memproses pembayaran: $e')),
+    );
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
   }
+}
 
   @override
   Widget build(BuildContext context) {
     final double subtotal = (widget.kost.price ?? 0).toDouble();
-    const double biayaLayanan = 25000.0;
+    
+    // Tentukan biaya layanan secara dinamis di sini!
+    final double biayaLayanan = widget.isJasa ? 15000.0 : 25000.0; 
+    
     final double totalAll = subtotal + biayaLayanan;
 
     return Scaffold(
