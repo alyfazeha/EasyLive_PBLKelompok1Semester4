@@ -2,82 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../core/color.dart';
 import '../../../controllers/user/home_controller.dart';
+import '../../../controllers/user/jasa_controller.dart';
 import '../../../widgets/user/home/bottom_navbar.dart';
 import '../../../widgets/user/kosPage/filtering.dart';
 import 'detail_jasa_user_view.dart';
 
-class JasaVehicle {
-  final String name;
-  final String address;
-  final String image;
-  final String price;
-  final String description;
-  final List<String> specifications;
-  final int availableUnits;
-
-  const JasaVehicle({
-    required this.name,
-    required this.address,
-    required this.image,
-    required this.price,
-    required this.description,
-    required this.specifications,
-    required this.availableUnits,
-  });
-}
-
-const List<JasaVehicle> userVehicles = [
-  JasaVehicle(
-    name: 'AUTOCAR EXPRESS',
-    address: 'Jl. Cengger Ayam, Lowokwaru',
-    image: 'assets/images/pickup-removed.png',
-    price: 'Rp 1.500.000,-',
-    description:
-        'AUTOCAR Express menyediakan layanan sewa mobil untuk pindahan, ganti kos, dan pengantaran barang dengan kendaraan yang bersih serta pengemudi berpengalaman.',
-    specifications: [
-      '4 x 6 meter',
-      'en-suite bathroom',
-      '2 seat',
-      'soft sponge',
-    ],
-    availableUnits: 5,
-  ),
-  JasaVehicle(
-    name: 'TRUCK BOX',
-    address: 'Jl. Soekarno Hatta, Malang',
-    image: 'assets/images/mobilBox-BackgroundRemover.jpg',
-    price: 'Rp 2.500.000,-',
-    description:
-        'Truck box cocok untuk pindahan besar dengan perlindungan barang lebih aman dari hujan dan panas selama perjalanan.',
-    specifications: ['6 x 8 meter', 'closed box', '2 seat', 'heavy duty'],
-    availableUnits: 3,
-  ),
-  JasaVehicle(
-    name: 'PICKUP HARIAN',
-    address: 'Jl. Ijen, Malang',
-    image: 'assets/images/pickup-removed.png',
-    price: 'Rp 900.000,-',
-    description:
-        'Pickup harian untuk kebutuhan pindahan ringan, pengiriman lemari, kasur, meja, dan barang kos area Malang.',
-    specifications: ['4 x 5 meter', 'open deck', '2 seat', 'light cargo'],
-    availableUnits: 4,
-  ),
-  JasaVehicle(
-    name: 'MOVING VAN',
-    address: 'Jl. Veteran, Malang',
-    image: 'assets/images/mobilBox-BackgroundRemover.jpg',
-    price: 'Rp 1.800.000,-',
-    description:
-        'Moving van praktis untuk pindahan apartemen atau kos dengan kapasitas sedang dan jadwal pemesanan fleksibel.',
-    specifications: [
-      '5 x 6 meter',
-      'closed cabin',
-      '2 seat',
-      'soft suspension',
-    ],
-    availableUnits: 2,
-  ),
-];
+import '../../../models/user/jasa_vehicle_model.dart';
 
 class JasaView extends StatefulWidget {
   const JasaView({super.key});
@@ -88,13 +18,50 @@ class JasaView extends StatefulWidget {
 
 class _JasaViewState extends State<JasaView> {
   final TextEditingController _searchController = TextEditingController();
+
   String _searchQuery = '';
+  List<JasaVehicle> _allVehicles = [];
+
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJasa();
+  }
+
+  Future<void> _loadJasa() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final result = await JasaController.fetchJasaList();
+      if (!mounted) return;
+      setState(() {
+        _allVehicles = result;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   List<JasaVehicle> get _filteredVehicles {
     final query = _searchQuery.trim().toLowerCase();
-    if (query.isEmpty) return userVehicles;
+    if (query.isEmpty) return _allVehicles;
 
-    return userVehicles.where((vehicle) {
+    return _allVehicles.where((vehicle) {
       return vehicle.name.toLowerCase().contains(query) ||
           vehicle.address.toLowerCase().contains(query);
     }).toList();
@@ -181,7 +148,17 @@ class _JasaViewState extends State<JasaView> {
           ),
           const SizedBox(height: 12),
           Expanded(
-            child: _filteredVehicles.isEmpty
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _errorMessage != null
+                ? Center(
+                    child: Text(
+                      _errorMessage!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  )
+                : _filteredVehicles.isEmpty
                 ? const Center(child: Text('No vehicle found'))
                 : ListView.separated(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 106),
