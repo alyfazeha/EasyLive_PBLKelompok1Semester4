@@ -140,7 +140,7 @@ class _BookingViewState extends State<BookingView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _buildStatusTab('Active Now'),
-                          _buildStatusTab('Completed'),
+                          _buildStatusTab('Pending'),
                           _buildStatusTab('Canceled'),
                         ],
                       ),
