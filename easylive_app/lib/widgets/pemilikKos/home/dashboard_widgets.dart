@@ -66,6 +66,8 @@ class OwnerDashboardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<PemilikKosController>();
+    final hasPhoto = controller.model?.userImage?.isNotEmpty == true &&
+      controller.model!.userImage!.startsWith('http');
     final model = controller.model;
     final kostList = model?.kostList ?? [];
 
@@ -214,7 +216,9 @@ class OwnerHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<PemilikKosController>().model;
+    final controller = context.watch<PemilikKosController>();
+    final model = controller.model;
+    final hasPhoto = model?.userImage?.isNotEmpty == true && model!.userImage.startsWith('http');
     final ownerName = model?.ownerName ?? 'Pemilik Kos';
     final totalKost = model?.totalKost ?? 0;
     final availableRooms = model?.availableRooms ?? 0;
@@ -240,17 +244,23 @@ class OwnerHeaderSection extends StatelessWidget {
                     Navigator.pushNamed(context, '/pemilik_kos/profile');
                   },
                   borderRadius: BorderRadius.circular(50),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 21,
-                        backgroundColor: AppColors.yellow,
-                        child: Icon(
-                          Icons.person_rounded,
-                          color: AppColors.darkBlue,
-                          size: 28,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 21,
+                          backgroundColor: AppColors.yellow,
+                          backgroundImage: hasPhoto
+                              ? NetworkImage(controller.model!.userImage!)
+                              : null,
+                          onBackgroundImageError: hasPhoto ? (_, __) {} : null,
+                          child: !hasPhoto
+                              ? const Icon(
+                                  Icons.person_rounded,
+                                  color: AppColors.darkBlue,
+                                  size: 28,
+                                )
+                              : null,
                         ),
-                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Column(

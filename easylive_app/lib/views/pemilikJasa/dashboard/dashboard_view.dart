@@ -66,6 +66,7 @@ class _PemilikJasaDashboardViewState extends State<PemilikJasaDashboardView> {
                         ownerName: ctrl.ownerName,
                         notificationCount: ctrl.notificationCount,
                         stats: ctrl.stats,
+                        userImage: ctrl.userImage,
                       ),
                       Expanded(
                         child: SingleChildScrollView(

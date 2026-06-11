@@ -45,6 +45,7 @@ class _DashboardViewState extends State<DashboardView> {
                   kamarTersedia: ctrl.kamarTersedia,
                   bookingBaru: ctrl.bookingBaru,
                   pendapatan: ctrl.pendapatanFormatted,
+                  userImage: ctrl.userImage,
                 ),
                 Expanded(
                   child: ctrl.isLoading
