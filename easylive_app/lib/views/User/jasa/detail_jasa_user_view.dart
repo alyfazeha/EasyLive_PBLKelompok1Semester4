@@ -24,6 +24,7 @@ class _DetailJasaUserViewState extends State<DetailJasaUserView> {
 
   void _selectVehicle() {
     final selectedKost = KostModel(
+      id: widget.vehicle.id,
       name: widget.vehicle.name,
       address: widget.vehicle.address,
       image: widget.vehicle.image,

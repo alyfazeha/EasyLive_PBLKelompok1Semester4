@@ -53,21 +53,21 @@ serve(async (req) => {
       // Handle JSON format
       const json = await req.json();
       console.log("Body JSON:", JSON.stringify(json));
-      merchantCode    = json.merchantCode ?? "";
-      amount          = json.amount?.toString() ?? "";
+      merchantCode = json.merchantCode ?? "";
+      amount = json.amount?.toString() ?? "";
       merchantOrderId = json.merchantOrderId ?? "";
-      reference       = json.reference ?? "";
-      resultCode      = json.resultCode ?? "";
-      receivedSig     = json.signature ?? "";
+      reference = json.reference ?? "";
+      resultCode = json.resultCode ?? "";
+      receivedSig = json.signature ?? "";
     } else {
       // Handle form-urlencoded format
       const body = await req.formData();
-      merchantCode    = body.get("merchantCode")?.toString() ?? "";
-      amount          = body.get("amount")?.toString() ?? "";
+      merchantCode = body.get("merchantCode")?.toString() ?? "";
+      amount = body.get("amount")?.toString() ?? "";
       merchantOrderId = body.get("merchantOrderId")?.toString() ?? "";
-      reference       = body.get("reference")?.toString() ?? "";
-      resultCode      = body.get("resultCode")?.toString() ?? "";
-      receivedSig     = body.get("signature")?.toString() ?? "";
+      reference = body.get("reference")?.toString() ?? "";
+      resultCode = body.get("resultCode")?.toString() ?? "";
+      receivedSig = body.get("signature")?.toString() ?? "";
       console.log("Body form:", { merchantCode, amount, merchantOrderId, reference, resultCode });
     }
 
@@ -119,7 +119,7 @@ serve(async (req) => {
       .from("payments")
       .update({ status: newPaymentStatus })
       .eq("id_transaction", reference)
-      .select("id_booking_kost")
+      .select("id_booking_kost, id_booking_jasa")
       .single();
 
     if (updatePaymentError) {
@@ -137,8 +137,20 @@ serve(async (req) => {
 
       if (updateBookingError) {
         console.error("Gagal update booking_kos:", JSON.stringify(updateBookingError));
+      } else else if (payment?.id_booking_jasa) {
+        // JALUR JASA (Sesuai dengan Check Constraint kamu: 'dikonfirmasi' / 'ditolak' / 'menunggu')
+        const { error: updateJasaError } = await supabase
+          .from("booking_jasa")
+          .update({ status_pesanan: newBookingStatus })
+          .eq("id_booking_jasa", payment.id_booking_jasa);
+
+        if (updateJasaError) {
+          console.error("Gagal update booking_jasa:", JSON.stringify(updateJasaError));
+        } else {
+          console.log("Update booking_jasa berhasil →", newBookingStatus);
+        }
       } else {
-        console.log("Update booking_kos berhasil →", newBookingStatus);
+        console.warn("Tidak ada id_booking_kost atau id_booking_jasa terkait payment ini");
       }
     }
 

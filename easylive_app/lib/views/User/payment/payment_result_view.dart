@@ -4,13 +4,15 @@ import '../../../core/color.dart';
 class PaymentResultView extends StatelessWidget {
   final String resultCode;
   final String reference;
-  final int idBookingKost;
+  final int? idBookingKost;
+  final int? idBookingJasa;
 
   const PaymentResultView({
     super.key,
     required this.resultCode,
     required this.reference,
-    required this.idBookingKost,
+    this.idBookingKost,
+    this.idBookingJasa,
   });
 
   // resultCode dari Duitku redirect:

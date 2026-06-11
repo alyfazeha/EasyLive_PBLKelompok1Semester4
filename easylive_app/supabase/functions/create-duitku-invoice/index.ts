@@ -59,6 +59,7 @@ serve(async (req) => {
       customerEmail,     // email user
       customerPhone,     // nomor HP dari form
       idBookingKost,     // id dari tabel booking_kos yang sudah diinsert
+      idBookingJasa,
     } = await req.json();
 
     // Validasi input
@@ -134,7 +135,8 @@ serve(async (req) => {
 
     const { error: insertError } = await supabase.from("payments").insert({
       id_transaction: duitkuData.reference,
-      id_booking_kost: idBookingKost,
+      id_booking_kost: idBookingKost || null,
+      id_booking_jasa: idBookingJasa || null,
       payment_type: "QRIS",
       gross_amount: paymentAmount,
       snap_token: duitkuData.reference, // pakai reference sebagai token
