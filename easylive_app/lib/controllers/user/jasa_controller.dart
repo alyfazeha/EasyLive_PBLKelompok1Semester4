@@ -69,7 +69,7 @@ class JasaController {
     final res = await supabase
         .from('jasa')
         .select(
-          'id_jasa, owner_id, nama_jasa, tipe_mobil, price_mobil, price_km, gambar, status, alamat, kecamatan, kota, nomor_hp, nomor_plat, kapasitas, deskripsi',
+          'id_jasa, owner_id, nama_jasa, tipe_mobil, price_km, gambar, status, alamat, kecamatan, kota, nomor_hp, nomor_plat, kapasitas, deskripsi',
         )
         .eq('status', 'aktif')
         .order('id_jasa', ascending: false)
@@ -99,7 +99,8 @@ class JasaController {
         }
       }
 
-      final priceRaw = item['price_mobil'];
+      final priceRaw = item['price_km'];
+
       num? priceNum;
       if (priceRaw is num) {
         priceNum = priceRaw;
@@ -119,10 +120,15 @@ class JasaController {
 
       final description = (item['deskripsi'] ?? '').toString();
 
+      final kecamatan = (item['kecamatan'] ?? '').toString().trim();
+      final kota = (item['kota'] ?? '').toString().trim();
+
       return JasaVehicle(
         id: id,
         name: name,
         address: address,
+        kecamatan: kecamatan,
+        kota: kota,
         image: imageUrl,
         price: _formatPrice(priceNum),
         description: description,

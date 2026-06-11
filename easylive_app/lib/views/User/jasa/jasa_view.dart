@@ -62,8 +62,11 @@ class _JasaViewState extends State<JasaView> {
     if (query.isEmpty) return _allVehicles;
 
     return _allVehicles.where((vehicle) {
-      return vehicle.name.toLowerCase().contains(query) ||
-          vehicle.address.toLowerCase().contains(query);
+      final q = query;
+      return vehicle.name.toLowerCase().contains(q) ||
+          vehicle.address.toLowerCase().contains(q) ||
+          vehicle.kecamatan.toLowerCase().contains(q) ||
+          vehicle.kota.toLowerCase().contains(q);
     }).toList();
   }
 
@@ -302,6 +305,11 @@ class _VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil tipe_mobil dari spesifikasi index pertama jika tersedia
+    final tipeMobil = vehicle.specifications.isNotEmpty
+        ? vehicle.specifications.first
+        : 'Mobil';
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
@@ -319,7 +327,10 @@ class _VehicleCard extends StatelessWidget {
           ],
         ),
         child: Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Agar sejajar dari atas
           children: [
+            // Kontainer Gambar Kendaraan
             Container(
               width: 92,
               height: 58,
@@ -330,22 +341,55 @@ class _VehicleCard extends StatelessWidget {
               child: Image.asset(vehicle.image, fit: BoxFit.contain),
             ),
             const SizedBox(width: 12),
+
+            // Kontainer Informasi Jasa Jasa
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    vehicle.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.darkBlue,
-                    ),
+                  // Row untuk Nama Jasa dan Badge Tipe Mobil (Sejajar di atas)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          vehicle.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.darkBlue,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // BADGE TIPE MOBIL DI ATAS POJOK KANAN
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.yellow.withValues(alpha: 0.22),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          tipeMobil,
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 8,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.darkBlue,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
+
+                  // Alamat Jasa
                   Text(
                     vehicle.address,
                     maxLines: 1,
@@ -356,9 +400,24 @@ class _VehicleCard extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
-                  const SizedBox(height: 9),
+                  const SizedBox(height: 4),
+
+                  // Kecamatan • Kota
                   Text(
-                    vehicle.price,
+                    '${vehicle.kecamatan} • ${vehicle.kota}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 9,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Harga Sewa Jasa / km
+                  Text(
+                    '${vehicle.price}',
                     style: const TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 10,
@@ -369,6 +428,7 @@ class _VehicleCard extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(width: 4),
             const Icon(Icons.more_horiz_rounded, color: Colors.black38),
           ],
         ),
