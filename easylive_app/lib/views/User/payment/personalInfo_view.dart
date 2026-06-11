@@ -335,9 +335,14 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                         MaterialPageRoute(
                           builder: (_) => InvoiceView(
                             kost: widget.kost,
+                            isJasa: widget.isJasa, // <--- Kirim flag ini
+      fromLocation: widget.fromLocation, // <--- Kirim alamat jemput
+      toLocation: widget.toLocation, // <--- Kirim alamat tujuan
+      jarakKm: 5.0, // <--- Sesuaikan dengan variabel jarak KM aktual kamu
                             namaPemesan: _nameController.text,
                             nomorHP: _phoneController.text,
-                            tanggalCheckin: widget.isJasa ? DateTime.now() : _selectedCheckinDate!,
+            
+                            tanggalCheckin: widget.isJasa ? null : _selectedCheckinDate,
                           ),
                         ),
                       );

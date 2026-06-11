@@ -63,11 +63,9 @@ serve(async (req) => {
     } = await req.json();
 
     // Validasi input
-    if (!merchantOrderId || !paymentAmount || !productDetails || !idBookingKost) {
-      return new Response(
-        JSON.stringify({ error: "Parameter tidak lengkap" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+    // Validasi agar mengizinkan salah satu dari ID Kos atau ID Jasa
+    if (!idBookingKost && !idBookingJasa) {
+      return new Response(JSON.stringify({ error: "Parameter tidak lengkap: idBooking tidak ditemukan" }), { status: 400 });
     }
 
     // Buat timestamp & signature
