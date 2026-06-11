@@ -337,7 +337,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                             kost: widget.kost,
                             namaPemesan: _nameController.text,
                             nomorHP: _phoneController.text,
-                            tanggalCheckin: _selectedCheckinDate!,
+                            tanggalCheckin: widget.isJasa ? DateTime.now() : _selectedCheckinDate!,
                           ),
                         ),
                       );

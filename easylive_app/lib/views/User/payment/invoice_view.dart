@@ -7,8 +7,8 @@ import 'duitku_webview.dart';
 
 class InvoiceView extends StatefulWidget {
   final KostModel kost;
-  final String namaPemesan;     // dari PersonalInfoView
-  final String nomorHP;          // dari PersonalInfoView
+  final String namaPemesan; // dari PersonalInfoView
+  final String nomorHP; // dari PersonalInfoView
   final DateTime tanggalCheckin; // dari PersonalInfoView
 
   const InvoiceView({
@@ -39,19 +39,30 @@ class _InvoiceViewState extends State<InvoiceView> {
     return result;
   }
 
-  // ──────────────────────────────────────────────────
-  // Tombol "Payment" ditekan → buat booking + invoice
+  /// ──────────────────────────────────────────────────
+  // Tombol "Payment" ditekan → buat booking + invoice Kos
   // ──────────────────────────────────────────────────
   Future<void> _handlePayment(int total) async {
     if (!_isPaymentMethodSelected) return;
+
+    // Proteksi: Jika id null, stop proses sebelum crash!
+    if (widget.kost.id == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Gagal memproses pembayaran: ID properti tidak valid."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     setState(() => _isLoading = true);
 
     try {
       final result = await DuitkuService.createBookingAndInvoice(
-        idKost: widget.kost.id!, // pastikan KostModel punya field id
+        idKost: widget.kost.id!,
         namaKost: widget.kost.name,
-        hargaKost: widget.kost.price ?? 0,
+        hargaKost: widget.kost.price ?? 0!,
         namaPemesan: widget.namaPemesan,
         nomorHP: widget.nomorHP,
         tanggalCheckin: widget.tanggalCheckin,
@@ -71,15 +82,13 @@ class _InvoiceViewState extends State<InvoiceView> {
         ),
       );
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Gagal memproses pembayaran: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -161,7 +170,8 @@ class _InvoiceViewState extends State<InvoiceView> {
                   // Pilihan QRIS
                   InkWell(
                     onTap: () => setState(
-                      () => _isPaymentMethodSelected = !_isPaymentMethodSelected,
+                      () =>
+                          _isPaymentMethodSelected = !_isPaymentMethodSelected,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
@@ -232,7 +242,10 @@ class _InvoiceViewState extends State<InvoiceView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Colors.black54, fontSize: 14)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.black54, fontSize: 14),
+          ),
           Text(
             "Rp ${_formatPrice(amount.toInt())},-",
             style: const TextStyle(
@@ -317,7 +330,10 @@ class _InvoiceViewState extends State<InvoiceView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 35,
+                  vertical: 12,
+                ),
               ),
               child: _isLoading
                   ? const SizedBox(

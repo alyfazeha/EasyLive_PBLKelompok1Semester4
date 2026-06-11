@@ -6,13 +6,16 @@ import 'payment_result_view.dart';
 class DuitkuWebView extends StatefulWidget {
   final String paymentUrl;
   final String reference;
-  final int idBookingKost;
+  final int? idBookingKost;
+  final int? idBookingJasa;
+
 
   const DuitkuWebView({
     super.key,
     required this.paymentUrl,
     required this.reference,
-    required this.idBookingKost,
+    this.idBookingKost,
+    this.idBookingJasa,
   });
 
   @override
@@ -65,6 +68,7 @@ class _DuitkuWebViewState extends State<DuitkuWebView> {
           resultCode: resultCode,
           reference: widget.reference,
           idBookingKost: widget.idBookingKost,
+          idBookingJasa: widget.idBookingJasa,
         ),
       ),
     );
