@@ -54,7 +54,9 @@ class BookingCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${booking.price}/month',
+                    booking.type == 'Kost'
+                        ? '${booking.price}/month'
+                        : booking.price,
                     style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.primary,
